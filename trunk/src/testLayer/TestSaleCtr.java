@@ -8,10 +8,12 @@ import org.junit.Test;
 import ctrLayer.SaleCtr;
 
 public class TestSaleCtr {
+	
+	SaleCtr sCtr;
 
 	@Before
 	public void setUp() throws Exception {
-		SaleCtr sCtr = new SaleCtr();
+		sCtr = new SaleCtr();
 	}
 
 	@Test
@@ -20,6 +22,8 @@ public class TestSaleCtr {
 	}
 	
 	public void testCRUD() {
+		
+
 		
 	}
 

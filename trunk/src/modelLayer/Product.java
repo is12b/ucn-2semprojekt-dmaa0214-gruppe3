@@ -11,7 +11,7 @@ public class Product {
 	private boolean hidden = false;
 	
 	public Product() {
-		
+
 	}
 
 	public String getBrand() {
