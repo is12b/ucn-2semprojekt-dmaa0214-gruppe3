@@ -9,6 +9,7 @@ public class Product {
 	private double price;
 	private int id;
 	private boolean hidden = false;
+	private UnitType unitType;
 	
 	public Product() {
 
@@ -68,6 +69,14 @@ public class Product {
 
 	public void setItemNr(String itemNr) {
 		this.itemNr = itemNr;
+	}
+
+	public UnitType getUnitType() {
+		return unitType;
+	}
+
+	public void setUnitType(UnitType unitType) {
+		this.unitType = unitType;
 	}
 	
 }

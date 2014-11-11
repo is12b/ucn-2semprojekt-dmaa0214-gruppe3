@@ -23,8 +23,17 @@ public class TestSaleCtr {
 	
 	public void testCRUD() {
 		
-
-		
 	}
 
+	public void testPrintInvoice() {
+		
+		/*   //TODO Navne
+		sale1.printAll();
+		sale1.printNoCustomer();
+		sale1.printNoCar();
+		sale1.printCashSale();
+		*/
+		
+	}
+	
 }
