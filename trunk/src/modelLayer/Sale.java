@@ -2,7 +2,7 @@ package modelLayer;
 
 import java.util.Date;
 
-public class Invoice {
+public class Sale {
 
 	private Date date;
 	private Date paymentDeadline;
@@ -13,7 +13,7 @@ public class Invoice {
 	private double totalPrice;
 	
 	
-	public Invoice() {
+	public Sale() {
 		
 	}
 

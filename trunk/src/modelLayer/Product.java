@@ -5,6 +5,7 @@ public class Product {
 	private String brand;
 	private String name;
 	private String description;
+	private String itemNr;
 	private double price;
 	private int id;
 	private boolean hidden = false;
@@ -59,6 +60,14 @@ public class Product {
 
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
+	}
+
+	public String getItemNr() {
+		return itemNr;
+	}
+
+	public void setItemNr(String itemNr) {
+		this.itemNr = itemNr;
 	}
 	
 }

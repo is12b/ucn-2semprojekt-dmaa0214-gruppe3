@@ -4,7 +4,7 @@ import modelLayer.Product;
 
 public class PartSale {
 
-	private int quantity;
+	private int amount;
 	private double unitPrice;
 	private Product product;
 	private int id;
@@ -13,12 +13,12 @@ public class PartSale {
 		
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public int getAmount() {
+		return amount;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	public double getUnitPrice() {
@@ -29,11 +29,11 @@ public class PartSale {
 		this.unitPrice = unitPrice;
 	}
 
-	public Product getProd() {
+	public Product getProduct() {
 		return product;
 	}
 
-	public void setProd(Product product) {
+	public void setProduct(Product product) {
 		this.product = product;
 	}
 
