@@ -8,6 +8,7 @@ public class Car {
 	private String vin;
 	private int mileage;
 	private int id;
+	private boolean hidden = false;
 	
 	public Car() {
 		
@@ -59,6 +60,14 @@ public class Car {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 	
 

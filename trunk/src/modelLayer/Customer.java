@@ -10,6 +10,7 @@ public class Customer {
 	private int postalCode;
 	private int cvr; 
 	private int id;
+	private boolean hidden = false;
 	
 	public Customer() {
 		
@@ -77,6 +78,14 @@ public class Customer {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 }

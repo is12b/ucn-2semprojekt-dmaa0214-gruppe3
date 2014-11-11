@@ -7,6 +7,7 @@ public class Product {
 	private String description;
 	private double price;
 	private int id;
+	private boolean hidden = false;
 	
 	public Product() {
 		
@@ -50,6 +51,14 @@ public class Product {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 	
 }
