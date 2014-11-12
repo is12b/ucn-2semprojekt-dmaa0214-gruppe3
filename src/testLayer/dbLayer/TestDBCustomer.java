@@ -1,4 +1,4 @@
-package testLayer;
+package testLayer.dbLayer;
 
 import static org.junit.Assert.*;
 

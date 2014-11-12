@@ -1,4 +1,4 @@
-package testLayer;
+package testLayer.ctrLayer;
 
 import static org.junit.Assert.*;
 import modelLayer.Customer;
