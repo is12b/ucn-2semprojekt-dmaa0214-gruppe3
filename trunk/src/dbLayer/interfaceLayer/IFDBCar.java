@@ -24,17 +24,19 @@ public interface IFDBCar {
 	 * Gets the car by reg nr.
 	 *
 	 * @param regNr the reg nr
+	 * @param retAsso If true: include associations to other objects
 	 * @return the car by reg nr
 	 */
-	public Car getCarByRegNr(String regNr);
+	public Car getCarByRegNr(String regNr, boolean retAsso);
 	
 	/**
 	 * Gets the car by vin.
 	 *
 	 * @param vin the vin
+	 * @param retAsso If true: include associations to other objects
 	 * @return the car by vin
 	 */
-	public Car getCarByVin(String vin);
+	public Car getCarByVin(String vin, boolean retAsso);
 	
 	/**
 	 * Gets the car.
