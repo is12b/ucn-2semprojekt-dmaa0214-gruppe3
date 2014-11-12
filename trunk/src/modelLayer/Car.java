@@ -9,19 +9,20 @@ public class Car {
 	private int mileage;
 	private int id;
 	private boolean hidden = false;
+	private int year;
 	
 	public Car() {
 		
 	}
 
 	public Car(String brand, String model, String regNr, String vin,
-		int mileage, int id) {
+		int mileage, int year) {
 		this.brand = brand;
 		this.model = model;
 		this.regNr = regNr;
 		this.vin = vin;
 		this.mileage = mileage;
-		this.id = id;
+		this.year = year;
 	}
 
 	public String getBrand() {
@@ -78,6 +79,14 @@ public class Car {
 
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 	
 
