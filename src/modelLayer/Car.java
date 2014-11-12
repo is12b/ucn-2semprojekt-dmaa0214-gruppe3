@@ -15,32 +15,13 @@ public class Car {
 	private int id;
 	private boolean hidden = false;
 	private int year;
+	private Customer owner;
 	
 	/**
 	 * Instantiates a new car.
 	 */
 	public Car() {
 		
-	}
-
-	/**
-	 * Instantiates a new car.
-	 *
-	 * @param brand the brand
-	 * @param model the model
-	 * @param regNr the reg nr
-	 * @param vin the vin
-	 * @param mileage the mileage
-	 * @param year the year
-	 */
-	public Car(String brand, String model, String regNr, String vin,
-		int mileage, int year) {
-		this.brand = brand;
-		this.model = model;
-		this.regNr = regNr;
-		this.vin = vin;
-		this.mileage = mileage;
-		this.year = year;
 	}
 
 	/**
@@ -186,6 +167,23 @@ public class Car {
 	public void setYear(int year) {
 		this.year = year;
 	}
+
+	/**
+	 * Get method for owner
+	 * @return the owner
+	 */
+	public Customer getOwner() {
+		return owner;
+	}
+
+	/**
+	 * Set method for owner
+	 * @param owner the owner to set
+	 */
+	public void setOwner(Customer owner) {
+		this.owner = owner;
+	}
+	
 	
 
 }
