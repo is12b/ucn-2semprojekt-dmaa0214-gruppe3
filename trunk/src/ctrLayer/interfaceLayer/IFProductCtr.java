@@ -3,6 +3,7 @@ package ctrLayer.interfaceLayer;
 import java.util.ArrayList;
 
 import modelLayer.Product;
+import modelLayer.UnitType;
 
 /**
  * Class for IFProductCtr
@@ -18,7 +19,8 @@ public interface IFProductCtr {
 	
 	public ArrayList<Product> searchProductsByItemNumber(String itemNumber);
 	
-	public Product createProduct(String brand, String name); //TODO
+	public Product createProduct(String brand, String name, String description,
+			String itemNumber, double price, boolean hidden, UnitType unitType);
 	
 	public void updateProduct(Product product);
 	

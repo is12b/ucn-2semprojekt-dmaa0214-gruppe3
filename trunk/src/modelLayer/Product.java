@@ -15,6 +15,18 @@ public class Product {
 
 	}
 
+	public Product(String brand, String name, String description,
+		String itemNumber, double price, boolean hidden, UnitType unitType) {
+		this.brand = brand;
+		this.name = name;
+		this.description = description;
+		this.itemNumber = itemNumber;
+		this.price = price;
+		this.hidden = hidden;
+		this.unitType = unitType;
+	}
+
+
 	public String getBrand() {
 		return brand;
 	}
