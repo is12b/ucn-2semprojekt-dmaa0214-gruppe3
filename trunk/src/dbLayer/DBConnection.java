@@ -117,6 +117,11 @@ public class DBConnection {
 					+ e.getMessage());
 		}
 	}
+	
+	
+	public Connection getDBCon(){
+		return con;
+	}
 
 }
 	

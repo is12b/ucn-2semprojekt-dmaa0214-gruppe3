@@ -1,5 +1,6 @@
 package dbLayer;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import modelLayer.Car;
@@ -13,6 +14,11 @@ import dbLayer.interfaceLayer.IFDBCar;
  *
  */
 public class DBCar implements IFDBCar {
+	private Connection conn;
+	
+	public DBCar(){
+		conn = DBConnection.getInstance().getDBCon();
+	}
 
 	@Override
 	public ArrayList<Car> getCars(Customer customer) {
