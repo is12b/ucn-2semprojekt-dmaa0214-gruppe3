@@ -18,7 +18,7 @@ public interface IFDBCar {
 	 * @param customer the customer
 	 * @return the cars
 	 */
-	public ArrayList<Car> getCars(Customer customer);
+	public ArrayList<Car> getCars(Customer customer, boolean retAsso);
 	
 	/**
 	 * Gets the car by reg nr.
@@ -44,7 +44,7 @@ public interface IFDBCar {
 	 * @param id the id
 	 * @return the car
 	 */
-	public Car getCar(int id);
+	public Car getCar(int id, boolean retAsso);
 
 	/**
 	 * Insert Car into the database.
