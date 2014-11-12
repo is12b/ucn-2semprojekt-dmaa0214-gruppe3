@@ -2,6 +2,7 @@ package dbLayer;
 
 import java.util.ArrayList;
 
+import dbLayer.interfaceLayer.IFDBUnitType;
 import modelLayer.UnitType;
 
 /**
