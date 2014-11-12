@@ -1,4 +1,4 @@
-package dbLayer;
+package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
