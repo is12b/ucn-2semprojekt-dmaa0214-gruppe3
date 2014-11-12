@@ -49,4 +49,5 @@ public interface IFDBUnitType {
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int deleteUnitType(UnitType unitType);
+
 }
