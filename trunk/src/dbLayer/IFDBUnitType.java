@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import modelLayer.UnitType;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class for IFDBUnitType.
  *
@@ -26,4 +25,28 @@ public interface IFDBUnitType {
 	 * @return the unit types
 	 */
 	public ArrayList<UnitType> getUnitTypes();
+	
+	/**
+	 * Insert unit type into the database.
+	 *
+	 * @param unitType the unit type
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int insertUnitType(UnitType unitType);
+	
+	/**
+	 * Update unit type in the database.
+	 *
+	 * @param unitType the unit type
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int updateUnitType(UnitType unitType);
+	
+	/**
+	 * Delete unit type from the database..
+	 *
+	 * @param unitType the unit type
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int deleteUnitType(UnitType unitType);
 }

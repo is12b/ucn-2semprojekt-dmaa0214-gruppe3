@@ -44,4 +44,28 @@ public interface IFDBCustomer {
 	 */
 	public Customer getCustomer(String cvr);
 	
+	/**
+	 * Insert Customer into the database.
+	 *
+	 * @param customer the Customer
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int insertCustomer(Customer Customer);
+	
+	/**
+	 * Update Customer in the database.
+	 *
+	 * @param customer the Customer
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int updateCustomer(Customer customer);
+	
+	/**
+	 * Delete Customer from the database..
+	 *
+	 * @param customer the Customer
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int deleteCustomer(Customer customer);
+	
 }
