@@ -62,14 +62,24 @@ public class DBUnitType implements IFDBUnitType {
 		int rc = -1;
 		
 		try {
-			//TODO ID? og where betingelser
 			String query = "UPDATE UnitType SET Description = ?,"
-					+ " ShortDescription = ?, DecimalAllowed = ?";
+					+ " ShortDescription = ?, DecimalAllowed = ?"
+					+ " WHERE ShortDescription = ?";
 			
 			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setQueryTimeout(5);
+			
 			stmt.setString(1, unitType.getDescription());
 			stmt.setString(2, unitType.getShortDescription());
 			stmt.setBoolean(3, unitType.isDecimalAllowed());
+			String oldShortDesc = unitType.getOldShortDescription();
+			if(oldShortDesc == null) {
+				oldShortDesc = unitType.getShortDescription();
+			}
+			stmt.setString(4, oldShortDesc);
+			rc = stmt.executeUpdate();
+			
+			unitType.setOldShortDescriptionToNull();
 			
 			stmt.close();
 		} catch (Exception e) {
@@ -83,13 +93,14 @@ public class DBUnitType implements IFDBUnitType {
 	public int deleteUnitType(UnitType unitType) {
 		int rc = -1;
 		try {
-			//TODO ID?
 			String query = "DELETE FROM UnitType WHERE ShortDescription=?";
 			
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setString(1, unitType.getShortDescription());
 			stmt.setQueryTimeout(5);
-			rc = stmt.executeUpdate(query);
+			
+			stmt.setString(1, unitType.getShortDescription());
+			rc = stmt.executeUpdate();
+			
 			stmt.close();
 		} catch (Exception e) {
 			System.out.println("Delete UnitType faild");
@@ -99,7 +110,7 @@ public class DBUnitType implements IFDBUnitType {
 	}
 
 	private UnitType singleWhere(String wQuery) {
-		UnitType uT = null;
+		UnitType ut = null;
 		
 		try {
 			String query = buildQuery(wQuery);
@@ -107,7 +118,7 @@ public class DBUnitType implements IFDBUnitType {
 			stmt.setQueryTimeout(5);
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()) {
-				uT = buildUnitType(rs);
+				ut = buildUnitType(rs);
 			}
 			stmt.close();
 			
@@ -115,7 +126,7 @@ public class DBUnitType implements IFDBUnitType {
 			System.out.println("DBUnitType - exception : singleWhere");
 			e.printStackTrace();
 		}
-		return uT;
+		return ut;
 	}
 	
 	private ArrayList<UnitType> miscWhere(String wQuery) {
@@ -127,9 +138,9 @@ public class DBUnitType implements IFDBUnitType {
 			stmt.setQueryTimeout(5);
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				UnitType uT = buildUnitType(rs);
-				if (uT != null) {
-					retList.add(uT);
+				UnitType ut = buildUnitType(rs);
+				if (ut != null) {
+					retList.add(ut);
 				}
 			}
 			stmt.close();
@@ -141,16 +152,15 @@ public class DBUnitType implements IFDBUnitType {
 	}
 	
 	private UnitType buildUnitType(ResultSet rs) {
-		UnitType uT = new UnitType();
+		UnitType ut = null;
 		try {
-			uT.setShortDescription(rs.getString("ShortDescription"));
-			uT.setDescription(rs.getString("Description"));
-			uT.setDecimalAllowed(rs.getBoolean("DecimalAllowed"));
+			ut = new UnitType(rs.getString("ShortDescription"));
+			ut.setDescription(rs.getString("Description"));
+			ut.setDecimalAllowed(rs.getBoolean("DecimalAllowed"));
 		} catch (Exception e) {
-			uT = null;
 			System.out.println("Error in building the UnitType object");
 		}
-		return uT;
+		return ut;
 	}
 
 	private String buildQuery(String wQuery) {

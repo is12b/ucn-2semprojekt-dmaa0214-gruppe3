@@ -7,16 +7,19 @@ package modelLayer;
  */
 public class UnitType {
 
-	private int id;
 	private String description;
 	private String shortDescription;
+	private String oldShortDescription;
 	private boolean decimalAllowed = false;
 	
 	/**
 	 * Instantiates a new unit type.
+	 *
+	 * @param shortDescription the short description
 	 */
-	public UnitType() {
-		
+	public UnitType(String shortDescription) {
+		this.shortDescription = shortDescription;
+		this.oldShortDescription = null;
 	}
 
 	/**
@@ -52,6 +55,7 @@ public class UnitType {
 	 * @param shortDescription the new short description
 	 */
 	public void setShortDescription(String shortDescription) {
+		this.oldShortDescription = this.shortDescription;
 		this.shortDescription = shortDescription;
 	}
 
@@ -74,19 +78,18 @@ public class UnitType {
 	}
 
 	/**
-	 * Gets the id
-	 * @return the id
+	 * Get method for oldShortDescription
+	 * @return the oldShortDescription
 	 */
-	public int getId() {
-		return id;
+	public String getOldShortDescription() {
+		return oldShortDescription;
 	}
 
 	/**
-	 * Set method for id
-	 * @param id the id to set
+	 * Set oldShortDescription to null
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public void setOldShortDescriptionToNull() {
+		this.oldShortDescription = null;
 	}
 	
 }
