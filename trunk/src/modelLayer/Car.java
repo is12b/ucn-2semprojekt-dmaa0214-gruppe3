@@ -14,6 +14,16 @@ public class Car {
 		
 	}
 
+	public Car(String brand, String model, String regNr, String vin,
+		int mileage, int id) {
+		this.brand = brand;
+		this.model = model;
+		this.regNr = regNr;
+		this.vin = vin;
+		this.mileage = mileage;
+		this.id = id;
+	}
+
 	public String getBrand() {
 		return brand;
 	}

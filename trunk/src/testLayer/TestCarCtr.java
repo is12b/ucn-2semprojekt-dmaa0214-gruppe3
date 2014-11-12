@@ -28,7 +28,8 @@ public class TestCarCtr {
 		//TODO cCtr.createCar();
 		
 		// Read
-		//TODO Car car1 = cCtr.getCar();
+		//TODO cCtr.getCarByReg(regNr);
+		//TODO cCtr.searchCarByModel(model);
 		
 		// Update
 		//TODO cCtr.updateCar(car1, );
