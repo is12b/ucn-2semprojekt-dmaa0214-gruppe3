@@ -57,8 +57,25 @@ public class TestDBUnitType {
 	 */
 	@Test
 	public void testInsertUpdateDeleteUnitType() {
-		//TODO
-		fail("Not yet implemented");
+		UnitType ut = new UnitType("Utænkelig");
+		ut.setDescription("Utænkelig test enhed");
+		ut.setDecimalAllowed(true);
+		
+		int insert = dbUT.insertUnitType(ut);
+		assertTrue(insert == 1);
+		System.out.println("insertTest: " + insert);
+		
+		ut.setDescription("Umuligt at forestille sig - enhed");
+		ut.setDecimalAllowed(false);
+		ut.setShortDescription("Umuligt");
+		
+		int update = dbUT.updateUnitType(ut);
+		System.out.println("updateValue: " + update);
+		assertTrue(update == 1);
+		
+		int delete = dbUT.deleteUnitType(ut);
+		assertTrue(delete == 1);
+		System.out.println("deleteTest: " + delete);
+		
 	}
-
 }
