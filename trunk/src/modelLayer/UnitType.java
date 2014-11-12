@@ -7,6 +7,7 @@ package modelLayer;
  */
 public class UnitType {
 
+	private int id;
 	private String description;
 	private String shortDescription;
 	private boolean decimalAllowed = false;
@@ -55,7 +56,7 @@ public class UnitType {
 	}
 
 	/**
-	 * Checks if is decimal allowed.
+	 * Checks if is decimalAllowed.
 	 *
 	 * @return true, if is decimal allowed
 	 */
@@ -64,12 +65,28 @@ public class UnitType {
 	}
 
 	/**
-	 * Sets the decimal allowed.
+	 * Sets the decimalAllowed.
 	 *
 	 * @param decimalAllowed the new decimal allowed
 	 */
 	public void setDecimalAllowed(boolean decimalAllowed) {
 		this.decimalAllowed = decimalAllowed;
+	}
+
+	/**
+	 * Gets the id
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Set method for id
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }
