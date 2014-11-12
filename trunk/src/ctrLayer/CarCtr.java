@@ -11,7 +11,7 @@ public class CarCtr implements IFCarCtr {
 	}
 
 	public Car createCar(String brand, String model, String regNr, String vin, int mileage, int year) {
-		Car newCar = new Car(brand, model, regNr, vin, mileage, year);
+		Car newCar = new Car();
 		//TODO IFDBCar dbCar = new IFDBCar();  
 		//TODO IFDBCar.insertCar(newCar);
 		return newCar;
