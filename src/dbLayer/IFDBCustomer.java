@@ -1,0 +1,47 @@
+package dbLayer;
+
+import java.util.ArrayList;
+
+import modelLayer.Car;
+import modelLayer.Customer;
+
+/**
+ * Class for IFDBCustomer.
+ *
+ * @author Group 3, dmaa0214, UCN
+ */
+public interface IFDBCustomer {
+
+	/**
+	 * Gets a customer.
+	 *
+	 * @param car the car
+	 * @return the customer
+	 */
+	public Customer getCustomer(Car car);
+	
+	/**
+	 * Gets all customers by phoneNumber.
+	 *
+	 * @param phoneNumber the phone number
+	 * @return the customers by phoneNumber
+	 */
+	public ArrayList<Customer> getCustomersByPhone(String phoneNumber);
+	
+	/**
+	 * Gets the customers by name.
+	 *
+	 * @param name the name
+	 * @return the customers by name
+	 */
+	public ArrayList<Customer> getCustomersByName(String name);
+	
+	/**
+	 * Gets the customer.
+	 *
+	 * @param cvr the cvr
+	 * @return the customer
+	 */
+	public Customer getCustomer(String cvr);
+	
+}
