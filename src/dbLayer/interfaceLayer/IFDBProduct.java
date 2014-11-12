@@ -15,7 +15,7 @@ public interface IFDBProduct {
 	 * Search products by item number.
 	 *
 	 * @param ItemNumber the item number
-	 * @return the array list
+	 * @return a list of products
 	 */
 	public ArrayList<Product> searchProductsByItemNumber(String ItemNumber);
 	
@@ -23,7 +23,7 @@ public interface IFDBProduct {
 	 * Search products by name.
 	 *
 	 * @param name the name
-	 * @return the array list
+	 * @return a list of products
 	 */
 	public ArrayList<Product> searchProductsByName(String name);
 	
