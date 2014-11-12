@@ -1,5 +1,7 @@
 package ctrLayer.interfaceLayer;
 
+import modelLayer.Customer;
+
 /**
  * Class for IFCustomerCtr
  *
@@ -8,4 +10,10 @@ package ctrLayer.interfaceLayer;
  */
 public interface IFCustomerCtr {
 
+	public Customer createCustomer(String name, String phoneNumber);
+	
+	public void updateCustomer(Customer customer);
+	
+	public void deleteCustomer(Customer customer);
+	
 }
