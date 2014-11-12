@@ -1,5 +1,10 @@
 package modelLayer;
 
+/**
+ * Class for Car.
+ *
+ * @author Group 3, dmaa0214, UCN
+ */
 public class Car {
 	
 	private String brand;
@@ -11,10 +16,23 @@ public class Car {
 	private boolean hidden = false;
 	private int year;
 	
+	/**
+	 * Instantiates a new car.
+	 */
 	public Car() {
 		
 	}
 
+	/**
+	 * Instantiates a new car.
+	 *
+	 * @param brand the brand
+	 * @param model the model
+	 * @param regNr the reg nr
+	 * @param vin the vin
+	 * @param mileage the mileage
+	 * @param year the year
+	 */
 	public Car(String brand, String model, String regNr, String vin,
 		int mileage, int year) {
 		this.brand = brand;
@@ -25,66 +43,146 @@ public class Car {
 		this.year = year;
 	}
 
+	/**
+	 * Gets the brand.
+	 *
+	 * @return the brand
+	 */
 	public String getBrand() {
 		return brand;
 	}
 
+	/**
+	 * Sets the brand.
+	 *
+	 * @param brand the new brand
+	 */
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
 
+	/**
+	 * Gets the model.
+	 *
+	 * @return the model
+	 */
 	public String getModel() {
 		return model;
 	}
 
+	/**
+	 * Sets the model.
+	 *
+	 * @param model the new model
+	 */
 	public void setModel(String model) {
 		this.model = model;
 	}
 
+	/**
+	 * Gets the reg nr.
+	 *
+	 * @return the reg nr
+	 */
 	public String getRegNr() {
 		return regNr;
 	}
 
+	/**
+	 * Sets the reg nr.
+	 *
+	 * @param regNr the new reg nr
+	 */
 	public void setRegNr(String regNr) {
 		this.regNr = regNr;
 	}
 
+	/**
+	 * Gets the vin.
+	 *
+	 * @return the vin
+	 */
 	public String getVin() {
 		return vin;
 	}
 
+	/**
+	 * Sets the vin.
+	 *
+	 * @param vin the new vin
+	 */
 	public void setVin(String vin) {
 		this.vin = vin;
 	}
 
+	/**
+	 * Gets the mileage.
+	 *
+	 * @return the mileage
+	 */
 	public float getMileage() {
 		return mileage;
 	}
 
+	/**
+	 * Sets the mileage.
+	 *
+	 * @param mileage the new mileage
+	 */
 	public void setMileage(int mileage) {
 		this.mileage = mileage;
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Checks if is hidden.
+	 *
+	 * @return true, if is hidden
+	 */
 	public boolean isHidden() {
 		return hidden;
 	}
 
+	/**
+	 * Sets the hidden.
+	 *
+	 * @param hidden the new hidden
+	 */
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
 
+	/**
+	 * Gets the year.
+	 *
+	 * @return the year
+	 */
 	public int getYear() {
 		return year;
 	}
 
+	/**
+	 * Sets the year.
+	 *
+	 * @param year the new year
+	 */
 	public void setYear(int year) {
 		this.year = year;
 	}
