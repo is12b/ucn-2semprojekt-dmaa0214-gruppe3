@@ -1,5 +1,7 @@
 package ctrLayer;
 
-public class CustomerCtr {
+import ctrLayer.interfaceLayer.IFCustomerCtr;
+
+public class CustomerCtr implements IFCustomerCtr {
 
 }

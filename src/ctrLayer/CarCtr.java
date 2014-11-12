@@ -1,9 +1,10 @@
 package ctrLayer;
 
+import ctrLayer.interfaceLayer.IFCarCtr;
 import dbLayer.interfaceLayer.IFDBCar;
 import modelLayer.Car;
 
-public class CarCtr {
+public class CarCtr implements IFCarCtr {
 	
 	public CarCtr() {
 		
