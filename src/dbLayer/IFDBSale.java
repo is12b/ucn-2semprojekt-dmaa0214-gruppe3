@@ -43,4 +43,28 @@ public interface IFDBSale {
 	 * @return the all sales
 	 */
 	public ArrayList<Sale> getAllSales();
+	
+	/**
+	 * Insert Sale into the database.
+	 *
+	 * @param sale the Sale
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int insertSale(Sale sale);
+	
+	/**
+	 * Update Sale in the database.
+	 *
+	 * @param sale the Sale
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int updateSale(Sale sale);
+	
+	/**
+	 * Delete Sale from the database..
+	 *
+	 * @param sale the Sale
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int deleteSale(Sale sale);
 }

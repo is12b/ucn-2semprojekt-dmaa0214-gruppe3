@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import modelLayer.Car;
 import modelLayer.Customer;
 
-// TODO: Auto-generated Javadoc
 /**
  * Interface for DBCar.
  *
@@ -13,7 +12,6 @@ import modelLayer.Customer;
  */
 public interface IFDBCar {
 
-	
 	/**
 	 * Gets all cars.
 	 *
@@ -45,5 +43,28 @@ public interface IFDBCar {
 	 * @return the car
 	 */
 	public Car getCar(int id);
-		
+
+	/**
+	 * Insert Car into the database.
+	 *
+	 * @param car the Car
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int insertCar(Car car);
+	
+	/**
+	 * Update Car in the database.
+	 *
+	 * @param car the Car
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int updateCar(Car car);
+	
+	/**
+	 * Delete Car from the database..
+	 *
+	 * @param car the Car
+	 * @return numbers of affected rows or -1 if it's fail
+	 */
+	public int deleteCar(Car car);
 }
