@@ -16,6 +16,24 @@ public class CarCtr implements IFCarCtr {
 		//TODO IFDBCar.insertCar(newCar);
 		return newCar;
 	}
+
+	@Override
+	public Car getCarByRegNr(String regNr, boolean retAsso) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateCar(Car car) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCar(Car car) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }
