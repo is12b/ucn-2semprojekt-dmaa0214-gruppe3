@@ -10,7 +10,7 @@ public class DBConnection {
 	private static final String driver = "jdbc:sqlserver://balder.ucn.dk";
 	private static final String dbName = ";databaseName=dmaa0214Projekt_3";
 
-	private static String userName = "; user=dmaa0214TProjekt_3";
+	private static String userName = "; user=dmaa0214Projekt_3";
 	private static String password = ";password=Biksemad";
 
 	private DatabaseMetaData dma;
@@ -116,6 +116,10 @@ public class DBConnection {
 			System.out.println("Error executing Rollback on transaction "
 					+ e.getMessage());
 		}
+	}
+	
+	public static void main(String[] args){
+		getInstance();
 	}
 
 }
