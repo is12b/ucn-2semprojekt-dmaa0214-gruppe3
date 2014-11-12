@@ -21,18 +21,6 @@ public class DBCar implements IFDBCar {
 	}
 
 	@Override
-	public Car getCarByRegNr(String regNr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Car getCarByVin(String vin) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Car getCar(int id) {
 		// TODO Auto-generated method stub
 		return null;
@@ -54,6 +42,18 @@ public class DBCar implements IFDBCar {
 	public int deleteCar(Car car) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public Car getCarByRegNr(String regNr, boolean retAsso) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Car getCarByVin(String vin, boolean retAsso) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
