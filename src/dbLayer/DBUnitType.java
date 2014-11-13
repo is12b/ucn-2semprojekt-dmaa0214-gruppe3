@@ -164,8 +164,8 @@ public class DBUnitType implements IFDBUnitType {
 	}
 
 	private String buildQuery(String wQuery) {
-		String query = "SELECT Description , ShortDescription, DecimalAllowed "
-				+ "FROM UnitType";
+		String query = "SELECT Description , ShortDescription, DecimalAllowed"
+				+ " FROM UnitType";
 		if(!wQuery.isEmpty())  {
 			query += " WHERE " + wQuery;
 		}
