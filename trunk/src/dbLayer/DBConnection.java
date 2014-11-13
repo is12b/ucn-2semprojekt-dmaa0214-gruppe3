@@ -1,10 +1,8 @@
 package dbLayer;
 
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-
 
 public class DBConnection {
 	private static final String driver = "jdbc:sqlserver://balder.ucn.dk";
@@ -14,14 +12,14 @@ public class DBConnection {
 	private static String password = ";password=Biksemad";
 
 	private DatabaseMetaData dma;
-	private static Connection con;
+	private static Connection conn;
 
 	private static DBConnection instance;
-	
+
 	/**
-	 * Initialisering  Connection to Database
-	 * @ NullPointer
-	 * 
+	 * Initial Connection to Database
+	 *
+	 * @throws NullPointerException
 	 */
 	public DBConnection() throws NullPointerException {
 		String url = driver + dbName + userName + password;
@@ -36,12 +34,10 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 
-		/**
-		 * connection to DB
-		 */
+		// Connection to DB
 		try {
-			con = DriverManager.getConnection(url);
-			dma = con.getMetaData();
+			conn = DriverManager.getConnection(url);
+			dma = conn.getMetaData();
 			System.out.println("Conection to " + dma.getURL());
 			System.out.println("Driver " + dma.getDriverName());
 			System.out.println("Database product name "
@@ -54,12 +50,13 @@ public class DBConnection {
 			throw new NullPointerException("Error DBConnection");
 		}
 	}
+
 	/**
-	 * closing connection
+	 * Closing the Connection
 	 */
 	public static void closeConnection() {
 		try {
-			con.close();
+			conn.close();
 			System.out.println("Connection closed!");
 		} catch (Exception e) {
 			System.out.println("Error closing the connection: "
@@ -67,10 +64,20 @@ public class DBConnection {
 		}
 	}
 
-  /**
-  * get the connection to DB
-  * @ connection to DB
-  */
+	/**
+	 * Get the Database Connection
+	 *
+	 * @return Connection
+	 */
+	public Connection getDBCon() {
+		return conn;
+	}
+
+	/**
+	 * Get instance of DBConnection
+	 *
+	 * @return DBConnection
+	 */
 	public static DBConnection getInstance() {
 		if (instance == null) {
 			try {
@@ -83,25 +90,27 @@ public class DBConnection {
 
 		return instance;
 	}
+
 	/**
-	 * starting of the  transaction
+	 * Starting Transaction
 	 */
 	public static void startTransaction() {
-		try { con.setAutoCommit(false);
-	}catch (Exception e) {
-		System.out.println("error starting transaction"+ e.getMessage());
-	 }
+		try {
+			conn.setAutoCommit(false);
+		} catch (Exception e) {
+			System.out.println("Error starting Transaction" + e.getMessage());
+		}
 	}
-	
+
 	/**
-	 * commit transaction
+	 * Commiting Transaction
 	 */
 	public static void commitTransaction() {
 		try {
-			con.setAutoCommit(true);
+			conn.setAutoCommit(true);
 		} catch (Exception e) {
-			System.out
-					.println("Error commiting Transaction: " + e.getMessage());
+			System.out.println("Error commiting Transaction: "
+					+ e.getMessage());
 		}
 	}
 
@@ -110,19 +119,11 @@ public class DBConnection {
 	 */
 	public static void rollBackTransaction() {
 		try {
-			con.rollback();
-			con.setAutoCommit(true);
+			conn.rollback();
+			conn.setAutoCommit(true);
 		} catch (Exception e) {
-			System.out.println("Error executing Rollback on transaction "
+			System.out.println("Error rollback Transaction: "
 					+ e.getMessage());
 		}
 	}
-	
-	
-	public Connection getDBCon(){
-		return con;
-	}
-
 }
-	
-
