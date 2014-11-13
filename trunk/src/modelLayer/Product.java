@@ -22,6 +22,15 @@ public class Product {
 	public Product() {
 
 	}
+	
+	/**
+	 * Instantiates a new product.
+	 * 
+	 * @param id The id of the product
+	 */
+	public Product(int id) {
+		this.id = id;
+	}
 
 	/**
 	 * Gets the brand.

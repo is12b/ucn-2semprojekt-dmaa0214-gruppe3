@@ -15,7 +15,8 @@ public interface IFDBCar {
 	/**
 	 * Gets all cars.
 	 *
-	 * @param customer the customer
+	 * @param customer the customer 
+	 * @param retAsso If true: include associations to other objects
 	 * @return the cars
 	 */
 	public ArrayList<Car> getCars(Customer customer, boolean retAsso);

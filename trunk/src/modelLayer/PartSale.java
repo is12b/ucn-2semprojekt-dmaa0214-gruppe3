@@ -9,7 +9,7 @@ import modelLayer.Product;
  */
 public class PartSale {
 
-	private int amount;
+	private double amount;
 	private double unitPrice;
 	private Product product;
 	private int id;
@@ -18,7 +18,6 @@ public class PartSale {
 	 * Instantiates a new part sale.
 	 */
 	public PartSale() {
-		
 	}
 
 	/**
@@ -26,7 +25,7 @@ public class PartSale {
 	 *
 	 * @return the amount
 	 */
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
@@ -35,7 +34,7 @@ public class PartSale {
 	 *
 	 * @param amount the new amount
 	 */
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
@@ -92,6 +91,5 @@ public class PartSale {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
 	
 }

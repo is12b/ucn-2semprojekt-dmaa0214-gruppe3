@@ -1,5 +1,6 @@
 package modelLayer;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -16,13 +17,13 @@ public class Sale {
 	private int mileage;
 	private int id;
 	private double totalPrice;
-	
+	private ArrayList<PartSale> partSales;
 	
 	/**
 	 * Instantiates a new sale.
 	 */
 	public Sale() {
-		
+		partSales = new ArrayList<PartSale>();
 	}
 
 	/**
@@ -150,5 +151,28 @@ public class Sale {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	/**
+	 * Get method for partSales
+	 * @return the partSales
+	 */
+	public ArrayList<PartSale> getPartSales() {
+		return partSales;
+	}
+
+	/**
+	 * Add method for partSales
+	 * @param partSale the partSale to add
+	 */
+	public void addPartSale(PartSale partSale) {
+		this.partSales.add(partSale);
+	}
 	
+	/**
+	 * Remove method for partSales
+	 * @param partSale the partSale to remove
+	 */
+	public void removePartSale(PartSale partSale) {
+		this.partSales.remove(partSale);
+	}
 }

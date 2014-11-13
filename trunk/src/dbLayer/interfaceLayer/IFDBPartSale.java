@@ -11,22 +11,24 @@ import modelLayer.Sale;
  * @author Group 3, dmaa0214, UCN
  */
 public interface IFDBPartSale {
-	
+		
 	/**
 	 * Gets the part sales.
 	 *
 	 * @param sale the sale
+	 * @param retAsso If true: include associations to other objects
 	 * @return the part sales
 	 */
-	public ArrayList<PartSale> getPartSales(Sale sale);
+	public ArrayList<PartSale> getPartSales(Sale sale, boolean retAsso);
 	
 	/**
-	 * Insert PartSale into the database.
+	 * Insert a PartSale for a Sale into the database.
 	 *
-	 * @param partSale the PartSale
+	 * @param sale the Sale, who owns the partSale
+	 * @param partSale the partSale to add.  
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int insertPartSale(PartSale partSale);
+	public int insertPartSale(Sale sale, PartSale partSale);
 	
 	/**
 	 * Update PartSale in the database.
@@ -43,4 +45,5 @@ public interface IFDBPartSale {
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int deletePartSale(PartSale partSale);
+
 }
