@@ -18,6 +18,8 @@ public class Sale {
 	private int id;
 	private double totalPrice;
 	private ArrayList<PartSale> partSales;
+	private Customer customer;
+	private Car car;
 	
 	/**
 	 * Instantiates a new sale.
@@ -175,4 +177,45 @@ public class Sale {
 	public void removePartSale(PartSale partSale) {
 		this.partSales.remove(partSale);
 	}
+
+	/**
+	 * Set method for partSales
+	 * @param partSales the partSales to set
+	 */
+	public void setPartSales(ArrayList<PartSale> partSales) {
+		this.partSales = partSales;
+	}
+
+	/**
+	 * Get method for customer
+	 * @return the customer
+	 */
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	/**
+	 * Set method for customer
+	 * @param customer the customer to set
+	 */
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	/**
+	 * Get method for car
+	 * @return the car
+	 */
+	public Car getCar() {
+		return car;
+	}
+
+	/**
+	 * Set method for car
+	 * @param car the car to set
+	 */
+	public void setCar(Car car) {
+		this.car = car;
+	}
+	
 }
