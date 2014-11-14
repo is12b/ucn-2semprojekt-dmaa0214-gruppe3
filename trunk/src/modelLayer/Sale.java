@@ -16,7 +16,6 @@ public class Sale {
 	private String description;
 	private int mileage;
 	private int id;
-	private double totalPrice;
 	private ArrayList<PartSale> partSales;
 	private Customer customer;
 	private Car car;
@@ -117,25 +116,7 @@ public class Sale {
 	public void setMileage(int mileage) {
 		this.mileage = mileage;
 	}
-
-	/**
-	 * Gets the total price.
-	 *
-	 * @return the total price
-	 */
-	public double getTotalPrice() {
-		return totalPrice;
-	}
-
-	/**
-	 * Sets the total price.
-	 *
-	 * @param totalPrice the new total price
-	 */
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
+	
 	/**
 	 * Gets the id.
 	 *
