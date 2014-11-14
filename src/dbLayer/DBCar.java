@@ -111,7 +111,7 @@ public class DBCar implements IFDBCar {
 		try{
 			String query = "UPDATE CAR SET "
 					+ "CustomerID = ?, Brand = ?, Model = ?, RegNr = ?, "
-					+ "Mileage = ?, VIN = ?, Hidden = ?, Year = ?, WHERE CarID = ?";
+					+ "Mileage = ?, VIN = ?, Hidden = ?, Year = ? WHERE CarID = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			stmt.setInt(1, car.getOwner().getId());

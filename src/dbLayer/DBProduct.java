@@ -97,7 +97,7 @@ public class DBProduct implements IFDBProduct {
 		try{ //(ProductID, ItemNumber, Brand, Name, Description, Price, Hidden, UnitType)
 			String query = "UPDATE PRODUCT SET " 
 					+ "ItemNumber = ?, Brand = ?, Name = ?, Description = ?, " 
-					+ "Price = ?, Hidden = ?, UnitType = ?, WHERE ProductID = ?";
+					+ "Price = ?, Hidden = ?, UnitType = ? WHERE ProductID = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 
