@@ -33,12 +33,6 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public Customer getCustomer(String cvr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int insertCustomer(Customer Customer) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -57,7 +51,13 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public Customer getCustomer(int id, boolean retAsso) {
+	public Customer getCustomerByID(int id, boolean retAsso) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Customer getCustomerByCvr(String cvr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

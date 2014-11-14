@@ -49,31 +49,31 @@ public class DBCar implements IFDBCar {
 			stmt.setInt(1, car.getOwner().getId());
 			
 			if(car.getBrand() == null || car.getBrand().isEmpty()){
-				stmt.setNull(2, java.sql.Types.NULL);
+				stmt.setNull(2, java.sql.Types.VARCHAR);
 			} else {
 				stmt.setString(2, car.getBrand());
 			}
 			
 			if(car.getModel() == null || car.getModel().isEmpty()){
-				stmt.setNull(3, java.sql.Types.NULL);
+				stmt.setNull(3, java.sql.Types.VARCHAR);
 			}else{
 				stmt.setString(3, car.getModel());
 			}
 			
 			if(car.getRegNr() == null || car.getRegNr().isEmpty()){
-				stmt.setNull(4, java.sql.Types.NULL);
+				stmt.setNull(4, java.sql.Types.VARCHAR);
 			}else{
 				stmt.setString(4, car.getRegNr());
 			}
 			
 			if(car.getMileage() == 0){
-				stmt.setNull(5, java.sql.Types.NULL);
+				stmt.setNull(5, java.sql.Types.INTEGER);
 			}else{
 				stmt.setInt(5, car.getMileage());
 			}
 			
 			if(car.getVin() == null || car.getVin().isEmpty()){
-				stmt.setNull(6, java.sql.Types.NULL);
+				stmt.setNull(6, java.sql.Types.VARCHAR);
 			}else{
 				stmt.setString(6, car.getVin());
 			}
@@ -82,7 +82,7 @@ public class DBCar implements IFDBCar {
 			stmt.setBoolean(7, car.isHidden());
 			
 			if(car.getYear() == 0){
-				stmt.setNull(8, java.sql.Types.NULL);
+				stmt.setNull(8, java.sql.Types.INTEGER);
 			}else{
 				stmt.setInt(8, car.getYear());
 			}
@@ -116,31 +116,31 @@ public class DBCar implements IFDBCar {
 			stmt.setQueryTimeout(5);
 			stmt.setInt(1, car.getOwner().getId());
 			if(car.getBrand() == null || car.getBrand().isEmpty()){
-				stmt.setNull(2, java.sql.Types.NULL);
+				stmt.setNull(2, java.sql.Types.VARCHAR);
 			} else {
 				stmt.setString(2, car.getBrand());
 			}
 			
 			if(car.getModel() == null || car.getModel().isEmpty()){
-				stmt.setNull(3, java.sql.Types.NULL);
+				stmt.setNull(3, java.sql.Types.VARCHAR);
 			}else{
 				stmt.setString(3, car.getModel());
 			}
 			
 			if(car.getRegNr() == null || car.getRegNr().isEmpty()){
-				stmt.setNull(4, java.sql.Types.NULL);
+				stmt.setNull(4, java.sql.Types.VARCHAR);
 			}else{
 				stmt.setString(4, car.getRegNr());
 			}
 			
 			if(car.getMileage() == 0){
-				stmt.setNull(5, java.sql.Types.NULL);
+				stmt.setNull(5, java.sql.Types.INTEGER);
 			}else{
 				stmt.setInt(5, car.getMileage());
 			}
 			
 			if(car.getVin() == null || car.getVin().isEmpty()){
-				stmt.setNull(6, java.sql.Types.NULL);
+				stmt.setNull(6, java.sql.Types.VARCHAR);
 			}else{
 				stmt.setString(6, car.getVin());
 			}
@@ -149,10 +149,11 @@ public class DBCar implements IFDBCar {
 			stmt.setBoolean(7, car.isHidden());
 			
 			if(car.getYear() == 0){
-				stmt.setNull(8, java.sql.Types.NULL);
+				stmt.setNull(8, java.sql.Types.INTEGER);
 			}else{
 				stmt.setInt(8, car.getYear());
 			}
+			
 			stmt.setInt(9, car.getId());
 			
 			rc = stmt.executeUpdate();
