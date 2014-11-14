@@ -56,4 +56,10 @@ public class DBCustomer implements IFDBCustomer {
 		return 0;
 	}
 
+	@Override
+	public Customer getCustomer(int id, boolean retAsso) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
