@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import modelLayer.Product;
 import modelLayer.UnitType;
 import dbLayer.interfaceLayer.IFDBProduct;
@@ -75,14 +77,60 @@ public class DBProduct implements IFDBProduct {
 
 	@Override
 	public int updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rc = -1;
+		
+		try{ //(ProductID, ItemNumber, Brand, Name, Description, Price, Hidden, UnitType)
+			String query = "UPDATE PRODUCT SET " 
+					+ "ItemNumber = ?, Brand = ?, Name = ?, Description = ?, " 
+					+ "Price = ?, Hidden = ?, UnitType = ?, WHERE ProductID = ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setQueryTimeout(5);
+			stmt.setString(1, product.getItemNumber());
+			stmt.setString(2, product.getBrand());
+			stmt.setString(3, product.getName());
+			stmt.setString(4, product.getDescription());
+			stmt.setDouble(5, product.getPrice());
+			stmt.setBoolean(6, product.isHidden());
+			stmt.setString(7, product.getUnitType().getShortDescription());
+			stmt.setInt(8, product.getId());
+			
+			rc = stmt.executeUpdate();
+			
+			stmt.close();
+		}catch(Exception e){
+			System.out.println("DBProduct - updateProduct - Exception");
+			e.printStackTrace();
+		}
+		
+		return rc;
 	}
 
 	@Override
 	public int deleteProduct(Product product) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rc = -1;
+		
+		try{
+			String query = "DELETE FROM PRODUCT WHERE ProductID = " + product.getId();
+			Statement stmt = conn.createStatement();
+			stmt.setQueryTimeout(5);
+			rc = stmt.executeUpdate(query);
+			stmt.close();
+		}catch(SQLServerException e){
+			//Foreign key error
+			if(e.getErrorCode() == 547){
+				product.setHidden(true);
+				rc = updateProduct(product);
+				System.out.println("Product " + product.getId() + " is now hidden");
+			}else{
+				System.out.println("DBProduct - deleteProduct - Exception");
+				e.printStackTrace();
+			}
+		}catch(Exception e){
+			System.out.println("DBProduct - deleteProduct - Exception");
+			e.printStackTrace();
+		}
+		
+		return rc;
 	}
 	
 	private ArrayList<Product> miscWhere(String wQuery){
