@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import ctrLayer.ProductCtr;
 import ctrLayer.UnitTypeCtr;
+import ctrLayer.exceptionLayer.ProductDoesntExistException;
 
 /**
  * Class for ProductCtrTest
@@ -33,9 +34,10 @@ public class ProductCtrTest {
 
 	/**
 	 * Test method for {@link ctrLayer.ProductCtr#getProductByID(int)}.
+	 * @throws ProductDoesntExistException 
 	 */
 	@Test
-	public void testGetProductByID() {
+	public void testGetProductByID() throws ProductDoesntExistException {
 		Product product = pCtr.getProductByID(1);
 			System.out.println(product.getName());	
 	}
