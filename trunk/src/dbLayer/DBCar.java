@@ -42,17 +42,51 @@ public class DBCar implements IFDBCar {
 		
 		try{
 			String query = "INSERT INTO CAR"
-					+ " (CustomerID, Brand, Model, RegNR, Mileage, VIN, Hidden) VALUES "
-					+ "(?,?,?,?,?,?,?)";
+					+ " (CustomerID, Brand, Model, RegNR, Mileage, VIN, Hidden, Year) VALUES "
+					+ "(?,?,?,?,?,?,?,?)";
 			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setQueryTimeout(5);
 			stmt.setInt(1, car.getOwner().getId());
-			stmt.setString(2, car.getBrand());
-			stmt.setString(3, car.getModel());
-			stmt.setString(4, car.getRegNr());
-			stmt.setInt(5, car.getMileage());
-			stmt.setString(6, car.getVin());
+			
+			if(car.getBrand() == null || car.getBrand().isEmpty()){
+				stmt.setNull(2, java.sql.Types.NULL);
+			} else {
+				stmt.setString(2, car.getBrand());
+			}
+			
+			if(car.getModel() == null || car.getModel().isEmpty()){
+				stmt.setNull(3, java.sql.Types.NULL);
+			}else{
+				stmt.setString(3, car.getModel());
+			}
+			
+			if(car.getRegNr() == null || car.getRegNr().isEmpty()){
+				stmt.setNull(4, java.sql.Types.NULL);
+			}else{
+				stmt.setString(4, car.getRegNr());
+			}
+			
+			if(car.getMileage() == 0){
+				stmt.setNull(5, java.sql.Types.NULL);
+			}else{
+				stmt.setInt(5, car.getMileage());
+			}
+			
+			if(car.getVin() == null || car.getVin().isEmpty()){
+				stmt.setNull(6, java.sql.Types.NULL);
+			}else{
+				stmt.setString(6, car.getVin());
+			}
+			
+
 			stmt.setBoolean(7, car.isHidden());
+			
+			if(car.getYear() == 0){
+				stmt.setNull(8, java.sql.Types.NULL);
+			}else{
+				stmt.setInt(8, car.getYear());
+			}
+			
 			rc = stmt.executeUpdate();
 			
 			ResultSet genRs = stmt.getGeneratedKeys();
@@ -77,17 +111,49 @@ public class DBCar implements IFDBCar {
 		try{
 			String query = "UPDATE CAR SET "
 					+ "CustomerID = ?, Brand = ?, Model = ?, RegNr = ?, "
-					+ "Mileage = ?, VIN = ?, Hidden = ? WHERE CarID = ?";
+					+ "Mileage = ?, VIN = ?, Hidden = ?, Year = ?, WHERE CarID = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			stmt.setInt(1, car.getOwner().getId());
-			stmt.setString(2, car.getBrand());
-			stmt.setString(3, car.getModel());
-			stmt.setString(4, car.getRegNr());
-			stmt.setInt(5, car.getMileage());
-			stmt.setString(6, car.getVin());
+			if(car.getBrand() == null || car.getBrand().isEmpty()){
+				stmt.setNull(2, java.sql.Types.NULL);
+			} else {
+				stmt.setString(2, car.getBrand());
+			}
+			
+			if(car.getModel() == null || car.getModel().isEmpty()){
+				stmt.setNull(3, java.sql.Types.NULL);
+			}else{
+				stmt.setString(3, car.getModel());
+			}
+			
+			if(car.getRegNr() == null || car.getRegNr().isEmpty()){
+				stmt.setNull(4, java.sql.Types.NULL);
+			}else{
+				stmt.setString(4, car.getRegNr());
+			}
+			
+			if(car.getMileage() == 0){
+				stmt.setNull(5, java.sql.Types.NULL);
+			}else{
+				stmt.setInt(5, car.getMileage());
+			}
+			
+			if(car.getVin() == null || car.getVin().isEmpty()){
+				stmt.setNull(6, java.sql.Types.NULL);
+			}else{
+				stmt.setString(6, car.getVin());
+			}
+			
+
 			stmt.setBoolean(7, car.isHidden());
-			stmt.setInt(8, car.getId());
+			
+			if(car.getYear() == 0){
+				stmt.setNull(8, java.sql.Types.NULL);
+			}else{
+				stmt.setInt(8, car.getYear());
+			}
+			stmt.setInt(9, car.getId());
 			
 			rc = stmt.executeUpdate();
 			
@@ -222,7 +288,7 @@ public class DBCar implements IFDBCar {
 	 * @return
 	 */
 	private String buildQuery(String wQuery) {
-		String query = "SELECT CarID, CustomerID, Brand, Model, RegNR, Mileage, VIN, Hidden FROM CAR";
+		String query = "SELECT CarID, CustomerID, Brand, Model, RegNR, Mileage, VIN, Hidden, Year FROM CAR";
 		
 		if(!wQuery.isEmpty()){
 			query += " WHERE " + wQuery;
