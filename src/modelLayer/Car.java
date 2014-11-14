@@ -24,7 +24,7 @@ public class Car {
 		
 	}
 	
-	
+	// Hej LAsse
 
 	/**
 	 * Constructor for Car.java objects.
