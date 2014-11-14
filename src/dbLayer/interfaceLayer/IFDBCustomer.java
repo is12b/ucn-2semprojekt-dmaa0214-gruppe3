@@ -21,6 +21,14 @@ public interface IFDBCustomer {
 	public Customer getCustomer(Car car);
 	
 	/**
+	 * Gets a customer by id.
+	 *
+	 * @param id the id of the car
+	 * @return the customer
+	 */
+	public Customer getCustomer(int id);
+	
+	/**
 	 * Gets all customers by phoneNumber.
 	 *
 	 * @param phoneNumber the phone number
