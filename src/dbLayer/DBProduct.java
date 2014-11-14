@@ -27,16 +27,16 @@ public class DBProduct implements IFDBProduct {
 
 	@Override
 	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) {
-		return miscWhere("ItemNumber = '" + itemNumber + "'");
+		return miscWhere("ItemNumber LIKE '%" + itemNumber + "%'");
 	}
 
 	@Override
 	public ArrayList<Product> searchProductsByName(String name) {
-		return miscWhere("Name = '" + name + "'");
+		return miscWhere("Name LIKE '%" + name + "%'");
 	}
 
 	@Override
-	public Product getProductByID(int id) {
+	public Product getProductByID(int id) throws NullPointerException {
 		return singleWhere("ProductID = " + id);
 	}
 
@@ -170,6 +170,7 @@ public class DBProduct implements IFDBProduct {
 		
 		try{
 			String query = buildQuery(wQuery);
+			System.out.println(query);
 			Statement stmt = conn.createStatement();
 			stmt.setQueryTimeout(5);
 			ResultSet rs = stmt.executeQuery(query);
