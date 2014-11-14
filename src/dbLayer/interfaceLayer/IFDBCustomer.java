@@ -24,9 +24,10 @@ public interface IFDBCustomer {
 	 * Gets a customer by id.
 	 *
 	 * @param id the id of the car
+	 * @param retAsso If true: include associations to other objects
 	 * @return the customer
 	 */
-	public Customer getCustomer(int id);
+	public Customer getCustomer(int id, boolean retAsso);
 	
 	/**
 	 * Gets all customers by phoneNumber.
