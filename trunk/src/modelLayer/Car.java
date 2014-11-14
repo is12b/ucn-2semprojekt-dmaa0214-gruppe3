@@ -23,6 +23,31 @@ public class Car {
 	public Car() {
 		
 	}
+	
+	
+
+	/**
+	 * Constructor for Car.java objects.
+	 *
+	 * @param brand
+	 * @param model
+	 * @param regNr
+	 * @param vin
+	 * @param mileage
+	 * @param year
+	 * @param owner
+	 */
+	public Car(String brand, String model, String regNr, String vin, int mileage, int year, Customer owner) {
+		this.brand = brand;
+		this.model = model;
+		this.regNr = regNr;
+		this.vin = vin;
+		this.mileage = mileage;
+		this.year = year;
+		this.owner = owner;
+	}
+
+
 
 	/**
 	 * Gets the brand.
