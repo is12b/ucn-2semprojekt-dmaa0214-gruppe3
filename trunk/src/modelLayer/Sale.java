@@ -104,7 +104,7 @@ public class Sale {
 	 *
 	 * @return the mileage
 	 */
-	public float getMileage() {
+	public int getMileage() {
 		return mileage;
 	}
 
