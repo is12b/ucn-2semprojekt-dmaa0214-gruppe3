@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import modelLayer.UnitType;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
+import dbLayer.DBUnitType;
 
 /**
  * Class for UnitTypeCtr
@@ -15,8 +16,8 @@ public class UnitTypeCtr implements IFUnitTypeCtr {
 
 	@Override
 	public UnitType getUnitType(String shortDesc) {
-		// TODO Auto-generated method stub
-		return null;
+		DBUnitType dbUnit = new DBUnitType();
+		return dbUnit.getUnitType(shortDesc);
 	}
 
 	@Override
