@@ -24,8 +24,15 @@ public class Car {
 		
 	}
 	
-	// Hej LAsse
-
+	/**
+	 * Instantiates a new car.
+	 * 
+	 * @param id the id of the car.
+	 */
+	public Car(int id) {
+		this.id = id;
+	}
+	
 	/**
 	 * Constructor for Car.java objects.
 	 *

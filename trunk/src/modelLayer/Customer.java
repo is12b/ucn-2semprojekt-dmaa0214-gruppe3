@@ -24,6 +24,15 @@ public class Customer {
 	}
 
 	/**
+	 * Instantiates a new car.
+	 * 
+	 * @param id the id of the customer.
+	 */
+	public Customer(int id) {
+		this.id = id;
+	}
+	
+	/**
 	 * Gets the name.
 	 *
 	 * @return the name
