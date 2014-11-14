@@ -36,7 +36,8 @@ public class ProductCtrTest {
 	 */
 	@Test
 	public void testGetProductByID() {
-		fail("Not yet implemented");
+		Product product = pCtr.getProductByID(1);
+			System.out.println(product.getName());	
 	}
 
 	/**
@@ -62,10 +63,14 @@ public class ProductCtrTest {
 	}
 
 	@Test
-	public void testCRUD() {
+	public void testCreateDelete() {
 		UnitTypeCtr uCtr = new UnitTypeCtr();
 		UnitType unitType = uCtr.getUnitType("L");
 		Product createdProduct = pCtr.createProduct("Brand", "Name", "Description", "itemNumber", 111.1, false, unitType);
 		System.out.println(createdProduct.getName());
+
+		pCtr.deleteProduct(createdProduct);
+		assertNotNull(createdProduct);
+
 	}
 }

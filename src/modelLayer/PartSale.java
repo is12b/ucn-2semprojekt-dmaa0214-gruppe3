@@ -20,6 +20,11 @@ public class PartSale {
 	public PartSale() {
 	}
 
+	public PartSale(double amount, Product product) {
+		this.amount = amount;
+		this.product = product;
+	}
+
 	/**
 	 * Gets the amount.
 	 *

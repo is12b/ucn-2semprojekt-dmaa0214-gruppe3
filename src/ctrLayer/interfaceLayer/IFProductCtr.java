@@ -2,6 +2,7 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import ctrLayer.exceptionLayer.ProductDoesntExistException;
 import modelLayer.Product;
 import modelLayer.UnitType;
 
@@ -13,7 +14,7 @@ import modelLayer.UnitType;
  */
 public interface IFProductCtr {
 	
-	public Product getProductByID(int id);
+	public Product getProductByID(int id) throws ProductDoesntExistException;
 	
 	public ArrayList<Product> searchProductsByName(String name);
 	

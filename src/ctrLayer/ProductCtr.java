@@ -4,15 +4,20 @@ import java.util.ArrayList;
 
 import modelLayer.Product;
 import modelLayer.UnitType;
+import ctrLayer.exceptionLayer.ProductDoesntExistException;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import dbLayer.DBProduct;
 
 public class ProductCtr implements IFProductCtr {
-
+	
 	@Override
-	public Product getProductByID(int id) {
+	public Product getProductByID(int id) throws ProductDoesntExistException {
 		DBProduct dbProd = new DBProduct();
-		return dbProd.getProductByID(id);
+		Product product = dbProd.getProductByID(id);
+		if(product == null) {
+			throw new ProductDoesntExistException("A product with that ID doesn't exist.");
+		}
+		return product;
 	}
 
 	@Override
@@ -47,5 +52,4 @@ public class ProductCtr implements IFProductCtr {
 		dbProd.insertProduct(product);
 		return product;
 	}
-
 }
