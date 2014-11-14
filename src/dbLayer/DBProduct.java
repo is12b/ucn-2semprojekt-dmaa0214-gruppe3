@@ -51,10 +51,27 @@ public class DBProduct implements IFDBProduct {
 			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setQueryTimeout(5);
 			stmt.setInt(1, product.getId());
-			stmt.setString(2, product.getItemNumber());
-			stmt.setString(3, product.getBrand());
+			
+			if(product.getItemNumber() == null || product.getItemNumber().isEmpty()){
+				stmt.setNull(2, java.sql.Types.NULL);
+			}else{
+				stmt.setString(2, product.getItemNumber());
+			}
+			
+			if(product.getBrand() == null || product.getBrand().isEmpty()){
+				stmt.setNull(3, java.sql.Types.NULL);
+			}else{
+				stmt.setString(3, product.getBrand());
+			}
+
 			stmt.setString(4, product.getName());
-			stmt.setString(5, product.getDescription());
+			
+			if(product.getDescription() == null || product.getDescription().isEmpty()){
+				stmt.setNull(5, java.sql.Types.NULL);
+			}else{
+				stmt.setString(5, product.getDescription());
+			}
+			
 			stmt.setDouble(6, product.getPrice());
 			stmt.setBoolean(7, product.isHidden());
 			stmt.setString(8, product.getUnitType().getShortDescription());
@@ -84,10 +101,27 @@ public class DBProduct implements IFDBProduct {
 					+ "Price = ?, Hidden = ?, UnitType = ?, WHERE ProductID = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
-			stmt.setString(1, product.getItemNumber());
-			stmt.setString(2, product.getBrand());
+
+			if(product.getItemNumber() == null || product.getItemNumber().isEmpty()){
+				stmt.setNull(1, java.sql.Types.NULL);
+			}else{
+				stmt.setString(1, product.getItemNumber());
+			}
+			
+			if(product.getBrand() == null || product.getBrand().isEmpty()){
+				stmt.setNull(2, java.sql.Types.NULL);
+			}else{
+				stmt.setString(2, product.getBrand());
+			}
+
 			stmt.setString(3, product.getName());
-			stmt.setString(4, product.getDescription());
+			
+			if(product.getDescription() == null || product.getDescription().isEmpty()){
+				stmt.setNull(4, java.sql.Types.NULL);
+			}else{
+				stmt.setString(4, product.getDescription());
+			}
+			
 			stmt.setDouble(5, product.getPrice());
 			stmt.setBoolean(6, product.isHidden());
 			stmt.setString(7, product.getUnitType().getShortDescription());
