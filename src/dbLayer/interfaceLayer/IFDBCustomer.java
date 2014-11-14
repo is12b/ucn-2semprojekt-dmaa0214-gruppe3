@@ -27,7 +27,7 @@ public interface IFDBCustomer {
 	 * @param retAsso If true: include associations to other objects
 	 * @return the customer
 	 */
-	public Customer getCustomer(int id, boolean retAsso);
+	public Customer getCustomerByID(int id, boolean retAsso);
 	
 	/**
 	 * Gets all customers by phoneNumber.
@@ -51,7 +51,7 @@ public interface IFDBCustomer {
 	 * @param cvr the cvr
 	 * @return the customer
 	 */
-	public Customer getCustomer(String cvr);
+	public Customer getCustomerByCvr(String cvr);
 	
 	/**
 	 * Insert Customer into the database.
