@@ -7,5 +7,13 @@ package ctrLayer.exceptionLayer;
  *
  */
 public class InsertException extends Exception {
-	
+
+	/**
+	 * Constructor for InsertException.java objects.
+	 *
+	 * @param string
+	 */
+	public InsertException(String obj) {
+		super("Kunne ikke oprette " + obj);
+	}
 }
