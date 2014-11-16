@@ -2,6 +2,7 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import dbLayer.exceptions.DBException;
 import modelLayer.UnitType;
 
 /**
@@ -31,23 +32,26 @@ public interface IFDBUnitType {
 	 *
 	 * @param unitType the unit type
 	 * @return numbers of affected rows or -1 if it's fail
+	 * @throws {@link DBException} If there is an error in inserting
 	 */
-	public int insertUnitType(UnitType unitType);
+	public int insertUnitType(UnitType unitType) throws DBException;
 	
 	/**
 	 * Update unit type in the database.
 	 *
 	 * @param unitType the unit type
 	 * @return numbers of affected rows or -1 if it's fail
+	 * @throws {@link DBException} If there is an error in updatering
 	 */
-	public int updateUnitType(UnitType unitType);
+	public int updateUnitType(UnitType unitType) throws DBException;
 	
 	/**
 	 * Delete unit type from the database..
 	 *
 	 * @param unitType the unit type
 	 * @return numbers of affected rows or -1 if it's fail
+	 * @throws {@link DBException} If there is an error in deleting
 	 */
-	public int deleteUnitType(UnitType unitType);
+	public int deleteUnitType(UnitType unitType) throws DBException;
 
 }

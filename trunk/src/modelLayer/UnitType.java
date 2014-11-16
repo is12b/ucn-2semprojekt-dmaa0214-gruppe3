@@ -1,5 +1,6 @@
 package modelLayer;
 
+// TODO: Auto-generated Javadoc
 /**
  * Class for UnitType.
  *
@@ -20,6 +21,20 @@ public class UnitType {
 	public UnitType(String shortDescription) {
 		this.shortDescription = shortDescription;
 		this.oldShortDescription = null;
+	}
+	
+	/**
+	 * Instantiates a new unit type.
+	 *
+	 * @param shortDescription the short description
+	 * @param description the description
+	 * @param decimalAllowed is decimal allowed
+	 */
+	public UnitType(String shortDescription, String description, boolean decimalAllowed) {
+		this.shortDescription = shortDescription;
+		this.description = description;
+		this.oldShortDescription = null;
+		this.decimalAllowed = decimalAllowed;
 	}
 
 	/**
@@ -78,7 +93,8 @@ public class UnitType {
 	}
 
 	/**
-	 * Get method for oldShortDescription
+	 * Get method for oldShortDescription.
+	 *
 	 * @return the oldShortDescription
 	 */
 	public String getOldShortDescription() {
@@ -86,10 +102,19 @@ public class UnitType {
 	}
 
 	/**
-	 * Set oldShortDescription to null
+	 * Set oldShortDescription to null.
 	 */
 	public void setOldShortDescriptionToNull() {
 		this.oldShortDescription = null;
+	}
+
+	@Override
+	public String toString() {
+		String ret = getDescription() + " (" + getShortDescription() + ")";
+		if (isDecimalAllowed()) {
+			ret += " (Tilladt)";
+		}
+		return ret;
 	}
 	
 }

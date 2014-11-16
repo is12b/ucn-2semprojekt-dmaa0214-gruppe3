@@ -8,8 +8,10 @@ package ctrLayer.exceptionLayer;
  */
 public class UpdateException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
-	 * Constructor for UpdateException.java objects.
+	 * Constructor for UpdateException objects.
 	 *
 	 * @param string
 	 */
@@ -17,11 +19,23 @@ public class UpdateException extends Exception {
 		super(obj + getError(exists));	
 	}
 	
+	public UpdateException(String obj, int rc) {
+		super(obj + getError(rc));
+	}
+	
+	private static String getError(int rc) {
+		String retString = " kunne ikke ændres i databasen";
+		if(rc == -1){
+			retString = " eksisterer ikke ikke i databasen";	
+		}
+		return retString;
+	}
+
 	private static String getError(boolean exists){
 		String retString = " kunne ikke ændres";
 		
 		if(!exists){
-			retString = " eksistere ikke";
+			retString = " eksisterer ikke ikke i databasen";
 		}
 		return retString;
 	}

@@ -3,11 +3,13 @@ package dbLayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import dbLayer.interfaceLayer.IFDBUnitType;
 import modelLayer.UnitType;
+import dbLayer.exceptions.DBException;
+import dbLayer.interfaceLayer.IFDBUnitType;
 
 /**
  * Class for DBUnitType
@@ -16,6 +18,7 @@ import modelLayer.UnitType;
  *
  */
 public class DBUnitType implements IFDBUnitType {
+
 	private Connection conn;
 
 	public DBUnitType() {
@@ -34,7 +37,7 @@ public class DBUnitType implements IFDBUnitType {
 
 
 	@Override
-	public int insertUnitType(UnitType unitType) {
+	public int insertUnitType(UnitType unitType) throws DBException {
 		int rc = -1;
 		
 		try {
@@ -50,15 +53,16 @@ public class DBUnitType implements IFDBUnitType {
 			rc = stmt.executeUpdate();
 			
 			stmt.close();
-		} catch (Exception e) {
-			System.out.println("UnitType is not inserted correct");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//System.out.println("DBUnitType: UnitType is not inserted correct");
+			//e.printStackTrace();
+			throw new DBException("Enhedstypen", e);
 		}
 		return rc;
 	}
 
 	@Override
-	public int updateUnitType(UnitType unitType) {
+	public int updateUnitType(UnitType unitType) throws DBException {
 		int rc = -1;
 		
 		try {
@@ -82,15 +86,21 @@ public class DBUnitType implements IFDBUnitType {
 			unitType.setOldShortDescriptionToNull();
 			
 			stmt.close();
-		} catch (Exception e) {
-			System.out.println("Update UnitType faild");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("DBUnitType: Update UnitType faild");
+			//e.printStackTrace();
+			throw new DBException("Enhedstypen", e);
 		}
+		
+		if (rc == 0) {
+			throw new DBException("Enhedstypen", 2); //TODO Håndtering i UI? hvordan?
+		}
+		
 		return rc;
 	}
 
 	@Override
-	public int deleteUnitType(UnitType unitType) {
+	public int deleteUnitType(UnitType unitType) throws DBException {
 		int rc = -1;
 		try {
 			String query = "DELETE FROM UnitType WHERE ShortDescription=?";
@@ -102,10 +112,14 @@ public class DBUnitType implements IFDBUnitType {
 			rc = stmt.executeUpdate();
 			
 			stmt.close();
-		} catch (Exception e) {
-			System.out.println("Delete UnitType faild");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//System.out.println("DBUnitType: Delete UnitType faild");
+			//e.printStackTrace();
+			throw new DBException("Enhedstypen", e);
 		}
+		
+		
+		
 		return rc;
 	}
 
@@ -169,6 +183,7 @@ public class DBUnitType implements IFDBUnitType {
 		if(!wQuery.isEmpty())  {
 			query += " WHERE " + wQuery;
 		}
+		query += " ORDER BY Description";
 		return query;
 	}
 }
