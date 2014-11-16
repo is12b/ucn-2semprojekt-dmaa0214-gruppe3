@@ -5,44 +5,54 @@ import java.util.ArrayList;
 import modelLayer.UnitType;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBUnitType;
+import dbLayer.exceptions.DBException;
 
 /**
- * Class for UnitTypeCtr
+ * Controller for UnitTypes
  *
  * @author Group 3, dmaa0214, UCN
  *
  */
 public class UnitTypeCtr implements IFUnitTypeCtr {
+	
+	private DBUnitType dbUnit;
 
+	/**
+	 * Constructor for UnitTypeCtr.
+	 *
+	 */
+	public UnitTypeCtr() {
+		dbUnit = new DBUnitType();
+	}
+	
 	@Override
 	public UnitType getUnitType(String shortDesc) {
-		DBUnitType dbUnit = new DBUnitType();
 		return dbUnit.getUnitType(shortDesc);
 	}
 
 	@Override
 	public ArrayList<UnitType> getUnitTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return dbUnit.getUnitTypes();
 	}
 
 	@Override
 	public UnitType createUnitType(String desc, String shortDesc,
-			boolean decimalAllowed) {
-		// TODO Auto-generated method stub
-		return null;
+			boolean decimalAllowed) throws DBException {
+		UnitType unitType = new UnitType(shortDesc, desc, decimalAllowed);
+		
+		int rc = dbUnit.insertUnitType(unitType);
+				
+		return unitType;
 	}
 
 	@Override
-	public void updateUnitType(UnitType unitType) {
-		// TODO Auto-generated method stub
-		
+	public void updateUnitType(UnitType unitType) throws DBException {
+		int rc = dbUnit.updateUnitType(unitType);
 	}
 
 	@Override
-	public void deleteUnitType(UnitType unitType) {
-		// TODO Auto-generated method stub
-		
+	public void deleteUnitType(UnitType unitType) throws DBException {
+		int rc = dbUnit.deleteUnitType(unitType);
 	}
 
 }
