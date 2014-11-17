@@ -41,7 +41,7 @@ public interface IFDBUnitType {
 	 *
 	 * @param unitType the unit type
 	 * @return numbers of affected rows or -1 if it's fail
-	 * @throws {@link DBException} If there is an error in updatering
+	 * @throws {@link DBException} If there is an error in updatering or none is updated
 	 */
 	public int updateUnitType(UnitType unitType) throws DBException;
 	
@@ -50,7 +50,7 @@ public interface IFDBUnitType {
 	 *
 	 * @param unitType the unit type
 	 * @return numbers of affected rows or -1 if it's fail
-	 * @throws {@link DBException} If there is an error in deleting
+	 * @throws {@link DBException} If there is an error in deleting or none is deleted
 	 */
 	public int deleteUnitType(UnitType unitType) throws DBException;
 

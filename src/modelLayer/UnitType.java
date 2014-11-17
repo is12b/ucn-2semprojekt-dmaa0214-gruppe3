@@ -70,7 +70,9 @@ public class UnitType {
 	 * @param shortDescription the new short description
 	 */
 	public void setShortDescription(String shortDescription) {
-		this.oldShortDescription = this.shortDescription;
+		if (!this.shortDescription.equals(shortDescription)) {
+			this.oldShortDescription = this.shortDescription;
+		}
 		this.shortDescription = shortDescription;
 	}
 

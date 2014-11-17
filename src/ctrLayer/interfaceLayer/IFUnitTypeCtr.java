@@ -6,7 +6,7 @@ import dbLayer.exceptions.DBException;
 import modelLayer.UnitType;
 
 /**
- * Class for UnitTypeCtr
+ * Controller for UnitTypeCtr
  *
  * @author Group 3, dmaa0214, UCN
  *
@@ -19,7 +19,7 @@ public interface IFUnitTypeCtr {
 	
 	public UnitType createUnitType(String desc, String shortDesc, boolean decimalAllowed) throws DBException;
 	
-	public void updateUnitType(UnitType unitType) throws DBException;
+	public void updateUnitType(UnitType unitType, String desc, String shortDesc, boolean decimalAllowed) throws NullPointerException, DBException;
 	
-	public void deleteUnitType(UnitType unitType) throws DBException;
+	public void deleteUnitType(UnitType unitType) throws NullPointerException, DBException;
 }
