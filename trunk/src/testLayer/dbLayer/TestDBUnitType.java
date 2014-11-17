@@ -62,6 +62,7 @@ public class TestDBUnitType {
 		ut.setDescription("Utænkelig test enhed");
 		ut.setDecimalAllowed(true);
 		try {
+			
 			int insert = dbUT.insertUnitType(ut);
 			
 			assertTrue(insert == 1);

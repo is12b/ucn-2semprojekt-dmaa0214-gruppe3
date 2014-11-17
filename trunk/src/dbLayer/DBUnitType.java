@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import modelLayer.UnitType;
+import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBUnitType;
 
@@ -58,6 +59,7 @@ public class DBUnitType implements IFDBUnitType {
 			//e.printStackTrace();
 			throw new DBException("Enhedstypen", e);
 		}
+		
 		return rc;
 	}
 
@@ -93,7 +95,7 @@ public class DBUnitType implements IFDBUnitType {
 		}
 		
 		if (rc == 0) {
-			throw new DBException("Enhedstypen", 2); //TODO Håndtering i UI? hvordan?
+			throw new DBNotFoundException("Enhedstypen", 2);
 		}
 		
 		return rc;
@@ -113,12 +115,14 @@ public class DBUnitType implements IFDBUnitType {
 			
 			stmt.close();
 		} catch (SQLException e) {
-			//System.out.println("DBUnitType: Delete UnitType faild");
+			System.out.println("DBUnitType: Delete UnitType faild");
 			//e.printStackTrace();
 			throw new DBException("Enhedstypen", e);
 		}
 		
-		
+		if (rc == 0) {
+			throw new DBNotFoundException("Enhedstypen", 3);
+		}
 		
 		return rc;
 	}

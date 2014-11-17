@@ -15,6 +15,7 @@ import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.UnitTypeCtr;
 import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EmptyBorder;
@@ -154,6 +155,11 @@ public class UnitTypeDialog extends JDialog {
 		createPanel.add(lblDecimalAllowed, "2, 6");
 		
 		cheBoxDecAllowed = new JCheckBox("");
+		cheBoxDecAllowed.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				checkForText();
+			}
+		});
 		lblDecimalAllowed.setLabelFor(cheBoxDecAllowed);
 		createPanel.add(cheBoxDecAllowed, "4, 6");
 		
@@ -210,6 +216,13 @@ public class UnitTypeDialog extends JDialog {
 		editCard.add(btnCancel, "1, 2");
 		
 		btnEdit = new JButton("Gem");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				edit();
+			}
+		});
+		
+		btnEdit.setEnabled(false);
 		
 		editCard.add(btnEdit, "3, 2");
 		cardPanel.setLayout(new CardLayout(0, 0));
@@ -264,14 +277,40 @@ public class UnitTypeDialog extends JDialog {
 		panel_2.add(btnEditSelected, "1, 2");
 		
 		btnDelete = new JButton("Slet");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				delete();
+			}
+		});
 		btnDelete.setEnabled(false);
 		panel_2.add(btnDelete, "3, 2");
 
 		updateModel();
 	}
-	
+
+	private void delete() {
+		UnitType ut = list.getSelectedValue();
+		if (ut != null) {
+			int choice = Methods.showWarning(this, "Er du sikker på du vil slette enhedstypen: " + ut.getShortDescription());
+			if (choice == JOptionPane.YES_OPTION) {
+				try {
+					new UnitTypeCtr().deleteUnitType(ut);
+					
+				} catch (DBNotFoundException e) {
+					Methods.showError(this, e.getMessage(), "Fejl");
+					
+				} catch (NullPointerException | DBException e) {
+					Methods.showError(this, e.getMessage(), "Fejl");
+					//e.printStackTrace();
+				}
+				unitType = null;
+				updateModel();
+			}
+		}
+	}
+
 	private void create() {
-		if (isAnyFieldsEmpty()) {
+		if (isSomeFieldsEmpty()) {
 			Methods.showError(this, "Forkortelse eller beskrivelse må ikke være tom");
 		} else {
 			try {
@@ -285,15 +324,35 @@ public class UnitTypeDialog extends JDialog {
 		}
 	}
 
+	protected void edit() {
+		if (isSomethingChanged()) {
+			try {
+				new UnitTypeCtr().updateUnitType(unitType, txtDesc.getText().trim(), txtShortDesc.getText().trim(), cheBoxDecAllowed.isSelected());
+				unitType = null;
+				updateModel();
+				reDraw();
+			} catch (NullPointerException | DBNotFoundException e) {
+				Methods.showError(this, e.getMessage());
+				//e.printStackTrace();
+				unitType = null;
+				updateModel();
+				reDraw();
+			} catch (DBException e) {
+				Methods.showError(this, e.getMessage());
+			}
+		}
+	}
+	
+	private void checkForText() {
+		if (!isEditing()) {
+			setCreateButtonsEnable();
+		} else {
+			btnEdit.setEnabled(isSomethingChanged());
+		}
+	}
+
 	private DocumentListener onChangeListner() {
 		DocumentListener docListner = new DocumentListener() {
-			private void checkForText() {
-				if (!isEditing()) {
-					setCreateButtonsEnable(!isAnyFieldsEmpty());
-				} else {
-					btnEdit.setEnabled(!isAnyFieldsEmpty());
-				}
-			}
 		    @Override
 			public void insertUpdate(DocumentEvent e) {
 		    	checkForText();
@@ -321,14 +380,18 @@ public class UnitTypeDialog extends JDialog {
 		if (stopEditing) {
 			list.clearSelection();
 			unitType = null;
-			clearForm();
 			reDraw();
 		}
 	}
 	
-	private boolean isAnyFieldsEmpty() {
+	private boolean isSomeFieldsEmpty() {
 		return (txtShortDesc.getText().trim().isEmpty()
 				|| txtDesc.getText().trim().isEmpty());
+	}
+		
+	private boolean isAllFieldsEmpty() {
+		return (txtShortDesc.getText().trim().isEmpty()
+				&& txtDesc.getText().trim().isEmpty());
 	}
 	
 	private boolean isSomethingChanged() {
@@ -345,17 +408,19 @@ public class UnitTypeDialog extends JDialog {
 		txtShortDesc.setText("");
 		txtDesc.setText("");
 		cheBoxDecAllowed.setSelected(false);
-		setCreateButtonsEnable(false);
+		setCreateButtonsEnable();
+		txtShortDesc.requestFocus();
 	}
 	
 
 	private  void editSelected() {
 		unitType = list.getSelectedValue();
 		if (unitType != null) {
+			reDraw();
 			txtShortDesc.setText(unitType.getShortDescription());
 			txtDesc.setText(unitType.getDescription());
 			cheBoxDecAllowed.setSelected(unitType.isDecimalAllowed());
-			reDraw();
+			btnEdit.setEnabled(false);
 		}
 	}
 	
@@ -368,12 +433,13 @@ public class UnitTypeDialog extends JDialog {
 			createBorder.setTitle("Opret ny");
 			cl.show(cardPanel, "creating");
 		}
+		clearForm();
 		repaint();
 	}
 	
-	private void setCreateButtonsEnable(boolean enable) {
-		btnClear.setEnabled(enable);
-		btnCreate.setEnabled(enable);
+	private void setCreateButtonsEnable() {
+		btnClear.setEnabled(!isAllFieldsEmpty());
+		btnCreate.setEnabled(!isSomeFieldsEmpty());
 	}
 
 	private void setListButtonsEnable(boolean enable) {

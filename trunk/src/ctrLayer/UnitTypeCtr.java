@@ -44,15 +44,26 @@ public class UnitTypeCtr implements IFUnitTypeCtr {
 				
 		return unitType;
 	}
-
+	
 	@Override
-	public void updateUnitType(UnitType unitType) throws DBException {
-		int rc = dbUnit.updateUnitType(unitType);
+	public void updateUnitType(UnitType unitType, String desc, String shortDesc, boolean decimalAllowed) throws NullPointerException, DBException {
+		if (unitType != null) {
+			unitType.setDescription(desc);
+			unitType.setShortDescription(shortDesc);
+			unitType.setDecimalAllowed(decimalAllowed);
+			int rc = dbUnit.updateUnitType(unitType);
+		} else {
+			throw new NullPointerException("Enhedstypen er ikke angivet");
+		}
 	}
 
 	@Override
-	public void deleteUnitType(UnitType unitType) throws DBException {
-		int rc = dbUnit.deleteUnitType(unitType);
+	public void deleteUnitType(UnitType unitType) throws NullPointerException, DBException {
+		if (unitType != null) {
+			int rc = dbUnit.deleteUnitType(unitType);
+		} else {
+			throw new NullPointerException("Enhedstypen er ikke angivet");
+		}
 	}
 
 }
