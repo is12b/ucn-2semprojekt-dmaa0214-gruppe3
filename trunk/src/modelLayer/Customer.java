@@ -1,4 +1,7 @@
 package modelLayer;
+
+import java.util.ArrayList;
+
 // TODO: Auto-generated Javadoc
 /**
  * Class for Customer.
@@ -15,6 +18,7 @@ public class Customer {
 	private int cvr; 
 	private int id;
 	private boolean hidden = false;
+	private ArrayList<Car> cars;
 	
 	/**
 	 * Instantiates a new customer.
@@ -174,6 +178,18 @@ public class Customer {
 	 */
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
+	}
+	
+	public void addCar(Car car) {
+		cars.add(car);
+	}
+	
+	public void removeCar(Car car) {
+		cars.remove(car);
+	}
+	
+	public ArrayList<Car> getCars() {
+		return cars;
 	}
 
 }
