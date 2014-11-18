@@ -36,7 +36,7 @@ public class DBCustomerProto implements IFDBCustomer {
 
 	@Override
 	public Customer getCustomerByID(int id, boolean retAsso) {
-		return singleWhere("customerID = " + id); //TODO MANGLER ASSOCIATION
+		return singleWhere("customerID = " + id, retAsso); //TODO MANGLER ASSOCIATION
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class DBCustomerProto implements IFDBCustomer {
 
 	@Override
 	public Customer getCustomerByCvr(String cvr) {
-		return singleWhere("cvr = " + cvr);
+		return singleWhere("cvr = " + cvr, false);
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class DBCustomerProto implements IFDBCustomer {
 		return customers;
 	}
 
-	private Customer singleWhere(String wQuery) {
+	private Customer singleWhere(String wQuery, boolean retAsso) {
 		Customer customer = null;
 
 		try {
@@ -138,6 +138,11 @@ public class DBCustomerProto implements IFDBCustomer {
 			ResultSet rs = stmt.executeQuery(query);
 			if (rs.next()) {
 				customer = buildCustomer(rs);
+				stmt.close();
+				
+				if(retAsso) {
+					//TODO retAsso					
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("DBCustomerProto - singleWhere - Exception");
