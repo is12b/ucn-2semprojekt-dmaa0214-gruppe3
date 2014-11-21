@@ -1,6 +1,7 @@
 package guiLayer;
 
 import guiLayer.extensions.DocumentListenerChange;
+import guiLayer.extensions.TabbedPanel;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -44,7 +45,7 @@ import javax.swing.UIManager;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class OrderPanel extends JPanel {
+public class OrderPanel extends TabbedPanel {
 	private JTextField txtCustomerName;
 	private JTextField txtCustomerPhone;
 	private JTextField txtCustomerCVR;
@@ -424,6 +425,11 @@ public class OrderPanel extends JPanel {
 	protected void customerSearch() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setFocus() {
+		txtCarRegNr.requestFocusInWindow();
 	}
 
 }

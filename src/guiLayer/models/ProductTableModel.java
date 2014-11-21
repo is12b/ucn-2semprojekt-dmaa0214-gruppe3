@@ -78,7 +78,7 @@ public class ProductTableModel extends AbstractTableModel {
 		} else if (columnIndex == 3) {
 			value = p.getName();
 		} else if (columnIndex == 4) {
-			value = Methods.shortenString(p.getDescription(), 50);
+			value = p.getDescription();
 		} else if (columnIndex == 5) {
 			value = p.getUnitType().getShortDescription();
 		} else if (columnIndex == 6) {

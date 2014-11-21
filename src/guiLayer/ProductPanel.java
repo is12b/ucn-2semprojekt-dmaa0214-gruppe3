@@ -1,5 +1,6 @@
 package guiLayer;
 
+import guiLayer.extensions.TabbedPanel;
 import guiLayer.models.ProductTableModel;
 
 import java.awt.Dimension;
@@ -36,15 +37,17 @@ import java.awt.event.ActionEvent;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class ProductPanel extends JPanel {
+public class ProductPanel extends TabbedPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtID;
 	private JTextField txtItemNumber;
 	private JTextField txtName;
+	private MainGUI parent;
 	private ProductTableModel model;
 	
-	public ProductPanel() {
+	public ProductPanel(MainGUI parent) {
+		this.parent = parent;
 		buildPanel();
 	}
 
@@ -166,6 +169,11 @@ public class ProductPanel extends JPanel {
 	private void updateModel(ArrayList<Product> pList) {
 		model.refresh(pList);
 		model.fireTableDataChanged();
+	}
+
+	@Override
+	public void setFocus() {
+		txtID.requestFocusInWindow();
 	}
 
 }
