@@ -4,6 +4,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -67,12 +68,9 @@ public class UnitTypeDialog extends JDialog {
 	private JButton btnCancel;
 	private JButton btnEdit;
 	private JPanel cardPanel;
-
-	public static void main(String[] args) {
-		new UnitTypeDialog();
-	}
 	
-	public UnitTypeDialog() {
+	public UnitTypeDialog(Component parent) {
+		
 		
 		UIManager.put("OptionPane.cancelButtonText", "Annuller");
 	    UIManager.put("OptionPane.noButtonText", "Nej");
@@ -80,6 +78,8 @@ public class UnitTypeDialog extends JDialog {
 	    UIManager.put("OptionPane.yesButtonText", "Ja");
 		
 		buildDialog();
+
+		setLocationRelativeTo(parent);
 		setVisible(true);
 	}
 
