@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 
 import java.awt.Window.Type;
 
+import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -102,6 +103,10 @@ public class MainGUI extends JFrame {
 	protected void openUnitTypeGUI() {
 		UnitTypeDialog utDialog = new UnitTypeDialog(this);
 		
+	}
+	
+	public void setDefaultButton(JButton button){
+		getRootPane().setDefaultButton(button);
 	}
 
 }
