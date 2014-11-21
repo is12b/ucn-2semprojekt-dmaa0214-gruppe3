@@ -241,24 +241,24 @@ public class OrderPanel extends JPanel {
 		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(103dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(66dlu;default)"),},
 			new RowSpec[] {
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JPanel panel_8 = new JPanel();
-		panel_8.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Kunde / Bil", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_6.add(panel_8, "1, 1, 1, 2, fill, fill");
+		panel_8.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_6.add(panel_8, "1, 1, fill, fill");
 		panel_8.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.NARROW_LINE_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.NARROW_LINE_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
@@ -275,15 +275,42 @@ public class OrderPanel extends JPanel {
 		JLabel lblNewLabel_7 = new JLabel("88888888");
 		panel_8.add(lblNewLabel_7, "3, 3");
 		
-		JLabel lblNewLabel_8 = new JLabel("Regnr:");
-		panel_8.add(lblNewLabel_8, "1, 5");
+		JPanel panel_11 = new JPanel();
+		panel_11.setBorder(new TitledBorder(null, "Bil", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_6.add(panel_11, "3, 1, 1, 2, fill, fill");
+		panel_11.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblNewLabel_9 = new JLabel("FA21981");
-		panel_8.add(lblNewLabel_9, "3, 5");
+		JLabel lblNewLabel_9 = new JLabel("Regnr:");
+		panel_11.add(lblNewLabel_9, "2, 1");
+		
+		JLabel lblNewLabel_8 = new JLabel("FA21981");
+		panel_11.add(lblNewLabel_8, "4, 1");
+		
+		JLabel lblStelnr = new JLabel("Stelnr:");
+		panel_11.add(lblStelnr, "2, 3");
+		
+		JLabel lblDetvedlasse = new JLabel("DetVedLasseNok");
+		panel_11.add(lblDetvedlasse, "4, 3");
+		
+		JLabel lblNewLabel_12 = new JLabel("Kilometer:");
+		panel_11.add(lblNewLabel_12, "2, 5");
+		
+		JLabel lblNewLabel_13 = new JLabel("400000");
+		panel_11.add(lblNewLabel_13, "4, 5");
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_6.add(panel_7, "5, 1, fill, fill");
+		panel_6.add(panel_7, "7, 1, fill, fill");
 		panel_7.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("44px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -314,7 +341,7 @@ public class OrderPanel extends JPanel {
 		panel_7.add(label_1, "3, 5, right, center");
 		
 		JPanel panel_9 = new JPanel();
-		panel_6.add(panel_9, "1, 3, 5, 1, fill, fill");
+		panel_6.add(panel_9, "1, 3, 7, 1, fill, fill");
 		panel_9.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
