@@ -95,7 +95,7 @@ public class MainGUI extends JFrame {
 		JPanel tabCar = new JPanel();
 		tabbedPane.addTab("Biler", null, tabCar, null);
 		
-		JPanel tabProd = new JPanel();
+		JPanel tabProd = new ProductPanel();
 		tabbedPane.addTab("Produkter", null, tabProd, null);
 		
 	}
