@@ -192,25 +192,55 @@ public class OrderPanel extends JPanel {
 		JPanel panel_6 = new JPanel();
 		add(panel_6, "2, 4, fill, fill");
 		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("max(103dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("max(66dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JPanel panel_8 = new JPanel();
-		panel_6.add(panel_8, "1, 1, fill, fill");
+		panel_8.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Kunde / Bil", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_6.add(panel_8, "1, 1, 1, 2, fill, fill");
+		panel_8.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.NARROW_LINE_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.NARROW_LINE_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_6 = new JLabel("Navn:");
+		panel_8.add(lblNewLabel_6, "1, 1");
+		
+		JLabel lblName = new JLabel("Mikkel");
+		panel_8.add(lblName, "3, 1");
+		
+		JLabel lblNewLabel_4 = new JLabel("Telefon:");
+		panel_8.add(lblNewLabel_4, "1, 3");
+		
+		JLabel lblNewLabel_7 = new JLabel("88888888");
+		panel_8.add(lblNewLabel_7, "3, 3");
+		
+		JLabel lblNewLabel_8 = new JLabel("Regnr:");
+		panel_8.add(lblNewLabel_8, "1, 5");
+		
+		JLabel lblNewLabel_9 = new JLabel("FA21981");
+		panel_8.add(lblNewLabel_9, "3, 5");
 		
 		JPanel panel_7 = new JPanel();
+		panel_7.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_6.add(panel_7, "5, 1, fill, fill");
 		panel_7.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("44px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("24px"),},
+				ColumnSpec.decode("24px:grow"),},
 			new RowSpec[] {
 				RowSpec.decode("14px"),
 				FormFactory.NARROW_LINE_GAP_ROWSPEC,
@@ -222,19 +252,19 @@ public class OrderPanel extends JPanel {
 		panel_7.add(lblSubtotal, "1, 1, left, center");
 		
 		JLabel lblNewLabel = new JLabel("1000");
-		panel_7.add(lblNewLabel, "3, 1, center, center");
+		panel_7.add(lblNewLabel, "3, 1, right, center");
 		
 		JLabel lblMoms = new JLabel("Moms:");
 		panel_7.add(lblMoms, "1, 3, left, center");
 		
 		JLabel label = new JLabel("250");
-		panel_7.add(label, "3, 3, center, center");
+		panel_7.add(label, "3, 3, right, center");
 		
 		JLabel lblTotal = new JLabel("Total:");
 		panel_7.add(lblTotal, "1, 5, left, center");
 		
 		JLabel label_1 = new JLabel("1250");
-		panel_7.add(label_1, "3, 5, center, center");
+		panel_7.add(label_1, "3, 5, right, center");
 		
 		JPanel panel_9 = new JPanel();
 		panel_6.add(panel_9, "1, 3, 5, 1, fill, fill");
