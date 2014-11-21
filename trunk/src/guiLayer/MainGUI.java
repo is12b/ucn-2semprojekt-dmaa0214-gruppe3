@@ -22,6 +22,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 /**
  * Class for MainGUI
@@ -33,6 +35,11 @@ public class MainGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
+	private CustomerPanel tabCus;
+	private JPanel tabCar;
+	private OrderPanel tabSale;
+	private ProductPanel tabProd;
+	
 	
 	/**
 	 * Launch the application.
@@ -84,20 +91,29 @@ public class MainGUI extends JFrame {
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				setFocus();
+			}
+
+			
+		});
 		contentPane.add(tabbedPane);
 		
-		JPanel tabCus = new CustomerPanel(this);
+		tabCus = new CustomerPanel(this);
 		tabbedPane.addTab("Kunde", null, tabCus, null);
 		
-		OrderPanel tabSale = new OrderPanel(this);
+		tabSale = new OrderPanel(this);
 		tabbedPane.addTab("Faktura", null, tabSale, null);
 		
-		JPanel tabCar = new JPanel();
+		tabCar = new JPanel();
 		tabbedPane.addTab("Biler", null, tabCar, null);
 		
-		JPanel tabProd = new ProductPanel();
+		tabProd = new ProductPanel();
 		tabbedPane.addTab("Produkter", null, tabProd, null);
 		
+		pack();
+		setFocus();
 	}
 
 	protected void openUnitTypeGUI() {
@@ -107,6 +123,26 @@ public class MainGUI extends JFrame {
 	
 	public void setDefaultButton(JButton button){
 		getRootPane().setDefaultButton(button);
+	}
+	
+	private void setFocus() {
+		final Boolean customerTab = tabbedPane.getSelectedIndex() == 0;
+		final Boolean orderTab = tabbedPane.getSelectedIndex() == 1;
+		final Boolean prodTab = tabbedPane.getSelectedIndex() == 2;
+		final Boolean saleTab = tabbedPane.getSelectedIndex() == 3;
+				
+		//TODO Muligvis forkerte navne på variablerne
+				
+		if(customerTab) {
+			tabCus.setFocus();
+		} else if(orderTab) {
+			
+		} else if (prodTab) {
+			
+		} else if (saleTab) {
+			
+		}
+		
 	}
 
 }

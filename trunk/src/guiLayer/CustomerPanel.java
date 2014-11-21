@@ -21,6 +21,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 /**
  * Class for CustomerPanel
@@ -35,7 +36,7 @@ public class CustomerPanel extends JPanel {
 	private JTextField txtPhone;
 	private JTextField txtName;
 	private JTextField txtCvr;
-	private JTable searchTable;
+	private JTable customerTable;
 	
 	/**
 	 * Create the panel.
@@ -126,15 +127,69 @@ public class CustomerPanel extends JPanel {
 		JButton btnCreate = new JButton("Opret");
 		panelCreate.add(btnCreate);
 		
-		JPanel panel = new JPanel();
-		add(panel, "4, 2, fill, fill");
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "4, 2, fill, fill");
 		
-		searchTable = new JTable();
+		customerTable = new JTable();
 		TableModel model = new CustomerTableModel();
-		searchTable.setModel(model);
-		panel.add(searchTable);
+		customerTable.setModel(model);
+		scrollPane.setViewportView(customerTable);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
+	}
+	
+	public void setFocus() {
+		txtRegNr.requestFocus();
 	}
 
 }
