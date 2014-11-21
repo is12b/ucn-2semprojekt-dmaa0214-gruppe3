@@ -6,8 +6,6 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
-import java.awt.GridBagLayout;
-
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -51,7 +49,6 @@ public class ProductPanel extends JPanel {
 	}
 
 	private void buildPanel() {
-		// TODO Auto-generated method stub
 		setMinimumSize(new Dimension(200,200));
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(200px;default):grow"),
