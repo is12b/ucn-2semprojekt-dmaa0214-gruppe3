@@ -18,7 +18,7 @@ public interface IFDBCustomer {
 	 * @param car the car
 	 * @return the customer
 	 */
-	public Customer getCustomer(Car car);
+	public Customer getCustomerByCar(Car car);
 	
 	/**
 	 * Gets a customer by id.
