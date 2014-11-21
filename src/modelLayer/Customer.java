@@ -180,6 +180,10 @@ public class Customer {
 		this.hidden = hidden;
 	}
 	
+	public Boolean getHidden() {
+		return hidden;
+	}
+	
 	public void addCar(Car car) {
 		cars.add(car);
 	}
@@ -190,6 +194,10 @@ public class Customer {
 	
 	public ArrayList<Car> getCars() {
 		return cars;
+	}
+	
+	public void setCars(ArrayList<Car> cars) {
+		this.cars = cars;
 	}
 
 }

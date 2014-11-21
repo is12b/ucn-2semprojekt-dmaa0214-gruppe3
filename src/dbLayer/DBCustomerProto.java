@@ -1,7 +1,9 @@
 package dbLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ import modelLayer.Customer;
 import modelLayer.Postalcode;
 import modelLayer.Product;
 import modelLayer.UnitType;
+import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBUnitType;
 
@@ -41,12 +44,12 @@ public class DBCustomerProto implements IFDBCustomer {
 
 	@Override
 	public ArrayList<Customer> getCustomersByPhone(String phoneNumber) {
-		return miscWhere("phoneNumber = '" + phoneNumber + "'");
+		return miscWhere("phoneNumber = '" + phoneNumber + "'", false);
 	}
 
 	@Override
 	public ArrayList<Customer> getCustomersByName(String name) {
-		return miscWhere("name LIKE '%" + name + "%'");
+		return miscWhere("name LIKE '%" + name + "%'", false);
 	}
 
 	@Override
@@ -62,14 +65,67 @@ public class DBCustomerProto implements IFDBCustomer {
 
 	@Override
 	public int updateCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rc = -1;
+		final String allFields = 
+				"name = ?, " + 
+				"phoneNumber = ?, " + 
+				"address = ?, " + 
+				"postalCode = ?, " + 
+				"cvr = ?, " + 
+				"hidden = ? "; 
+		String query = "UPDATE CUSTOMER SET " + allFields + "WHERE customerID = ?" 	;
+		
+		try {
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setQueryTimeout(5);
+			updateFields(customer, stmt);
+			rc = stmt.executeUpdate();
+			stmt.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Error - updateCustomer - DBCustomerProto");
+		}
+		return rc;
+	}
+
+	/**
+	 * @param stmt
+	 * @throws SQLException 
+	 */
+	private void updateFields(Customer customer, PreparedStatement stmt) { 
+		//TODO
+		try {
+			stmt.setString(1, customer.getName());
+			stmt.setString(2, customer.getPhoneNumber());
+			stmt.setString(3, customer.getAddress());
+			stmt.setInt(4, customer.getPostalCode());
+			stmt.setInt(5, customer.getCvr());
+			stmt.setBoolean(6, customer.getHidden());
+		} catch (Exception e) {
+			System.out.println("Error - updateFields - DBCustomerProto");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public int deleteCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rc = -1;
+		String query = "DELETE FROM CUSTOMER WHERE CUSTOMERID = " + customer.getId();
+		
+		try {
+			Statement stmt = con.createStatement();
+			stmt.setQueryTimeout(5);
+			rc = stmt.executeUpdate(query);
+			stmt.close();
+			DBConnection.commitTransaction();
+			//TODO Delete if possible, else set hidden
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Error - deleteCustomer - DBCustomerProto");
+		}
+		return rc;
 	}
 
 	private String buildQuery(String wQuery) {
@@ -104,7 +160,7 @@ public class DBCustomerProto implements IFDBCustomer {
 		return customer;
 	}
 
-	private ArrayList<Customer> miscWhere(String wQuery) {
+	private ArrayList<Customer> miscWhere(String wQuery, boolean retAsso) {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 
 		try{
@@ -113,10 +169,16 @@ public class DBCustomerProto implements IFDBCustomer {
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
 			ResultSet rs = stmt.executeQuery(query);
+			
 			while(rs.next()){
 				Customer customer = buildCustomer(rs);
 				if(customer != null) {
 					customers.add(customer);
+					
+					if(retAsso) {
+						IFDBCar dbCar = new DBCar();
+						customer.setCars(dbCar.getCars(customer, false));
+					}
 				}
 			}
 			stmt.close();
@@ -141,7 +203,8 @@ public class DBCustomerProto implements IFDBCustomer {
 				stmt.close();
 				
 				if(retAsso) {
-					//TODO retAsso					
+					IFDBCar dbCar = new DBCar();
+					customer.setCars(dbCar.getCars(customer, false));
 				}
 			}
 		} catch (Exception e) {
