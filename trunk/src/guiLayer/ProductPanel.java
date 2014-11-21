@@ -1,20 +1,36 @@
 package guiLayer;
 
+import guiLayer.models.ProductTableModel;
+
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import ctrLayer.ProductCtr;
+import ctrLayer.interfaceLayer.IFProductCtr;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
+
 import java.awt.FlowLayout;
+import java.util.ArrayList;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+
+import modelLayer.Product;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * Class for ProductGUI
@@ -25,18 +41,10 @@ import javax.swing.JLabel;
 public class ProductPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
 	private JTextField txtID;
 	private JTextField txtItemNumber;
 	private JTextField txtName;
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+	private ProductTableModel model;
 	
 	public ProductPanel() {
 		buildPanel();
@@ -120,6 +128,11 @@ public class ProductPanel extends JPanel {
 		buttonPanel.add(btnClear, "2, 2");
 		
 		JButton btnSearch = new JButton("S\u00F8g");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				search();
+			}
+		});
 		buttonPanel.add(btnSearch, "6, 2");
 		
 		JPanel createPanel = new JPanel();
@@ -140,8 +153,22 @@ public class ProductPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		mainPanel.add(scrollPane, "1, 1, fill, fill");
 		
-		table = new JTable();
+		model = new ProductTableModel();
+		
+		JTable table = new JTable(model);
+		
 		scrollPane.setViewportView(table);
+	}
+	
+	private void search() {
+		IFProductCtr pCtr = new ProductCtr();
+		ArrayList<Product> pList = pCtr.searchProductsByName(txtName.getText().trim());
+		updateModel(pList);
+	}
+
+	private void updateModel(ArrayList<Product> pList) {
+		model.refresh(pList);
+		model.fireTableDataChanged();
 	}
 
 }
