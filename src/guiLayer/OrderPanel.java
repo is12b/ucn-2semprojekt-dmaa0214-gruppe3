@@ -168,6 +168,11 @@ public class OrderPanel extends JPanel {
 				RowSpec.decode("23px"),}));
 		
 		JButton btnCustomerSearch = new JButton("S\u00F8g");
+		btnCustomerSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				customerSearch();
+			}
+		});
 		panel_4.add(btnCustomerSearch, "1, 1, fill, center");
 		
 		JButton btnCustomerClear = new JButton("Ryd");
@@ -413,6 +418,12 @@ public class OrderPanel extends JPanel {
 		}
 	}
 	
-	
+	/**
+	 * 
+	 */
+	protected void customerSearch() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
