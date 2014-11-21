@@ -20,6 +20,7 @@ import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 
 /**
  * Class for MainGUI
@@ -77,8 +78,12 @@ public class MainGUI extends JFrame {
 		JMenu mnHelp = new JMenu("Hj\u00E6lp");
 		menuBar.add(mnHelp);
 		
+		JPanel contentPane = new JPanel();
+		setContentPane(contentPane);
+		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
+		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		contentPane.add(tabbedPane);
 		
 		JPanel tabCus = new JPanel();
 		tabbedPane.addTab("Kunde", null, tabCus, null);
