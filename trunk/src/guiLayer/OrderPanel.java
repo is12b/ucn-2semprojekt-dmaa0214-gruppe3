@@ -237,7 +237,7 @@ public class OrderPanel extends JPanel {
 		panel.add(btnCarClear, "5, 1");
 		
 		JPanel panel_6 = new JPanel();
-		add(panel_6, "4, 4, fill, fill");
+		add(panel_6, "2, 4, 3, 1, fill, fill");
 		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(103dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
