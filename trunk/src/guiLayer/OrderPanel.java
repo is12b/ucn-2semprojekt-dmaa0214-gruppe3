@@ -51,9 +51,9 @@ public class OrderPanel extends JPanel {
 		this.parent = parent;
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("max(409dlu;default):grow"),
-				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("150dlu"),},
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(409dlu;default):grow"),},
 			new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
@@ -61,8 +61,11 @@ public class OrderPanel extends JPanel {
 				RowSpec.decode("max(41dlu;default)"),
 				FormFactory.LINE_GAP_ROWSPEC,}));
 		
+		JPanel panel_10 = new JPanel();
+		add(panel_10, "2, 2, fill, fill");
+		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "2, 2, fill, fill");
+		add(scrollPane, "4, 2, fill, fill");
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -80,9 +83,7 @@ public class OrderPanel extends JPanel {
 		));
 		scrollPane.setViewportView(table);
 		
-		JPanel panel = new JPanel();
-		add(panel, "4, 2, fill, fill");
-		panel.setLayout(new FormLayout(new ColumnSpec[] {
+		panel_10.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(149dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,
@@ -93,7 +94,7 @@ public class OrderPanel extends JPanel {
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "S\u00F8g Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.add(panel_3, "1, 1, fill, fill");
+		panel_10.add(panel_3, "1, 1, fill, fill");
 		panel_3.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -145,7 +146,7 @@ public class OrderPanel extends JPanel {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "S\u00F8g Produkt", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.add(panel_2, "1, 3, fill, fill");
+		panel_10.add(panel_2, "1, 3, fill, fill");
 		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -187,10 +188,10 @@ public class OrderPanel extends JPanel {
 		panel_5.add(btnNewButton, "3, 1");
 		
 		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, "1, 5, fill, fill");
+		panel_10.add(panel_1, "1, 5, fill, fill");
 		
 		JPanel panel_6 = new JPanel();
-		add(panel_6, "2, 4, fill, fill");
+		add(panel_6, "4, 4, fill, fill");
 		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(103dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
