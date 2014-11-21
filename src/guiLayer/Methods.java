@@ -64,4 +64,19 @@ public abstract class Methods {
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
+
+	/**
+	 * Method to shorten a text
+	 * @param str the string to short
+	 * @param i the length of the returned string
+	 * @return the shorten string
+	 */
+	public static String shortenString(String str, int length) {
+		String retStr = str;
+		
+		if(str.length() > length) {
+			retStr = str.substring(0, length);
+		}
+		return retStr;
+	}
 }
