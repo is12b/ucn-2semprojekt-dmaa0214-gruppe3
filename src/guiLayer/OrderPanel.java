@@ -1,5 +1,8 @@
 package guiLayer;
 
+import guiLayer.extensions.DocumentListenerChange;
+
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -19,14 +22,20 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import javax.swing.border.MatteBorder;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.UIManager;
 
 /**
@@ -45,12 +54,25 @@ public class OrderPanel extends JPanel {
 	private MainGUI parent;
 	private JTextField txtCarRegNr;
 	private JTextField txtCarVin;
+	private ArrayList<JTextField> customerFields;
+	private ArrayList<JTextField> carFields;
+	private ArrayList<JTextField> productFields;
 
 	/**
 	 * Create the panel.
 	 */
 	public OrderPanel(MainGUI parent) {
 		this.parent = parent;
+		customerFields = new ArrayList<JTextField>();
+		carFields = new ArrayList<JTextField>();
+		productFields = new ArrayList<JTextField>();
+		buildPanel();
+	}
+
+	/**
+	 * 
+	 */
+	private void buildPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
@@ -131,6 +153,10 @@ public class OrderPanel extends JPanel {
 		txtCustomerCVR = new JTextField();
 		panel_3.add(txtCustomerCVR, "3, 5, fill, default");
 		txtCustomerCVR.setColumns(10);
+	
+		customerFields.add(txtCustomerName);
+		customerFields.add(txtCustomerCVR);
+		customerFields.add(txtCustomerPhone);
 		
 		JPanel panel_4 = new JPanel();
 		panel_3.add(panel_4, "1, 7, 3, 1, fill, fill");
@@ -175,6 +201,9 @@ public class OrderPanel extends JPanel {
 		panel_2.add(txtProductNumber, "3, 3, fill, default");
 		txtProductNumber.setColumns(10);
 		
+		productFields.add(txtProductName);
+		productFields.add(txtProductNumber);
+		
 		JPanel panel_5 = new JPanel();
 		panel_2.add(panel_5, "1, 5, 3, 1, fill, fill");
 		panel_5.setLayout(new FormLayout(new ColumnSpec[] {
@@ -217,6 +246,9 @@ public class OrderPanel extends JPanel {
 		txtCarVin = new JTextField();
 		panel_1.add(txtCarVin, "3, 3, fill, default");
 		txtCarVin.setColumns(10);
+		
+		carFields.add(txtCarRegNr);
+		carFields.add(txtCarVin);
 		
 		JPanel panel = new JPanel();
 		panel_1.add(panel, "1, 5, 3, 1, fill, fill");
@@ -358,7 +390,29 @@ public class OrderPanel extends JPanel {
 		panel_9.add(btnCommit, "5, 2");
 		
 		parent.setDefaultButton(btnCommit);
-
+		
+		populateTextFields();
+		
 	}
+
+	/**
+	 * 
+	 */
+	private void populateTextFields() {
+		addDocumentListener(customerFields);
+		addDocumentListener(carFields);
+		addDocumentListener(productFields);
+	}
+
+	/**
+	 * 
+	 */
+	private void addDocumentListener(ArrayList<JTextField> fields) {
+		for(JTextField f : fields){
+			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f));
+		}
+	}
+	
+	
 
 }
