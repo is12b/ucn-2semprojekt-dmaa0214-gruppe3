@@ -43,6 +43,8 @@ public class OrderPanel extends JPanel {
 	private JTextField txtProductNumber;
 	private JTable table;
 	private MainGUI parent;
+	private JTextField txtCarRegNr;
+	private JTextField txtCarVin;
 
 	/**
 	 * Create the panel.
@@ -86,6 +88,8 @@ public class OrderPanel extends JPanel {
 		panel_10.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(149dlu;default)"),},
 			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -146,7 +150,7 @@ public class OrderPanel extends JPanel {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "S\u00F8g Produkt", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_10.add(panel_2, "1, 3, fill, fill");
+		panel_10.add(panel_2, "1, 5, fill, fill");
 		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -188,7 +192,49 @@ public class OrderPanel extends JPanel {
 		panel_5.add(btnNewButton, "3, 1");
 		
 		JPanel panel_1 = new JPanel();
-		panel_10.add(panel_1, "1, 5, fill, fill");
+		panel_1.setBorder(new TitledBorder(null, "S\u00F8g Bil", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_10.add(panel_1, "1, 3, fill, fill");
+		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
+		
+		JLabel lblNewLabel_10 = new JLabel("Regnr:");
+		panel_1.add(lblNewLabel_10, "1, 1, left, default");
+		
+		txtCarRegNr = new JTextField();
+		panel_1.add(txtCarRegNr, "3, 1, fill, default");
+		txtCarRegNr.setColumns(10);
+		
+		JLabel lblNewLabel_11 = new JLabel("Stelnr:");
+		panel_1.add(lblNewLabel_11, "1, 3, left, default");
+		
+		txtCarVin = new JTextField();
+		panel_1.add(txtCarVin, "3, 3, fill, default");
+		txtCarVin.setColumns(10);
+		
+		JPanel panel = new JPanel();
+		panel_1.add(panel, "1, 5, 3, 1, fill, fill");
+		panel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.GROWING_BUTTON_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.GROWING_BUTTON_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JButton btnCarSearch = new JButton("S\u00F8g");
+		panel.add(btnCarSearch, "1, 1");
+		
+		JButton btnCarClear = new JButton("Ryd");
+		panel.add(btnCarClear, "5, 1");
 		
 		JPanel panel_6 = new JPanel();
 		add(panel_6, "4, 4, fill, fill");
