@@ -1,7 +1,10 @@
 package guiLayer.extensions;
 
 import java.util.ArrayList;
+
 import javax.swing.table.AbstractTableModel;
+
+import modelLayer.Car;
 import modelLayer.Customer;
 
 
@@ -30,7 +33,7 @@ public class CustomerTableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -47,8 +50,14 @@ public class CustomerTableModel extends AbstractTableModel {
 		} else if (collIndex == 1) {
 			value = c.getPhoneNumber();
 		} else if (collIndex == 2) {
-			value = "FISK";
-			//value = c.get();
+			ArrayList<Car> cars = c.getCars();
+			if(cars.size() == 0) {
+				value = "-";
+			} else if(cars.size() == 1) {
+				value = cars.get(0).getRegNr();
+			} else {
+				value = "Flere";
+			}
 			//TODO
 		}
 
@@ -61,13 +70,11 @@ public class CustomerTableModel extends AbstractTableModel {
 		String value = "??";
 
 		if (collIndex == 0) {
-			value = "ID";
+			value = "Navn";
 		} else if (collIndex == 1) {
-			value = "Name";
+			value = "Tlf";
 		} else if (collIndex == 2) {
-			value = "Amount";
-		} else if (collIndex == 3) {
-			value = "Unit Price";
+			value = "Bil";
 		}
 		return value;
 	}
