@@ -42,12 +42,12 @@ public class OrderPanel extends JPanel {
 	private JTextField txtProductName;
 	private JTextField txtProductNumber;
 	private JTable table;
-	private JFrame parent;
+	private MainGUI parent;
 
 	/**
 	 * Create the panel.
 	 */
-	public OrderPanel(JFrame parent) {
+	public OrderPanel(MainGUI parent) {
 		this.parent = parent;
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -254,7 +254,7 @@ public class OrderPanel extends JPanel {
 		JButton btnCommit = new JButton("Opret Faktura");
 		panel_9.add(btnCommit, "5, 2");
 		
-		parent.getRootPane().setDefaultButton(btnCommit);
+		parent.setDefaultButton(btnCommit);
 
 	}
 
