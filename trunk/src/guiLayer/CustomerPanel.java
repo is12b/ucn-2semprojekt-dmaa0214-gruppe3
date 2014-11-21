@@ -1,6 +1,7 @@
 package guiLayer;
 
 import guiLayer.extensions.CustomerTableModel;
+import guiLayer.extensions.TabbedPanel;
 
 import javax.swing.JPanel;
 
@@ -29,7 +30,7 @@ import javax.swing.JScrollPane;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class CustomerPanel extends JPanel {
+public class CustomerPanel extends TabbedPanel {
 
 	private MainGUI parent;
 	private JTextField txtRegNr;
@@ -188,8 +189,9 @@ public class CustomerPanel extends JPanel {
 
 	}
 	
+	@Override
 	public void setFocus() {
-		txtRegNr.requestFocus();
+		txtRegNr.requestFocusInWindow();
 	}
 
 }

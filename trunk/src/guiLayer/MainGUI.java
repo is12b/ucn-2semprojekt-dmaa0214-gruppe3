@@ -1,12 +1,12 @@
 package guiLayer;
 
+import guiLayer.extensions.TabbedPanel;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
-
-import java.awt.Window.Type;
 
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
@@ -17,8 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JTabbedPane;
-
-import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
@@ -36,7 +34,7 @@ public class MainGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
 	private CustomerPanel tabCus;
-	private JPanel tabCar;
+	private CarPanel tabCar;
 	private OrderPanel tabSale;
 	private ProductPanel tabProd;
 	
@@ -106,10 +104,10 @@ public class MainGUI extends JFrame {
 		tabSale = new OrderPanel(this);
 		tabbedPane.addTab("Faktura", null, tabSale, null);
 		
-		tabCar = new JPanel();
+		tabCar = new CarPanel(this);
 		tabbedPane.addTab("Biler", null, tabCar, null);
 		
-		tabProd = new ProductPanel();
+		tabProd = new ProductPanel(this);
 		tabbedPane.addTab("Produkter", null, tabProd, null);
 		
 		pack();
@@ -126,6 +124,9 @@ public class MainGUI extends JFrame {
 	}
 	
 	private void setFocus() {
+		TabbedPanel selectedTab = (TabbedPanel) tabbedPane.getSelectedComponent();
+		selectedTab.setFocus();
+		/*
 		final Boolean customerTab = tabbedPane.getSelectedIndex() == 0;
 		final Boolean orderTab = tabbedPane.getSelectedIndex() == 1;
 		final Boolean prodTab = tabbedPane.getSelectedIndex() == 2;
@@ -142,6 +143,7 @@ public class MainGUI extends JFrame {
 		} else if (saleTab) {
 			
 		}
+		*/
 		
 	}
 
