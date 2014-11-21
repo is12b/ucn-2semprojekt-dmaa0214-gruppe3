@@ -33,13 +33,13 @@ public class DBCustomerProto implements IFDBCustomer {
 	}
 
 	@Override
-	public Customer getCustomer(Car car) {
-		return car.getOwner();
+	public Customer getCustomerByCar(Car car) {
+		return singleWhere("CustomerID = " + car.getOwner().getId(), false);
 	}
 
 	@Override
 	public Customer getCustomerByID(int id, boolean retAsso) {
-		return singleWhere("customerID = " + id, retAsso); //TODO MANGLER ASSOCIATION
+		return singleWhere("customerID = " + id, retAsso);
 	}
 
 	@Override
@@ -60,6 +60,8 @@ public class DBCustomerProto implements IFDBCustomer {
 	@Override
 	public int insertCustomer(Customer Customer) {
 		// TODO Auto-generated method stub
+		final String fields = "(name, phoneNumber, address, postalCode, cvr, hidden)";
+		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?)";
 		return 0;
 	}
 

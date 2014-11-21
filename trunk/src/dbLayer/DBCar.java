@@ -219,7 +219,7 @@ public class DBCar implements IFDBCar {
 				car = buildCar(rs);
 				if(retAsso){
 					IFDBCustomer dbCustomer = new DBCustomer();
-					car.setOwner(dbCustomer.getCustomer(car));
+					car.setOwner(dbCustomer.getCustomerByCar(car));
 				}
 			}
 			
@@ -245,7 +245,7 @@ public class DBCar implements IFDBCar {
 				
 				if(retAsso){
 					IFDBCustomer dbCustomer = new DBCustomer();
-					car.setOwner(dbCustomer.getCustomer(car));
+					car.setOwner(dbCustomer.getCustomerByCar(car));
 				}
 				
 				cars.add(car);
@@ -270,6 +270,8 @@ public class DBCar implements IFDBCar {
 		try{
 			car.setBrand(rs.getString("Brand"));
 			car.setId(rs.getInt("CarID"));
+			Customer customer = new Customer(rs.getInt("CustomerID"));
+			car.setOwner(customer);
 			car.setMileage(rs.getInt("Mileage"));
 			car.setModel(rs.getString("Model"));
 			car.setRegNr(rs.getString("RegNr"));
