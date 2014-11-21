@@ -82,7 +82,7 @@ public class ProductTableModel extends AbstractTableModel {
 		} else if (columnIndex == 5) {
 			value = p.getUnitType().getShortDescription();
 		} else if (columnIndex == 6) {
-			value = p.getPrice();
+			value = Methods.getAsMoney(p.getPrice());
 		}
 		return value;
 	}

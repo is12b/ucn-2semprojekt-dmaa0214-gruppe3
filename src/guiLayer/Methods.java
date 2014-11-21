@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -63,6 +65,17 @@ public abstract class Methods {
 		dialog.getRootPane().registerKeyboardAction(escListener,
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
+	}
+	
+	
+	/**
+	 * Method for making a number to money format
+	 * @param number the number to edit
+	 * @return the money format for the number
+	 */
+	public static String getAsMoney(double number) {
+		NumberFormat money = NumberFormat.getCurrencyInstance(new Locale("da", "DK"));
+		return money.format(number);
 	}
 
 	/**
