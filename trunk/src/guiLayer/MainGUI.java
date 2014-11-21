@@ -56,7 +56,7 @@ public class MainGUI extends JFrame {
 	 */
 	public MainGUI() {
 		setTitle("Finn's Autoservice");
-		setMinimumSize(new Dimension(800, 515));
+		setMinimumSize(new Dimension(1000, 600));
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -88,7 +88,7 @@ public class MainGUI extends JFrame {
 		JPanel tabCus = new JPanel();
 		tabbedPane.addTab("Kunde", null, tabCus, null);
 		
-		JPanel tabSale = new JPanel();
+		OrderPanel tabSale = new OrderPanel(this);
 		tabbedPane.addTab("Faktura", null, tabSale, null);
 		
 		JPanel tabCar = new JPanel();
