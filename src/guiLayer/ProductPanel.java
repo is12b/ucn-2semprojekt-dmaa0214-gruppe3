@@ -1,9 +1,13 @@
 package guiLayer;
 
+import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.models.ProductTableModel;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
@@ -17,7 +21,10 @@ import ctrLayer.interfaceLayer.IFProductCtr;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JViewport;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JButton;
 
 import java.awt.FlowLayout;
@@ -40,7 +47,7 @@ import java.awt.event.ActionEvent;
 public class ProductPanel extends TabbedPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtID;
+	private JTextFieldLimit txtID;
 	private JTextField txtItemNumber;
 	private JTextField txtName;
 	private MainGUI parent;
@@ -54,7 +61,7 @@ public class ProductPanel extends TabbedPanel {
 	private void buildPanel() {
 		setMinimumSize(new Dimension(200,200));
 		setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("max(200px;default):grow"),
+				ColumnSpec.decode("max(200px;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
@@ -91,7 +98,7 @@ public class ProductPanel extends TabbedPanel {
 		JLabel lblID = new JLabel("ID:");
 		searchPanel.add(lblID, "2, 2, right, default");
 		
-		txtID = new JTextField();
+		txtID = new JTextFieldLimit(11, true, false);
 		lblID.setLabelFor(txtID);
 		searchPanel.add(txtID, "4, 2, fill, default");
 		txtID.setColumns(10);
@@ -104,10 +111,11 @@ public class ProductPanel extends TabbedPanel {
 		searchPanel.add(txtItemNumber, "4, 4, fill, default");
 		txtItemNumber.setColumns(10);
 		
-		JLabel lblNavn = new JLabel("Navn:");
-		searchPanel.add(lblNavn, "2, 6, right, default");
+		JLabel lblName = new JLabel("Navn:");
+		searchPanel.add(lblName, "2, 6, right, default");
 		
 		txtName = new JTextField();
+		lblName.setLabelFor(txtName);
 		searchPanel.add(txtName, "4, 6, fill, default");
 		txtName.setColumns(10);
 		
@@ -115,7 +123,7 @@ public class ProductPanel extends TabbedPanel {
 		searchPanel.add(buttonPanel, "2, 8, 3, 1, fill, fill");
 		buttonPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.GROWING_BUTTON_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -156,13 +164,31 @@ public class ProductPanel extends TabbedPanel {
 		model = new ProductTableModel();
 		
 		JTable table = new JTable(model);
+		table.getColumnModel().getColumn(0).setPreferredWidth(40);
+		table.getColumnModel().getColumn(1).setPreferredWidth(70);
+		table.getColumnModel().getColumn(2).setPreferredWidth(90);
+		table.getColumnModel().getColumn(3).setPreferredWidth(125);
+		table.getColumnModel().getColumn(4).setPreferredWidth(175);
+		table.getColumnModel().getColumn(5).setPreferredWidth(30);
+		table.getColumnModel().getColumn(6).setPreferredWidth(60);
+		table.setAutoCreateRowSorter(true);
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+		table.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
 		
 		scrollPane.setViewportView(table);
 	}
 	
 	private void search() {
 		IFProductCtr pCtr = new ProductCtr();
-		ArrayList<Product> pList = pCtr.searchProductsByName(txtName.getText().trim());
+		ArrayList<Product> pList = null;
+		if (!txtID.getText().trim().isEmpty()) {
+			
+		} else if (!txtItemNumber.getText().trim().isEmpty()) {
+			pList = pCtr.searchProductsByItemNumber(txtItemNumber.getText().trim());
+		} else if (!txtName.getText().trim().isEmpty()) {
+			pList = pCtr.searchProductsByName(txtName.getText().trim());
+		}
 		updateModel(pList);
 	}
 
