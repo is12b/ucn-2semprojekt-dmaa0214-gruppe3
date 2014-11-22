@@ -4,11 +4,7 @@ import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.models.ProductTableModel;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import javax.swing.JPanel;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -17,11 +13,11 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.ProductCtr;
+import ctrLayer.exceptionLayer.ProductDoesntExistException;
 import ctrLayer.interfaceLayer.IFProductCtr;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JViewport;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -52,6 +48,8 @@ public class ProductPanel extends TabbedPanel {
 	private JTextField txtName;
 	private MainGUI parent;
 	private ProductTableModel model;
+	private JButton btnSearch;
+	private JButton btnClear;
 	
 	public ProductPanel(MainGUI parent) {
 		this.parent = parent;
@@ -132,10 +130,15 @@ public class ProductPanel extends TabbedPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JButton btnClear = new JButton("Ryd");
+		btnClear = new JButton("Ryd");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clear();
+			}
+		});
 		buttonPanel.add(btnClear, "2, 2");
 		
-		JButton btnSearch = new JButton("S\u00F8g");
+		btnSearch = new JButton("S\u00F8g");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				search();
@@ -149,6 +152,11 @@ public class ProductPanel extends TabbedPanel {
 		createPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnOpret = new JButton("Opret nyt");
+		btnOpret.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openCreateDialog();
+			}
+		});
 		createPanel.add(btnOpret);
 		
 		JPanel mainPanel = new JPanel();
@@ -175,15 +183,35 @@ public class ProductPanel extends TabbedPanel {
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
 		table.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
-		
+		table.getRowSorter().toggleSortOrder(0);
 		scrollPane.setViewportView(table);
 	}
 	
+	private void openCreateDialog() {
+		// TODO Auto-generated method stub
+		new AddProductDialog(this);
+		
+	}
+
+	private void clear() {
+		txtID.setText("");
+		txtItemNumber.setText("");
+		txtName.setText("");
+	}
+
 	private void search() {
 		IFProductCtr pCtr = new ProductCtr();
-		ArrayList<Product> pList = null;
+		ArrayList<Product> pList = new ArrayList<Product>();
 		if (!txtID.getText().trim().isEmpty()) {
-			
+			try {
+				pList.add(pCtr.getProductByID(Integer.parseInt(txtID.getText())));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ProductDoesntExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (!txtItemNumber.getText().trim().isEmpty()) {
 			pList = pCtr.searchProductsByItemNumber(txtItemNumber.getText().trim());
 		} else if (!txtName.getText().trim().isEmpty()) {
@@ -200,6 +228,7 @@ public class ProductPanel extends TabbedPanel {
 	@Override
 	public void setFocus() {
 		txtID.requestFocusInWindow();
+		parent.setDefaultButton(btnSearch);
 	}
 
 }
