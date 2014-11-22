@@ -4,8 +4,6 @@ import guiLayer.Methods;
 
 import java.util.ArrayList;
 
-import javafx.collections.SetChangeListener;
-
 import javax.swing.table.AbstractTableModel;
 
 import modelLayer.Product;
