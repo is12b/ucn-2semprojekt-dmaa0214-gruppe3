@@ -65,6 +65,7 @@ public class MainGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public MainGUI() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Finn's Auto-Service");
 		setMinimumSize(new Dimension(1000, 600));
 		

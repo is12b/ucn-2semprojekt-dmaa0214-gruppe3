@@ -4,6 +4,8 @@ import guiLayer.Methods;
 
 import java.util.ArrayList;
 
+import javafx.collections.SetChangeListener;
+
 import javax.swing.table.AbstractTableModel;
 
 import modelLayer.Product;
@@ -28,7 +30,11 @@ public class ProductTableModel extends AbstractTableModel {
 	}
 
 	public void refresh(ArrayList<Product> pList) {
-		this.products = pList;
+		if(pList != null) {
+			this.products = pList;
+		} else {
+			this.products = new ArrayList<Product>();
+		}
 	}
 	
 	@Override
