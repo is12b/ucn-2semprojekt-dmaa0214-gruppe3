@@ -47,6 +47,10 @@ public class MainGUI extends JFrame {
 			@Override
 			public void run() {
 				try {
+					UIManager.put("OptionPane.cancelButtonText", "Annuller");
+				    UIManager.put("OptionPane.noButtonText", "Nej");
+				    UIManager.put("OptionPane.okButtonText", "Ok");
+				    UIManager.put("OptionPane.yesButtonText", "Ja");
 					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 					MainGUI frame = new MainGUI();
 					frame.setVisible(true);
@@ -124,27 +128,12 @@ public class MainGUI extends JFrame {
 	}
 	
 	private void setFocus() {
-		TabbedPanel selectedTab = (TabbedPanel) tabbedPane.getSelectedComponent();
-		selectedTab.setFocus();
-		/*
-		final Boolean customerTab = tabbedPane.getSelectedIndex() == 0;
-		final Boolean orderTab = tabbedPane.getSelectedIndex() == 1;
-		final Boolean prodTab = tabbedPane.getSelectedIndex() == 2;
-		final Boolean saleTab = tabbedPane.getSelectedIndex() == 3;
-				
-		//TODO Muligvis forkerte navne på variablerne
-				
-		if(customerTab) {
-			tabCus.setFocus();
-		} else if(orderTab) {
-			
-		} else if (prodTab) {
-			
-		} else if (saleTab) {
+		try {
+			TabbedPanel selectedTab = (TabbedPanel) tabbedPane.getSelectedComponent();
+			selectedTab.setFocus();
+		} catch (Exception e) {
 			
 		}
-		*/
-		
 	}
 
 }
