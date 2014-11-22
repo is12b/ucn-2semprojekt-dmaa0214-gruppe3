@@ -71,12 +71,6 @@ public class UnitTypeDialog extends JDialog {
 	
 	public UnitTypeDialog(Component parent) {
 		
-		
-		UIManager.put("OptionPane.cancelButtonText", "Annuller");
-	    UIManager.put("OptionPane.noButtonText", "Nej");
-	    UIManager.put("OptionPane.okButtonText", "Ok");
-	    UIManager.put("OptionPane.yesButtonText", "Ja");
-		
 		buildDialog();
 
 		setLocationRelativeTo(parent);
@@ -291,7 +285,7 @@ public class UnitTypeDialog extends JDialog {
 	private void delete() {
 		UnitType ut = list.getSelectedValue();
 		if (ut != null) {
-			int choice = Methods.showWarning(this, "Er du sikker på du vil slette enhedstypen: " + ut.getShortDescription());
+			int choice = Methods.showWarning(this, "Er du sikker på du vil slette enhedstypen: " + ut.getShortDescription() + "?");
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
 					new UnitTypeCtr().deleteUnitType(ut);
