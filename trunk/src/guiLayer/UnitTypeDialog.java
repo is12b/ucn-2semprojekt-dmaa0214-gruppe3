@@ -68,6 +68,7 @@ public class UnitTypeDialog extends JDialog {
 	private JButton btnCancel;
 	private JButton btnEdit;
 	private JPanel cardPanel;
+	private boolean anyChanged = false;
 	
 	public UnitTypeDialog(Component parent) {
 		
@@ -299,6 +300,7 @@ public class UnitTypeDialog extends JDialog {
 				}
 				unitType = null;
 				updateModel();
+				anyChanged = true;
 			}
 		}
 	}
@@ -311,6 +313,7 @@ public class UnitTypeDialog extends JDialog {
 				new UnitTypeCtr().createUnitType(txtDesc.getText().trim(), txtShortDesc.getText().trim(), cheBoxDecAllowed.isSelected());
 				clearForm();
 				updateModel();
+				anyChanged = true;
 			} catch (DBException e) {
 				Methods.showError(this, e.getMessage(), "Fejl i oprettelse");
 				//e.printStackTrace();
@@ -334,6 +337,7 @@ public class UnitTypeDialog extends JDialog {
 			} catch (DBException e) {
 				Methods.showError(this, e.getMessage());
 			}
+			anyChanged = true;
 		}
 	}
 	
@@ -447,6 +451,15 @@ public class UnitTypeDialog extends JDialog {
 		for (UnitType ut : utList) {
 			model.addElement(ut);
 		}
+	}
+
+	/**
+	 * Get Method for getting a boolean indicate, if the user
+	 * has created or edited something with unitTypes.
+	 * @return true if something is changed
+	 */
+	protected boolean isAnyThingChanged() {
+		return anyChanged;
 	}
 
 }

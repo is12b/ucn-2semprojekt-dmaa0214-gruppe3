@@ -6,6 +6,7 @@ import modelLayer.Product;
 import modelLayer.UnitType;
 import ctrLayer.exceptionLayer.ProductDoesntExistException;
 import ctrLayer.interfaceLayer.IFProductCtr;
+import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBProduct;
 
 public class ProductCtr implements IFProductCtr {
@@ -51,5 +52,11 @@ public class ProductCtr implements IFProductCtr {
 		Product product = new Product(brand, name, description, itemNumber, price, hidden, unitType);
 		dbProd.insertProduct(product);
 		return product;
+	}
+
+	@Override
+	public ArrayList<UnitType> getAllUnitTypes() {
+		IFUnitTypeCtr utCtr = new UnitTypeCtr();
+		return utCtr.getUnitTypes();
 	}
 }

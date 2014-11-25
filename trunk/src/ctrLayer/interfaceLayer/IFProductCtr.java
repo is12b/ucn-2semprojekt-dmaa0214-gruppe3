@@ -23,6 +23,8 @@ public interface IFProductCtr {
 	public Product createProduct(String brand, String name, String description,
 			String itemNumber, double price, boolean hidden, UnitType unitType);
 	
+	public ArrayList<UnitType> getAllUnitTypes();
+	
 	public void updateProduct(Product product);
 	
 	public void deleteProduct(Product product); 
