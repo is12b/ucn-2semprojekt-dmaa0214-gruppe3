@@ -1,12 +1,16 @@
 package guiLayer;
 
+import guiLayer.extensions.UnitTypeComboBoxModel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
@@ -22,12 +26,19 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
 
+import ctrLayer.ProductCtr;
+import ctrLayer.interfaceLayer.IFProductCtr;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+import modelLayer.UnitType;
+
 import java.awt.GridBagLayout;
 import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * Class for AddProductDialog
@@ -44,11 +55,12 @@ public class AddProductDialog extends JDialog {
 	private JTextField txtDesc;
 	private JTextField txtBrand;
 	private JTextField txtItemNumber;
+	private UnitTypeComboBoxModel cmbModel;
 
 	/**
 	 * Launch the application.
 	 */
-/*	public static void main(String[] args) {
+	public static void main(String[] args) {
 		try {
 			AddProductDialog dialog = new AddProductDialog(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -57,7 +69,7 @@ public class AddProductDialog extends JDialog {
 			e.printStackTrace();
 		}
 	}
-*/
+
 	/**
 	 * Create the dialog.
 	 * @param productPanel 
@@ -138,13 +150,17 @@ public class AddProductDialog extends JDialog {
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
-		
-		JComboBox cmbUnitType = new JComboBox();
+		cmbModel = new UnitTypeComboBoxModel();
+		JComboBox<String> cmbUnitType = new JComboBox<String>(cmbModel);
 		panel.add(cmbUnitType, "1, 1");
 		lblUnitType.setLabelFor(cmbUnitType);
-		cmbUnitType.setModel(new DefaultComboBoxModel(new String[] {"V\u00E6lg", "Liter", "Timer"}));
 		
 		JButton btnUnitType = new JButton("+");
+		btnUnitType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openUnitTypeGUI();
+			}
+		});
 		btnUnitType.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		panel.add(btnUnitType, "3, 1");
 		
@@ -187,9 +203,36 @@ public class AddProductDialog extends JDialog {
 		bottomPanel.add(btnClose, "2, 1, fill, top");
 		
 		JButton btnCreate = new JButton("Opret");
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				create();
+			}
+		});
 		bottomPanel.add(btnCreate, "4, 1, fill, top");
 			
-		
+		refreshUnitTypes();
+		pack();
 	}
+
+	
+	private void openUnitTypeGUI() {
+		UnitTypeDialog utDialog = new UnitTypeDialog(this);
+		if (utDialog.isAnyThingChanged()) {
+			refreshUnitTypes();
+			System.out.println("true");
+		}
+		utDialog.dispose();
+	}
+
+	private void create() {
+		System.out.println(cmbModel.getSelectedUnitType());
+	}
+
+	private void refreshUnitTypes() {
+		IFProductCtr pCtr = new ProductCtr();
+		cmbModel.update(pCtr.getAllUnitTypes());;
+	}
+	
+	
 
 }

@@ -121,7 +121,8 @@ public class MainGUI extends JFrame {
 
 	protected void openUnitTypeGUI() {
 		UnitTypeDialog utDialog = new UnitTypeDialog(this);
-		
+		utDialog.setVisible(false);
+		utDialog.dispose();
 	}
 	
 	public void setDefaultButton(JButton button){
