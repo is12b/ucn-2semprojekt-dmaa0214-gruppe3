@@ -1,20 +1,15 @@
 package guiLayer;
 
+import guiLayer.exceptions.SubmitException;
 import guiLayer.extensions.UnitTypeComboBoxModel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
 
 import java.awt.Font;
@@ -31,12 +26,7 @@ import ctrLayer.interfaceLayer.IFProductCtr;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
-import modelLayer.UnitType;
-
-import java.awt.GridBagLayout;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -56,6 +46,7 @@ public class AddProductDialog extends JDialog {
 	private JTextField txtBrand;
 	private JTextField txtItemNumber;
 	private UnitTypeComboBoxModel cmbModel;
+	private JComboBox<String> cmbUnitType;
 
 	/**
 	 * Launch the application.
@@ -151,7 +142,7 @@ public class AddProductDialog extends JDialog {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		cmbModel = new UnitTypeComboBoxModel();
-		JComboBox<String> cmbUnitType = new JComboBox<String>(cmbModel);
+		cmbUnitType = new JComboBox<String>(cmbModel);
 		panel.add(cmbUnitType, "1, 1");
 		lblUnitType.setLabelFor(cmbUnitType);
 		
@@ -225,7 +216,16 @@ public class AddProductDialog extends JDialog {
 	}
 
 	private void create() {
-		System.out.println(cmbModel.getSelectedUnitType());
+		try {
+			Methods.checkReqTextField(txtName, "Navn");
+			if (cmbModel.getSelectedUnitType() == null) {
+				throw new SubmitException("Enhedstype skal vælges", cmbUnitType);
+			}
+			Methods.checkReqTextField(txtPrice, "Prisen");
+		} catch (SubmitException e) {
+			e.showError();
+		}
+		
 	}
 
 	private void refreshUnitTypes() {
@@ -233,6 +233,4 @@ public class AddProductDialog extends JDialog {
 		cmbModel.update(pCtr.getAllUnitTypes());;
 	}
 	
-	
-
 }
