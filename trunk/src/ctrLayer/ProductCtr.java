@@ -4,54 +4,70 @@ import java.util.ArrayList;
 
 import modelLayer.Product;
 import modelLayer.UnitType;
-import ctrLayer.exceptionLayer.ProductDoesntExistException;
+import ctrLayer.exceptionLayer.PriceFormatException;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBProduct;
+import dbLayer.exceptions.DBException;
+import dbLayer.interfaceLayer.IFDBProduct;
 
 public class ProductCtr implements IFProductCtr {
 	
 	@Override
-	public Product getProductByID(int id) throws ProductDoesntExistException {
-		DBProduct dbProd = new DBProduct();
+	public Product getProductByID(int id) {
+		IFDBProduct dbProd = new DBProduct();
 		Product product = dbProd.getProductByID(id);
-		if(product == null) {
-			throw new ProductDoesntExistException("A product with that ID doesn't exist.");
-		}
+		
 		return product;
 	}
 
 	@Override
 	public ArrayList<Product> searchProductsByName(String name) {
-		DBProduct dbProd = new DBProduct();
+		IFDBProduct dbProd = new DBProduct();
 		return dbProd.searchProductsByName(name);
 	}
 
 	@Override
 	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) {
-		DBProduct dbProd = new DBProduct();
+		IFDBProduct dbProd = new DBProduct();
 		return dbProd.searchProductsByItemNumber(itemNumber);
 	}
 
 	@Override
-	public void updateProduct(Product product) {
-		DBProduct dbProd = new DBProduct();
-		dbProd.updateProduct(product);
+	public void updateProduct(Product product, String brand, String name, String description,
+			String itemNumber, double price, UnitType unitType) throws DBException, PriceFormatException, NullPointerException  {
+		IFDBProduct dbProd = new DBProduct();
+		if(product != null) {
+			dbProd.updateProduct(product);
+		} else {
+			throw new NullPointerException("Produktet er ikke angivet");
+		}
 	}
 
 	@Override
-	public void deleteProduct(Product product) {
-		DBProduct dbProd = new DBProduct();
-		dbProd.deleteProduct(product);
+	public void deleteProduct(Product product) throws DBException, NullPointerException {
+		IFDBProduct dbProd = new DBProduct();
+		if(product != null) {
+			dbProd.deleteProduct(product);
+		} else {
+			throw new NullPointerException("Produktet er ikke angivet");
+		}
 	}
-
+	
 	@Override
 	public Product createProduct(String brand, String name, String description,
-			String itemNumber, double price, boolean hidden, UnitType unitType) {
-		DBProduct dbProd = new DBProduct();
-		Product product = new Product(brand, name, description, itemNumber, price, hidden, unitType);
+			String itemNumber, double price, UnitType unitType) throws DBException, PriceFormatException {
+		
+		IFDBProduct dbProd = new DBProduct();
+		Product product = new Product(brand, name, description, itemNumber, price, unitType);
 		dbProd.insertProduct(product);
 		return product;
+	}
+	
+	private void checkPrice(Product product) throws PriceFormatException {
+		if(product.isHidden()) {
+			
+		}
 	}
 
 	@Override

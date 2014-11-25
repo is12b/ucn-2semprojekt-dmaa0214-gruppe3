@@ -16,7 +16,7 @@ public interface IFDBUnitType {
 	 * Gets the unit type.
 	 *
 	 * @param shortDesc the short desc
-	 * @return the unit type
+	 * @return the unit type or null
 	 */
 	public UnitType getUnitType(String shortDesc);
 	

@@ -33,5 +33,14 @@ public class DBNotFoundException extends DBException {
 		}
 		setMessage(message);
 	}
+
+	/**
+	 * Constructor for DBNotFoundException objects.
+	 *
+	 * @param message
+	 */
+	public DBNotFoundException(String message) {
+		super(message);
+	}
 	
 }

@@ -12,7 +12,8 @@ import org.junit.Test;
 
 import ctrLayer.ProductCtr;
 import ctrLayer.UnitTypeCtr;
-import ctrLayer.exceptionLayer.ProductDoesntExistException;
+import ctrLayer.exceptionLayer.PriceFormatException;
+import dbLayer.exceptions.DBException;
 
 /**
  * Class for ProductCtrTest
@@ -34,10 +35,10 @@ public class ProductCtrTest {
 
 	/**
 	 * Test method for {@link ctrLayer.ProductCtr#getProductByID(int)}.
-	 * @throws ProductDoesntExistException 
+	 * 
 	 */
 	@Test
-	public void testGetProductByID() throws ProductDoesntExistException {
+	public void testGetProductByID() {
 		Product product = pCtr.getProductByID(1);
 			System.out.println(product.getName());	
 	}
@@ -65,10 +66,10 @@ public class ProductCtrTest {
 	}
 
 	@Test
-	public void testCreateDelete() {
+	public void testCreateDelete() throws DBException, PriceFormatException {
 		UnitTypeCtr uCtr = new UnitTypeCtr();
 		UnitType unitType = uCtr.getUnitType("L");
-		Product createdProduct = pCtr.createProduct("Brand", "Name", "Description", "itemNumber", 111.1, false, unitType);
+		Product createdProduct = pCtr.createProduct("Brand", "Name", "Description", "itemNumber", 111.1, unitType);
 		System.out.println(createdProduct.getName());
 
 		pCtr.deleteProduct(createdProduct);

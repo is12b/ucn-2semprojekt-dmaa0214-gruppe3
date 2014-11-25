@@ -13,7 +13,6 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.ProductCtr;
-import ctrLayer.exceptionLayer.ProductDoesntExistException;
 import ctrLayer.interfaceLayer.IFProductCtr;
 
 import javax.swing.JScrollPane;
@@ -204,11 +203,11 @@ public class ProductPanel extends TabbedPanel {
 		ArrayList<Product> pList = new ArrayList<Product>();
 		if (!txtID.getText().trim().isEmpty()) {
 			try {
-				pList.add(pCtr.getProductByID(Integer.parseInt(txtID.getText())));
+				Product p = pCtr.getProductByID(Integer.parseInt(txtID.getText()));
+				if (p != null) {
+					pList.add(p);
+				}
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ProductDoesntExistException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

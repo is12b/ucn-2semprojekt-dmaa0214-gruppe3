@@ -2,6 +2,7 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import dbLayer.exceptions.DBException;
 import modelLayer.Product;
 
 /**
@@ -40,22 +41,25 @@ public interface IFDBProduct {
 	 *
 	 * @param product the product
 	 * @return numbers of affected rows or -1 if it's fail
+	 * @throws {@link DBException} If there is an error in inserting
 	 */	
-	public int insertProduct(Product product);
+	public int insertProduct(Product product) throws DBException;
 	
 	/**
 	 * Update product in the database.
 	 *
 	 * @param product the product
 	 * @return numbers of affected rows or -1 if it's fail
+	 * @throws {@link DBException} If there is an error in updatering or none is updated
 	 */
-	public int updateProduct(Product product);
+	public int updateProduct(Product product) throws DBException;
 	
 	/**
 	 * Delete product from the database..
 	 *
 	 * @param product the product
 	 * @return numbers of affected rows or -1 if it's fail
+	 * @throws {@link DBException} If there is an error in deleting or none is deleted
 	 */
-	public int deleteProduct(Product product);
+	public int deleteProduct(Product product) throws DBException;
 }

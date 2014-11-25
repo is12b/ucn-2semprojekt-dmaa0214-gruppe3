@@ -58,9 +58,9 @@ public class DBException extends SQLException {
 		if (getErrorCode() == 2627) { //Violation of PRIMARY KEY constraint, sqlState: 23000, error code: 2627
 			ret = obj + " eksisterer allerede i databasen";
 		} else if (getErrorCode() == 515) { //Cannot insert the value NULL into column, sqlState: 23000, error code: 515
-			ret = obj + " blev ikke oprettet i databasen, fordi en værdi, som skal angives ikke var angivet";
+			ret = obj + " blev ikke oprettet/ændret i databasen, fordi en værdi, som skal angives ikke var angivet";
 		} else if (getErrorCode() == 8152) { //String or binary data would be truncated, sqlState: 22001, code: 8152
-			ret = obj + " blev ikke oprettet, fordi en værdi var for lang til at blive indsat i databasen";
+			ret = obj + " blev ikke oprettet/ændret, fordi en værdi var for lang til at blive indsat i databasen";
 		} else if (getErrorCode() == 547) { //code: 547, sqlState: 23000, message: The DELETE statement conflicted with the REFERENCE constraint
 			ret = obj + " kan ikke slettes, da andre dele af databasen er afhængig af " + obj.toLowerCase();
 		} else {
