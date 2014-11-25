@@ -6,6 +6,7 @@ import modelLayer.UnitType;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBUnitType;
 import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 
 /**
  * Controller for UnitTypes
@@ -48,10 +49,20 @@ public class UnitTypeCtr implements IFUnitTypeCtr {
 	@Override
 	public void updateUnitType(UnitType unitType, String desc, String shortDesc, boolean decimalAllowed) throws NullPointerException, DBException {
 		if (unitType != null) {
-			unitType.setDescription(desc);
-			unitType.setShortDescription(shortDesc);
-			unitType.setDecimalAllowed(decimalAllowed);
-			int rc = dbUnit.updateUnitType(unitType);
+			System.out.println("før i ctr: " + unitType);
+			try {
+				
+				unitType.setDescription(desc);
+				unitType.setShortDescription(shortDesc);
+				unitType.setDecimalAllowed(decimalAllowed);
+				
+				int rc = dbUnit.updateUnitType(unitType);
+			} catch (DBNotFoundException e) {
+				throw new DBNotFoundException(e.getMessage());
+			} catch (DBException e) {
+				throw new DBException(e.getMessage());
+			}
+			System.out.println("efter i ctr: " + unitType);
 		} else {
 			throw new NullPointerException("Enhedstypen er ikke angivet");
 		}

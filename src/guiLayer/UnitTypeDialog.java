@@ -68,7 +68,7 @@ public class UnitTypeDialog extends JDialog {
 	private JButton btnCancel;
 	private JButton btnEdit;
 	private JPanel cardPanel;
-	private boolean anyChanged = false;
+	private boolean anyChanges = false;
 	
 	public UnitTypeDialog(Component parent) {
 		
@@ -300,7 +300,7 @@ public class UnitTypeDialog extends JDialog {
 				}
 				unitType = null;
 				updateModel();
-				anyChanged = true;
+				anyChanges = true;
 			}
 		}
 	}
@@ -313,7 +313,7 @@ public class UnitTypeDialog extends JDialog {
 				new UnitTypeCtr().createUnitType(txtDesc.getText().trim(), txtShortDesc.getText().trim(), cheBoxDecAllowed.isSelected());
 				clearForm();
 				updateModel();
-				anyChanged = true;
+				anyChanges = true;
 			} catch (DBException e) {
 				Methods.showError(this, e.getMessage(), "Fejl i oprettelse");
 				//e.printStackTrace();
@@ -323,6 +323,7 @@ public class UnitTypeDialog extends JDialog {
 
 	protected void edit() {
 		if (isSomethingChanged()) {
+			System.out.println("før: " + unitType);
 			try {
 				new UnitTypeCtr().updateUnitType(unitType, txtDesc.getText().trim(), txtShortDesc.getText().trim(), cheBoxDecAllowed.isSelected());
 				unitType = null;
@@ -337,7 +338,8 @@ public class UnitTypeDialog extends JDialog {
 			} catch (DBException e) {
 				Methods.showError(this, e.getMessage());
 			}
-			anyChanged = true;
+			System.out.println("efter: " + unitType);
+			anyChanges = true;
 		}
 	}
 	
@@ -459,7 +461,7 @@ public class UnitTypeDialog extends JDialog {
 	 * @return true if something is changed
 	 */
 	protected boolean isAnyThingChanged() {
-		return anyChanged;
+		return anyChanges;
 	}
 
 }

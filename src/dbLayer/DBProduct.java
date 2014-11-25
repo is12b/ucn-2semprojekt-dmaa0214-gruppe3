@@ -2,13 +2,14 @@ package dbLayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import modelLayer.Product;
 import modelLayer.UnitType;
+import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBProduct;
 import dbLayer.interfaceLayer.IFDBUnitType;
 
@@ -27,12 +28,12 @@ public class DBProduct implements IFDBProduct {
 
 	@Override
 	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) {
-		return miscWhere("ItemNumber LIKE '%" + itemNumber + "%'");
+		return miscWhere("ItemNumber LIKE '%" + itemNumber + "%' AND Hidden=0");
 	}
 
 	@Override
 	public ArrayList<Product> searchProductsByName(String name) {
-		return miscWhere("Name LIKE '%" + name + "%'");
+		return miscWhere("Name LIKE '%" + name + "%' AND Hidden=0");
 	}
 
 	@Override
@@ -41,13 +42,13 @@ public class DBProduct implements IFDBProduct {
 	}
 
 	@Override
-	public int insertProduct(Product product) {
+	public int insertProduct(Product product) throws DBException {
 		int rc = -1;
 		
 		try{
 			String query = "INSERT INTO PRODUCT "
-					+ "(ItemNumber, Brand, Name, Description, Price, Hidden, UnitType) "
-					+ "VALUES (?,?,?,?,?,?,?)";
+					+ "(ItemNumber, Brand, Name, Description, Price, UnitType) "
+					+ "VALUES (?,?,?,?,?,?)";
 			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setQueryTimeout(5);
 			
@@ -72,8 +73,7 @@ public class DBProduct implements IFDBProduct {
 			}
 			
 			stmt.setDouble(5, product.getPrice());
-			stmt.setBoolean(6, product.isHidden());
-			stmt.setString(7, product.getUnitType().getShortDescription());
+			stmt.setString(6, product.getUnitType().getShortDescription());
 			rc = stmt.executeUpdate();
 			
 			ResultSet genRs = stmt.getGeneratedKeys();
@@ -82,16 +82,17 @@ public class DBProduct implements IFDBProduct {
 			}
 			
 			stmt.close();
-		}catch(Exception e){
-			System.out.println("DBProduct - insertProduct - Exception");
-			e.printStackTrace();
+		} catch(SQLException e) {
+			//System.out.println("DBProduct - insertProduct - Exception");
+			//e.printStackTrace();
+			throw new DBException("Produktet", e);
 		}
 		
 		return rc;
 	}
 
 	@Override
-	public int updateProduct(Product product) {
+	public int updateProduct(Product product) throws DBException {
 		int rc = -1;
 		
 		try{ //(ProductID, ItemNumber, Brand, Name, Description, Price, Hidden, UnitType)
@@ -129,16 +130,21 @@ public class DBProduct implements IFDBProduct {
 			rc = stmt.executeUpdate();
 			
 			stmt.close();
-		}catch(Exception e){
+		} catch(SQLException e) {
 			System.out.println("DBProduct - updateProduct - Exception");
-			e.printStackTrace();
+			//e.printStackTrace();
+			throw new DBException("Produktet", e);
+		}
+		
+		if (rc == 0) {
+			throw new DBNotFoundException("Enhedstypen", 2);
 		}
 		
 		return rc;
 	}
 
 	@Override
-	public int deleteProduct(Product product) {
+	public int deleteProduct(Product product) throws DBException {
 		int rc = -1;
 		
 		try{
@@ -147,19 +153,21 @@ public class DBProduct implements IFDBProduct {
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
 			stmt.close();
-		}catch(SQLServerException e){
+		}catch(SQLException e){ //TODO edited from SQLServerException
 			//Foreign key error
 			if(e.getErrorCode() == 547){
 				product.setHidden(true);
 				rc = updateProduct(product);
 				System.out.println("Product " + product.getId() + " is now hidden");
 			}else{
-				System.out.println("DBProduct - deleteProduct - Exception");
-				e.printStackTrace();
+				//System.out.println("DBProduct - deleteProduct - Exception");
+				//e.printStackTrace();
+				throw new DBException("Produktet", e);
 			}
-		}catch(Exception e){
-			System.out.println("DBProduct - deleteProduct - Exception");
-			e.printStackTrace();
+		}
+		
+		if (rc == 0) {
+			throw new DBNotFoundException("Enhedstypen", 3);
 		}
 		
 		return rc;
@@ -176,11 +184,9 @@ public class DBProduct implements IFDBProduct {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				Product product = buildProduct(rs);
-				
-				IFDBUnitType dbUnitType = new DBUnitType();
-				product.setUnitType(dbUnitType.getUnitType(product.getUnitType().getShortDescription()));
-				
-				products.add(product);
+				if (product != null) {
+					products.add(product);
+				}
 			}
 			
 			stmt.close();
@@ -202,9 +208,6 @@ public class DBProduct implements IFDBProduct {
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()){
 				product = buildProduct(rs);
-				
-				IFDBUnitType dbUnitType = new DBUnitType();
-				product.setUnitType(dbUnitType.getUnitType(product.getUnitType().getShortDescription()));
 			}
 			
 			stmt.close();
@@ -221,17 +224,24 @@ public class DBProduct implements IFDBProduct {
 	 * @return
 	 */
 	private Product buildProduct(ResultSet rs) {
-		Product product = new Product();
+		Product product = null;
 		
 		try{
+			product = new Product(rs.getInt("ProductID"));
 			product.setBrand(rs.getString("Brand"));
 			product.setDescription(rs.getString("Description"));
 			product.setHidden(rs.getBoolean("Hidden"));
-			product.setId(rs.getInt("ProductID"));
 			product.setItemNumber(rs.getString("ItemNumber"));
 			product.setName(rs.getString("Name"));
 			product.setPrice(rs.getDouble("Price"));
-			product.setUnitType(new UnitType(rs.getString("UnitType")));
+			
+			IFDBUnitType dbUT = new DBUnitType();
+			UnitType ut = dbUT.getUnitType(product.getUnitType().getShortDescription());
+			if(ut == null) {
+				throw new NullPointerException("Enhedstypen blev ikke fundet");
+			}
+			product.setUnitType(ut);
+						
 		}catch(Exception e){
 			System.out.println("DBProduct - buildProduct - Exception");
 			e.printStackTrace();

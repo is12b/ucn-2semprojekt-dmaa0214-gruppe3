@@ -24,13 +24,13 @@ public class Product {
 	}
 
 	public Product(String brand, String name, String description,
-			String itemNumber, double price, boolean hidden, UnitType unitType) {
+			String itemNumber, double price, UnitType unitType) {
 		this.brand = brand;
 		this.name = name;
 		this.description = description;
 		this.itemNumber = itemNumber;
 		this.price = price;
-		this.hidden = hidden;
+		this.hidden = false;
 		this.unitType = unitType;
 	}
 

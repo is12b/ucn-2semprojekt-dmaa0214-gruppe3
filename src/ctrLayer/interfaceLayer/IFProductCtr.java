@@ -2,7 +2,8 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import ctrLayer.exceptionLayer.ProductDoesntExistException;
+import ctrLayer.exceptionLayer.PriceFormatException;
+import dbLayer.exceptions.DBException;
 import modelLayer.Product;
 import modelLayer.UnitType;
 
@@ -14,19 +15,21 @@ import modelLayer.UnitType;
  */
 public interface IFProductCtr {
 	
-	public Product getProductByID(int id) throws ProductDoesntExistException;
+	public Product getProductByID(int id);
 	
 	public ArrayList<Product> searchProductsByName(String name);
 	
 	public ArrayList<Product> searchProductsByItemNumber(String itemNumber);
 	
 	public Product createProduct(String brand, String name, String description,
-			String itemNumber, double price, boolean hidden, UnitType unitType);
+			String itemNumber, double price, UnitType unitType)
+			throws DBException, PriceFormatException;
 	
 	public ArrayList<UnitType> getAllUnitTypes();
 	
-	public void updateProduct(Product product);
+	public void updateProduct(Product product, String brand, String name, String description,
+			String itemNumber, double price, UnitType unitType) throws DBException, PriceFormatException, NullPointerException;
 	
-	public void deleteProduct(Product product); 
+	public void deleteProduct(Product product) throws DBException, NullPointerException; 
 
 }
