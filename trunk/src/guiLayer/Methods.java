@@ -1,5 +1,7 @@
 package guiLayer;
 
+import guiLayer.exceptions.SubmitException;
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +12,7 @@ import java.util.Locale;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 /**
@@ -70,6 +73,7 @@ public abstract class Methods {
 	
 	/**
 	 * Method for making a number to money format
+	 * 
 	 * @param number the number to edit
 	 * @return the money format for the number
 	 */
@@ -80,6 +84,7 @@ public abstract class Methods {
 
 	/**
 	 * Method to shorten a text
+	 * 
 	 * @param str the string to short
 	 * @param i the length of the returned string
 	 * @return the shorten string
@@ -91,5 +96,18 @@ public abstract class Methods {
 			retStr = str.substring(0, length);
 		}
 		return retStr;
+	}
+	
+	/**
+	 * Method for checking a TextField is empty.
+	 * 
+	 * @param field the field to check
+	 * @param objText a word that describes the field
+	 * @throws SubmitException if field is empty
+	 */
+	public static void checkReqTextField(JTextField field, String objText) throws SubmitException {
+		if(field.getText().trim().isEmpty()) {
+			throw new SubmitException(objText + " må ikke være tom.", field);
+		}
 	}
 }
