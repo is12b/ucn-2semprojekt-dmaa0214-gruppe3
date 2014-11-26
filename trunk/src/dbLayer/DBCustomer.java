@@ -155,7 +155,7 @@ public class DBCustomer implements IFDBCustomer {
 			customer.setHidden(rs.getBoolean("hidden"));
 			DBPostalCode dbPost = new DBPostalCode();
 			String city = dbPost.getCity(rs.getInt("postalCode"));
-			//customer.setPostalCode(rs.getInt("postalCode")); //TODO Korrekt?
+			customer.setPostalCode(rs.getInt("postalCode")); //TODO Korrekt?
 			//customer.setCity(rs.getString(city)); //TODO
 		}catch(Exception e){
 			System.out.println("DBCustomerProto - buildCustomer - Exception");
