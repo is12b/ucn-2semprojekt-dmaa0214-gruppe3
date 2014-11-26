@@ -193,12 +193,7 @@ public class CustomerPanel extends TabbedPanel {
 	}
 	
 	private void updateTable() {
-		try{
 			model.refresh(customers);
 			model.fireTableDataChanged();
-		} catch(NullPointerException e) {
-			System.out.println("CustomerPanel - updateTable - \"Ingen kunder fundet, tom arraylist\"");
-		}
 	}
-
 }
