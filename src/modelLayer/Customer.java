@@ -28,6 +28,27 @@ public class Customer {
 	}
 
 	/**
+	 * Constructor for Customer objects.
+	 *
+	 * @param name
+	 * @param phoneNumber
+	 * @param address
+	 * @param postalCode
+	 * @param cvr
+	 * @param hidden
+	 */
+	public Customer(String name, String phoneNumber, String address,
+			int postalCode, int cvr, boolean hidden) {
+		super();
+		this.name = name;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.postalCode = postalCode;
+		this.cvr = cvr;
+		this.hidden = hidden;
+	}
+
+	/**
 	 * Instantiates a new car.
 	 * 
 	 * @param id the id of the customer.
