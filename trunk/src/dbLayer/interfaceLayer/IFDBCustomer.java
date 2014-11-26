@@ -59,7 +59,7 @@ public interface IFDBCustomer {
 	 * @param customer the Customer
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int insertCustomer(Customer Customer);
+	public int insertCustomer(Customer customer);
 	
 	/**
 	 * Update Customer in the database.

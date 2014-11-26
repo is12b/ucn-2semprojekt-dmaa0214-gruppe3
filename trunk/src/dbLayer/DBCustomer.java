@@ -131,7 +131,8 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	private String buildQuery(String wQuery) {
-		final String allFields = "name, phoneNumber, address, city, postalCode, cvr, id, hidden";
+		// city , id
+		final String allFields = "name, phoneNumber, address, postalCode, cvr, hidden";
 		String query = "SELECT " + allFields + " FROM Customer";
 
 		if(!wQuery.isEmpty()){
@@ -152,8 +153,10 @@ public class DBCustomer implements IFDBCustomer {
 			customer.setAddress(rs.getString("address"));
 			customer.setCvr(rs.getInt("cvr"));
 			customer.setHidden(rs.getBoolean("hidden"));
-			customer.setPostalCode(rs.getInt("postCode")); //TODO Korrekt?
-			customer.setCity(rs.getString("city")); // TODO Korrekt?
+			DBPostalCode dbPost = new DBPostalCode();
+			String city = dbPost.getCity(rs.getInt("postalCode"));
+			customer.setPostalCode(rs.getInt("postalCode")); //TODO Korrekt?
+			customer.setCity(rs.getString(city)); //TODO
 		}catch(Exception e){
 			System.out.println("DBCustomerProto - buildCustomer - Exception");
 			e.printStackTrace();
