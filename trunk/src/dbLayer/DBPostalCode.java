@@ -123,7 +123,7 @@ public class DBPostalCode implements IFDBPostalcode {
 	 * @return
 	 */
 	private String buildQuery(String wQuery) {
-		String query = "SELECT City FROM PostalCode";
+		String query = "SELECT City FROM PostCode";
 
 		if(!wQuery.isEmpty()){
 			query += " WHERE " + wQuery;

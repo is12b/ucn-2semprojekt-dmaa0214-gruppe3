@@ -153,6 +153,8 @@ public class CustomerPanel extends TabbedPanel {
 		TableModel model = new CustomerTableModel();
 		table.setModel(model);
 		scrollPane.setViewportView(table);
+		
+		customers = new ArrayList<Customer>();
 
 	}
 
@@ -174,30 +176,27 @@ public class CustomerPanel extends TabbedPanel {
 		final String phone = txtPhone.getText().trim();
 		final String name = txtName.getText();
 		final String cvr = txtCvr.getText().trim();
-		
-		ArrayList<Customer> foundCustomers = null;
 
 		if(searchReg) {
 			//TODO
 		}
 		else if(searchPhone) {
-			foundCustomers = cCtr.searchCustomersByPhone(phone);
+			customers = cCtr.searchCustomersByPhone(phone);
 		}
 		else if(searchName) {
-			foundCustomers = cCtr.searchCustomersByName(name);
+			customers = cCtr.searchCustomersByName(name);
 		}
 		else if(searchCvr) {
-			foundCustomers = new ArrayList<Customer>();
-			foundCustomers.add(cCtr.getCustomerByCvr(cvr));
+			customers.add(cCtr.getCustomerByCvr(cvr));
 		}
-		updateTable(foundCustomers);
+		updateTable();
 	}
 	
-	private void updateTable(ArrayList<Customer> customers) {
-		if(customers != null) {
+	private void updateTable() {
+		try{
 			model.refresh(customers);
 			model.fireTableDataChanged();
-		} else {
+		} catch(NullPointerException e) {
 			System.out.println("CustomerPanel - updateTable - \"Ingen kunder fundet, tom arraylist\"");
 		}
 	}
