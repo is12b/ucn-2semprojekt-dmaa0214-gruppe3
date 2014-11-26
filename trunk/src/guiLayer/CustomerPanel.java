@@ -144,6 +144,11 @@ public class CustomerPanel extends TabbedPanel {
 		panelCreate.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JButton btnCreate = new JButton("Opret");
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				createCustomer();
+			}
+		});
 		panelCreate.add(btnCreate);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -190,6 +195,11 @@ public class CustomerPanel extends TabbedPanel {
 			//customers.add(cCtr.getCustomerByCvr(cvr));
 		//}
 		updateTable();
+	}
+	
+	private void createCustomer() {
+		new CreateCustomerDialog();
+		
 	}
 	
 	private void updateTable() {
