@@ -9,6 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import modelLayer.Customer;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import javax.swing.border.TitledBorder;
 
 /**
  * Class for CustomerInfoDialog
@@ -25,25 +30,48 @@ public class CustomerInfoDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public CustomerInfoDialog(Customer customer) {
+		setTitle("Kundeinformation");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
+		{
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "Kundeinformation", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			contentPanel.add(panel, "2, 2, fill, fill");
+		}
+		{
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "Bilinformation", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			contentPanel.add(panel, "4, 2, fill, fill");
+		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane.setLayout(new FormLayout(new ColumnSpec[] {
+					ColumnSpec.decode("left:pref:grow"),
+					ColumnSpec.decode("left:pref:grow"),},
+				new RowSpec[] {
+					FormFactory.LINE_GAP_ROWSPEC,
+					RowSpec.decode("23px"),}));
 			{
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
+				buttonPane.add(okButton, "1, 2, center, center");
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Annuller");
 				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				buttonPane.add(cancelButton, "2, 2, center, center");
 			}
 			
 			this.customer = customer;
