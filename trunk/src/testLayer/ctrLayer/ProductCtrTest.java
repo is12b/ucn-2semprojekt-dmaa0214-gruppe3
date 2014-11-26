@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import ctrLayer.ProductCtr;
 import ctrLayer.UnitTypeCtr;
-import ctrLayer.exceptionLayer.PriceFormatException;
 import dbLayer.exceptions.DBException;
 
 /**
@@ -66,7 +65,7 @@ public class ProductCtrTest {
 	}
 
 	@Test
-	public void testCreateDelete() throws DBException, PriceFormatException {
+	public void testCreateDelete() throws DBException {
 		UnitTypeCtr uCtr = new UnitTypeCtr();
 		UnitType unitType = uCtr.getUnitType("L");
 		Product createdProduct = pCtr.createProduct("Brand", "Name", "Description", "itemNumber", 111.1, unitType);

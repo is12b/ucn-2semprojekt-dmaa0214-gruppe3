@@ -7,7 +7,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
-
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -15,9 +14,9 @@ import javax.swing.JMenuItem;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Locale;
 
 import javax.swing.JTabbedPane;
-
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.event.ChangeListener;
@@ -47,6 +46,7 @@ public class MainGUI extends JFrame {
 			@Override
 			public void run() {
 				try {
+					Locale.setDefault(new Locale("da", "DK"));
 					UIManager.put("OptionPane.cancelButtonText", "Annuller");
 				    UIManager.put("OptionPane.noButtonText", "Nej");
 				    UIManager.put("OptionPane.okButtonText", "Ok");

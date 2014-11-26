@@ -236,7 +236,7 @@ public class DBProduct implements IFDBProduct {
 			product.setPrice(rs.getDouble("Price"));
 			
 			IFDBUnitType dbUT = new DBUnitType();
-			UnitType ut = dbUT.getUnitType(product.getUnitType().getShortDescription());
+			UnitType ut = dbUT.getUnitType(rs.getString("UnitType"));
 			if(ut == null) {
 				throw new NullPointerException("Enhedstypen blev ikke fundet");
 			}

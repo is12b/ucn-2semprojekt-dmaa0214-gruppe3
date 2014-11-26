@@ -27,14 +27,15 @@ public class UnitTypeComboBoxModel extends DefaultComboBoxModel<String> {
 			map.clear();
 			removeAllElements();
 		}
+		
 		this.map.put("Vælg", null);
+		addElement("Vælg");
 		for (UnitType ut : utList) {
 			if(ut != null) {
-				this.map.put(ut.toString(), ut);
+				String key = ut.toString();
+				this.map.put(key, ut);
+				addElement(key);
 			}
-		}
-		for (String s : map.keySet()) {
-			addElement(s);
 		}
 	}
 	
