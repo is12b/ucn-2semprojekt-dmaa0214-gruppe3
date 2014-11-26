@@ -2,7 +2,6 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import ctrLayer.exceptionLayer.PriceFormatException;
 import dbLayer.exceptions.DBException;
 import modelLayer.Product;
 import modelLayer.UnitType;
@@ -23,12 +22,12 @@ public interface IFProductCtr {
 	
 	public Product createProduct(String brand, String name, String description,
 			String itemNumber, double price, UnitType unitType)
-			throws DBException, PriceFormatException;
+			throws DBException;
 	
 	public ArrayList<UnitType> getAllUnitTypes();
 	
 	public void updateProduct(Product product, String brand, String name, String description,
-			String itemNumber, double price, UnitType unitType) throws DBException, PriceFormatException, NullPointerException;
+			String itemNumber, double price, UnitType unitType) throws DBException, NullPointerException;
 	
 	public void deleteProduct(Product product) throws DBException, NullPointerException; 
 

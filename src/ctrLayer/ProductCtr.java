@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import modelLayer.Product;
 import modelLayer.UnitType;
-import ctrLayer.exceptionLayer.PriceFormatException;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBProduct;
@@ -35,7 +34,7 @@ public class ProductCtr implements IFProductCtr {
 
 	@Override
 	public void updateProduct(Product product, String brand, String name, String description,
-			String itemNumber, double price, UnitType unitType) throws DBException, PriceFormatException, NullPointerException  {
+			String itemNumber, double price, UnitType unitType) throws DBException, NullPointerException  {
 		IFDBProduct dbProd = new DBProduct();
 		if(product != null) {
 			dbProd.updateProduct(product);
@@ -56,18 +55,12 @@ public class ProductCtr implements IFProductCtr {
 	
 	@Override
 	public Product createProduct(String brand, String name, String description,
-			String itemNumber, double price, UnitType unitType) throws DBException, PriceFormatException {
+			String itemNumber, double price, UnitType unitType) throws DBException {
 		
 		IFDBProduct dbProd = new DBProduct();
 		Product product = new Product(brand, name, description, itemNumber, price, unitType);
 		dbProd.insertProduct(product);
 		return product;
-	}
-	
-	private void checkPrice(Product product) throws PriceFormatException {
-		if(product.isHidden()) {
-			
-		}
 	}
 
 	@Override

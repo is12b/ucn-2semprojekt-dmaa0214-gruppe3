@@ -8,6 +8,8 @@ import java.awt.Dimension;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -23,12 +25,19 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.ProductCtr;
 import ctrLayer.interfaceLayer.IFProductCtr;
+import dbLayer.exceptions.DBException;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import modelLayer.UnitType;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Class for AddProductDialog
@@ -40,13 +49,14 @@ public class AddProductDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private ProductPanel parent;
-	private JTextField txtPrice;
+	private JFormattedTextField txtPrice;
 	private JTextField txtName;
 	private JTextField txtDesc;
 	private JTextField txtBrand;
 	private JTextField txtItemNumber;
 	private UnitTypeComboBoxModel cmbModel;
 	private JComboBox<String> cmbUnitType;
+	private static DecimalFormat decimalFormat;
 
 	/**
 	 * Launch the application.
@@ -55,7 +65,6 @@ public class AddProductDialog extends JDialog {
 		try {
 			AddProductDialog dialog = new AddProductDialog(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,12 +75,11 @@ public class AddProductDialog extends JDialog {
 	 * @param productPanel 
 	 */
 	public AddProductDialog(ProductPanel parent) {
-		
+				
 		setTitle("Opret Produkt");
 		this.parent = parent;
 		buildDialog();
 
-		setLocationRelativeTo(parent);
 		setVisible(true);
 	}
 
@@ -80,6 +88,7 @@ public class AddProductDialog extends JDialog {
 	 */
 	private void buildDialog() {
 		setModal(true);
+		setLocationRelativeTo(this.parent);
 		setMinimumSize(new Dimension(300, 280));
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -157,8 +166,11 @@ public class AddProductDialog extends JDialog {
 		
 		JLabel lblPrice = new JLabel("Pris:");
 		mainPanel.add(lblPrice, "1, 8, right, default");
-		
-		txtPrice = new JTextField();
+			    
+	    decimalFormat = new DecimalFormat("#,###.##");
+	    
+		txtPrice = new JFormattedTextField(decimalFormat);
+		txtPrice.setFocusLostBehavior(JFormattedTextField.COMMIT);
 		lblPrice.setLabelFor(txtPrice);
 		mainPanel.add(txtPrice, "3, 8, fill, default");
 		txtPrice.setColumns(10);
@@ -191,6 +203,11 @@ public class AddProductDialog extends JDialog {
 				RowSpec.decode("23px"),}));
 		
 		JButton btnClose = new JButton("Luk");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pressedClose();
+			}
+		});
 		bottomPanel.add(btnClose, "2, 1, fill, top");
 		
 		JButton btnCreate = new JButton("Opret");
@@ -200,32 +217,101 @@ public class AddProductDialog extends JDialog {
 			}
 		});
 		bottomPanel.add(btnCreate, "4, 1, fill, top");
-			
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				pressedClose();
+			}
+		});
+		
+		
+		
 		refreshUnitTypes();
 		pack();
 	}
 
+	private void pressedClose() {
+		if(isAllFieldsEmpty()) {
+			close();
+		} else {
+			int c = Methods.showWarning(this, "Er du sikker på du vil lukke vinduet, uden at gemme?");
+			if (c == JOptionPane.YES_OPTION) {
+				close();
+			}
+		}
+	}
 	
+	/*
+	private void clear() {
+		txtName.setText("");
+		txtDesc.setText("");
+		txtBrand.setText("");
+		txtItemNumber.setText("");
+		cmbUnitType.setSelectedIndex(-1);
+	}
+	*/
+	
+	private boolean isFieldEmpty(JTextField field) {
+		return field.getText().trim().isEmpty();
+	}
+	
+	private boolean isAllFieldsEmpty() {
+		return (isFieldEmpty(txtName) && isFieldEmpty(txtBrand) && isFieldEmpty(txtDesc)
+				&& isFieldEmpty(txtItemNumber) && isFieldEmpty(txtPrice) &&
+				cmbModel.getSelectedUnitType() == null);
+	}
+
 	private void openUnitTypeGUI() {
 		UnitTypeDialog utDialog = new UnitTypeDialog(this);
 		if (utDialog.isAnyThingChanged()) {
 			refreshUnitTypes();
-			System.out.println("true");
 		}
+		utDialog.setVisible(false);
 		utDialog.dispose();
 	}
-
+	
 	private void create() {
 		try {
-			Methods.checkReqTextField(txtName, "Navn");
-			if (cmbModel.getSelectedUnitType() == null) {
+			String name = Methods.getTextFromReqField(txtName, "Navn");
+			UnitType unitType = cmbModel.getSelectedUnitType();
+			if (unitType == null) {
 				throw new SubmitException("Enhedstype skal vælges", cmbUnitType);
 			}
-			Methods.checkReqTextField(txtPrice, "Prisen");
+			double price = getPrice();
+			
+			String brand = txtBrand.getText().trim();
+			String desc = txtDesc.getText().trim();
+			String itemNumber = txtItemNumber.getText().trim();
+					
+			IFProductCtr pCtr = new ProductCtr();
+			try {
+				pCtr.createProduct(brand, name, desc, itemNumber, price, unitType);
+				close();
+			} catch (DBException e) {
+				Methods.showError(this, e.getMessage());
+			}
 		} catch (SubmitException e) {
 			e.showError();
 		}
 		
+		
+	}
+	
+	private void close() {
+		setVisible(false);
+		this.dispose();
+	}
+	
+	private double getPrice() throws SubmitException {
+		double price = -1;
+		try {
+			String priceStr = Methods.getTextFromReqField(txtPrice, "Prisen");
+			 price = decimalFormat.parse(priceStr).doubleValue();
+		} catch (ParseException e) {
+			throw new SubmitException("Prisen er ikke angivet i korrekt format", txtPrice);
+		}
+		return price;
 	}
 
 	private void refreshUnitTypes() {

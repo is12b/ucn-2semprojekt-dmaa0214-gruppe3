@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -78,7 +77,7 @@ public abstract class Methods {
 	 * @return the money format for the number
 	 */
 	public static String getAsMoney(double number) {
-		NumberFormat money = NumberFormat.getCurrencyInstance(new Locale("da", "DK"));
+		NumberFormat money = NumberFormat.getCurrencyInstance();
 		return money.format(number);
 	}
 
@@ -99,15 +98,18 @@ public abstract class Methods {
 	}
 	
 	/**
-	 * Method for checking a TextField is empty.
+	 * Method for checking a TextField is empty and return the text.
 	 * 
 	 * @param field the field to check
 	 * @param objText a word that describes the field
 	 * @throws SubmitException if field is empty
 	 */
-	public static void checkReqTextField(JTextField field, String objText) throws SubmitException {
-		if(field.getText().trim().isEmpty()) {
+	public static String getTextFromReqField(JTextField field, String objText) throws SubmitException {
+		String ret = field.getText().trim();
+		if(ret.isEmpty()) {
 			throw new SubmitException(objText + " må ikke være tom.", field);
 		}
+		return ret;
 	}
+
 }
