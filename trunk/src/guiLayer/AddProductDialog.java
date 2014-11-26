@@ -1,7 +1,7 @@
 package guiLayer;
 
 import guiLayer.exceptions.SubmitException;
-import guiLayer.extensions.UnitTypeComboBoxModel;
+import guiLayer.models.UnitTypeComboBoxModel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,6 +30,7 @@ import dbLayer.exceptions.DBException;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import modelLayer.Product;
 import modelLayer.UnitType;
 
 import java.awt.event.ActionListener;
@@ -56,6 +57,7 @@ public class AddProductDialog extends JDialog {
 	private JTextField txtItemNumber;
 	private UnitTypeComboBoxModel cmbModel;
 	private JComboBox<String> cmbUnitType;
+	private JLabel lblTitle;
 	private static DecimalFormat decimalFormat;
 
 	/**
@@ -63,11 +65,34 @@ public class AddProductDialog extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
+			//Product p = new Product(1);
+			//p.setUnitType(new UnitType("stk", "Styk", false));
 			AddProductDialog dialog = new AddProductDialog(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public AddProductDialog(ProductPanel parent, Product product) {
+		
+		setTitle("Ændre Produkt #" + product.getId());
+		this.parent = parent;
+		buildDialog();
+		
+		lblTitle.setText("Ændre Produkt #" + product.getId());
+		
+		txtName.setText(product.getName());
+		txtDesc.setText(product.getDescription());
+		txtBrand.setText(product.getBrand());
+		txtItemNumber.setText(product.getItemNumber());
+		txtPrice.setText(Double.toString(product.getPrice()));
+		cmbUnitType.setSelectedItem(product.getUnitType().toString());
+		
+		//TODO change cardlayout
+
+		setVisible(true);
+		
 	}
 
 	/**
@@ -97,7 +122,7 @@ public class AddProductDialog extends JDialog {
 		topPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
 		getContentPane().add(topPanel, BorderLayout.NORTH);
 		
-		JLabel lblTitle = new JLabel("Opret Produkt");
+		lblTitle = new JLabel("Opret Produkt");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
 		topPanel.add(lblTitle);

@@ -1,8 +1,7 @@
-package guiLayer.extensions;
+package guiLayer.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.swing.DefaultComboBoxModel;
 
 import modelLayer.UnitType;
