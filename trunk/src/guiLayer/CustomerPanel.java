@@ -150,7 +150,7 @@ public class CustomerPanel extends TabbedPanel {
 		add(scrollPane, "4, 2, fill, fill");
 
 		table = new JTable();
-		TableModel model = new CustomerTableModel();
+		model = new CustomerTableModel();
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
@@ -186,9 +186,9 @@ public class CustomerPanel extends TabbedPanel {
 		else if(searchName) {
 			customers = cCtr.searchCustomersByName(name);
 		}
-		else if(searchCvr) {
-			customers.add(cCtr.getCustomerByCvr(cvr));
-		}
+		//else if(searchCvr) {
+			//customers.add(cCtr.getCustomerByCvr(cvr));
+		//}
 		updateTable();
 	}
 	
