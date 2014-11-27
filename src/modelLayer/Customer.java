@@ -220,6 +220,27 @@ public class Customer {
 		this.cars = cars;
 	}
 	
+	/**
+	 * Method to set values in Object back to some values from a clone of it.
+	 * @param clone the backup clone of the object
+	 */
+	public void setToClone(Customer clone) {
+		this.id = clone.getId();
+		this.name = clone.getName();
+		this.phoneNumber = clone.getPhoneNumber();
+		this.address = clone.getAddress();
+		this.city = clone.getCity();
+		this.postalCode = clone.getPostalCode();
+		this.cvr = clone.getCvr();
+		this.hidden = clone.getHidden();
+		this.cars = clone.getCars();
+	}
+	
+	@Override
+	public Customer clone() throws CloneNotSupportedException {
+		return (Customer) super.clone();
+	}
+	
 	public String toString(){
 		String retString = "";
 		
