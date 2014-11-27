@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import modelLayer.Product;
 import modelLayer.UnitType;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBProduct;
 import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBProduct;
 
 public class ProductCtr implements IFProductCtr {
@@ -34,22 +36,44 @@ public class ProductCtr implements IFProductCtr {
 
 	@Override
 	public void updateProduct(Product product, String brand, String name, String description,
-			String itemNumber, double price, UnitType unitType) throws DBException, NullPointerException  {
+			String itemNumber, double price, UnitType unitType) throws DBException, ObjectNotExistException  {
 		IFDBProduct dbProd = new DBProduct();
+		Product tempObj = null;
 		if(product != null) {
-			dbProd.updateProduct(product);
+			try {
+				tempObj = product.clone();
+				
+				product.setBrand(brand);
+				product.setName(name);
+				product.setDescription(description);
+				product.setItemNumber(itemNumber);
+				product.setPrice(price);
+				product.setUnitType(unitType);
+				
+				dbProd.updateProduct(product);
+			} catch (CloneNotSupportedException e) {
+				System.out.println("Den fejl burde ikke kunne ske"); //TODO bedre beskrivelse?
+				e.printStackTrace();
+			} catch (DBNotFoundException e) {
+				product.setToClone(tempObj);
+				throw new ObjectNotExistException(e.getMessage());
+			}	
 		} else {
-			throw new NullPointerException("Produktet er ikke angivet");
+			throw new ObjectNotExistException("Produktet er ikke angivet");
 		}
 	}
 
 	@Override
-	public void deleteProduct(Product product) throws DBException, NullPointerException {
+	public void deleteProduct(Product product) throws DBException, ObjectNotExistException {
 		IFDBProduct dbProd = new DBProduct();
 		if(product != null) {
-			dbProd.deleteProduct(product);
+			try {
+				dbProd.deleteProduct(product);
+			} catch (DBNotFoundException e) {
+				throw new ObjectNotExistException(e.getMessage());
+			}
 		} else {
-			throw new NullPointerException("Produktet er ikke angivet");
+			throw new ObjectNotExistException("Produktet er ikke angivet");
 		}
 	}
 	
