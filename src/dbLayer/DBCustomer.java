@@ -11,7 +11,6 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import modelLayer.Car;
 import modelLayer.Customer;
-import modelLayer.Postalcode;
 import modelLayer.Product;
 import modelLayer.UnitType;
 import dbLayer.interfaceLayer.IFDBCar;
