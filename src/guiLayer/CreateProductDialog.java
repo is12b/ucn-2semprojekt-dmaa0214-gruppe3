@@ -4,6 +4,7 @@ import guiLayer.exceptions.SubmitException;
 import guiLayer.models.UnitTypeComboBoxModel;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
@@ -41,12 +42,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * Class for AddProductDialog
+ * Class for CreateProductDialog
  *
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class AddProductDialog extends JDialog {
+public class CreateProductDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private ProductPanel parent;
@@ -58,6 +59,8 @@ public class AddProductDialog extends JDialog {
 	private UnitTypeComboBoxModel cmbModel;
 	private JComboBox<String> cmbUnitType;
 	private JLabel lblTitle;
+	private JPanel cardPanel;
+	private Product product;
 	private static DecimalFormat decimalFormat;
 
 	/**
@@ -67,19 +70,21 @@ public class AddProductDialog extends JDialog {
 		try {
 			//Product p = new Product(1);
 			//p.setUnitType(new UnitType("stk", "Styk", false));
-			AddProductDialog dialog = new AddProductDialog(null);
+			CreateProductDialog dialog = new CreateProductDialog(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public AddProductDialog(ProductPanel parent, Product product) {
+	public CreateProductDialog(ProductPanel parent, Product product) {
 		
 		setTitle("Ændre Produkt #" + product.getId());
 		this.parent = parent;
+		this.product = product;
 		buildDialog();
-		
+		CardLayout cl = (CardLayout)(cardPanel.getLayout());
+		cl.show(cardPanel, "editing");
 		lblTitle.setText("Ændre Produkt #" + product.getId());
 		
 		txtName.setText(product.getName());
@@ -98,7 +103,7 @@ public class AddProductDialog extends JDialog {
 	 * Create the dialog.
 	 * @param productPanel 
 	 */
-	public AddProductDialog(ProductPanel parent) {
+	public CreateProductDialog(ProductPanel parent) {
 				
 		setTitle("Opret Produkt");
 		this.parent = parent;
@@ -241,7 +246,21 @@ public class AddProductDialog extends JDialog {
 				create();
 			}
 		});
-		bottomPanel.add(btnCreate, "4, 1, fill, top");
+		
+		JButton btnEdit = new JButton("Opret");
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				edit();
+			}
+		});
+		
+		cardPanel = new JPanel();
+		
+		cardPanel.setLayout(new CardLayout(0, 0));
+		cardPanel.add(btnCreate, "creating");
+		cardPanel.add(btnEdit, "editing");
+		
+		bottomPanel.add(cardPanel, "4, 1, fill, top");
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -255,6 +274,14 @@ public class AddProductDialog extends JDialog {
 		refreshUnitTypes();
 		pack();
 		setVisible(true);
+	}
+
+	/**
+	 * 
+	 */
+	protected void edit() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void pressedClose() {
@@ -322,6 +349,10 @@ public class AddProductDialog extends JDialog {
 		}
 		
 		
+	}
+	
+	private boolean isEditing() {
+		return (product != null);
 	}
 	
 	private void close() {

@@ -188,7 +188,7 @@ public class ProductPanel extends TabbedPanel {
 	
 	private void openCreateDialog() {
 		// TODO Auto-generated method stub
-		new AddProductDialog(this);
+		new CreateProductDialog(this);
 		
 	}
 

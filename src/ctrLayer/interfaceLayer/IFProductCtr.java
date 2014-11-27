@@ -2,6 +2,7 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import dbLayer.exceptions.DBException;
 import modelLayer.Product;
 import modelLayer.UnitType;
@@ -27,8 +28,8 @@ public interface IFProductCtr {
 	public ArrayList<UnitType> getAllUnitTypes();
 	
 	public void updateProduct(Product product, String brand, String name, String description,
-			String itemNumber, double price, UnitType unitType) throws DBException, NullPointerException;
+			String itemNumber, double price, UnitType unitType) throws DBException, ObjectNotExistException;
 	
-	public void deleteProduct(Product product) throws DBException, NullPointerException; 
+	public void deleteProduct(Product product) throws DBException, ObjectNotExistException; 
 
 }

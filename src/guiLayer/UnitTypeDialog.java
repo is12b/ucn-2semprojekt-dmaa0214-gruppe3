@@ -17,8 +17,6 @@ import com.jgoodies.forms.factories.FormFactory;
 import ctrLayer.UnitTypeCtr;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
-
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.UIManager;
