@@ -226,5 +226,24 @@ public class Car {
 		return retString;
 	}
 	
+	/**
+	 * Method to set values in Object back to some values from a clone of it.
+	 * @param clone the backup clone of the object
+	 */
+	public void setToClone(Car clone) {
+		this.brand = clone.getBrand();
+		this.model = clone.getModel();
+		this.regNr = clone.getRegNr();
+		this.vin = clone.getVin();
+		this.mileage = clone.getMileage();
+		this.year = clone.getYear();
+		this.owner = clone.getOwner();
+	}
+	
+	@Override
+	public Car clone() throws CloneNotSupportedException {
+		return (Car) super.clone();
+	}
+	
 
 }
