@@ -2,6 +2,7 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import dbLayer.exceptions.DBException;
 import modelLayer.UnitType;
 
@@ -19,7 +20,7 @@ public interface IFUnitTypeCtr {
 	
 	public UnitType createUnitType(String desc, String shortDesc, boolean decimalAllowed) throws DBException;
 	
-	public void updateUnitType(UnitType unitType, String desc, String shortDesc, boolean decimalAllowed) throws NullPointerException, DBException;
+	public void updateUnitType(UnitType unitType, String desc, String shortDesc, boolean decimalAllowed) throws DBException, ObjectNotExistException;
 	
-	public void deleteUnitType(UnitType unitType) throws NullPointerException, DBException;
+	public void deleteUnitType(UnitType unitType) throws DBException, ObjectNotExistException;
 }

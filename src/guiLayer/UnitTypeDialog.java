@@ -15,6 +15,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.UnitTypeCtr;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import dbLayer.exceptions.DBException;
 import dbLayer.exceptions.DBNotFoundException;
 
@@ -290,17 +291,20 @@ public class UnitTypeDialog extends JDialog {
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
 					new UnitTypeCtr().deleteUnitType(ut);
-					
-				} catch (DBNotFoundException e) {
-					Methods.showError(this, e.getMessage(), "Fejl");
-					
-				} catch (NullPointerException | DBException e) {
+					unitType = null;
+					updateModel();
+					reDraw();
+					anyChanges = true;
+				} catch (DBException e) {
 					Methods.showError(this, e.getMessage(), "Fejl");
 					//e.printStackTrace();
+				} catch (ObjectNotExistException e) {
+					Methods.showError(this, e.getMessage(), "Fejl");
+					unitType = null;
+					updateModel();
+					reDraw();
+					anyChanges = true;
 				}
-				unitType = null;
-				updateModel();
-				anyChanges = true;
 			}
 		}
 	}
@@ -323,22 +327,21 @@ public class UnitTypeDialog extends JDialog {
 
 	protected void edit() {
 		if (isSomethingChanged()) {
-			System.out.println("før: " + unitType);
+			//System.out.println("før: " + unitType);
 			try {
 				new UnitTypeCtr().updateUnitType(unitType, txtDesc.getText().trim(), txtShortDesc.getText().trim(), cheBoxDecAllowed.isSelected());
 				unitType = null;
 				updateModel();
 				reDraw();
-			} catch (NullPointerException | DBNotFoundException e) {
+			} catch (DBException e) {
 				Methods.showError(this, e.getMessage());
-				//e.printStackTrace();
+			} catch (ObjectNotExistException e) {
+				Methods.showError(this, e.getMessage());
 				unitType = null;
 				updateModel();
 				reDraw();
-			} catch (DBException e) {
-				Methods.showError(this, e.getMessage());
 			}
-			System.out.println("efter: " + unitType);
+			//System.out.println("efter: " + unitType);
 			anyChanges = true;
 		}
 	}
