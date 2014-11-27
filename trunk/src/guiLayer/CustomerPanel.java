@@ -9,7 +9,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
-import com.sun.glass.events.MouseEvent;
 
 import ctrLayer.CustomerCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
@@ -34,6 +33,7 @@ import modelLayer.Customer;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -162,7 +162,7 @@ public class CustomerPanel extends TabbedPanel {
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 
-		/*table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					JTable target = (JTable)e.getSource();
@@ -171,7 +171,7 @@ public class CustomerPanel extends TabbedPanel {
 					new CustomerInfoDialog(customer);
 				}
 			}
-		});*/
+		});
 
 		customers = new ArrayList<Customer>();
 	}
