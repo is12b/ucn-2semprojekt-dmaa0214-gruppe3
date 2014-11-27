@@ -35,7 +35,7 @@ public interface IFDBCustomer {
 	 * @param phoneNumber the phone number
 	 * @return the customers by phoneNumber
 	 */
-	public ArrayList<Customer> getCustomersByPhone(String phoneNumber);
+	public ArrayList<Customer> getCustomersByPhone(String phoneNumber, boolean retAsso);
 	
 	/**
 	 * Gets the customers by name.
@@ -43,7 +43,7 @@ public interface IFDBCustomer {
 	 * @param name the name
 	 * @return the customers by name
 	 */
-	public ArrayList<Customer> getCustomersByName(String name);
+	public ArrayList<Customer> getCustomersByName(String name, boolean retAsso);
 	
 	/**
 	 * Gets the customer.
@@ -51,7 +51,7 @@ public interface IFDBCustomer {
 	 * @param cvr the cvr
 	 * @return the customer
 	 */
-	public Customer getCustomerByCvr(String cvr);
+	public Customer getCustomerByCvr(String cvr, boolean retAsso);
 	
 	/**
 	 * Insert Customer into the database.
