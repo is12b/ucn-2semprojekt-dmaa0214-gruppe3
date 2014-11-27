@@ -66,7 +66,7 @@ public class CustomerCtr implements IFCustomerCtr {
 	public Customer getCustomerByCvr(String cvr) {
 		Customer foundCustomer = null;
 		IFDBCustomer dbCus = new DBCustomer();
-		foundCustomer = dbCus.getCustomerByCvr(cvr);
+		foundCustomer = dbCus.getCustomerByCvr(cvr, false);
 		return foundCustomer;
 	}
 
@@ -74,7 +74,7 @@ public class CustomerCtr implements IFCustomerCtr {
 	public ArrayList<Customer> searchCustomersByName(String name) {
 		ArrayList<Customer> foundCustomers = null;
 		IFDBCustomer dbCus = new DBCustomer();
-		foundCustomers = dbCus.getCustomersByName(name);
+		foundCustomers = dbCus.getCustomersByName(name, false);
 		return foundCustomers;
 	}
 
@@ -82,7 +82,7 @@ public class CustomerCtr implements IFCustomerCtr {
 	public ArrayList<Customer> searchCustomersByPhone(String phone) {
 		ArrayList<Customer> foundCustomers = null;
 		IFDBCustomer dbCus = new DBCustomer();
-		foundCustomers = dbCus.getCustomersByPhone(phone);
+		foundCustomers = dbCus.getCustomersByPhone(phone, false);
 		return foundCustomers;
 	}
 

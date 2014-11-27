@@ -100,6 +100,7 @@ public class CustomerInfoDialog extends JDialog {
 			}
 			
 			this.customer = customer;
+			this.setVisible(true);
 		}
 	}
 

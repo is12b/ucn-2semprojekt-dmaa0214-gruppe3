@@ -25,7 +25,7 @@ public class DBCustomerTest {
 	@Test
 	public void testGetCustomersByName() {
 		IFDBCustomer dbCus = new DBCustomer();
-		ArrayList<Customer> customers = dbCus.getCustomersByName("Lau");
+		ArrayList<Customer> customers = dbCus.getCustomersByName("Lau", false);
 		System.out.println(customers.get(0).getName());
 		
 	}

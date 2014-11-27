@@ -43,25 +43,26 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public ArrayList<Customer> getCustomersByPhone(String phoneNumber) {
-		return miscWhere("phoneNumber = '" + phoneNumber + "'", false);
+	public ArrayList<Customer> getCustomersByPhone(String phoneNumber, boolean retAsso) {
+		return miscWhere("phoneNumber = '" + phoneNumber + "'", retAsso);
 	}
 
 	@Override
-	public ArrayList<Customer> getCustomersByName(String name) {
-		return miscWhere("name LIKE '%" + name + "%'", false);
+	public ArrayList<Customer> getCustomersByName(String name, boolean retAsso) {
+		return miscWhere("name LIKE '%" + name + "%'", retAsso);
 	}
 
 	@Override
-	public Customer getCustomerByCvr(String cvr) {
-		return singleWhere("cvr = " + cvr, false);
+	public Customer getCustomerByCvr(String cvr, boolean retAsso) {
+		return singleWhere("cvr = " + cvr, retAsso);
 	}
 
 	@Override
 	public int insertCustomer(Customer Customer) {
-		// TODO Auto-generated method stub
+		//TODO
 		final String fields = "(name, phoneNumber, address, postalCode, cvr, hidden)";
 		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?)";
+		
 		return 0;
 	}
 
@@ -96,7 +97,7 @@ public class DBCustomer implements IFDBCustomer {
 	 * @throws SQLException 
 	 */
 	private void updateFields(Customer customer, PreparedStatement stmt) { 
-		//TODO
+		//TODO -- City??
 		try {
 			stmt.setString(1, customer.getName());
 			stmt.setString(2, customer.getPhoneNumber());
