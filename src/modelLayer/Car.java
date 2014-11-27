@@ -5,7 +5,7 @@ package modelLayer;
  *
  * @author Group 3, dmaa0214, UCN
  */
-public class Car {
+public class Car implements Cloneable{
 	
 	private String brand;
 	private String model;

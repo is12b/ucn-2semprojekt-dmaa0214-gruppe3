@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author Group 3, dmaa0214, UCN
  */
-public class Customer {
+public class Customer implements Cloneable{
 	
 	private String name;
 	private String phoneNumber;
