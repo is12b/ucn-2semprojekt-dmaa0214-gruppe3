@@ -3,6 +3,7 @@ package ctrLayer;
 import java.util.ArrayList;
 
 import modelLayer.UnitType;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBUnitType;
 import dbLayer.exceptions.DBException;
@@ -41,13 +42,13 @@ public class UnitTypeCtr implements IFUnitTypeCtr {
 			boolean decimalAllowed) throws DBException {
 		UnitType unitType = new UnitType(shortDesc, desc, decimalAllowed);
 		
-		int rc = dbUnit.insertUnitType(unitType);
+		dbUnit.insertUnitType(unitType);
 				
 		return unitType;
 	}
 	
 	@Override
-	public void updateUnitType(UnitType unitType, String desc, String shortDesc, boolean decimalAllowed) throws NullPointerException, DBException {
+	public void updateUnitType(UnitType unitType, String desc, String shortDesc, boolean decimalAllowed) throws DBException, ObjectNotExistException {
 		if (unitType != null) {
 			//System.out.println("før i ctr: " + unitType);
 			UnitType tempObj = null;
@@ -58,29 +59,33 @@ public class UnitTypeCtr implements IFUnitTypeCtr {
 				unitType.setShortDescription(shortDesc);
 				unitType.setDecimalAllowed(decimalAllowed);
 				
-				int rc = dbUnit.updateUnitType(unitType);
+				dbUnit.updateUnitType(unitType);
 			} catch (CloneNotSupportedException e) {
 				System.out.println("Den fejl burde ikke kunne ske"); //TODO bedre beskrivelse?
 				e.printStackTrace();
 			} catch (DBNotFoundException e) {
 				unitType.setToClone(tempObj);
-				throw new DBNotFoundException(e.getMessage());
+				throw new ObjectNotExistException(e.getMessage());
 			} catch (DBException e) {
 				unitType.setToClone(tempObj);
 				throw new DBException(e.getMessage());
 			}
 			//System.out.println("efter i ctr: " + unitType);
 		} else {
-			throw new NullPointerException("Enhedstypen er ikke angivet");
+			throw new ObjectNotExistException("Enhedstypen er ikke angivet");
 		}
 	}
 
 	@Override
-	public void deleteUnitType(UnitType unitType) throws NullPointerException, DBException {
+	public void deleteUnitType(UnitType unitType) throws DBException, ObjectNotExistException {
 		if (unitType != null) {
-			int rc = dbUnit.deleteUnitType(unitType);
+			try {
+				dbUnit.deleteUnitType(unitType);
+			} catch (DBNotFoundException e) {
+				throw new ObjectNotExistException(e.getMessage());
+			}
 		} else {
-			throw new NullPointerException("Enhedstypen er ikke angivet");
+			throw new ObjectNotExistException("Enhedstypen er ikke angivet");
 		}
 	}
 
