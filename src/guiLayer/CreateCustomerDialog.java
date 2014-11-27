@@ -29,7 +29,6 @@ public class CreateCustomerDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public CreateCustomerDialog() {
-		this.setVisible(true);
 		setTitle("Opret kunde");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -67,6 +66,8 @@ public class CreateCustomerDialog extends JDialog {
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton, "2, 2, center, top");
 			}
+			
+			this.setVisible(true);
 		}
 	}
 
