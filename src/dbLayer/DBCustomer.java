@@ -145,7 +145,7 @@ public class DBCustomer implements IFDBCustomer {
 
 	private String buildQuery(String wQuery) {
 		// city , id
-		final String allFields = "name, phoneNumber, address, postalCode, cvr, hidden";
+		final String allFields = "CustomerID, name, phoneNumber, address, postalCode, cvr, hidden";
 		String query = "SELECT " + allFields + " FROM Customer";
 
 		if(!wQuery.isEmpty()){
@@ -161,7 +161,7 @@ public class DBCustomer implements IFDBCustomer {
 		Customer customer = new Customer();
 
 		try{
-			customer.setId(rs.getInt("customerID"));
+			customer.setId(rs.getInt("CustomerID"));
 			customer.setName(rs.getString("name"));
 			customer.setPhoneNumber(rs.getString("phoneNumber"));
 			customer.setAddress(rs.getString("address"));
@@ -169,10 +169,8 @@ public class DBCustomer implements IFDBCustomer {
 			customer.setHidden(rs.getBoolean("hidden"));
 			DBPostalCode dbPost = new DBPostalCode();
 			String city = dbPost.getCity(rs.getInt("postalCode")); 
-			//TODO Muligvis forkert
 			customer.setPostalCode(rs.getInt("postalCode")); 
-			//TODO Korrekt?
-			customer.setCity(rs.getString(city));
+			customer.setCity(city);
 			
 			
 		}catch(Exception e){
