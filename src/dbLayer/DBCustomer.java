@@ -203,8 +203,7 @@ public class DBCustomer implements IFDBCustomer {
 					customers.add(customer);
 
 					if(retAsso) {
-						IFDBCar dbCar = new DBCar();
-						customer.setCars(dbCar.getCars(customer, false));
+						customer.setCars(getCars(customer));
 					}
 				}
 			}
@@ -215,6 +214,21 @@ public class DBCustomer implements IFDBCustomer {
 			e.printStackTrace();
 		}
 		return customers;
+	}
+
+	/**
+	 * @param customer
+	 * @return
+	 */
+	private ArrayList<Car> getCars(Customer customer) {
+		IFDBCar dbCar = new DBCar();
+		ArrayList<Car> cars = dbCar.getCars(customer, false);
+		
+		for(Car c : cars){
+			c.setOwner(customer);
+		}
+		
+		return cars;
 	}
 
 	private Customer singleWhere(String wQuery, boolean retAsso) {
@@ -230,8 +244,7 @@ public class DBCustomer implements IFDBCustomer {
 				stmt.close();
 
 				if(retAsso) {
-					IFDBCar dbCar = new DBCar();
-					customer.setCars(dbCar.getCars(customer, false));
+					customer.setCars(getCars(customer));
 				}
 			}
 		} catch (Exception e) {

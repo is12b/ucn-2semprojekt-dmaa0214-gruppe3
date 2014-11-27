@@ -18,7 +18,9 @@ public interface IFSaleCtr {
 	
 	public Sale createSale();
 	
-	public void addCar(Car car);
+	public void setCar(Car car);
+	
+	public void setCustomer(Customer customer);
 	
 	public ArrayList<Product> searchProductsByName(String name);
 	
