@@ -117,6 +117,7 @@ public class CustomerDialog extends JDialog {
 		}else{
 			if(o instanceof Customer){
 				parent.setCustomer((Customer) o);
+				parent.setCar(null);
 			}else if(o instanceof Car){
 				parent.setCar((Car) o);
 			}else{
