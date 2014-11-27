@@ -13,8 +13,10 @@ import modelLayer.Car;
 import modelLayer.Customer;
 import modelLayer.Product;
 import modelLayer.UnitType;
+import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
+import dbLayer.interfaceLayer.IFDBPostalcode;
 import dbLayer.interfaceLayer.IFDBUnitType;
 
 /**
@@ -64,6 +66,11 @@ public class DBCustomer implements IFDBCustomer {
 		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?)";
 		
 		try {
+			IFDBPostalcode dbPost = new DBPostalCode();
+			int postResult = dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
+			if(postResult != 1) {
+				throw new DBException("");
+			}
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			updateFields(customer, stmt);

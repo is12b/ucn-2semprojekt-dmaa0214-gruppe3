@@ -1,5 +1,7 @@
 package dbLayer.interfaceLayer;
 
+import dbLayer.exceptions.DBException;
+
 /**
  * Interface for DBPostalcode
  *
@@ -10,7 +12,7 @@ public interface IFDBPostalcode {
 
 	public String getCity(int postCode);
 	
-	public int insertPostalCode(int postCode, String city);
+	public int insertPostalCode(int postCode, String city) throws DBException;
 	
 	//public int deletePostalCode(int postCode);
 }

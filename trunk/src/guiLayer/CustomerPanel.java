@@ -35,6 +35,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 /**
  * Class for CustomerPanel
@@ -59,10 +61,10 @@ public class CustomerPanel extends TabbedPanel {
 	public CustomerPanel(MainGUI parent) {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(103dlu;default)"),
+				ColumnSpec.decode("center:pref:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 
@@ -78,7 +80,7 @@ public class CustomerPanel extends TabbedPanel {
 				RowSpec.decode("default:grow"),}));
 
 		JPanel panelSearch = new JPanel();
-		panelSearch.setBorder(new TitledBorder(null, "S\u00F8g Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelSearch.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "S\u00F8g Kunde", TitledBorder.RIGHT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.add(panelSearch, "2, 2, fill, fill");
 		panelSearch.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -142,7 +144,7 @@ public class CustomerPanel extends TabbedPanel {
 		panel_4.add(btnSearch);
 
 		JPanel panelCreate = new JPanel();
-		panelCreate.setBorder(new TitledBorder(null, "Opret Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelCreate.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Opret Kunde", TitledBorder.RIGHT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.add(panelCreate, "2, 4, fill, fill");
 		panelCreate.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
