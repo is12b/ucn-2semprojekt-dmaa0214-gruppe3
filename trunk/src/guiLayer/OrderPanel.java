@@ -435,9 +435,9 @@ public class OrderPanel extends TabbedPanel {
 		if(txtCustomerCVR.isEnabled()){
 			
 		}else if(txtCustomerName.isEnabled()){
-			customers = cCtr.searchCustomersByName(txtCustomerName.getText());
+			customers = cCtr.searchCustomersByName(txtCustomerName.getText(), true);
 		}else if(txtCustomerPhone.isEnabled()){
-			customers = cCtr.searchCustomersByPhone(txtCustomerPhone.getText());
+			customers = cCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
 		}
 		
 		if(customers != null && customers.size() > 0){

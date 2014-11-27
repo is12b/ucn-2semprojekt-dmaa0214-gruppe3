@@ -199,20 +199,19 @@ public class CustomerPanel extends TabbedPanel {
 			customers.add(cCtr.getCustomerByRegNr(regNr));
 		}
 		else if(searchPhone) {
-			customers = cCtr.searchCustomersByPhone(phone);
+			customers = cCtr.searchCustomersByPhone(phone, true);
 		}
 		else if(searchName) {
-			customers = cCtr.searchCustomersByName(name);
+			customers = cCtr.searchCustomersByName(name, true);
 		}
 		else if(searchCvr) {
-			customers.add(cCtr.getCustomerByCvr(cvr));
+			customers.add(cCtr.getCustomerByCvr(cvr, true));
 		}
 		updateTable();
 	}
 
 	private void createCustomer() {
 		JDialog createPopup = new CreateCustomerDialog();
-
 	}
 
 	private void updateTable() {

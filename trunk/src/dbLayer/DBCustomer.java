@@ -58,12 +58,24 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public int insertCustomer(Customer Customer) {
+	public int insertCustomer(Customer customer) {
 		//TODO
+		int rc = -1;
 		final String fields = "(name, phoneNumber, address, postalCode, cvr, hidden)";
 		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?)";
 		
-		return 0;
+		try {
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setQueryTimeout(5);
+			updateFields(customer, stmt);
+			rc = stmt.executeUpdate();
+			stmt.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Error - updateCustomer - DBCustomerProto");
+		}
+		return rc;
 	}
 
 	@Override
@@ -149,15 +161,18 @@ public class DBCustomer implements IFDBCustomer {
 		Customer customer = new Customer();
 
 		try{
+			customer.setId(rs.getInt("customerID"));
 			customer.setName(rs.getString("name"));
 			customer.setPhoneNumber(rs.getString("phoneNumber"));
 			customer.setAddress(rs.getString("address"));
 			customer.setCvr(rs.getInt("cvr"));
 			customer.setHidden(rs.getBoolean("hidden"));
 			DBPostalCode dbPost = new DBPostalCode();
-			String city = dbPost.getCity(rs.getInt("postalCode"));
+			String city = dbPost.getCity(rs.getInt("postalCode")); //TODO Muligvis forkert
 			customer.setPostalCode(rs.getInt("postalCode")); //TODO Korrekt?
-			//customer.setCity(rs.getString(city)); //TODO
+			customer.setCity(rs.getString(city));
+			
+			
 		}catch(Exception e){
 			System.out.println("DBCustomerProto - buildCustomer - Exception");
 			e.printStackTrace();
