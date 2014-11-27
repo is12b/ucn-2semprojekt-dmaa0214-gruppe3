@@ -79,8 +79,9 @@ public class OrderPanel extends TabbedPanel {
 	private Sale sale;
 
 	/**
-	 * Create the panel.
+	 * Constructors
 	 */
+	
 	public OrderPanel(MainGUI parent) {
 		this.parent = parent;
 		sCtr = new SaleCtr();
@@ -90,10 +91,11 @@ public class OrderPanel extends TabbedPanel {
 		productFields = new ArrayList<JTextField>();
 		buildPanel();
 	}
-
+	
 	/**
-	 * 
+	 * Panels
 	 */
+
 	private void buildPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -434,17 +436,20 @@ public class OrderPanel extends TabbedPanel {
 	}
 
 	/**
-	 * 
+	 * TextFields
 	 */
+	
+	@Override
+	public void setFocus() {
+		txtCarRegNr.requestFocusInWindow();
+	}
+
 	private void populateTextFields() {
 		addDocumentListener(customerFields);
 		addDocumentListener(carFields);
 		addDocumentListener(productFields);
 	}
 
-	/**
-	 * 
-	 */
 	private void addDocumentListener(ArrayList<JTextField> fields) {
 		for(JTextField f : fields){
 			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f));
@@ -452,8 +457,9 @@ public class OrderPanel extends TabbedPanel {
 	}
 	
 	/**
-	 * 
+	 * Customer
 	 */
+	
 	private void customerSearch() {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		
@@ -465,50 +471,82 @@ public class OrderPanel extends TabbedPanel {
 			customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
 		}
 		
+		createCustomerDialog(customers);	
+		
+	}
+	
+	private void createCustomerDialog(ArrayList<Customer> customers) {
 		if(customers != null){
-			if(customers.size() > 1){
+			if(customers.size() > 1){			
 				CustomerDialog cDialog = new CustomerDialog(customers, this);
 				cDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 				cDialog.setVisible(true);
 			}else{
-				setCustomer(customers.get(0));
+				if(customers.get(0).getCars() == null || customers.get(0).getCars().size() == 0){
+					setCustomer(customers.get(0));
+					setCar(null);
+				} else if(customers.get(0).getCars().size() > 1){
+					CustomerDialog cDialog = new CustomerDialog(customers, this);
+					cDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+					cDialog.setVisible(true);
+				} else if(customers.get(0).getCars().size() == 1){
+					setCar(customers.get(0).getCars().get(0));
+				}
 			}
 		}else{
 			//TODO Error intet fundet
 		}
-		
-		
 	}
 
-	@Override
-	public void setFocus() {
-		txtCarRegNr.requestFocusInWindow();
-	}
-	
+		
+
 	public void setCustomer(Customer c){
 		System.out.println("Customer Added");
 		//TODO
 		if(c != null){
 			sCtr.setCustomer(c);
-			
-			lblName.setText(c.getName());
-			lblPhone.setText(c.getPhoneNumber());
-			lblCvr.setText(String.valueOf(c.getCvr()));
-			customerPanel.setVisible(true);
+			populateCustomerPanel(c);
 		}
 	}
+	
+
+	private void populateCustomerPanel(Customer c) {
+		lblName.setText(c.getName());
+		lblPhone.setText(c.getPhoneNumber());
+		lblCvr.setText(String.valueOf(c.getCvr()));
+		customerPanel.setVisible(true);
+	}
+
+	
+	/**
+	 * Car
+	 */
 	
 	public void setCar(Car c){
 		System.out.println("Car added");
 		if(c != null){
 			sCtr.setCar(c);
 			setCustomer(c.getOwner());
-			
-			lblRegNr.setText(c.getRegNr());
-			lblVin.setText(c.getVin());
-			lblMileAge.setText(String.valueOf(c.getMileage()));
-			carPanel.setVisible(true);
+			populateCarPanel(c);
+		}else{
+			clearCarPanel();
 		}
+	}
+	
+	
+	private void populateCarPanel(Car c){
+		lblRegNr.setText(c.getRegNr());
+		lblVin.setText(c.getVin());
+		lblMileAge.setText(String.valueOf(c.getMileage()));
+		carPanel.setVisible(true);
+	}
+	
+	
+	private void clearCarPanel(){
+		lblRegNr.setText("");
+		lblVin.setText("");
+		lblMileAge.setText("");
+		carPanel.setVisible(false);
 	}
 
 }
