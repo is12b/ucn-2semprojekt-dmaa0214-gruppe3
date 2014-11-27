@@ -38,6 +38,21 @@ public class CarCtr implements IFCarCtr {
 		
 		return car;
 	}
+	
+
+	@Override
+	public Car getCarByVin(String vin, boolean retAsso)
+			throws NullPointerException {
+		IFDBCar dbCar = new DBCar(); 
+		
+		Car car = dbCar.getCarByVin(vin, retAsso);
+		
+		if(car == null){
+			throw new NullPointerException("Bilen blev ikke fundet");
+		}
+		
+		return car;
+	}
 
 	@Override
 	public void updateCar(Car car) throws UpdateException {
@@ -61,7 +76,6 @@ public class CarCtr implements IFCarCtr {
 		}else if(rc == 0){
 			throw new DeleteException("Bilen", false);
 		}
-	}
-	
+	}	
 	
 }

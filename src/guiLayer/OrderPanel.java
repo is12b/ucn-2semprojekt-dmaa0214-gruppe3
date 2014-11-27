@@ -434,7 +434,7 @@ public class OrderPanel extends TabbedPanel {
 		CustomerCtr cCtr = new CustomerCtr();
 		
 		if(txtCustomerCVR.isEnabled()){
-			
+			customers.add(cCtr.getCustomerByCvr(txtCustomerCVR.getText(), true));
 		}else if(txtCustomerName.isEnabled()){
 			customers = cCtr.searchCustomersByName(txtCustomerName.getText(), true);
 			
@@ -448,10 +448,16 @@ public class OrderPanel extends TabbedPanel {
 			customers = cCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
 		}
 		
-		if(customers != null && customers.size() > 0){
-			CustomerDialog cDialog = new CustomerDialog(customers, this);
-			cDialog.setModalityType(ModalityType.APPLICATION_MODAL);
-			cDialog.setVisible(true);
+		if(customers != null){
+			if(customers.size() > 1){
+				CustomerDialog cDialog = new CustomerDialog(customers, this);
+				cDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				cDialog.setVisible(true);
+			}else{
+				setCustomer(customers.get(0));
+			}
+		}else{
+			//TODO fail
 		}
 		
 		
@@ -463,6 +469,7 @@ public class OrderPanel extends TabbedPanel {
 	}
 	
 	public void setCustomer(Customer c){
+		System.out.println("Customer Added");
 		//TODO
 	}
 	
