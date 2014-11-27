@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
+import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBPostalcode;
 
 /**
@@ -28,7 +29,7 @@ public class DBPostalCode implements IFDBPostalcode {
 	}
 
 	@Override
-	public int insertPostalCode(int postCode, String city) {
+	public int insertPostalCode(int postCode, String city) throws DBException {
 		int rc = -1;
 
 		try{
@@ -42,11 +43,12 @@ public class DBPostalCode implements IFDBPostalcode {
 			if(e.getErrorCode() == 2627){
 				rc = updatePostalCode(postCode, city);
 			}
-		}catch(Exception e){
+		}catch(SQLException e){
 			System.out.println("DBPostalCode - insertPostalCode - Exception");
 			e.printStackTrace();
+			throw new DBException("Kunden", e);
 		}
-
+		
 		return rc;
 	}
 
