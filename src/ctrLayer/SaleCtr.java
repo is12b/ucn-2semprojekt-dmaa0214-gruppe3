@@ -19,8 +19,7 @@ public class SaleCtr implements IFSaleCtr {
 	
 	private Sale sale;
 	
-	public SaleCtr() {
-	}
+	public SaleCtr() {}
 	
 	/**
 	 * Sale
@@ -54,7 +53,29 @@ public class SaleCtr implements IFSaleCtr {
 		return pCtr.searchProductsByItemNumber(itemNumber);
 	}
 	
+	@Override
+	public ArrayList<Product> searchProductsByName(String name) {
+		IFProductCtr pCtr = new ProductCtr();
+		return pCtr.searchProductsByName(name);
+	}
 	
+	/**
+	 * Car
+	 */
+	
+	@Override
+	public Car getCarByRegNr(String regNr, boolean retAsso)
+			throws NullPointerException {
+		IFCarCtr cCtr = new CarCtr();
+		return cCtr.getCarByRegNr(regNr, retAsso);
+	}
+
+	@Override
+	public Car getCarByVin(String vin, boolean retAsso)
+			throws NullPointerException {
+		IFCarCtr cCtr = new CarCtr();
+		return cCtr.getCarByVin(vin, retAsso);
+	}	
 	
 	/**
 	 * Customer
@@ -79,5 +100,7 @@ public class SaleCtr implements IFSaleCtr {
 		IFCustomerCtr cCtr = new CustomerCtr();
 		return cCtr.searchCustomersByPhone(phone, retAsso);
 	}
+
+
 
 }
