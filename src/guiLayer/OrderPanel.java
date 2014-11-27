@@ -13,6 +13,8 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
+import ctrLayer.CustomerCtr;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -38,6 +40,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.UIManager;
+
+import modelLayer.Car;
+import modelLayer.Customer;
 
 /**
  * Class for OrderPanel
@@ -422,14 +427,38 @@ public class OrderPanel extends TabbedPanel {
 	/**
 	 * 
 	 */
-	protected void customerSearch() {
-		// TODO Auto-generated method stub
+	private void customerSearch() {
+		ArrayList<Customer> customers = null;
+		
+		CustomerCtr cCtr = new CustomerCtr();
+		
+		if(txtCustomerCVR.isEnabled()){
+			
+		}else if(txtCustomerName.isEnabled()){
+			customers = cCtr.searchCustomersByName(txtCustomerName.getText());
+		}else if(txtCustomerPhone.isEnabled()){
+			customers = cCtr.searchCustomersByPhone(txtCustomerPhone.getText());
+		}
+		
+		if(customers != null && customers.size() > 0){
+			CustomerDialog cDialog = new CustomerDialog(customers, this);
+			cDialog.setVisible(true);
+		}
+		
 		
 	}
 
 	@Override
 	public void setFocus() {
 		txtCarRegNr.requestFocusInWindow();
+	}
+	
+	public void setCustomer(Customer c){
+		//TODO
+	}
+	
+	public void setCar(Car c){
+		//TODO
 	}
 
 }
