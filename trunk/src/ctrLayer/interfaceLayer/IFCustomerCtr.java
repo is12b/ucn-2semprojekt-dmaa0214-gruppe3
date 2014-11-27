@@ -12,9 +12,9 @@ import modelLayer.Customer;
  */
 public interface IFCustomerCtr {
 
-	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, int cvr, Boolean hidden);
+	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, int cvr, boolean hidden);
 	
-	public void updateCustomer(Customer customer);
+	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, int postalCode, int cvr, boolean hidden);
 	
 	public void deleteCustomer(Customer customer);
 
@@ -35,5 +35,11 @@ public interface IFCustomerCtr {
 	 * @return
 	 */
 	public ArrayList<Customer> searchCustomersByPhone(String phone);
+
+	/**
+	 * @param regNr
+	 * @return
+	 */
+	public Customer getCustomerByRegNr(String regNr);
 	
 }

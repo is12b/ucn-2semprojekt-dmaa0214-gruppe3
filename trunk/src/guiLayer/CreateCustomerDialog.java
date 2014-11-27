@@ -29,6 +29,7 @@ public class CreateCustomerDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public CreateCustomerDialog() {
+		this.setVisible(true);
 		setTitle("Opret kunde");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
