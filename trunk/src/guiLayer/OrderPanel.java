@@ -436,6 +436,13 @@ public class OrderPanel extends TabbedPanel {
 			
 		}else if(txtCustomerName.isEnabled()){
 			customers = cCtr.searchCustomersByName(txtCustomerName.getText(), true);
+			
+			for(Customer c : customers){
+				System.out.println(c.getId());
+				for(Car cc : c.getCars()){
+					System.out.println(cc.getId());
+				}
+			}
 		}else if(txtCustomerPhone.isEnabled()){
 			customers = cCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
 		}
