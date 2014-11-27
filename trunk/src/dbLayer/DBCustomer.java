@@ -19,7 +19,7 @@ import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBUnitType;
 
 /**
- * Class for DBCustomerProto
+ * Class for DBCustomer
  *
  * @author Group 3, dmaa0214, UCN
  *
@@ -73,7 +73,7 @@ public class DBCustomer implements IFDBCustomer {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			System.out.println("Error - updateCustomer - DBCustomerProto");
+			System.out.println("Error - insertCustomer - DBCustomer");
 		}
 		return rc;
 	}
@@ -99,7 +99,7 @@ public class DBCustomer implements IFDBCustomer {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			System.out.println("Error - updateCustomer - DBCustomerProto");
+			System.out.println("Error - updateCustomer - DBCustomer");
 		}
 		return rc;
 	}
@@ -118,7 +118,7 @@ public class DBCustomer implements IFDBCustomer {
 			stmt.setInt(5, customer.getCvr());
 			stmt.setBoolean(6, customer.getHidden());
 		} catch (Exception e) {
-			System.out.println("Error - updateFields - DBCustomerProto");
+			System.out.println("Error - updateFields - DBCustomer");
 			e.printStackTrace();
 		}
 	}
@@ -138,7 +138,7 @@ public class DBCustomer implements IFDBCustomer {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			System.out.println("Error - deleteCustomer - DBCustomerProto");
+			System.out.println("Error - deleteCustomer - DBCustomer");
 		}
 		return rc;
 	}
@@ -152,7 +152,7 @@ public class DBCustomer implements IFDBCustomer {
 			query += " WHERE " + wQuery;
 		}
 
-		System.out.println("DBCustomerProto - buildQuery: " + query); // TODO Delete when done testing
+		System.out.println("DBCustomer - buildQuery: " + query); // TODO Delete when done testing
 
 		return query;
 	}
@@ -168,13 +168,15 @@ public class DBCustomer implements IFDBCustomer {
 			customer.setCvr(rs.getInt("cvr"));
 			customer.setHidden(rs.getBoolean("hidden"));
 			DBPostalCode dbPost = new DBPostalCode();
-			String city = dbPost.getCity(rs.getInt("postalCode")); //TODO Muligvis forkert
-			customer.setPostalCode(rs.getInt("postalCode")); //TODO Korrekt?
+			String city = dbPost.getCity(rs.getInt("postalCode")); 
+			//TODO Muligvis forkert
+			customer.setPostalCode(rs.getInt("postalCode")); 
+			//TODO Korrekt?
 			customer.setCity(rs.getString(city));
 			
 			
 		}catch(Exception e){
-			System.out.println("DBCustomerProto - buildCustomer - Exception");
+			System.out.println("DBCustomer - buildCustomer - Exception");
 			e.printStackTrace();
 		}
 
@@ -205,7 +207,7 @@ public class DBCustomer implements IFDBCustomer {
 			stmt.close();
 
 		}catch(Exception e){
-			System.out.println("DBCustomerProto - miscWhere - Exception");
+			System.out.println("DBCustomer - miscWhere - Exception");
 			e.printStackTrace();
 		}
 		return customers;
@@ -229,7 +231,7 @@ public class DBCustomer implements IFDBCustomer {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("DBCustomerProto - singleWhere - Exception");
+			System.out.println("DBCustomer - singleWhere - Exception");
 			e.printStackTrace();
 		}		
 
