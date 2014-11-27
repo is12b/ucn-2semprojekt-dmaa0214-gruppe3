@@ -5,7 +5,7 @@ package modelLayer;
  *
  * @author Group 3, dmaa0214, UCN
  */
-public class Product {
+public class Product implements Cloneable {
 
 	private String brand;
 	private String name;
@@ -185,6 +185,26 @@ public class Product {
 	 */
 	public void setUnitType(UnitType unitType) {
 		this.unitType = unitType;
+	}
+	
+	/**
+	 * Method to set values in Object back to some values from a clone of it.
+	 * @param clone the backup clone of the object
+	 */
+	public void setToClone(Product p) {
+		this.brand = p.getBrand();
+		this.name = p.getName();
+		this.description = p.getDescription();
+		this.itemNumber = p.getItemNumber();
+		this.price = p.getPrice();
+		this.hidden = p.isHidden();
+		this.unitType = p.getUnitType();
+	}
+	
+	@Override
+	public Product clone() throws CloneNotSupportedException {
+		return (Product) super.clone();
+		
 	}
 	
 }
