@@ -109,13 +109,12 @@ public class CustomerDialog extends JDialog {
 	 * 
 	 */
 	protected void setSelected() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+		Object o = tree.getLastSelectedPathComponent();
 		
-		if(node == null){
+		if(o == null){
 			//TODO Error here
 			return;
 		}else{
-			Object o = node.getUserObject();
 			if(o instanceof Customer){
 				parent.setCustomer((Customer) o);
 			}else if(o instanceof Car){

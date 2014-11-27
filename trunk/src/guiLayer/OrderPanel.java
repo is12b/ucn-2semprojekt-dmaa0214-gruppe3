@@ -26,6 +26,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
 import java.awt.Component;
+import java.awt.Dialog.ModalityType;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
@@ -449,6 +450,7 @@ public class OrderPanel extends TabbedPanel {
 		
 		if(customers != null && customers.size() > 0){
 			CustomerDialog cDialog = new CustomerDialog(customers, this);
+			cDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 			cDialog.setVisible(true);
 		}
 		

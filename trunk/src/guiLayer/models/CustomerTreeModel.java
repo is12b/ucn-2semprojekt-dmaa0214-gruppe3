@@ -35,12 +35,12 @@ public class CustomerTreeModel implements TreeModel {
 		Object o = null;
 		
 		if(parent instanceof String){
-			if(customers.size() > index){
+			if(!(customers.size() < index)){
 				o = customers.get(index);
 			}
 		}else if(parent instanceof Customer){
-			ArrayList<Car> cars = ((Customer)o).getCars();
-			if(cars.size() > index){
+			ArrayList<Car> cars = ((Customer)parent).getCars();
+			if(!(cars.size() < index)){
 				o = cars.get(index);
 			}
 		}
