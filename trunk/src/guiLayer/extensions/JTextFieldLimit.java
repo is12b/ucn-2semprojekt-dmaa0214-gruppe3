@@ -11,7 +11,7 @@ public class JTextFieldLimit extends JTextField {
 	private boolean onlyInt;
 	private boolean oneSpace;
 
-	public JTextFieldLimit(int limit, boolean onlyInt, boolean oneSpace) {
+	public JTextFieldLimit(int limit, boolean onlyInts) {
 		super();
 		this.limit = limit;
 		this.onlyInt = onlyInt;

@@ -6,7 +6,7 @@ package modelLayer;
  *
  * @author Group 3, dmaa0214, UCN
  */
-public class UnitType {
+public class UnitType implements Cloneable{
 
 	private String description;
 	private String shortDescription;
@@ -119,4 +119,19 @@ public class UnitType {
 		return ret;
 	}
 	
+	/**
+	 * Method to set values in Object back to some values from a clone of it.
+	 * @param clone the backup clone of the object
+	 */
+	public void setToClone(UnitType clone) {
+		this.shortDescription = clone.getShortDescription();
+		this.description = clone.getDescription();
+		this.oldShortDescription = clone.getOldShortDescription();
+		this.decimalAllowed = clone.isDecimalAllowed();
+	}
+	
+	@Override
+	public UnitType clone() throws CloneNotSupportedException {
+		return (UnitType) super.clone();
+	}
 }

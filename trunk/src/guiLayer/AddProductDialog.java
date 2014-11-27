@@ -91,7 +91,6 @@ public class AddProductDialog extends JDialog {
 		
 		//TODO change cardlayout
 
-		setVisible(true);
 		
 	}
 
@@ -105,13 +104,14 @@ public class AddProductDialog extends JDialog {
 		this.parent = parent;
 		buildDialog();
 
-		setVisible(true);
+		
 	}
 
 	/**
 	 * 
 	 */
 	private void buildDialog() {
+		
 		setModal(true);
 		setLocationRelativeTo(this.parent);
 		setMinimumSize(new Dimension(300, 280));
@@ -254,6 +254,7 @@ public class AddProductDialog extends JDialog {
 		
 		refreshUnitTypes();
 		pack();
+		setVisible(true);
 	}
 
 	private void pressedClose() {

@@ -95,7 +95,7 @@ public class ProductPanel extends TabbedPanel {
 		JLabel lblID = new JLabel("ID:");
 		searchPanel.add(lblID, "2, 2, right, default");
 		
-		txtID = new JTextFieldLimit(11, true, false);
+		txtID = new JTextFieldLimit(11, true);
 		lblID.setLabelFor(txtID);
 		searchPanel.add(txtID, "4, 2, fill, default");
 		txtID.setColumns(10);
