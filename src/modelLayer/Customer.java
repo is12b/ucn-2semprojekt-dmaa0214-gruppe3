@@ -201,7 +201,7 @@ public class Customer {
 		this.hidden = hidden;
 	}
 	
-	public Boolean getHidden() {
+	public boolean getHidden() {
 		return hidden;
 	}
 	

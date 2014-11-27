@@ -18,7 +18,7 @@ public class CustomerTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Customer> customers; 
-	
+
 	public CustomerTableModel() {
 		customers = new ArrayList<Customer>();
 	}
@@ -33,7 +33,7 @@ public class CustomerTableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -49,9 +49,9 @@ public class CustomerTableModel extends AbstractTableModel {
 			value = c.getName();
 		} else if (collIndex == 1) {
 			value = c.getPhoneNumber();
-		} /*else if (collIndex == 2) {
+		} else if (collIndex == 2) {
 			ArrayList<Car> cars = c.getCars();
-			if(cars != null || cars.size() == 0) {
+			if(cars == null || cars.size() == 0) {
 				value = "-";
 			} else if(cars.size() == 1) {
 				value = cars.get(0).getRegNr();
@@ -59,10 +59,7 @@ public class CustomerTableModel extends AbstractTableModel {
 				value = "Flere";
 			}
 			//TODO
-			 * */
-			 
-		
-
+		}
 		return value;
 	}
 

@@ -76,5 +76,10 @@ public interface IFDBCustomer {
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int deleteCustomer(Customer customer);
+
+	/**
+	 * @param regNr
+	 */
+	public Customer getCustomerByRegNr(String regNr);
 	
 }

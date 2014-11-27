@@ -9,6 +9,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+import com.sun.glass.events.MouseEvent;
 
 import ctrLayer.CustomerCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
@@ -22,6 +23,7 @@ import javax.swing.JButton;
 
 import java.awt.FlowLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
@@ -31,6 +33,7 @@ import modelLayer.Customer;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 
 /**
@@ -158,9 +161,19 @@ public class CustomerPanel extends TabbedPanel {
 		model = new CustomerTableModel();
 		table.setModel(model);
 		scrollPane.setViewportView(table);
-		
-		customers = new ArrayList<Customer>();
 
+		/*table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					JTable target = (JTable)e.getSource();
+					int row = target.getSelectedRow();
+					Customer customer = customers.get(row);
+					new CustomerInfoDialog(customer);
+				}
+			}
+		});*/
+
+		customers = new ArrayList<Customer>();
 	}
 
 	@Override
@@ -171,19 +184,19 @@ public class CustomerPanel extends TabbedPanel {
 	private void searchCustomer() {
 
 		IFCustomerCtr cCtr = new CustomerCtr();
-		
-		final Boolean searchReg = !txtRegNr.getText().isEmpty();
-		final Boolean searchPhone = !txtPhone.getText().isEmpty();
-		final Boolean searchName = !txtName.getText().isEmpty();
-		final Boolean searchCvr = !txtCvr.getText().isEmpty();
-		
+
+		final boolean searchReg = !txtRegNr.getText().isEmpty();
+		final boolean searchPhone = !txtPhone.getText().isEmpty();
+		final boolean searchName = !txtName.getText().isEmpty();
+		final boolean searchCvr = !txtCvr.getText().isEmpty();
+
 		final String regNr = txtRegNr.getText().trim();
 		final String phone = txtPhone.getText().trim();
 		final String name = txtName.getText();
 		final String cvr = txtCvr.getText().trim();
 
 		if(searchReg) {
-			//TODO
+			customers.add(cCtr.getCustomerByRegNr(regNr));
 		}
 		else if(searchPhone) {
 			customers = cCtr.searchCustomersByPhone(phone);
@@ -191,19 +204,19 @@ public class CustomerPanel extends TabbedPanel {
 		else if(searchName) {
 			customers = cCtr.searchCustomersByName(name);
 		}
-		//else if(searchCvr) {
-			//customers.add(cCtr.getCustomerByCvr(cvr));
-		//}
+		else if(searchCvr) {
+			customers.add(cCtr.getCustomerByCvr(cvr));
+		}
 		updateTable();
 	}
-	
+
 	private void createCustomer() {
-		new CreateCustomerDialog();
-		
+		JDialog createPopup = new CreateCustomerDialog();
+
 	}
-	
+
 	private void updateTable() {
-			model.refresh(customers);
-			model.fireTableDataChanged();
+		model.refresh(customers);
+		model.fireTableDataChanged();
 	}
 }

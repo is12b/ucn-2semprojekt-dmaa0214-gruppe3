@@ -14,6 +14,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.border.TitledBorder;
+import javax.swing.JLabel;
 
 /**
  * Class for CustomerInfoDialog
@@ -47,11 +48,35 @@ public class CustomerInfoDialog extends JDialog {
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Kundeinformation", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			contentPanel.add(panel, "2, 2, fill, fill");
+			panel.setLayout(new FormLayout(new ColumnSpec[] {
+					FormFactory.RELATED_GAP_COLSPEC,
+					FormFactory.DEFAULT_COLSPEC,},
+				new RowSpec[] {
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,}));
+			{
+				JLabel lblName = new JLabel("Name: " + customer.getName());
+				panel.add(lblName, "2, 2");
+			}
+			{
+				JLabel lblPostCode = new JLabel("Post Code: " + customer.getPostalCode());
+				panel.add(lblPostCode, "2, 4");
+			}
+			{
+				JLabel lblCity = new JLabel("City: " + customer.getCity());
+				panel.add(lblCity, "2, 6");
+			}
 		}
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Bilinformation", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			contentPanel.add(panel, "4, 2, fill, fill");
+			panel.setLayout(new FormLayout(new ColumnSpec[] {},
+				new RowSpec[] {}));
 		}
 		{
 			JPanel buttonPane = new JPanel();

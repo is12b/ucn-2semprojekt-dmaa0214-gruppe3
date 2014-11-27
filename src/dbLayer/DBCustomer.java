@@ -70,13 +70,13 @@ public class DBCustomer implements IFDBCustomer {
 		int rc = -1;
 		final String allFields = 
 				"name = ?, " + 
-				"phoneNumber = ?, " + 
-				"address = ?, " + 
-				"postalCode = ?, " + 
-				"cvr = ?, " + 
-				"hidden = ? "; 
+						"phoneNumber = ?, " + 
+						"address = ?, " + 
+						"postalCode = ?, " + 
+						"cvr = ?, " + 
+						"hidden = ? "; 
 		String query = "UPDATE CUSTOMER SET " + allFields + "WHERE customerID = ?" 	;
-		
+
 		try {
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
@@ -114,7 +114,7 @@ public class DBCustomer implements IFDBCustomer {
 	public int deleteCustomer(Customer customer) {
 		int rc = -1;
 		String query = "DELETE FROM CUSTOMER WHERE CUSTOMERID = " + customer.getId();
-		
+
 		try {
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
@@ -174,12 +174,12 @@ public class DBCustomer implements IFDBCustomer {
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
 			ResultSet rs = stmt.executeQuery(query);
-			
+
 			while(rs.next()){
 				Customer customer = buildCustomer(rs);
 				if(customer != null) {
 					customers.add(customer);
-					
+
 					if(retAsso) {
 						IFDBCar dbCar = new DBCar();
 						customer.setCars(dbCar.getCars(customer, false));
@@ -187,7 +187,7 @@ public class DBCustomer implements IFDBCustomer {
 				}
 			}
 			stmt.close();
-			
+
 		}catch(Exception e){
 			System.out.println("DBCustomerProto - miscWhere - Exception");
 			e.printStackTrace();
@@ -206,7 +206,7 @@ public class DBCustomer implements IFDBCustomer {
 			if (rs.next()) {
 				customer = buildCustomer(rs);
 				stmt.close();
-				
+
 				if(retAsso) {
 					IFDBCar dbCar = new DBCar();
 					customer.setCars(dbCar.getCars(customer, false));
@@ -219,5 +219,11 @@ public class DBCustomer implements IFDBCustomer {
 
 		return customer; 
 	}
-
+	
+	@Override
+	public Customer getCustomerByRegNr(String regNr) {
+		IFDBCar dbCar = new DBCar();
+		Car car = dbCar.getCarByRegNr(regNr, false);
+		return car.getOwner();
+	}
 }
