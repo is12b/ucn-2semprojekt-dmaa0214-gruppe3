@@ -200,6 +200,11 @@ public class OrderPanel extends TabbedPanel {
 		panel_4.add(btnCustomerSearch, "1, 1, fill, center");
 		
 		JButton btnCustomerClear = new JButton("Ryd");
+		btnCustomerClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCustomerSearch();
+			}
+		});
 		panel_4.add(btnCustomerClear, "3, 1, fill, center");
 		
 		JPanel panel_2 = new JPanel();
@@ -246,6 +251,11 @@ public class OrderPanel extends TabbedPanel {
 		panel_5.add(btnNewButton_1, "1, 1");
 		
 		JButton btnNewButton = new JButton("Ryd");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearProductSearch();
+			}
+		});
 		panel_5.add(btnNewButton, "3, 1");
 		
 		JPanel panel_1 = new JPanel();
@@ -291,9 +301,19 @@ public class OrderPanel extends TabbedPanel {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JButton btnCarSearch = new JButton("S\u00F8g");
+		btnCarSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carSearch();
+			}
+		});
 		panel.add(btnCarSearch, "1, 1");
 		
 		JButton btnCarClear = new JButton("Ryd");
+		btnCarClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCarSearch();
+			}
+		});
 		panel.add(btnCarClear, "5, 1");
 		
 		JPanel panel_6 = new JPanel();
@@ -518,9 +538,25 @@ public class OrderPanel extends TabbedPanel {
 	}
 
 	
+	private void clearCustomerSearch(){
+		customerFields.forEach(c -> c.setText(""));
+	}
+	
 	/**
 	 * Car
 	 */
+	
+	private void carSearch(){
+		Car c = null;
+				
+		if(txtCarRegNr.isEnabled()){
+			c = sCtr.getCarByRegNr(txtCarRegNr.getText(), true);
+		}else if(txtCarVin.isEnabled()){
+			c = sCtr.getCarByVin(txtCarVin.getText(), true);
+		}
+		
+		setCar(c);
+	}
 	
 	public void setCar(Car c){
 		System.out.println("Car added");
@@ -547,6 +583,19 @@ public class OrderPanel extends TabbedPanel {
 		lblVin.setText("");
 		lblMileAge.setText("");
 		carPanel.setVisible(false);
+	}
+
+
+	private void clearCarSearch(){
+		carFields.forEach(c -> c.setText(""));
+	}
+
+	/**
+	 * Product
+	 */
+	
+	private void clearProductSearch(){
+		productFields.forEach(p -> p.setText(""));
 	}
 
 }
