@@ -40,6 +40,9 @@ public abstract class Methods {
 	 * @param title The text shows as title of the dialog
 	 */
 	public static void showError(Component parent, String text, String title) {
+		if(text.trim().isEmpty()) {
+			text = "Der er sket en ukendt systemfejl";
+		}
 		JOptionPane.showMessageDialog(parent, text, "Fejl", JOptionPane.ERROR_MESSAGE);
 	}
 	

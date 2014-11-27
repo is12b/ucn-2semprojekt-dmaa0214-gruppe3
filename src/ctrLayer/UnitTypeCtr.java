@@ -49,20 +49,27 @@ public class UnitTypeCtr implements IFUnitTypeCtr {
 	@Override
 	public void updateUnitType(UnitType unitType, String desc, String shortDesc, boolean decimalAllowed) throws NullPointerException, DBException {
 		if (unitType != null) {
-			System.out.println("før i ctr: " + unitType);
+			//System.out.println("før i ctr: " + unitType);
+			UnitType tempObj = null;
 			try {
+				tempObj = unitType.clone();
 				
 				unitType.setDescription(desc);
 				unitType.setShortDescription(shortDesc);
 				unitType.setDecimalAllowed(decimalAllowed);
 				
 				int rc = dbUnit.updateUnitType(unitType);
+			} catch (CloneNotSupportedException e) {
+				System.out.println("Den fejl burde ikke kunne ske"); //TODO bedre beskrivelse?
+				e.printStackTrace();
 			} catch (DBNotFoundException e) {
+				unitType.setToClone(tempObj);
 				throw new DBNotFoundException(e.getMessage());
 			} catch (DBException e) {
+				unitType.setToClone(tempObj);
 				throw new DBException(e.getMessage());
 			}
-			System.out.println("efter i ctr: " + unitType);
+			//System.out.println("efter i ctr: " + unitType);
 		} else {
 			throw new NullPointerException("Enhedstypen er ikke angivet");
 		}
