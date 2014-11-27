@@ -63,26 +63,26 @@ public class CustomerCtr implements IFCustomerCtr {
 	}
 
 	@Override
-	public Customer getCustomerByCvr(String cvr) {
+	public Customer getCustomerByCvr(String cvr, boolean retAsso) {
 		Customer foundCustomer = null;
 		IFDBCustomer dbCus = new DBCustomer();
-		foundCustomer = dbCus.getCustomerByCvr(cvr, false);
+		foundCustomer = dbCus.getCustomerByCvr(cvr, retAsso);
 		return foundCustomer;
 	}
 
 	@Override
-	public ArrayList<Customer> searchCustomersByName(String name) {
+	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso) {
 		ArrayList<Customer> foundCustomers = null;
 		IFDBCustomer dbCus = new DBCustomer();
-		foundCustomers = dbCus.getCustomersByName(name, false);
+		foundCustomers = dbCus.getCustomersByName(name, retAsso);
 		return foundCustomers;
 	}
 
 	@Override
-	public ArrayList<Customer> searchCustomersByPhone(String phone) {
+	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso) {
 		ArrayList<Customer> foundCustomers = null;
 		IFDBCustomer dbCus = new DBCustomer();
-		foundCustomers = dbCus.getCustomersByPhone(phone, false);
+		foundCustomers = dbCus.getCustomersByPhone(phone, retAsso);
 		return foundCustomers;
 	}
 
