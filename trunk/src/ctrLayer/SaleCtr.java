@@ -27,13 +27,18 @@ public class SaleCtr implements IFSaleCtr {
 
 	@Override
 	public Sale createSale() {
-		Sale sale = new Sale();
+		sale = new Sale();
 		return sale;
 	}
 
 	@Override
-	public void addCar(Car car){
+	public void setCar(Car car){
 		sale.setCar(car);
+	}
+	
+	@Override
+	public void setCustomer(Customer customer){
+		sale.setCustomer(customer);
 	}
 
 	@Override

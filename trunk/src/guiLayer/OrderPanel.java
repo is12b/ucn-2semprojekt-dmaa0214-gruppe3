@@ -14,6 +14,8 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.CustomerCtr;
+import ctrLayer.SaleCtr;
+import ctrLayer.interfaceLayer.IFSaleCtr;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -44,6 +46,7 @@ import javax.swing.UIManager;
 
 import modelLayer.Car;
 import modelLayer.Customer;
+import modelLayer.Sale;
 
 /**
  * Class for OrderPanel
@@ -64,12 +67,24 @@ public class OrderPanel extends TabbedPanel {
 	private ArrayList<JTextField> customerFields;
 	private ArrayList<JTextField> carFields;
 	private ArrayList<JTextField> productFields;
+	private IFSaleCtr sCtr;
+	private JLabel lblName;
+	private JLabel lblPhone;
+	private JLabel lblRegNr;
+	private JLabel lblVin;
+	private JLabel lblMileAge;
+	private JPanel carPanel;
+	private JPanel customerPanel;
+	private JLabel lblCvr;
+	private Sale sale;
 
 	/**
 	 * Create the panel.
 	 */
 	public OrderPanel(MainGUI parent) {
 		this.parent = parent;
+		sCtr = new SaleCtr();
+		sale = sCtr.createSale();
 		customerFields = new ArrayList<JTextField>();
 		carFields = new ArrayList<JTextField>();
 		productFields = new ArrayList<JTextField>();
@@ -294,62 +309,70 @@ public class OrderPanel extends TabbedPanel {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JPanel panel_8 = new JPanel();
-		panel_8.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_6.add(panel_8, "1, 1, fill, fill");
-		panel_8.setLayout(new FormLayout(new ColumnSpec[] {
+		customerPanel = new JPanel();
+		customerPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_6.add(customerPanel, "1, 1, fill, fill");
+		customerPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.NARROW_LINE_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.NARROW_LINE_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblNewLabel_6 = new JLabel("Navn:");
-		panel_8.add(lblNewLabel_6, "1, 1");
+		customerPanel.add(lblNewLabel_6, "1, 1");
 		
-		JLabel lblName = new JLabel("Mikkel");
-		panel_8.add(lblName, "3, 1");
+		lblName = new JLabel("Mikkel");
+		customerPanel.add(lblName, "3, 1");
 		
 		JLabel lblNewLabel_4 = new JLabel("Telefon:");
-		panel_8.add(lblNewLabel_4, "1, 3");
+		customerPanel.add(lblNewLabel_4, "1, 3");
 		
-		JLabel lblNewLabel_7 = new JLabel("88888888");
-		panel_8.add(lblNewLabel_7, "3, 3");
+		lblPhone = new JLabel("88888888");
+		customerPanel.add(lblPhone, "3, 3");
 		
-		JPanel panel_11 = new JPanel();
-		panel_11.setBorder(new TitledBorder(null, "Bil", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_6.add(panel_11, "3, 1, 1, 2, fill, fill");
-		panel_11.setLayout(new FormLayout(new ColumnSpec[] {
+		JLabel lblNewLabel_7 = new JLabel("CVR:");
+		customerPanel.add(lblNewLabel_7, "1, 5");
+		
+		lblCvr = new JLabel("");
+		customerPanel.add(lblCvr, "3, 5");
+		
+		carPanel = new JPanel();
+		carPanel.setBorder(new TitledBorder(null, "Bil", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_6.add(carPanel, "3, 1, fill, fill");
+		carPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.NARROW_LINE_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.NARROW_LINE_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblNewLabel_9 = new JLabel("Regnr:");
-		panel_11.add(lblNewLabel_9, "2, 1");
+		carPanel.add(lblNewLabel_9, "2, 1");
 		
-		JLabel lblNewLabel_8 = new JLabel("FA21981");
-		panel_11.add(lblNewLabel_8, "4, 1");
+		lblRegNr = new JLabel("FA21981");
+		carPanel.add(lblRegNr, "4, 1");
 		
 		JLabel lblStelnr = new JLabel("Stelnr:");
-		panel_11.add(lblStelnr, "2, 3");
+		carPanel.add(lblStelnr, "2, 3");
 		
-		JLabel lblDetvedlasse = new JLabel("DetVedLasseNok");
-		panel_11.add(lblDetvedlasse, "4, 3");
+		lblVin = new JLabel("DetVedLasseNok");
+		carPanel.add(lblVin, "4, 3");
 		
 		JLabel lblNewLabel_12 = new JLabel("Kilometer:");
-		panel_11.add(lblNewLabel_12, "2, 5");
+		carPanel.add(lblNewLabel_12, "2, 5");
 		
-		JLabel lblNewLabel_13 = new JLabel("400000");
-		panel_11.add(lblNewLabel_13, "4, 5");
+		lblMileAge = new JLabel("400000");
+		carPanel.add(lblMileAge, "4, 5");
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -401,6 +424,9 @@ public class OrderPanel extends TabbedPanel {
 		JButton btnCommit = new JButton("Opret Faktura");
 		panel_9.add(btnCommit, "5, 2");
 		
+		customerPanel.setVisible(false);
+		carPanel.setVisible(false);
+		
 		parent.setDefaultButton(btnCommit);
 		
 		populateTextFields();
@@ -429,23 +455,14 @@ public class OrderPanel extends TabbedPanel {
 	 * 
 	 */
 	private void customerSearch() {
-		ArrayList<Customer> customers = null;
-		
-		CustomerCtr cCtr = new CustomerCtr();
+		ArrayList<Customer> customers = new ArrayList<Customer>();
 		
 		if(txtCustomerCVR.isEnabled()){
-			customers.add(cCtr.getCustomerByCvr(txtCustomerCVR.getText(), true));
+			customers.add(sCtr.getCustomerByCvr(txtCustomerCVR.getText(), true));
 		}else if(txtCustomerName.isEnabled()){
-			customers = cCtr.searchCustomersByName(txtCustomerName.getText(), true);
-			
-			for(Customer c : customers){
-				System.out.println(c.getId());
-				for(Car cc : c.getCars()){
-					System.out.println(cc.getId());
-				}
-			}
+			customers = sCtr.searchCustomersByName(txtCustomerName.getText(), true);
 		}else if(txtCustomerPhone.isEnabled()){
-			customers = cCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
+			customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
 		}
 		
 		if(customers != null){
@@ -457,7 +474,7 @@ public class OrderPanel extends TabbedPanel {
 				setCustomer(customers.get(0));
 			}
 		}else{
-			//TODO fail
+			//TODO Error intet fundet
 		}
 		
 		
@@ -471,10 +488,27 @@ public class OrderPanel extends TabbedPanel {
 	public void setCustomer(Customer c){
 		System.out.println("Customer Added");
 		//TODO
+		if(c != null){
+			sCtr.setCustomer(c);
+			
+			lblName.setText(c.getName());
+			lblPhone.setText(c.getPhoneNumber());
+			lblCvr.setText(String.valueOf(c.getCvr()));
+			customerPanel.setVisible(true);
+		}
 	}
 	
 	public void setCar(Car c){
-		//TODO
+		System.out.println("Car added");
+		if(c != null){
+			sCtr.setCar(c);
+			setCustomer(c.getOwner());
+			
+			lblRegNr.setText(c.getRegNr());
+			lblVin.setText(c.getVin());
+			lblMileAge.setText(String.valueOf(c.getMileage()));
+			carPanel.setVisible(true);
+		}
 	}
 
 }
