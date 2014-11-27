@@ -216,7 +216,15 @@ public class Car {
 		this.owner = owner;
 	}
 	
-	
+	public String toString(){
+		String retString = "";
+		if(regNr.isEmpty()){
+			retString = vin + " - " + model + " - " + year;
+		}else{
+			retString = regNr + " - " + model + " - " + year;;
+		}
+		return retString;
+	}
 	
 
 }

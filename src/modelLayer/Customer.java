@@ -39,7 +39,6 @@ public class Customer {
 	 */
 	public Customer(String name, String phoneNumber, String address,
 			int postalCode, int cvr, boolean hidden) {
-		super();
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
@@ -219,6 +218,18 @@ public class Customer {
 	
 	public void setCars(ArrayList<Car> cars) {
 		this.cars = cars;
+	}
+	
+	public String toString(){
+		String retString = "";
+		
+		if(cvr == 0){
+			retString = name + " - " + phoneNumber;
+		} else {
+			retString = cvr + " - " + name + " - " + phoneNumber;
+		}
+		
+		return retString;
 	}
 
 }
