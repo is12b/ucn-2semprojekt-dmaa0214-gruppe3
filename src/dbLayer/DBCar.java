@@ -35,6 +35,17 @@ public class DBCar implements IFDBCar {
 	public Car getCar(int id, boolean retAsso) {
 		return singleWhere("CarID = " + id, retAsso);
 	}
+	
+
+	@Override
+	public Car getCarByRegNr(String regNr, boolean retAsso) {
+		return singleWhere("Hidden = 0 AND RegNR = '" + regNr + "'", retAsso);
+	}
+
+	@Override
+	public Car getCarByVin(String vin, boolean retAsso) {
+		return singleWhere("Hidden = 0 AND VIN = '" + vin + "'", retAsso);
+	}
 
 	@Override
 	public int insertCar(Car car) {
@@ -194,18 +205,7 @@ public class DBCar implements IFDBCar {
 		}
 		
 		return rc;
-	}
-
-	@Override
-	public Car getCarByRegNr(String regNr, boolean retAsso) {
-		return singleWhere("Hidden = 0 AND RegNR = '" + regNr + "'", retAsso);
-	}
-
-	@Override
-	public Car getCarByVin(String vin, boolean retAsso) {
-		return singleWhere("Hidden = 0 AND VIN = '" + vin + "'", retAsso);
-	}
-	
+	}	
 	
 	private Car singleWhere(String wQuery, boolean retAsso){
 		Car car = null;
