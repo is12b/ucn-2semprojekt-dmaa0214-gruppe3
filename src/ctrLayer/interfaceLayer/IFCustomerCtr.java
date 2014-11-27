@@ -22,19 +22,19 @@ public interface IFCustomerCtr {
 	 * @param cvr
 	 * @return
 	 */
-	public Customer getCustomerByCvr(String cvr);
+	public Customer getCustomerByCvr(String cvr, boolean retAsso);
 
 	/**
 	 * @param name
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByName(String name);
+	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso);
 
 	/**
 	 * @param phone
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByPhone(String phone);
+	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso);
 
 	/**
 	 * @param regNr
