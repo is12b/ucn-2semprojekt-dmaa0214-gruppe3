@@ -3,6 +3,7 @@ package guiLayer.product;
 import guiLayer.MainGUI;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
+import guiLayer.extensions.Utilities;
 import guiLayer.product.models.ProductTableModel;
 
 import java.awt.Dimension;
@@ -15,14 +16,16 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.ProductCtr;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFProductCtr;
+import dbLayer.exceptions.DBException;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JButton;
@@ -30,7 +33,6 @@ import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 import modelLayer.Product;
@@ -41,9 +43,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JPopupMenu;
-
-import java.awt.Component;
-
 import javax.swing.ListSelectionModel;
 
 /**
@@ -232,8 +231,23 @@ public class ProductPanel extends TabbedPanel {
 	private void deleteProduct(int selectedRow) {
 		// TODO Auto-generated method stub
 		if (selectedRow != -1) {
-			Product p = model.getProductAt(selectedRow);
-			System.out.println(p);
+			int selectedModelRow = table.convertRowIndexToModel(selectedRow);
+			Product p = model.getProductAt(selectedModelRow);
+			int c = Utilities.showWarning(this, "Er du sikker på du vil slette VareID: " + p.getId() + "?");
+			if(c == JOptionPane.YES_OPTION) {
+				IFProductCtr pCtr = new ProductCtr();
+				try {
+					pCtr.deleteProduct(p);
+					model.removeProduct(p);
+				} catch (ObjectNotExistException e) {
+					model.removeProduct(p);
+					//e.printStackTrace();
+				} catch (DBException e) {
+					Utilities.showError(this, e.getMessage());
+					//e.printStackTrace();
+				}
+			}
+			
 		}
 	}
 
@@ -241,12 +255,18 @@ public class ProductPanel extends TabbedPanel {
 	 * @param selectedRow
 	 */
 	private void editProduct(int selectedRow) {
-		// TODO Auto-generated method stub
 		if (selectedRow != -1) {
 			int selectedModelRow = table.convertRowIndexToModel(selectedRow);
-			Product p = model.getProductAt(selectedModelRow);
-			if (p != null) {
-				CreateProductDialog dialog = new CreateProductDialog(this, p);
+			Product product = model.getProductAt(selectedModelRow);
+			if (product != null) {
+				CreateProductDialog dialog = new CreateProductDialog(this, product);
+				Product tempProd = dialog.getProduct();
+				if (tempProd == null) {
+					model.removeProduct(product);
+				} else {
+					model.fireTableDataChanged();
+				}
+				dialog.dispose();
 			}
 		}
 	}
@@ -266,12 +286,12 @@ public class ProductPanel extends TabbedPanel {
 	}
 
 	private void openCreateDialog() {
-		// TODO DO SOMETHING MORE?
 		CreateProductDialog dialog = new CreateProductDialog(this);
 		Product p = dialog.getProduct();
 		if(p != null) {
 			model.addProduct(p);
 		}
+		dialog.dispose();
 	}
 
 	private void clear() {
@@ -311,7 +331,7 @@ public class ProductPanel extends TabbedPanel {
 		txtID.requestFocusInWindow();
 		parent.setDefaultButton(btnSearch);
 	}
-
+/*  //TODO hvor kommer det fra?
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -329,4 +349,4 @@ public class ProductPanel extends TabbedPanel {
 			}
 		});
 	}
-}
+*/}
