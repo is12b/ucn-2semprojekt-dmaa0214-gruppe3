@@ -447,6 +447,11 @@ public class OrderPanel extends TabbedPanel {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JButton btnClear = new JButton("Ryd Faktura");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearOrder();
+			}
+		});
 		panel_9.add(btnClear, "1, 2");
 		
 		JButton btnCommit = new JButton("Opret Faktura");
@@ -699,5 +704,9 @@ public class OrderPanel extends TabbedPanel {
 	
 	private void error(String error){
 		JOptionPane.showMessageDialog(this, error, "Fejl", JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private void clearOrder(){
+		parent.recreateOrderPanel();
 	}
 }

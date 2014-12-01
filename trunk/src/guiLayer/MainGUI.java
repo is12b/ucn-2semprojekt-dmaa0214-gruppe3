@@ -37,7 +37,7 @@ public class MainGUI extends JFrame {
 	private JTabbedPane tabbedPane;
 	private CustomerPanel tabCus;
 	private CarPanel tabCar;
-	private OrderPanel tabSale;
+	private OrderPanel tabOrder;
 	private ProductPanel tabProd;
 	
 	
@@ -109,8 +109,8 @@ public class MainGUI extends JFrame {
 		tabCus = new CustomerPanel(this);
 		tabbedPane.addTab("Kunde", null, tabCus, null);
 		
-		tabSale = new OrderPanel(this);
-		tabbedPane.addTab("Faktura", null, tabSale, null);
+		tabOrder = new OrderPanel(this);
+		tabbedPane.addTab("Faktura", null, tabOrder, null);
 		
 		tabCar = new CarPanel(this);
 		tabbedPane.addTab("Biler", null, tabCar, null);
@@ -130,6 +130,13 @@ public class MainGUI extends JFrame {
 	
 	public void setDefaultButton(JButton button){
 		getRootPane().setDefaultButton(button);
+	}
+	
+	public void recreateOrderPanel(){
+		tabbedPane.remove(tabOrder);
+		tabOrder = new OrderPanel(this);
+		tabbedPane.insertTab("Faktura", null, tabOrder, null, 1);
+		tabbedPane.setSelectedIndex(1);
 	}
 	
 	private void setFocus() {
