@@ -1,5 +1,7 @@
 package guiLayer;
 
+import guiLayer.extensions.Utilities;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -245,13 +247,13 @@ public class CreateCustomerDialog extends JDialog {
 			try {
 				postalCode = Integer.parseInt(txtPostCode.getText());
 			} catch (NumberFormatException e) {
-				Methods.showError(this, "Postnummer skal være et heltal");
+				Utilities.showError(this, "Postnummer skal være et heltal");
 				e.printStackTrace();
 			}
 			try {
 				cvr = Integer.parseInt(txtCvr.getText());
 			} catch (NumberFormatException e) {
-				Methods.showError(this, "CVR-nr skal være et heltal");
+				Utilities.showError(this, "CVR-nr skal være et heltal");
 				e.printStackTrace();
 			}
 		

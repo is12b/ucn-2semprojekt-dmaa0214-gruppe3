@@ -2,6 +2,8 @@ package guiLayer;
 
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.order.OrderPanel;
+import guiLayer.product.ProductPanel;
+import guiLayer.product.UnitTypeDialog;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;

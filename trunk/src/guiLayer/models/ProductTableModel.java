@@ -1,6 +1,6 @@
 package guiLayer.models;
 
-import guiLayer.Methods;
+import guiLayer.extensions.Utilities;
 
 import java.util.ArrayList;
 
@@ -86,9 +86,14 @@ public class ProductTableModel extends AbstractTableModel {
 		} else if (columnIndex == 5) {
 			value = p.getUnitType().getShortDescription();
 		} else if (columnIndex == 6) {
-			value = Methods.getAsMoney(p.getPrice());
+			value = Utilities.getAsMoney(p.getPrice());
 		}
 		return value;
+	}
+	
+	public Product getProductAt(int rowIndex) {
+		Product p = products.get(rowIndex);
+		return p;
 	}
 
 }
