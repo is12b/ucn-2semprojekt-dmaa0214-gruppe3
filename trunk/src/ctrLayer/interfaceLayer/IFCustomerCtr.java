@@ -22,24 +22,24 @@ public interface IFCustomerCtr {
 	 * @param cvr
 	 * @return
 	 */
-	public Customer getCustomerByCvr(String cvr, boolean retAsso);
+	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws NullPointerException;
 
 	/**
 	 * @param name
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso);
+	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso) throws NullPointerException;
 
 	/**
 	 * @param phone
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso);
+	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso) throws NullPointerException;
 
 	/**
 	 * @param regNr
 	 * @return
 	 */
-	public Customer getCustomerByRegNr(String regNr);
+	public Customer getCustomerByRegNr(String regNr) throws NullPointerException;
 	
 }

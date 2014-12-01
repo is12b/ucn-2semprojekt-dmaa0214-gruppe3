@@ -63,10 +63,12 @@ public class CustomerCtr implements IFCustomerCtr {
 	}
 
 	@Override
-	public Customer getCustomerByCvr(String cvr, boolean retAsso) {
-		Customer foundCustomer = null;
+	public Customer getCustomerByCvr(String cvr, boolean retAsso){
 		IFDBCustomer dbCus = new DBCustomer();
-		foundCustomer = dbCus.getCustomerByCvr(cvr, retAsso);
+		Customer foundCustomer = dbCus.getCustomerByCvr(cvr, retAsso);
+		if(foundCustomer == null ){
+			throw new NullPointerException("Ingen kunder fundet");
+		}
 		return foundCustomer;
 	}
 
@@ -75,6 +77,9 @@ public class CustomerCtr implements IFCustomerCtr {
 		ArrayList<Customer> foundCustomers = null;
 		IFDBCustomer dbCus = new DBCustomer();
 		foundCustomers = dbCus.getCustomersByName(name, retAsso);
+		if(foundCustomers == null || foundCustomers.size() == 0){
+			throw new NullPointerException("Ingen kunder fundet");
+		}
 		return foundCustomers;
 	}
 
@@ -83,13 +88,20 @@ public class CustomerCtr implements IFCustomerCtr {
 		ArrayList<Customer> foundCustomers = null;
 		IFDBCustomer dbCus = new DBCustomer();
 		foundCustomers = dbCus.getCustomersByPhone(phone, retAsso);
+		if(foundCustomers == null || foundCustomers.size() == 0){
+			throw new NullPointerException("Ingen kunder fundet");
+		}
 		return foundCustomers;
 	}
 
 	@Override
 	public Customer getCustomerByRegNr(String regNr) {
 		IFDBCustomer dbCus = new DBCustomer();
-		return dbCus.getCustomerByRegNr(regNr);
+		Customer cust = dbCus.getCustomerByRegNr(regNr);
+		if(cust == null){
+			throw new NullPointerException("Ingen kunde fundet");
+		}
+		return cust;
 	}
 
 }

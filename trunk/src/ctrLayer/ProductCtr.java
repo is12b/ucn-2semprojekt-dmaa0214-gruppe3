@@ -19,19 +19,35 @@ public class ProductCtr implements IFProductCtr {
 		IFDBProduct dbProd = new DBProduct();
 		Product product = dbProd.getProductByID(id);
 		
+		if(product == null){
+			throw new NullPointerException("Intet produkt fundet");
+		}
+		
 		return product;
 	}
 
 	@Override
 	public ArrayList<Product> searchProductsByName(String name) {
 		IFDBProduct dbProd = new DBProduct();
-		return dbProd.searchProductsByName(name);
+		ArrayList<Product> products = dbProd.searchProductsByName(name);
+		
+		if(products == null || products.size() == 0){
+			throw new NullPointerException("Ingen produkter fundet");
+		}
+		
+		return products;
 	}
 
 	@Override
 	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) {
 		IFDBProduct dbProd = new DBProduct();
-		return dbProd.searchProductsByItemNumber(itemNumber);
+		ArrayList<Product> products = dbProd.searchProductsByItemNumber(itemNumber);
+		
+		if(products == null || products.size() == 0){
+			throw new NullPointerException("Ingen produkter fundet");
+		}
+		
+		return products;
 	}
 
 	@Override

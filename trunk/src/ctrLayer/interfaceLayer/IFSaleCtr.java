@@ -22,9 +22,9 @@ public interface IFSaleCtr {
 	
 	public void setCustomer(Customer customer);
 	
-	public ArrayList<Product> searchProductsByName(String name);
+	public ArrayList<Product> searchProductsByName(String name) throws NullPointerException;
 	
-	public ArrayList<Product> searchProductsByItemNumber(String itemNumber);
+	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) throws NullPointerException;
 	
 	public void createPartSale(Product product, double amount, double unitPrice);
 	
@@ -32,19 +32,19 @@ public interface IFSaleCtr {
 	 * @param cvr
 	 * @return
 	 */
-	public Customer getCustomerByCvr(String cvr, boolean retAsso);
+	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws NullPointerException;
 
 	/**
 	 * @param name
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso);
+	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso) throws NullPointerException;
 
 	/**
 	 * @param phone
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso);
+	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso) throws NullPointerException;
 
 	/**
 	 * @param regNr

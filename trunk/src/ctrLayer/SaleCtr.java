@@ -96,15 +96,14 @@ public class SaleCtr implements IFSaleCtr {
 	 */
 	
 	@Override
-	public Car getCarByRegNr(String regNr, boolean retAsso)
-			throws NullPointerException {
+	public Car getCarByRegNr(String regNr, boolean retAsso) {
+		
 		IFCarCtr cCtr = new CarCtr();
 		return cCtr.getCarByRegNr(regNr, retAsso);
 	}
 
 	@Override
-	public Car getCarByVin(String vin, boolean retAsso)
-			throws NullPointerException {
+	public Car getCarByVin(String vin, boolean retAsso) {
 		IFCarCtr cCtr = new CarCtr();
 		return cCtr.getCarByVin(vin, retAsso);
 	}	
