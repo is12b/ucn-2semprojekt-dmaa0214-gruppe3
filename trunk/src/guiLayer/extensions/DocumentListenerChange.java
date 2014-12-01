@@ -1,6 +1,5 @@
 package guiLayer.extensions;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -41,20 +40,17 @@ public class DocumentListenerChange implements DocumentListener {
 		updateFields(root);
 	}
 	
-	private void updateFields(Object c) {
-		ArrayList<Component> comps = new ArrayList<Component>();
+	private void updateFields(JTextField c) {
+		ArrayList<JTextField> comps = new ArrayList<JTextField>();
 		comps.addAll(fields);
-		boolean empty = true;
-		if (c instanceof JTextField) {
-			empty = ((JTextField) c).getText().isEmpty();
-		}
+		boolean empty = c.getText().isEmpty();		
 		if (!empty) {
 			comps.remove(c);
-			for (Component component : comps) {
+			for (JTextField component : comps) {
 				component.setEnabled(false);
 			}
 		} else {
-			for (Component component : comps) {
+			for (JTextField component : comps) {
 				component.setEnabled(true);
 			}
 		}
