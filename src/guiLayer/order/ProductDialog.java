@@ -17,6 +17,8 @@ import javax.swing.JList;
 
 import modelLayer.Customer;
 import modelLayer.Product;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * Class for ProductDialog
@@ -28,11 +30,13 @@ public class ProductDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JList<Product> list;
-
+	private boolean closeMe = true;
+	private OrderPanel parent;
 	/**
 	 * Create the dialog.
 	 */
-	public ProductDialog(ArrayList<Product> products) {
+	public ProductDialog(ArrayList<Product> products, OrderPanel parent) {
+		this.parent = parent;
 		setTitle("S\u00F8g Produkt");
 		setBounds(100, 100, 296, 456);
 		getContentPane().setLayout(new BorderLayout());
@@ -55,12 +59,22 @@ public class ProductDialog extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						createPartSaleDialog(list.getSelectedValue());
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ProductDialog.this.dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -70,6 +84,24 @@ public class ProductDialog extends JDialog {
 	}
 	
 	
+	/**
+	 * @param selectedValue
+	 */
+	protected void createPartSaleDialog(Product product) {
+		if(product != null){
+			PartSaleDialog pDialog = new PartSaleDialog(product, this, parent);
+			pDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+			pDialog.setVisible(true);
+			
+			if(closeMe){
+				this.dispose();
+			}
+		}else{
+			//TODO du skal vælge noget...
+		}
+	}
+
+
 	protected void redraw(final ArrayList<Product> products) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -83,6 +115,10 @@ public class ProductDialog extends JDialog {
 				list.setModel(model);
 			}
 		});
+	}
+	
+	public void setCloseMe(boolean close){
+		closeMe = close;
 	}
 
 }

@@ -491,14 +491,22 @@ public class OrderPanel extends TabbedPanel {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		
 		if(txtCustomerCVR.isEnabled()){
-			customers.add(sCtr.getCustomerByCvr(txtCustomerCVR.getText(), true));
+			if(!txtCustomerCVR.getText().isEmpty()){
+				customers.add(sCtr.getCustomerByCvr(txtCustomerCVR.getText(), true));
+			}
 		}else if(txtCustomerName.isEnabled()){
-			customers = sCtr.searchCustomersByName(txtCustomerName.getText(), true);
+			if(!txtCustomerName.getText().isEmpty()){
+				customers = sCtr.searchCustomersByName(txtCustomerName.getText(), true);
+			}
 		}else if(txtCustomerPhone.isEnabled()){
-			customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
+			if(!txtCustomerPhone.getText().isEmpty()){
+				customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
+			}
 		}
 		
-		createCustomerDialog(customers);	
+		if(customers != null && !(customers.size() == 0)){
+			createCustomerDialog(customers);
+		}
 		
 	}
 	
@@ -557,12 +565,18 @@ public class OrderPanel extends TabbedPanel {
 		Car c = null;
 				
 		if(txtCarRegNr.isEnabled()){
-			c = sCtr.getCarByRegNr(txtCarRegNr.getText(), true);
+			if(!txtCarRegNr.getText().isEmpty()){
+				c = sCtr.getCarByRegNr(txtCarRegNr.getText(), true);
+			}
 		}else if(txtCarVin.isEnabled()){
-			c = sCtr.getCarByVin(txtCarVin.getText(), true);
+			if(!txtCarVin.getText().isEmpty()){
+				c = sCtr.getCarByVin(txtCarVin.getText(), true);
+			}
 		}
 		
-		setCar(c);
+		if(c != null){
+			setCar(c);
+		}
 	}
 	
 	public void setCar(Car c){
@@ -604,9 +618,13 @@ public class OrderPanel extends TabbedPanel {
 	private void searchProduct() {
 		ArrayList<Product> products = new ArrayList<Product>();
 		if(txtProductName.isEnabled()){
-			products = sCtr.searchProductsByName(txtProductName.getText());
+			if(!txtProductName.getText().isEmpty()){
+				products = sCtr.searchProductsByName(txtProductName.getText());
+			}
 		}else if(txtProductNumber.isEnabled()){
-			products = sCtr.searchProductsByItemNumber(txtProductNumber.getText());
+			if(!txtProductNumber.getText().isEmpty()){
+				products = sCtr.searchProductsByItemNumber(txtProductNumber.getText());
+			}
 		}
 		
 		createProductDialog(products);
@@ -615,7 +633,7 @@ public class OrderPanel extends TabbedPanel {
 	private void createProductDialog(final ArrayList<Product> products) {
 		if(products != null){
 			if(products.size() > 1){
-				ProductDialog pDialog = new ProductDialog(products);
+				ProductDialog pDialog = new ProductDialog(products, this);
 				pDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 				pDialog.setVisible(true);
 			}else if(products.size() == 1){
@@ -629,5 +647,13 @@ public class OrderPanel extends TabbedPanel {
 	private void clearProductSearch(){
 		productFields.forEach(p -> p.setText(""));
 	}
-
+	
+	/**
+	 * PartSale
+	 */
+	
+	public void addPartSale(Product product, double amount){
+		sCtr.createPartSale(product, amount);
+		//TODO tilføje partsale til table
+	}
 }
