@@ -42,8 +42,8 @@ public class SaleCtr implements IFSaleCtr {
 	}
 
 	@Override
-	public void createPartSale(Product product, double amount) {
-		PartSale partSale = new PartSale(amount, product);
+	public void createPartSale(Product product, double amount, double unitPrice) {
+		PartSale partSale = new PartSale(amount, product, unitPrice);
 		sale.addPartSale(partSale);
 	}
 	

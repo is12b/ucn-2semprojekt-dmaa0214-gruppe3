@@ -20,9 +20,10 @@ public class PartSale {
 	public PartSale() {
 	}
 
-	public PartSale(double amount, Product product) {
+	public PartSale(double amount, Product product, double unitPrice) {
 		this.amount = amount;
 		this.product = product;
+		this.unitPrice = unitPrice;
 	}
 
 	/**
