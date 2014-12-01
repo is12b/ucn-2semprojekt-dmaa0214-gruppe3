@@ -3,7 +3,7 @@ package guiLayer.product;
 import guiLayer.MainGUI;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
-import guiLayer.models.ProductTableModel;
+import guiLayer.product.models.ProductTableModel;
 
 import java.awt.Dimension;
 
@@ -243,8 +243,11 @@ public class ProductPanel extends TabbedPanel {
 	private void editProduct(int selectedRow) {
 		// TODO Auto-generated method stub
 		if (selectedRow != -1) {
-			Product p = model.getProductAt(selectedRow);
-			System.out.println(p);
+			int selectedModelRow = table.convertRowIndexToModel(selectedRow);
+			Product p = model.getProductAt(selectedModelRow);
+			if (p != null) {
+				CreateProductDialog dialog = new CreateProductDialog(this, p);
+			}
 		}
 	}
 
@@ -264,8 +267,11 @@ public class ProductPanel extends TabbedPanel {
 
 	private void openCreateDialog() {
 		// TODO DO SOMETHING MORE?
-		new CreateProductDialog(this);
-		
+		CreateProductDialog dialog = new CreateProductDialog(this);
+		Product p = dialog.getProduct();
+		if(p != null) {
+			model.addProduct(p);
+		}
 	}
 
 	private void clear() {

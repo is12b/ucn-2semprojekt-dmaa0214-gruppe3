@@ -1,4 +1,4 @@
-package guiLayer.models;
+package guiLayer.product.models;
 
 import guiLayer.extensions.Utilities;
 
@@ -94,6 +94,11 @@ public class ProductTableModel extends AbstractTableModel {
 	public Product getProductAt(int rowIndex) {
 		Product p = products.get(rowIndex);
 		return p;
+	}
+	
+	public void addProduct(Product p) {
+		products.add(p);
+		fireTableDataChanged();
 	}
 
 }

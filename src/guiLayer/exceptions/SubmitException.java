@@ -1,6 +1,7 @@
 package guiLayer.exceptions;
 
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -10,6 +11,7 @@ import javax.swing.JTextField;
 public class SubmitException extends Exception {
 
 	private static final long serialVersionUID = 1L;
+	private JComponent parent = null;
 	
 	/**
 	 * Constructs an SubmitException with the specified detail message and set focus to JComboBox if it's not null.
@@ -19,6 +21,7 @@ public class SubmitException extends Exception {
 	public SubmitException(String arg0, JComboBox<?> cmb) {
 		super(arg0);
 		if(cmb != null) {
+			parent = cmb;
 			cmb.requestFocusInWindow();
 		}
 	}
@@ -31,6 +34,7 @@ public class SubmitException extends Exception {
 	public SubmitException(String arg0, JTextField field) {
 		super(arg0);
 		if(field != null) {
+			parent = field;
 			field.requestFocusInWindow();
 		}
 	}
@@ -39,7 +43,7 @@ public class SubmitException extends Exception {
 	 * Show an error popup with the error text.
 	 */
 	public void showError(){
-		JOptionPane.showMessageDialog(null, getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(parent, getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 	}
 
 }
