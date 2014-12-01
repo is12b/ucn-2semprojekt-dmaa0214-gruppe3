@@ -40,13 +40,40 @@ public class SaleCtr implements IFSaleCtr {
 	public void setCustomer(Customer customer){
 		sale.setCustomer(customer);
 	}
+	
+	/**
+	 * PartSale
+	 */
 
 	@Override
 	public void createPartSale(Product product, double amount, double unitPrice) {
-		PartSale partSale = new PartSale(amount, product, unitPrice);
-		sale.addPartSale(partSale);
+		PartSale pSale = isSameProduct(product, unitPrice);
+		if(pSale != null){
+			pSale.setAmount(pSale.getAmount() + amount);
+		}else{
+			PartSale partSale = new PartSale(amount, product, unitPrice);
+			sale.addPartSale(partSale);
+		}
 	}
 	
+	private PartSale isSameProduct(Product product, double unitPrice){
+		PartSale pSale = null;
+		
+		boolean found = false;
+		int i = 0;
+		while(!found && i < sale.getPartSales().size()){
+			PartSale p = sale.getPartSales().get(i);
+			if(p.getProduct().getId() == product.getId()){
+				if(p.getUnitPrice() == unitPrice){
+					pSale = p;
+					found = true;
+				}
+			}
+			i++;
+		}
+		
+		return pSale;
+	}
 	
 	/**
 	 * Product
