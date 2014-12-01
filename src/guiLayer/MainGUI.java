@@ -1,7 +1,7 @@
 package guiLayer;
 
-import guiLayer.Order.OrderPanel;
 import guiLayer.extensions.TabbedPanel;
+import guiLayer.order.OrderPanel;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
