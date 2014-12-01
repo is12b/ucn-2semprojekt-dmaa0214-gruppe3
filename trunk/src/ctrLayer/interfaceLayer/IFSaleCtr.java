@@ -2,7 +2,6 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import ctrLayer.exceptionLayer.CarDoesntExistException;
 import modelLayer.Car;
 import modelLayer.Customer;
 import modelLayer.Product;
