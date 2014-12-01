@@ -1,4 +1,4 @@
-package guiLayer.models;
+package guiLayer.product.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -22,7 +22,7 @@ public class ObjectNotExistException extends Exception {
 	
 	@Override
 	public String getMessage() {
-		String message = getMessage();
+		String message = super.getMessage();
 		if (message != null && !message.trim().isEmpty()) {
 			
 		} else {

@@ -3,7 +3,7 @@ package guiLayer.product;
 import guiLayer.exceptions.SubmitException;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
-import guiLayer.models.UnitTypeComboBoxModel;
+import guiLayer.product.models.UnitTypeComboBoxModel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -28,6 +28,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.ProductCtr;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import dbLayer.exceptions.DBException;
 
@@ -44,7 +45,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * Class for CreateProductDialog
+ * Dialog for create or edit a product
  *
  * @author Group 3, dmaa0214, UCN
  *
@@ -52,7 +53,6 @@ import java.awt.event.WindowEvent;
 public class CreateProductDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private ProductPanel parent;
 	private JFormattedTextField txtPrice;
 	private JTextFieldLimit txtName;
 	private JTextFieldLimit txtDesc;
@@ -67,24 +67,17 @@ public class CreateProductDialog extends JDialog {
 	private JButton btnEdit;
 	private static DecimalFormat decimalFormat;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			//Product p = new Product(1);
-			//p.setUnitType(new UnitType("stk", "Styk", false));
-			CreateProductDialog dialog = new CreateProductDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
+	
+	/**
+	 * Constructor for make an editing Dialog
+	 * 
+	 * @param parent the parent of the dialog
+	 * @param product the product to edit
+	 */
 	public CreateProductDialog(ProductPanel parent, Product product) {
 		
 		setTitle("Ændre Produkt #" + product.getId());
-		this.parent = parent;
 		this.product = product;
 		buildDialog();
 		CardLayout cl = (CardLayout)(cardPanel.getLayout());
@@ -95,31 +88,43 @@ public class CreateProductDialog extends JDialog {
 		txtDesc.setText(product.getDescription());
 		txtBrand.setText(product.getBrand());
 		txtItemNumber.setText(product.getItemNumber());
-		txtPrice.setText(Double.toString(product.getPrice()));
+		//Number tempPrice = product.getPrice();
+		txtPrice.setValue(product.getPrice());
 		cmbUnitType.setSelectedItem(product.getUnitType().toString());
 		
+		pack();
+		setVisible(true);
+
+		setLocationRelativeTo(parent);
 		getRootPane().setDefaultButton(btnEdit);
+		
+	}
+
+	/**
+	 * Constructor for make an creating Dialog.
+	 * 
+	 * @param parent the parent of the dialog
+	 */
+	public CreateProductDialog(ProductPanel parent) {
+				
+		setTitle("Opret Produkt");
+		buildDialog();
+		
+		pack();
+		setVisible(true);
+		
+		setLocationRelativeTo(parent);
+		
+		getRootPane().setDefaultButton(btnCreate);
 	}
 
 	/**
 	 * Create the dialog.
 	 * @param productPanel 
 	 */
-	public CreateProductDialog(ProductPanel parent) {
-				
-		setTitle("Opret Produkt");
-		this.parent = parent;
-		buildDialog();
-
-		getRootPane().setDefaultButton(btnCreate);
-	}
-
-	/**
-	 * 
-	 */
 	private void buildDialog() {
 		setModalityType(DEFAULT_MODALITY_TYPE);
-		setLocationRelativeTo(parent);
+		
 		setMinimumSize(new Dimension(300, 280));
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -248,8 +253,8 @@ public class CreateProductDialog extends JDialog {
 			}
 		});
 		
-		btnEdit = new JButton("Opret");
-		btnCreate.addActionListener(new ActionListener() {
+		btnEdit = new JButton("Gem Ændringer");
+		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				edit();
 			}
@@ -270,28 +275,48 @@ public class CreateProductDialog extends JDialog {
 			}
 		});
 		
-		
-		
 		refreshUnitTypes();
-		pack();
-		setVisible(true);
 	}
 
 	/**
 	 * 
 	 */
 	protected void edit() {
-		// TODO Auto-generated method stub
-		
+		try {
+			String name = Utilities.getTextFromReqField(txtName, "Navn");
+			UnitType unitType = cmbModel.getSelectedUnitType();
+			if (unitType == null) {
+				throw new SubmitException("Enhedstype skal vælges", cmbUnitType);
+			}
+			double price = getPrice();
+			
+			String brand = txtBrand.getText().trim();
+			String desc = txtDesc.getText().trim();
+			String itemNumber = txtItemNumber.getText().trim();
+			IFProductCtr pCtr = new ProductCtr();
+			try {
+				pCtr.updateProduct(product, brand, name, desc, itemNumber, price, unitType);
+				
+			} catch (ObjectNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SubmitException e) {
+			e.showError();
+		}
 	}
 
 	private void pressedClose() {
 		if(isAllFieldsEmpty()) {
-			close();
+			kill();
 		} else {
 			int c = Utilities.showWarning(this, "Er du sikker på du vil lukke vinduet, uden at gemme?");
+			//System.out.println("c: "+ c + ": yes: "+JOptionPane.YES_OPTION);
 			if (c == JOptionPane.YES_OPTION) {
-				close();
+				kill();
 			}
 		}
 	}
@@ -340,13 +365,13 @@ public class CreateProductDialog extends JDialog {
 					
 			IFProductCtr pCtr = new ProductCtr();
 			try {
-				pCtr.createProduct(brand, name, desc, itemNumber, price, unitType);
-				close();
+				this.product = pCtr.createProduct(brand, name, desc, itemNumber, price, unitType);
+				setVisible(false);
 			} catch (DBException e) {
 				Utilities.showError(this, e.getMessage());
 			}
 		} catch (SubmitException e) {
-			e.showError();
+			Utilities.showError(this, e.getMessage());
 		}
 		
 		
@@ -356,9 +381,13 @@ public class CreateProductDialog extends JDialog {
 		return (product != null);
 	}
 	
-	private void close() {
+	private void kill() {
 		setVisible(false);
 		this.dispose();
+	}
+	
+	public Product getProduct() {
+		return product;
 	}
 	
 	private double getPrice() throws SubmitException {
