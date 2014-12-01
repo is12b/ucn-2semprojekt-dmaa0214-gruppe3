@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JLabel;
 
 import java.awt.Font;
@@ -41,6 +43,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -125,6 +128,8 @@ public class CreateProductDialog extends JDialog {
 		setModalityType(DEFAULT_MODALITY_TYPE);
 		
 		setMinimumSize(new Dimension(300, 280));
+		
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		getContentPane().setLayout(new BorderLayout());
 		
@@ -221,6 +226,7 @@ public class CreateProductDialog extends JDialog {
 		mainPanel.add(lblItemNumber, "1, 12, right, default");
 		
 		txtItemNumber = new JTextFieldLimit(50,false);
+		
 		lblItemNumber.setLabelFor(txtItemNumber);
 		mainPanel.add(txtItemNumber, "3, 12, fill, top");
 		txtItemNumber.setColumns(10);
@@ -274,12 +280,54 @@ public class CreateProductDialog extends JDialog {
 			}
 		});
 		
+		addOnChangeListener();
+		
 		refreshUnitTypes();
 	}
+	
+	private void addOnChangeListener() {
+		JTextField fields[] = {txtName, txtBrand, txtDesc, txtItemNumber, txtPrice}; 
+		for (JTextField f : fields) {
+			f.getDocument().addDocumentListener(onChangeListner());
+		}
+		cmbUnitType.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkForText();
+			}
+		});
+	}
 
-	/**
-	 * 
-	 */
+	private DocumentListener onChangeListner() {
+		DocumentListener docListner = new DocumentListener() {
+		    @Override
+			public void insertUpdate(DocumentEvent e) {
+		    	checkForText();
+			}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				checkForText();
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				checkForText();
+			}
+		};
+		return docListner;
+	}
+	
+	private void checkForText() {
+		if (!isEditing()) {
+			btnCreate.setEnabled(isRequestFieldsFilled());
+		} else {
+			btnEdit.setEnabled(isSomethingChanged());
+		}
+	}
+
+	private boolean isRequestFieldsFilled() {
+		return (!isFieldEmpty(txtName) && !isFieldEmpty(txtPrice) && cmbModel.getSelectedUnitType() != null);
+	}
+
 	protected void edit() {
 		try {
 			String name = Utilities.getTextFromReqField(txtName, "Navn");
@@ -311,11 +359,15 @@ public class CreateProductDialog extends JDialog {
 	private void pressedClose() {
 		if(isAllFieldsEmpty()) {
 			kill();
-		} else {
+		} else if (!isSomethingChanged()) {
+			kill();
+		}
+		else {
 			int c = Utilities.showWarning(this, "Er du sikker på du vil lukke vinduet, uden at gemme?");
-			System.out.println("c: "+ c + ": yes: "+JOptionPane.YES_OPTION);
-			//TODO virker kun nogle gange?
+			//System.out.println("c: "+ c + ": yes: "+JOptionPane.YES_OPTION);
+			
 			if (c == JOptionPane.YES_OPTION) {
+				//System.out.println("choice KILL");
 				kill();
 			}
 		}
@@ -323,6 +375,25 @@ public class CreateProductDialog extends JDialog {
 	
 	private boolean isFieldEmpty(JTextField field) {
 		return field.getText().trim().isEmpty();
+	}
+	
+	private boolean isSomethingChanged() {
+		boolean ret = isEditing();
+		if (ret) {
+			ret = (ret && !txtName.getText().equals(product.getName()) || !txtBrand.getText().equals(product.getBrand())
+			|| !txtDesc.getText().equals(product.getDescription()) || !txtItemNumber.getText().equals(product.getItemNumber())
+			|| (cmbModel.getSelectedUnitType() != null
+			&& !cmbModel.getSelectedUnitType().getShortDescription().equals(product.getUnitType().getShortDescription())));
+			if (!ret) {
+				try {
+					ret = (ret || Double.compare(getPrice(), product.getPrice()) != 0);
+					//System.out.println(getPrice() + "=" + product.getPrice());
+				} catch (SubmitException e) {
+					ret = true;
+				}
+			}
+		}
+		return ret;
 	}
 	
 	private boolean isAllFieldsEmpty() {
