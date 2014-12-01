@@ -7,13 +7,10 @@ import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
-import ctrLayer.exceptionLayer.CarDoesntExistException;
 import ctrLayer.interfaceLayer.IFCarCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import ctrLayer.interfaceLayer.IFSaleCtr;
-import dbLayer.DBSale;
-import dbLayer.interfaceLayer.IFDBSale;
 
 public class SaleCtr implements IFSaleCtr {
 	

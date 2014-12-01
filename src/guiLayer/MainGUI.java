@@ -5,6 +5,7 @@ import guiLayer.order.OrderPanel;
 import guiLayer.product.ProductPanel;
 import guiLayer.product.UnitTypeDialog;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -89,6 +90,14 @@ public class MainGUI extends JFrame {
 		});
 		mnSettings.add(mntmUnitTypes);
 		
+		JMenuItem mntmInvoiceSettings = new JMenuItem("Faktura");
+		mntmInvoiceSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openInvoiceSettings();
+			}
+		});
+		mnSettings.add(mntmInvoiceSettings);
+		
 		JMenu mnHelp = new JMenu("Hj\u00E6lp");
 		menuBar.add(mnHelp);
 		
@@ -120,6 +129,15 @@ public class MainGUI extends JFrame {
 		
 		pack();
 		setFocus();
+	}
+
+	/**
+	 * 
+	 */
+	protected void openInvoiceSettings() {
+		InvoiceSettingsDialog iDialog = new InvoiceSettingsDialog();
+		iDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+		iDialog.setVisible(true);
 	}
 
 	protected void openUnitTypeGUI() {
