@@ -9,28 +9,27 @@ public class JTextFieldLimit extends JTextField {
 	private static final long serialVersionUID = 1L;
 	private int limit;
 	private boolean onlyInt;
-	private boolean oneSpace;
 
-	public JTextFieldLimit(int limit, boolean onlyInts) {
+	public JTextFieldLimit(int limit, boolean onlyInt) {
 		super();
 		this.limit = limit;
 		this.onlyInt = onlyInt;
-		this.oneSpace = oneSpace;
-		setDocument(createDefaultModel());
 	}
 	
 	@Override
 	protected PlainDocument createDefaultModel() {
-		return new PlainDocument() {
-			
+		PlainDocument doc = new PlainDocument() {
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void insertString(int offset, String str, AttributeSet attr)
 					throws BadLocationException {
-				if (str == null)
-					return;
 				boolean go = true;
+				if (str == null) {
+					go = false;
+				}
+
 				if (onlyInt) {
 					char[] chars = str.toCharArray();
 
@@ -39,24 +38,7 @@ public class JTextFieldLimit extends JTextField {
 							Integer.parseInt(String.valueOf(chars[i]));
 						} catch (NumberFormatException e) {
 							go = false;
-							break;
 						}
-					}
-				} else {
-					if (oneSpace) {
-						if (str.equals(" ")) {
-							return;
-						}
-					} else if (getLength() == 0 && str.equals(" ")) {
-						return;
-					} else if (str.equals(" ")) {
-						if (getLength() > 0) {
-							if (getText(0, getLength()).charAt(getLength() - 1) == ' ') {
-								return;
-							}
-						}
-					} else {
-
 					}
 				}
 
@@ -65,8 +47,22 @@ public class JTextFieldLimit extends JTextField {
 				}
 			}
 		};
+		return doc;
 	}
 
-	
-
+	/**
+	 * Method for get text as an integer
+	 * @return the text as an integer or -1 if failed
+	 */
+	public int getValue() {
+		int ret = -1;
+		if (onlyInt) {
+			try {
+				ret = Integer.parseInt(getText());
+			} catch (NumberFormatException e) {
+				ret = -1;
+			}
+		}
+		return ret;
+	}
 }
