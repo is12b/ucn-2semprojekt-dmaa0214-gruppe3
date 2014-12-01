@@ -3,6 +3,7 @@ package guiLayer.order;
 import guiLayer.MainGUI;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.TabbedPanel;
+import guiLayer.models.OrderTableModel;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -47,6 +48,7 @@ import javax.swing.UIManager;
 
 import modelLayer.Car;
 import modelLayer.Customer;
+import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
 
@@ -79,6 +81,10 @@ public class OrderPanel extends TabbedPanel {
 	private JPanel customerPanel;
 	private JLabel lblCvr;
 	private Sale sale;
+	private OrderTableModel oTableModel;
+	private JLabel lblSubTotal;
+	private JLabel lblTax;
+	private JLabel lblTotal;
 
 	/**
 	 * Constructors
@@ -118,19 +124,11 @@ public class OrderPanel extends TabbedPanel {
 		add(scrollPane, "4, 2, fill, fill");
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column", "New column"
-			}
-		));
+		oTableModel = new OrderTableModel();
+		table.setModel(oTableModel);
+		table.getColumnModel().getColumn(0).setPreferredWidth(20);
+		table.getColumnModel().getColumn(4).setPreferredWidth(10);
+		table.getColumnModel().getColumn(6).setPreferredWidth(20);
 		scrollPane.setViewportView(table);
 		
 		panel_10.setLayout(new FormLayout(new ColumnSpec[] {
@@ -420,20 +418,20 @@ public class OrderPanel extends TabbedPanel {
 		JLabel lblSubtotal = new JLabel("Subtotal:");
 		panel_7.add(lblSubtotal, "1, 1, left, center");
 		
-		JLabel lblNewLabel = new JLabel("1000");
-		panel_7.add(lblNewLabel, "3, 1, right, center");
+		lblSubTotal = new JLabel("1000");
+		panel_7.add(lblSubTotal, "3, 1, right, center");
 		
 		JLabel lblMoms = new JLabel("Moms:");
 		panel_7.add(lblMoms, "1, 3, left, center");
 		
-		JLabel label = new JLabel("250");
-		panel_7.add(label, "3, 3, right, center");
+		lblTax = new JLabel("250");
+		panel_7.add(lblTax, "3, 3, right, center");
 		
-		JLabel lblTotal = new JLabel("Total:");
-		panel_7.add(lblTotal, "1, 5, left, center");
+		JLabel lblTotall = new JLabel("Total:");
+		panel_7.add(lblTotall, "1, 5, left, center");
 		
-		JLabel label_1 = new JLabel("1250");
-		panel_7.add(label_1, "3, 5, right, center");
+		lblTotal = new JLabel("1250");
+		panel_7.add(lblTotal, "3, 5, right, center");
 		
 		JPanel panel_9 = new JPanel();
 		panel_6.add(panel_9, "1, 3, 7, 1, fill, fill");
@@ -652,8 +650,32 @@ public class OrderPanel extends TabbedPanel {
 	 * PartSale
 	 */
 	
-	public void addPartSale(Product product, double amount){
-		sCtr.createPartSale(product, amount);
+	public void addPartSale(Product product, double amount, double unitPrice){
+		sCtr.createPartSale(product, amount, unitPrice);
+		oTableModel.refresh(sale.getPartSales());
+		oTableModel.fireTableDataChanged();
+		updatePrice();
 		//TODO tilføje partsale til table
+	}
+	
+	/**
+	 * Price
+	 */
+	
+	private void updatePrice(){
+		double subTotal = 0;
+		ArrayList<PartSale> pSales = sale.getPartSales();
+		for(PartSale p : pSales){
+			subTotal += p.getAmount() * p.getUnitPrice();
+		}
+		
+		setPrice(subTotal);
+	}
+	
+	private void setPrice(double subTotal){
+		lblSubTotal.setText(String.valueOf(subTotal));
+		double tax = subTotal * 0.25;
+		lblTax.setText(String.valueOf(tax));
+		lblTotal.setText(String.valueOf(tax + subTotal));
 	}
 }

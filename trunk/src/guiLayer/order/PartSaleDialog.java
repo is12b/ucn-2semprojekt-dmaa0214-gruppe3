@@ -1,5 +1,8 @@
 package guiLayer.order;
 
+import guiLayer.extensions.JDoubleField;
+import guiLayer.extensions.JTextFieldLimit;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -9,12 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import modelLayer.Product;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -27,9 +33,10 @@ import javax.swing.JTextField;
 public class PartSaleDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextField txtAmount;
 	private ProductDialog parent;
 	private OrderPanel order;
+	private JTextField txtPrice;
 	/**
 	 * Create the dialog.
 	 * @param parent 
@@ -37,7 +44,7 @@ public class PartSaleDialog extends JDialog {
 	public PartSaleDialog(Product product, ProductDialog parent, OrderPanel order) {
 		this.parent = parent;
 		this.order = order;
-		setBounds(100, 100, 266, 122);
+		setBounds(100, 100, 270, 169);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -63,19 +70,40 @@ public class PartSaleDialog extends JDialog {
 					FormFactory.DEFAULT_COLSPEC,},
 				new RowSpec[] {
 					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,}));
 			{
 				JLabel lblAntal = new JLabel("Antal:");
 				panel.add(lblAntal, "1, 2, right, default");
 			}
 			{
-				textField = new JTextField();
-				panel.add(textField, "3, 2, fill, default");
-				textField.setColumns(10);
+				if(product.getUnitType().isDecimalAllowed()){
+					txtAmount = new JDoubleField();
+				}else{
+					txtAmount = new JTextFieldLimit(5, true);
+				}
+				
+				panel.add(txtAmount, "3, 2, fill, default");
+				txtAmount.setColumns(10);
 			}
 			{
 				JLabel lblUnittype = new JLabel(product.getUnitType().getShortDescription());
 				panel.add(lblUnittype, "5, 2");
+			}
+			{
+				JLabel lblPris = new JLabel("Pris:");
+				panel.add(lblPris, "1, 4, right, default");
+			}
+			{
+				txtPrice = new JDoubleField();
+				txtPrice.setText(String.valueOf(product.getPrice()));
+				panel.add(txtPrice, "3, 4, fill, default");
+				txtPrice.setColumns(10);
+			}
+			{
+				JLabel lblKr = new JLabel("kr.");
+				panel.add(lblKr, "5, 4");
 			}
 		}
 		{
@@ -86,8 +114,8 @@ public class PartSaleDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(!textField.getText().isEmpty()){
-							order.addPartSale(product, Double.parseDouble(textField.getText()));
+						if(!txtAmount.getText().isEmpty() && !txtPrice.getText().isEmpty()){
+							order.addPartSale(product, Double.parseDouble(txtAmount.getText()), Double.parseDouble(txtPrice.getText()));
 							
 							PartSaleDialog.this.dispose();
 						}

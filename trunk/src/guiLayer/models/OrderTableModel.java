@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import modelLayer.PartSale;
 import modelLayer.Product;
 
 /**
@@ -17,32 +18,32 @@ import modelLayer.Product;
 public class OrderTableModel extends AbstractTableModel {
 	//TODO - Adapt to Order Table
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Product> products;
+	private ArrayList<PartSale> partSales;
 	
 	/**
 	 * Constructor for ProductTableModel objects.
 	 *
 	 */
 	public OrderTableModel() {
-		this.products = new ArrayList<Product>();
+		this.partSales = new ArrayList<PartSale>();
 	}
 
-	public void refresh(ArrayList<Product> pList) {
+	public void refresh(ArrayList<PartSale> pList) {
 		if(pList != null) {
-			this.products = pList;
+			this.partSales = pList;
 		} else {
-			this.products = new ArrayList<Product>();
+			this.partSales = new ArrayList<PartSale>();
 		}
 	}
 	
 	@Override
 	public int getRowCount() {
-		return this.products.size();
+		return this.partSales.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 7;
+		return 8;
 	}
 	
 	@Override
@@ -51,19 +52,21 @@ public class OrderTableModel extends AbstractTableModel {
 		String value = "??";
 		
 		if (collIndex == 0) {
-			value = "ID";
+			value = "VareID";
 		} else if (collIndex == 1) {
 			value = "VareNummer";
 		} else if (collIndex == 2) {
-			value = "Brand";
-		} else if (collIndex == 3) {
 			value = "Navn";
-		} else if (collIndex == 4) {
+		} else if (collIndex == 3) {
 			value = "Beskrivelse";
+		} else if(collIndex == 4){
+			value = "Antal";
 		} else if (collIndex == 5) {
-			value = "Enhed";
-		} else if (collIndex == 6) {
 			value = "Pris";
+		} else if (collIndex == 6) {
+			value = "Enhed";
+		} else if (collIndex == 7){
+			value = "Total";
 		}
 		
 		return value;
@@ -71,22 +74,24 @@ public class OrderTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Product p = products.get(rowIndex);
+		PartSale p = partSales.get(rowIndex);
 		Object value = null;
 		if (columnIndex == 0) {
-			value = p.getId();
+			value = p.getProduct().getId();
 		} else if (columnIndex == 1) {
-			value = p.getItemNumber();
+			value = p.getProduct().getItemNumber();
 		} else if (columnIndex == 2) {
-			value = p.getBrand();
+			value = p.getProduct().getName();
 		} else if (columnIndex == 3) {
-			value = p.getName();
+			value = p.getProduct().getDescription();
 		} else if (columnIndex == 4) {
-			value = p.getDescription();
+			value = p.getAmount();
 		} else if (columnIndex == 5) {
-			value = p.getUnitType().getShortDescription();
+			value = Utilities.getAsMoney(p.getUnitPrice());
 		} else if (columnIndex == 6) {
-			value = Utilities.getAsMoney(p.getPrice());
+			value = p.getProduct().getUnitType().getShortDescription();
+		} else if (columnIndex == 7) {
+			value = Utilities.getAsMoney(p.getAmount() * p.getUnitPrice());
 		}
 		return value;
 	}

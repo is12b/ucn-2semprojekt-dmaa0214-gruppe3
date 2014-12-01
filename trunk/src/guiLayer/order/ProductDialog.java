@@ -19,6 +19,8 @@ import modelLayer.Customer;
 import modelLayer.Product;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 /**
  * Class for ProductDialog
@@ -32,6 +34,7 @@ public class ProductDialog extends JDialog {
 	private JList<Product> list;
 	private boolean closeMe = true;
 	private OrderPanel parent;
+	private JButton okButton;
 	/**
 	 * Create the dialog.
 	 */
@@ -48,6 +51,15 @@ public class ProductDialog extends JDialog {
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 			{
 				list = new JList<Product>();
+				list.addListSelectionListener(new ListSelectionListener() {
+					public void valueChanged(ListSelectionEvent e) {
+						if(list.isSelectionEmpty()){
+							okButton.setEnabled(false);
+						}else{
+							okButton.setEnabled(true);
+						}
+					}
+				});
 				ProductCellRender productRender = new ProductCellRender();
 				list.setCellRenderer(productRender);
 				scrollPane.setViewportView(list);
@@ -58,13 +70,14 @@ public class ProductDialog extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						createPartSaleDialog(list.getSelectedValue());
 					}
 				});
 				okButton.setActionCommand("OK");
+				okButton.setEnabled(false);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
@@ -95,6 +108,9 @@ public class ProductDialog extends JDialog {
 			
 			if(closeMe){
 				this.dispose();
+			}else{
+				closeMe = true;
+				list.clearSelection();
 			}
 		}else{
 			//TODO du skal vælge noget...

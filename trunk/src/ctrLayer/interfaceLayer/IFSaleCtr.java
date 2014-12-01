@@ -26,7 +26,7 @@ public interface IFSaleCtr {
 	
 	public ArrayList<Product> searchProductsByItemNumber(String itemNumber);
 	
-	public void createPartSale(Product product, double amount);
+	public void createPartSale(Product product, double amount, double unitPrice);
 	
 	/**
 	 * @param cvr
@@ -54,5 +54,6 @@ public interface IFSaleCtr {
 	public Car getCarByRegNr(String regNr, boolean retAsso) throws NullPointerException;
 	
 	public Car getCarByVin(String vin, boolean retAsso) throws NullPointerException;
+
 
 }
