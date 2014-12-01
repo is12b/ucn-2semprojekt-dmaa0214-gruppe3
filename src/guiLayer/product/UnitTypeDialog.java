@@ -1,4 +1,6 @@
-package guiLayer;
+package guiLayer.product;
+
+import guiLayer.extensions.Utilities;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -17,6 +19,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import ctrLayer.UnitTypeCtr;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import dbLayer.exceptions.DBException;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.UIManager;
@@ -285,7 +288,7 @@ public class UnitTypeDialog extends JDialog {
 	private void delete() {
 		UnitType ut = list.getSelectedValue();
 		if (ut != null) {
-			int choice = Methods.showWarning(this, "Er du sikker på du vil slette enhedstypen: " + ut.getShortDescription() + "?");
+			int choice = Utilities.showWarning(this, "Er du sikker på du vil slette enhedstypen: " + ut.getShortDescription() + "?");
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
 					new UnitTypeCtr().deleteUnitType(ut);
@@ -294,10 +297,10 @@ public class UnitTypeDialog extends JDialog {
 					reDraw();
 					anyChanges = true;
 				} catch (DBException e) {
-					Methods.showError(this, e.getMessage(), "Fejl");
+					Utilities.showError(this, e.getMessage(), "Fejl");
 					//e.printStackTrace();
 				} catch (ObjectNotExistException e) {
-					Methods.showError(this, e.getMessage(), "Fejl");
+					Utilities.showError(this, e.getMessage(), "Fejl");
 					unitType = null;
 					updateModel();
 					reDraw();
@@ -309,7 +312,7 @@ public class UnitTypeDialog extends JDialog {
 
 	private void create() {
 		if (isSomeFieldsEmpty()) {
-			Methods.showError(this, "Forkortelse eller beskrivelse må ikke være tom");
+			Utilities.showError(this, "Forkortelse eller beskrivelse må ikke være tom");
 		} else {
 			try {
 				new UnitTypeCtr().createUnitType(txtDesc.getText().trim(), txtShortDesc.getText().trim(), cheBoxDecAllowed.isSelected());
@@ -317,7 +320,7 @@ public class UnitTypeDialog extends JDialog {
 				updateModel();
 				anyChanges = true;
 			} catch (DBException e) {
-				Methods.showError(this, e.getMessage(), "Fejl i oprettelse");
+				Utilities.showError(this, e.getMessage(), "Fejl i oprettelse");
 				//e.printStackTrace();
 			}
 		}
@@ -332,9 +335,9 @@ public class UnitTypeDialog extends JDialog {
 				updateModel();
 				reDraw();
 			} catch (DBException e) {
-				Methods.showError(this, e.getMessage());
+				Utilities.showError(this, e.getMessage());
 			} catch (ObjectNotExistException e) {
-				Methods.showError(this, e.getMessage());
+				Utilities.showError(this, e.getMessage());
 				unitType = null;
 				updateModel();
 				reDraw();
@@ -373,7 +376,7 @@ public class UnitTypeDialog extends JDialog {
 	private void cancelEditing() {
 		boolean stopEditing = true;
 		if (isSomethingChanged()) {
-			int choice = Methods.showWarning(this, "Er du sikker på du vil annullere ændringerne?");
+			int choice = Utilities.showWarning(this, "Er du sikker på du vil annullere ændringerne?");
 			if (choice != JOptionPane.YES_OPTION) {
 				stopEditing = false;
 			}
@@ -461,7 +464,7 @@ public class UnitTypeDialog extends JDialog {
 	 * has created or edited something with unitTypes.
 	 * @return true if something is changed
 	 */
-	protected boolean isAnyThingChanged() {
+	public boolean isAnyThingChanged() {
 		return anyChanges;
 	}
 

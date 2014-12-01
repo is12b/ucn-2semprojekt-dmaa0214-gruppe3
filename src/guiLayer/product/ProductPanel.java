@@ -1,10 +1,12 @@
-package guiLayer;
+package guiLayer.product;
 
+import guiLayer.MainGUI;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.models.ProductTableModel;
 
 import java.awt.Dimension;
+
 import javax.swing.JPanel;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -15,9 +17,12 @@ import com.jgoodies.forms.factories.FormFactory;
 import ctrLayer.ProductCtr;
 import ctrLayer.interfaceLayer.IFProductCtr;
 
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JButton;
@@ -32,6 +37,14 @@ import modelLayer.Product;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JPopupMenu;
+
+import java.awt.Component;
+
+import javax.swing.ListSelectionModel;
 
 /**
  * Class for ProductGUI
@@ -43,12 +56,14 @@ public class ProductPanel extends TabbedPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextFieldLimit txtID;
-	private JTextField txtItemNumber;
-	private JTextField txtName;
+	private JTextFieldLimit txtItemNumber;
+	private JTextFieldLimit txtName;
 	private MainGUI parent;
 	private ProductTableModel model;
 	private JButton btnSearch;
 	private JButton btnClear;
+	private JPopupMenu popupMenu;
+	private JTable table;
 	
 	public ProductPanel(MainGUI parent) {
 		this.parent = parent;
@@ -104,14 +119,14 @@ public class ProductPanel extends TabbedPanel {
 		lblItemNumber.setLabelFor(lblItemNumber);
 		searchPanel.add(lblItemNumber, "2, 4, right, default");
 		
-		txtItemNumber = new JTextField();
+		txtItemNumber = new JTextFieldLimit(50,false);
 		searchPanel.add(txtItemNumber, "4, 4, fill, default");
 		txtItemNumber.setColumns(10);
 		
 		JLabel lblName = new JLabel("Navn:");
 		searchPanel.add(lblName, "2, 6, right, default");
 		
-		txtName = new JTextField();
+		txtName = new JTextFieldLimit(200, false);
 		lblName.setLabelFor(txtName);
 		searchPanel.add(txtName, "4, 6, fill, default");
 		txtName.setColumns(10);
@@ -170,7 +185,8 @@ public class ProductPanel extends TabbedPanel {
 		
 		model = new ProductTableModel();
 		
-		JTable table = new JTable(model);
+		table = new JTable(model);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(1).setPreferredWidth(70);
 		table.getColumnModel().getColumn(2).setPreferredWidth(90);
@@ -184,10 +200,70 @@ public class ProductPanel extends TabbedPanel {
 		table.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
 		table.getRowSorter().toggleSortOrder(0);
 		scrollPane.setViewportView(table);
+		
+		table.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        tableMouseListener(e);
+		    }
+		});
+		
+		popupMenu = new JPopupMenu();
+		JMenuItem mntmEdit = new JMenuItem("Ændre");
+		mntmEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editProduct(table.getSelectedRow());
+			}
+		});
+		JMenuItem mntmDelete = new JMenuItem("Slet");
+		mntmDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deleteProduct(table.getSelectedRow());
+			}
+		});
+		popupMenu.add(mntmEdit);
+		popupMenu.add(mntmDelete);
+				
 	}
 	
-	private void openCreateDialog() {
+	/**
+	 * @param selectedRow
+	 */
+	private void deleteProduct(int selectedRow) {
 		// TODO Auto-generated method stub
+		if (selectedRow != -1) {
+			Product p = model.getProductAt(selectedRow);
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * @param selectedRow
+	 */
+	private void editProduct(int selectedRow) {
+		// TODO Auto-generated method stub
+		if (selectedRow != -1) {
+			Product p = model.getProductAt(selectedRow);
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * @param e
+	 */
+	private void tableMouseListener(MouseEvent e) {
+		int rowNumber = table.rowAtPoint(e.getPoint());
+        table.setRowSelectionInterval(rowNumber, rowNumber);
+        if (SwingUtilities.isRightMouseButton(e)) {
+        	popupMenu.show(table, e.getX(), e.getY());
+        }
+        else if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
+        	System.out.println("venstreklik"); //TODO DO SOMETHING?
+        }
+	}
+
+	private void openCreateDialog() {
+		// TODO DO SOMETHING MORE?
 		new CreateProductDialog(this);
 		
 	}
@@ -230,4 +306,21 @@ public class ProductPanel extends TabbedPanel {
 		parent.setDefaultButton(btnSearch);
 	}
 
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
 }

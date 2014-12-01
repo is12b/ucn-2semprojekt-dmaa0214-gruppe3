@@ -1,7 +1,8 @@
-package guiLayer;
+package guiLayer.product;
 
 import guiLayer.exceptions.SubmitException;
 import guiLayer.extensions.JTextFieldLimit;
+import guiLayer.extensions.Utilities;
 import guiLayer.models.UnitTypeComboBoxModel;
 
 import java.awt.BorderLayout;
@@ -288,7 +289,7 @@ public class CreateProductDialog extends JDialog {
 		if(isAllFieldsEmpty()) {
 			close();
 		} else {
-			int c = Methods.showWarning(this, "Er du sikker på du vil lukke vinduet, uden at gemme?");
+			int c = Utilities.showWarning(this, "Er du sikker på du vil lukke vinduet, uden at gemme?");
 			if (c == JOptionPane.YES_OPTION) {
 				close();
 			}
@@ -326,7 +327,7 @@ public class CreateProductDialog extends JDialog {
 	
 	private void create() {
 		try {
-			String name = Methods.getTextFromReqField(txtName, "Navn");
+			String name = Utilities.getTextFromReqField(txtName, "Navn");
 			UnitType unitType = cmbModel.getSelectedUnitType();
 			if (unitType == null) {
 				throw new SubmitException("Enhedstype skal vælges", cmbUnitType);
@@ -342,7 +343,7 @@ public class CreateProductDialog extends JDialog {
 				pCtr.createProduct(brand, name, desc, itemNumber, price, unitType);
 				close();
 			} catch (DBException e) {
-				Methods.showError(this, e.getMessage());
+				Utilities.showError(this, e.getMessage());
 			}
 		} catch (SubmitException e) {
 			e.showError();
@@ -363,7 +364,7 @@ public class CreateProductDialog extends JDialog {
 	private double getPrice() throws SubmitException {
 		double price = -1;
 		try {
-			String priceStr = Methods.getTextFromReqField(txtPrice, "Prisen");
+			String priceStr = Utilities.getTextFromReqField(txtPrice, "Prisen");
 			 price = decimalFormat.parse(priceStr).doubleValue();
 		} catch (ParseException e) {
 			throw new SubmitException("Prisen er ikke angivet i korrekt format", txtPrice);

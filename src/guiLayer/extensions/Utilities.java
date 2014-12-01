@@ -1,4 +1,4 @@
-package guiLayer;
+package guiLayer.extensions;
 
 import guiLayer.exceptions.SubmitException;
 
@@ -15,11 +15,11 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 /**
- * A Class that holds Methods used by many another classes
+ * A Class that holds Utilities used by many another classes
  *
  * @author Group 3, dmaa0214, UCN
  */
-public abstract class Methods {
+public abstract class Utilities {
 
 	/**
 	 * Show warning dialog as a {@link JOptionPane} object.
