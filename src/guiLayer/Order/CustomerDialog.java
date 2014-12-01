@@ -1,4 +1,4 @@
-package guiLayer;
+package guiLayer.Order;
 
 import guiLayer.models.CustomerTreeModel;
 

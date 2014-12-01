@@ -1,5 +1,6 @@
 package guiLayer;
 
+import guiLayer.Order.OrderPanel;
 import guiLayer.extensions.TabbedPanel;
 
 import java.awt.Dimension;
