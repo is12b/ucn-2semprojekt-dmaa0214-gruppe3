@@ -100,5 +100,10 @@ public class ProductTableModel extends AbstractTableModel {
 		products.add(p);
 		fireTableDataChanged();
 	}
+	
+	public void removeProduct(Product p) {
+		products.remove(p);
+		fireTableDataChanged();
+	}
 
 }

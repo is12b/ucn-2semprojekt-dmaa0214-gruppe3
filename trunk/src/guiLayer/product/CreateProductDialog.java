@@ -93,9 +93,9 @@ public class CreateProductDialog extends JDialog {
 		cmbUnitType.setSelectedItem(product.getUnitType().toString());
 		
 		pack();
+		setLocationRelativeTo(parent);
 		setVisible(true);
 
-		setLocationRelativeTo(parent);
 		getRootPane().setDefaultButton(btnEdit);
 		
 	}
@@ -111,9 +111,8 @@ public class CreateProductDialog extends JDialog {
 		buildDialog();
 		
 		pack();
-		setVisible(true);
-		
 		setLocationRelativeTo(parent);
+		setVisible(true);
 		
 		getRootPane().setDefaultButton(btnCreate);
 	}
@@ -296,13 +295,13 @@ public class CreateProductDialog extends JDialog {
 			IFProductCtr pCtr = new ProductCtr();
 			try {
 				pCtr.updateProduct(product, brand, name, desc, itemNumber, price, unitType);
-				
+				setVisible(false);
 			} catch (ObjectNotExistException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Utilities.showError(this, e.getMessage());
+				this.product = null;
+				setVisible(false);
 			} catch (DBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Utilities.showError(this, e.getMessage());
 			}
 		} catch (SubmitException e) {
 			e.showError();
@@ -314,22 +313,13 @@ public class CreateProductDialog extends JDialog {
 			kill();
 		} else {
 			int c = Utilities.showWarning(this, "Er du sikker på du vil lukke vinduet, uden at gemme?");
-			//System.out.println("c: "+ c + ": yes: "+JOptionPane.YES_OPTION);
+			System.out.println("c: "+ c + ": yes: "+JOptionPane.YES_OPTION);
+			//TODO virker kun nogle gange?
 			if (c == JOptionPane.YES_OPTION) {
 				kill();
 			}
 		}
 	}
-	
-	/*
-	private void clear() {
-		txtName.setText("");
-		txtDesc.setText("");
-		txtBrand.setText("");
-		txtItemNumber.setText("");
-		cmbUnitType.setSelectedIndex(-1);
-	}
-	*/
 	
 	private boolean isFieldEmpty(JTextField field) {
 		return field.getText().trim().isEmpty();
