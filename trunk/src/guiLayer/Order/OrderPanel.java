@@ -1,5 +1,6 @@
-package guiLayer;
+package guiLayer.Order;
 
+import guiLayer.MainGUI;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.TabbedPanel;
 
