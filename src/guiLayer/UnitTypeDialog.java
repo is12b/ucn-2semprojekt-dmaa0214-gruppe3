@@ -79,7 +79,7 @@ public class UnitTypeDialog extends JDialog {
 
 	private void buildDialog() {
 		setTitle("Enhedstyper");
-		setModal(true);
+		setModalityType(DEFAULT_MODALITY_TYPE);
 		setMinimumSize(new Dimension(500, 200));
 		setSize(new Dimension(550, 250));
 		

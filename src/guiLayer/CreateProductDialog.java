@@ -1,6 +1,7 @@
 package guiLayer;
 
 import guiLayer.exceptions.SubmitException;
+import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.models.UnitTypeComboBoxModel;
 
 import java.awt.BorderLayout;
@@ -12,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
@@ -28,7 +30,6 @@ import ctrLayer.ProductCtr;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import dbLayer.exceptions.DBException;
 
-import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 import modelLayer.Product;
@@ -52,15 +53,17 @@ public class CreateProductDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private ProductPanel parent;
 	private JFormattedTextField txtPrice;
-	private JTextField txtName;
-	private JTextField txtDesc;
-	private JTextField txtBrand;
-	private JTextField txtItemNumber;
+	private JTextFieldLimit txtName;
+	private JTextFieldLimit txtDesc;
+	private JTextFieldLimit txtBrand;
+	private JTextFieldLimit txtItemNumber;
 	private UnitTypeComboBoxModel cmbModel;
 	private JComboBox<String> cmbUnitType;
 	private JLabel lblTitle;
 	private JPanel cardPanel;
 	private Product product;
+	private JButton btnCreate;
+	private JButton btnEdit;
 	private static DecimalFormat decimalFormat;
 
 	/**
@@ -94,9 +97,7 @@ public class CreateProductDialog extends JDialog {
 		txtPrice.setText(Double.toString(product.getPrice()));
 		cmbUnitType.setSelectedItem(product.getUnitType().toString());
 		
-		//TODO change cardlayout
-
-		
+		getRootPane().setDefaultButton(btnEdit);
 	}
 
 	/**
@@ -109,16 +110,15 @@ public class CreateProductDialog extends JDialog {
 		this.parent = parent;
 		buildDialog();
 
-		
+		getRootPane().setDefaultButton(btnCreate);
 	}
 
 	/**
 	 * 
 	 */
 	private void buildDialog() {
-		
-		setModal(true);
-		setLocationRelativeTo(this.parent);
+		setModalityType(DEFAULT_MODALITY_TYPE);
+		setLocationRelativeTo(parent);
 		setMinimumSize(new Dimension(300, 280));
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -156,7 +156,7 @@ public class CreateProductDialog extends JDialog {
 		JLabel lblName = new JLabel("Navn:");
 		mainPanel.add(lblName, "1, 2, right, default");
 		
-		txtName = new JTextField();
+		txtName = new JTextFieldLimit(200,false);
 		lblName.setLabelFor(txtName);
 		mainPanel.add(txtName, "3, 2, fill, default");
 		txtName.setColumns(10);
@@ -164,7 +164,7 @@ public class CreateProductDialog extends JDialog {
 		JLabel lblDesc = new JLabel("Beskrivelse:");
 		mainPanel.add(lblDesc, "1, 4, right, default");
 		
-		txtDesc = new JTextField();
+		txtDesc = new JTextFieldLimit(300,false);
 		lblDesc.setLabelFor(txtDesc);
 		mainPanel.add(txtDesc, "3, 4, fill, default");
 		txtDesc.setColumns(10);
@@ -208,14 +208,14 @@ public class CreateProductDialog extends JDialog {
 		JLabel lblBrand = new JLabel("Fabrikat:");
 		mainPanel.add(lblBrand, "1, 10, right, default");
 		
-		txtBrand = new JTextField();
+		txtBrand = new JTextFieldLimit(100,false);
 		mainPanel.add(txtBrand, "3, 10, fill, default");
 		txtBrand.setColumns(10);
 		
 		JLabel lblItemNumber = new JLabel("Varenummer:");
 		mainPanel.add(lblItemNumber, "1, 12, right, default");
 		
-		txtItemNumber = new JTextField();
+		txtItemNumber = new JTextFieldLimit(50,false);
 		lblItemNumber.setLabelFor(txtItemNumber);
 		mainPanel.add(txtItemNumber, "3, 12, fill, top");
 		txtItemNumber.setColumns(10);
@@ -240,14 +240,14 @@ public class CreateProductDialog extends JDialog {
 		});
 		bottomPanel.add(btnClose, "2, 1, fill, top");
 		
-		JButton btnCreate = new JButton("Opret");
+		btnCreate = new JButton("Opret");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				create();
 			}
 		});
 		
-		JButton btnEdit = new JButton("Opret");
+		btnEdit = new JButton("Opret");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				edit();
