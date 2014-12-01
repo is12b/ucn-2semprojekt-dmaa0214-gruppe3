@@ -1,4 +1,4 @@
-package guiLayer.Order;
+package guiLayer.order;
 
 import guiLayer.MainGUI;
 import guiLayer.extensions.DocumentListenerChange;
@@ -47,6 +47,7 @@ import javax.swing.UIManager;
 
 import modelLayer.Car;
 import modelLayer.Customer;
+import modelLayer.Product;
 import modelLayer.Sale;
 
 /**
@@ -249,6 +250,11 @@ public class OrderPanel extends TabbedPanel {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JButton btnNewButton_1 = new JButton("S\u00F8g");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchProduct();
+			}
+		});
 		panel_5.add(btnNewButton_1, "1, 1");
 		
 		JButton btnNewButton = new JButton("Ryd");
@@ -595,6 +601,31 @@ public class OrderPanel extends TabbedPanel {
 	 * Product
 	 */
 	
+	private void searchProduct() {
+		ArrayList<Product> products = new ArrayList<Product>();
+		if(txtProductName.isEnabled()){
+			products = sCtr.searchProductsByName(txtProductName.getText());
+		}else if(txtProductNumber.isEnabled()){
+			products = sCtr.searchProductsByItemNumber(txtProductNumber.getText());
+		}
+		
+		createProductDialog(products);
+	}
+
+	private void createProductDialog(final ArrayList<Product> products) {
+		if(products != null){
+			if(products.size() > 1){
+				ProductDialog pDialog = new ProductDialog(products);
+				pDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				pDialog.setVisible(true);
+			}else if(products.size() == 1){
+				//TODO Popup med partsale til det enkelte produkt
+			}
+		}else{
+			//TODO intet fundet
+		}
+	}
+
 	private void clearProductSearch(){
 		productFields.forEach(p -> p.setText(""));
 	}
