@@ -7,6 +7,7 @@ import guiLayer.models.OrderTableModel;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
@@ -488,18 +489,22 @@ public class OrderPanel extends TabbedPanel {
 	private void customerSearch() {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		
-		if(txtCustomerCVR.isEnabled()){
-			if(!txtCustomerCVR.getText().isEmpty()){
-				customers.add(sCtr.getCustomerByCvr(txtCustomerCVR.getText(), true));
+		try{
+			if(txtCustomerCVR.isEnabled()){
+				if(!txtCustomerCVR.getText().isEmpty()){
+					customers.add(sCtr.getCustomerByCvr(txtCustomerCVR.getText(), true));
+				}
+			}else if(txtCustomerName.isEnabled()){
+				if(!txtCustomerName.getText().isEmpty()){
+					customers = sCtr.searchCustomersByName(txtCustomerName.getText(), true);
+				}
+			}else if(txtCustomerPhone.isEnabled()){
+				if(!txtCustomerPhone.getText().isEmpty()){
+					customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
+				}
 			}
-		}else if(txtCustomerName.isEnabled()){
-			if(!txtCustomerName.getText().isEmpty()){
-				customers = sCtr.searchCustomersByName(txtCustomerName.getText(), true);
-			}
-		}else if(txtCustomerPhone.isEnabled()){
-			if(!txtCustomerPhone.getText().isEmpty()){
-				customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
-			}
+		}catch(NullPointerException e){
+			error(e.getMessage());
 		}
 		
 		if(customers != null && !(customers.size() == 0)){
@@ -561,15 +566,19 @@ public class OrderPanel extends TabbedPanel {
 	
 	private void carSearch(){
 		Car c = null;
-				
-		if(txtCarRegNr.isEnabled()){
-			if(!txtCarRegNr.getText().isEmpty()){
-				c = sCtr.getCarByRegNr(txtCarRegNr.getText(), true);
+		
+		try{
+			if(txtCarRegNr.isEnabled()){
+				if(!txtCarRegNr.getText().isEmpty()){
+					c = sCtr.getCarByRegNr(txtCarRegNr.getText(), true);
+				}
+			}else if(txtCarVin.isEnabled()){
+				if(!txtCarVin.getText().isEmpty()){
+					c = sCtr.getCarByVin(txtCarVin.getText(), true);
+				}
 			}
-		}else if(txtCarVin.isEnabled()){
-			if(!txtCarVin.getText().isEmpty()){
-				c = sCtr.getCarByVin(txtCarVin.getText(), true);
-			}
+		}catch(NullPointerException e){
+			error(e.getMessage());
 		}
 		
 		if(c != null){
@@ -615,14 +624,19 @@ public class OrderPanel extends TabbedPanel {
 	
 	private void searchProduct() {
 		ArrayList<Product> products = new ArrayList<Product>();
-		if(txtProductName.isEnabled()){
-			if(!txtProductName.getText().isEmpty()){
-				products = sCtr.searchProductsByName(txtProductName.getText());
+		
+		try{
+			if(txtProductName.isEnabled()){
+				if(!txtProductName.getText().isEmpty()){
+					products = sCtr.searchProductsByName(txtProductName.getText());
+				}
+			}else if(txtProductNumber.isEnabled()){
+				if(!txtProductNumber.getText().isEmpty()){
+					products = sCtr.searchProductsByItemNumber(txtProductNumber.getText());
+				}
 			}
-		}else if(txtProductNumber.isEnabled()){
-			if(!txtProductNumber.getText().isEmpty()){
-				products = sCtr.searchProductsByItemNumber(txtProductNumber.getText());
-			}
+		}catch(NullPointerException e){
+			error(e.getMessage());
 		}
 		
 		createProductDialog(products);
@@ -677,5 +691,13 @@ public class OrderPanel extends TabbedPanel {
 		double tax = subTotal * 0.25;
 		lblTax.setText(String.valueOf(tax));
 		lblTotal.setText(String.valueOf(tax + subTotal));
+	}
+	
+	/**
+	 * Misc
+	 */
+	
+	private void error(String error){
+		JOptionPane.showMessageDialog(this, error, "Fejl", JOptionPane.ERROR_MESSAGE);
 	}
 }
