@@ -7,11 +7,14 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.control.SingleSelectionModel;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -61,6 +64,7 @@ public class CustomerDialog extends JDialog {
 	
 	
 	public void buildDialog(ArrayList<Customer> customers) {
+		setTitle("Tilføj Kunde / Bil");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,6 +75,8 @@ public class CustomerDialog extends JDialog {
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 			{
 				tree = new JTree();
+				tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+				tree.setLargeModel(true);
 				scrollPane.setViewportView(tree);
 			}
 		}
