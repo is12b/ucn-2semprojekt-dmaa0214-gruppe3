@@ -17,11 +17,12 @@ import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.SettingCtr;
 import ctrLayer.interfaceLayer.IFSettingCtr;
-import dbLayer.interfaceLayer.Setting;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import modelLayer.Setting;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

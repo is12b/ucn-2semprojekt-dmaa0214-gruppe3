@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import modelLayer.Setting;
 import dbLayer.interfaceLayer.IFDBSettings;
-import dbLayer.interfaceLayer.Setting;
 
 /**
  * Class for DBSettings

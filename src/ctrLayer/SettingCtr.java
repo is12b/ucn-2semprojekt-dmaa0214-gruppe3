@@ -2,10 +2,10 @@ package ctrLayer;
 
 import java.util.ArrayList;
 
+import modelLayer.Setting;
 import ctrLayer.interfaceLayer.IFSettingCtr;
 import dbLayer.DBSettings;
 import dbLayer.interfaceLayer.IFDBSettings;
-import dbLayer.interfaceLayer.Setting;
 
 /**
  * Class for SettingCtr
