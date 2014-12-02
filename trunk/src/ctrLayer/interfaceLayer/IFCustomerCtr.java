@@ -15,7 +15,7 @@ public interface IFCustomerCtr {
 
 	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, int cvr, boolean hidden);
 	
-	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, int postalCode, int cvr, boolean hidden);
+	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city,  int postalCode, int cvr, boolean hidden);
 	
 	public void deleteCustomer(Customer customer);
 

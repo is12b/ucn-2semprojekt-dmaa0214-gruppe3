@@ -23,18 +23,21 @@ public class CustomerCtr implements IFCustomerCtr {
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, int postalCode, int cvr, boolean hidden) {
+	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city, int postalCode, int cvr, boolean hidden) {
 
 		IFDBCustomer dbCus = new DBCustomer();
-
-		final boolean setName = name.trim().isEmpty();
-		final boolean setPhoneNumber = phoneNumber.trim().isEmpty();
-		final boolean setAddress = address.trim().isEmpty();
+		
+		final boolean setCity = !city.trim().isEmpty();
+		final boolean setName = !name.trim().isEmpty();
+		final boolean setPhoneNumber = !phoneNumber.trim().isEmpty();
+		final boolean setAddress = !address.trim().isEmpty();
 		final boolean setPostalCode = postalCode != 0;
 		final boolean setCvr = cvr != 0;
 
-
-
+		if(setCity) {
+			customer.setCity(city);
+		}
+		
 		if(setName) {
 			customer.setName(name);
 		}
