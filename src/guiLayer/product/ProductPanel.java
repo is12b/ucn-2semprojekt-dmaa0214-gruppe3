@@ -309,30 +309,27 @@ public class ProductPanel extends TabbedPanel {
 	private void search() {
 		IFProductCtr pCtr = new ProductCtr();
 		ArrayList<Product> pList = new ArrayList<Product>();
-		if (!txtID.getText().trim().isEmpty()) {
-			try {
-				Product p = pCtr.getProductByID(txtID.getValue());
-				if (p != null) {
-					pList.add(p);
+		
+		try {
+			if (!txtID.getText().trim().isEmpty()) {
+				try {
+					Product p = pCtr.getProductByID(txtID.getValue());
+					if (p != null) {
+						pList.add(p);
+					}
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (NumberFormatException | ObjectNotExistException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else if (!txtItemNumber.getText().trim().isEmpty()) {
-			try {
+			} else if (!txtItemNumber.getText().trim().isEmpty()) {
 				pList = pCtr.searchProductsByItemNumber(txtItemNumber.getText().trim());
-			} catch (ObjectNotExistException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else if (!txtName.getText().trim().isEmpty()) {
-			try {
+			} else if (!txtName.getText().trim().isEmpty()) {
 				pList = pCtr.searchProductsByName(txtName.getText().trim());
-			} catch (ObjectNotExistException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			
+		} catch (ObjectNotExistException e) {
+			Utilities.showError(this, "Ingen produkter fundet");
+			//e.printStackTrace();
 		}
 		updateModel(pList);
 	}

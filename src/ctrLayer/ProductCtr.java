@@ -20,7 +20,7 @@ public class ProductCtr implements IFProductCtr {
 		Product product = dbProd.getProductByID(id);
 		
 		if(product == null){
-			throw new NullPointerException("Intet produkt fundet");
+			throw new ObjectNotExistException("Intet produkt fundet");
 		}
 		
 		return product;
@@ -32,7 +32,7 @@ public class ProductCtr implements IFProductCtr {
 		ArrayList<Product> products = dbProd.searchProductsByName(name);
 		
 		if(products == null || products.size() == 0){
-			throw new NullPointerException("Ingen produkter fundet");
+			throw new ObjectNotExistException("Ingen produkter fundet");
 		}
 		
 		return products;
@@ -44,7 +44,7 @@ public class ProductCtr implements IFProductCtr {
 		ArrayList<Product> products = dbProd.searchProductsByItemNumber(itemNumber);
 		
 		if(products == null || products.size() == 0){
-			throw new NullPointerException("Ingen produkter fundet");
+			throw new ObjectNotExistException("Ingen produkter fundet");
 		}
 		
 		return products;
