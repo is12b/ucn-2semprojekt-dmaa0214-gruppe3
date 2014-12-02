@@ -43,7 +43,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -94,12 +93,12 @@ public class CreateProductDialog extends JDialog {
 		//Number tempPrice = product.getPrice();
 		txtPrice.setValue(product.getPrice());
 		cmbUnitType.setSelectedItem(product.getUnitType().toString());
-		
+		getRootPane().setDefaultButton(btnEdit);
 		pack();
 		setLocationRelativeTo(parent);
 		setVisible(true);
 
-		getRootPane().setDefaultButton(btnEdit);
+		
 		
 	}
 
@@ -112,12 +111,12 @@ public class CreateProductDialog extends JDialog {
 				
 		setTitle("Opret Produkt");
 		buildDialog();
-		
+		getRootPane().setDefaultButton(btnCreate);
 		pack();
 		setLocationRelativeTo(parent);
 		setVisible(true);
 		
-		getRootPane().setDefaultButton(btnCreate);
+		
 	}
 
 	/**
@@ -359,7 +358,7 @@ public class CreateProductDialog extends JDialog {
 	private void pressedClose() {
 		if(isAllFieldsEmpty()) {
 			kill();
-		} else if (!isSomethingChanged()) {
+		} else if (isEditing() && !isSomethingChanged()) {
 			kill();
 		}
 		else {
