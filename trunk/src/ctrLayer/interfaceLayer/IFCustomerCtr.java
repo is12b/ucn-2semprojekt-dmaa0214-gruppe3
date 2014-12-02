@@ -2,6 +2,7 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import modelLayer.Customer;
 
 /**
@@ -21,25 +22,26 @@ public interface IFCustomerCtr {
 	/**
 	 * @param cvr
 	 * @return
+	 * @throws ObjectNotExistException 
 	 */
-	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws NullPointerException;
+	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws ObjectNotExistException;
 
 	/**
 	 * @param name
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso) throws NullPointerException;
+	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso) throws ObjectNotExistException;
 
 	/**
 	 * @param phone
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso) throws NullPointerException;
+	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso) throws ObjectNotExistException;
 
 	/**
 	 * @param regNr
 	 * @return
 	 */
-	public Customer getCustomerByRegNr(String regNr) throws NullPointerException;
+	public Customer getCustomerByRegNr(String regNr) throws ObjectNotExistException;
 	
 }
