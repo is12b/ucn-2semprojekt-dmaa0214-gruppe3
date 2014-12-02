@@ -3,44 +3,34 @@ package guiLayer;
 import guiLayer.extensions.CustomerTableModel;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
-
-import javax.swing.JPanel;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 import guiLayer.extensions.Utilities;
-import com.jgoodies.forms.factories.FormFactory;
 
-import ctrLayer.CustomerCtr;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import ctrLayer.interfaceLayer.IFCustomerCtr;
-
-import java.awt.GridBagLayout;
-
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.JButton;
-
+import java.awt.Color;
 import java.awt.FlowLayout;
-
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-
-import modelLayer.Customer;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 
-import java.awt.Color;
+import modelLayer.Customer;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+
+import ctrLayer.CustomerCtr;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
+import ctrLayer.interfaceLayer.IFCustomerCtr;
 
 /**
  * Class for CustomerPanel
@@ -173,12 +163,7 @@ public class CustomerPanel extends TabbedPanel {
 
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					JTable target = (JTable)e.getSource();
-					int row = target.getSelectedRow();
-					Customer customer = customers.get(row);
-					new CustomerInfoDialog(customer);
-				}
+				mouseClickCust(e);
 			}
 		});
 		
@@ -231,6 +216,19 @@ public class CustomerPanel extends TabbedPanel {
 	private void updateTable() {
 		model.refresh(customers);
 		model.fireTableDataChanged();
+	}
+	
+	/**
+	 * @param e
+	 */
+	private void mouseClickCust(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+			JTable target = (JTable)e.getSource();
+			int row = target.getSelectedRow();
+			Customer customer = customers.get(row);
+			new CustomerInfoDialog(customer);
+			updateTable();
+		}
 	}
 
 }

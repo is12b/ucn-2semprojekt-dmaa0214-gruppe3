@@ -7,17 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import modelLayer.Car;
 import modelLayer.Customer;
-import modelLayer.Product;
-import modelLayer.UnitType;
 import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBPostalcode;
-import dbLayer.interfaceLayer.IFDBUnitType;
 
 /**
  * Class for DBCustomer
@@ -64,7 +59,7 @@ public class DBCustomer implements IFDBCustomer {
 		int rc = -1;
 		final String fields = "(name, phoneNumber, address, postalCode, cvr, hidden)";
 		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?)";
-		
+
 		try {
 			IFDBPostalcode dbPost = new DBPostalCode();
 			int postResult = dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
@@ -123,6 +118,7 @@ public class DBCustomer implements IFDBCustomer {
 			stmt.setInt(4, customer.getPostalCode());
 			stmt.setInt(5, customer.getCvr());
 			stmt.setBoolean(6, customer.getHidden());
+			stmt.setInt(7, customer.getId());
 		} catch (Exception e) {
 			System.out.println("Error - updateFields - DBCustomer");
 			e.printStackTrace();
@@ -177,8 +173,8 @@ public class DBCustomer implements IFDBCustomer {
 			String city = dbPost.getCity(rs.getInt("postalCode")); 
 			customer.setPostalCode(rs.getInt("postalCode")); 
 			customer.setCity(city);
-			
-			
+
+
 		}catch(Exception e){
 			System.out.println("DBCustomer - buildCustomer - Exception");
 			e.printStackTrace();
@@ -223,11 +219,11 @@ public class DBCustomer implements IFDBCustomer {
 	private ArrayList<Car> getCars(Customer customer) {
 		IFDBCar dbCar = new DBCar();
 		ArrayList<Car> cars = dbCar.getCars(customer, false);
-		
+
 		for(Car c : cars){
 			c.setOwner(customer);
 		}
-		
+
 		return cars;
 	}
 
@@ -254,7 +250,7 @@ public class DBCustomer implements IFDBCustomer {
 
 		return customer; 
 	}
-	
+
 	@Override
 	public Customer getCustomerByRegNr(String regNr) {
 		IFDBCar dbCar = new DBCar();
