@@ -3,6 +3,7 @@ package ctrLayer;
 import java.util.ArrayList;
 
 import modelLayer.Customer;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import dbLayer.DBCustomer;
 import dbLayer.interfaceLayer.IFDBCustomer;
@@ -63,43 +64,43 @@ public class CustomerCtr implements IFCustomerCtr {
 	}
 
 	@Override
-	public Customer getCustomerByCvr(String cvr, boolean retAsso){
+	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws ObjectNotExistException{
 		IFDBCustomer dbCus = new DBCustomer();
 		Customer foundCustomer = dbCus.getCustomerByCvr(cvr, retAsso);
 		if(foundCustomer == null ){
-			throw new NullPointerException("Ingen kunder fundet");
+			throw new ObjectNotExistException("Ingen kunder fundet");
 		}
 		return foundCustomer;
 	}
 
 	@Override
-	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso) {
+	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso) throws ObjectNotExistException{
 		ArrayList<Customer> foundCustomers = null;
 		IFDBCustomer dbCus = new DBCustomer();
 		foundCustomers = dbCus.getCustomersByName(name, retAsso);
 		if(foundCustomers == null || foundCustomers.size() == 0){
-			throw new NullPointerException("Ingen kunder fundet");
+			throw new ObjectNotExistException("Ingen kunder fundet");
 		}
 		return foundCustomers;
 	}
 
 	@Override
-	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso) {
+	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso) throws ObjectNotExistException{
 		ArrayList<Customer> foundCustomers = null;
 		IFDBCustomer dbCus = new DBCustomer();
 		foundCustomers = dbCus.getCustomersByPhone(phone, retAsso);
 		if(foundCustomers == null || foundCustomers.size() == 0){
-			throw new NullPointerException("Ingen kunder fundet");
+			throw new ObjectNotExistException("Ingen kunder fundet");
 		}
 		return foundCustomers;
 	}
 
 	@Override
-	public Customer getCustomerByRegNr(String regNr) {
+	public Customer getCustomerByRegNr(String regNr) throws ObjectNotExistException{
 		IFDBCustomer dbCus = new DBCustomer();
 		Customer cust = dbCus.getCustomerByRegNr(regNr);
 		if(cust == null){
-			throw new NullPointerException("Ingen kunde fundet");
+			throw new ObjectNotExistException("Ingen kunde fundet");
 		}
 		return cust;
 	}

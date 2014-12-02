@@ -9,9 +9,11 @@ import javax.swing.JPanel;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.util.Utilities;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.CustomerCtr;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 
 import java.awt.GridBagLayout;
@@ -202,18 +204,22 @@ public class CustomerPanel extends TabbedPanel {
 		final String phone = txtPhone.getText().trim();
 		final String name = txtName.getText();
 		final String cvr = txtCvr.getText().trim();
-
-		if(searchReg) {
-			customers.add(cCtr.getCustomerByRegNr(regNr));
-		}
-		else if(searchPhone) {
-			customers = cCtr.searchCustomersByPhone(phone, true);
-		}
-		else if(searchName) {
-			customers = cCtr.searchCustomersByName(name, true);
-		}
-		else if(searchCvr) {
-			customers.add(cCtr.getCustomerByCvr(cvr, true));
+		
+		try{
+			if(searchReg) {
+				customers.add(cCtr.getCustomerByRegNr(regNr));
+			}
+			else if(searchPhone) {
+				customers = cCtr.searchCustomersByPhone(phone, true);
+			}
+			else if(searchName) {
+				customers = cCtr.searchCustomersByName(name, true);
+			}
+			else if(searchCvr) {
+				customers.add(cCtr.getCustomerByCvr(cvr, true));
+			}
+		}catch(ObjectNotExistException e){
+			guiLayer.extensions.Utilities.showError(this, e.getMessage());
 		}
 		updateTable();
 	}
