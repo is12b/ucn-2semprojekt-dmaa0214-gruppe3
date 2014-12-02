@@ -538,7 +538,7 @@ public class OrderPanel extends TabbedPanel {
 				cDialog.setVisible(true);
 			}else{
 				if(customers.get(0).getCars() == null || customers.get(0).getCars().size() == 0){
-					int c = Utilities.showWarning(this, "Vil du tilføje " + customers.get(0).getName() + " til faktura?");
+					int c = Utilities.showConfirm(this, "Vil du tilføje " + customers.get(0).getName() + " til faktura?", "Tilføj Kunde");
 					
 					if(c == JOptionPane.YES_OPTION){
 						setCustomer(customers.get(0));
