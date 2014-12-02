@@ -64,7 +64,7 @@ public class MainGUI extends JFrame {
 			}
 		});
 	}
-	
+
 	/**
 	 * Create the frame.
 	 */
