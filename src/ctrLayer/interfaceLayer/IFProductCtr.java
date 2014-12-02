@@ -15,11 +15,11 @@ import modelLayer.UnitType;
  */
 public interface IFProductCtr {
 	
-	public Product getProductByID(int id) throws NullPointerException;
+	public Product getProductByID(int id) throws ObjectNotExistException;
 	
-	public ArrayList<Product> searchProductsByName(String name) throws NullPointerException;
+	public ArrayList<Product> searchProductsByName(String name) throws ObjectNotExistException;
 	
-	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) throws NullPointerException;
+	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) throws ObjectNotExistException;
 	
 	public Product createProduct(String brand, String name, String description,
 			String itemNumber, double price, UnitType unitType)

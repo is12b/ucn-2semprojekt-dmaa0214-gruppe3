@@ -1,6 +1,7 @@
 package ctrLayer.interfaceLayer;
 import ctrLayer.exceptionLayer.DeleteException;
 import ctrLayer.exceptionLayer.InsertException;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.exceptionLayer.UpdateException;
 import modelLayer.Car;
 import modelLayer.Customer;
@@ -13,9 +14,9 @@ import modelLayer.Customer;
  */
 public interface IFCarCtr {
 	
-	public Car getCarByRegNr(String regNr, boolean retAsso) throws NullPointerException;
+	public Car getCarByRegNr(String regNr, boolean retAsso) throws ObjectNotExistException;
 	
-	public Car getCarByVin(String vin, boolean retAsso) throws NullPointerException;
+	public Car getCarByVin(String vin, boolean retAsso) throws ObjectNotExistException;
 	
 	public Car createCar(String brand, String model, String regNr, String vin, int mileage, int year, Customer owner) throws InsertException;
 	

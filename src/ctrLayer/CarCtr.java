@@ -2,6 +2,7 @@ package ctrLayer;
 
 import ctrLayer.exceptionLayer.DeleteException;
 import ctrLayer.exceptionLayer.InsertException;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFCarCtr;
 import dbLayer.DBCar;
@@ -27,13 +28,13 @@ public class CarCtr implements IFCarCtr {
 	}
 
 	@Override
-	public Car getCarByRegNr(String regNr, boolean retAsso) throws NullPointerException{
+	public Car getCarByRegNr(String regNr, boolean retAsso) throws ObjectNotExistException{
 		IFDBCar dbCar = new DBCar(); 
 		
 		Car car = dbCar.getCarByRegNr(regNr, retAsso);
 		
 		if(car == null){
-			throw new NullPointerException("Bilen blev ikke fundet");
+			throw new ObjectNotExistException("Bilen blev ikke fundet");
 		}
 		
 		return car;
@@ -42,13 +43,13 @@ public class CarCtr implements IFCarCtr {
 
 	@Override
 	public Car getCarByVin(String vin, boolean retAsso)
-			throws NullPointerException {
+			throws ObjectNotExistException {
 		IFDBCar dbCar = new DBCar(); 
 		
 		Car car = dbCar.getCarByVin(vin, retAsso);
 		
 		if(car == null){
-			throw new NullPointerException("Bilen blev ikke fundet");
+			throw new ObjectNotExistException("Bilen blev ikke fundet");
 		}
 		
 		return car;

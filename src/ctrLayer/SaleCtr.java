@@ -7,6 +7,7 @@ import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFCarCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import ctrLayer.interfaceLayer.IFProductCtr;
@@ -77,13 +78,13 @@ public class SaleCtr implements IFSaleCtr {
 	 */
 	
 	@Override
-	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) {
+	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) throws ObjectNotExistException{
 		IFProductCtr pCtr = new ProductCtr();
 		return pCtr.searchProductsByItemNumber(itemNumber);
 	}
 	
 	@Override
-	public ArrayList<Product> searchProductsByName(String name) {
+	public ArrayList<Product> searchProductsByName(String name) throws ObjectNotExistException{
 		IFProductCtr pCtr = new ProductCtr();
 		return pCtr.searchProductsByName(name);
 	}
@@ -93,14 +94,13 @@ public class SaleCtr implements IFSaleCtr {
 	 */
 	
 	@Override
-	public Car getCarByRegNr(String regNr, boolean retAsso) {
-		
+	public Car getCarByRegNr(String regNr, boolean retAsso) throws ObjectNotExistException{
 		IFCarCtr cCtr = new CarCtr();
 		return cCtr.getCarByRegNr(regNr, retAsso);
 	}
 
 	@Override
-	public Car getCarByVin(String vin, boolean retAsso) {
+	public Car getCarByVin(String vin, boolean retAsso) throws ObjectNotExistException{
 		IFCarCtr cCtr = new CarCtr();
 		return cCtr.getCarByVin(vin, retAsso);
 	}	
@@ -110,21 +110,21 @@ public class SaleCtr implements IFSaleCtr {
 	 */
 
 	@Override
-	public Customer getCustomerByCvr(String cvr, boolean retAsso) {
+	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws ObjectNotExistException{
 		IFCustomerCtr cCtr = new CustomerCtr();
 		return cCtr.getCustomerByCvr(cvr, retAsso);
 	}
 
 	@Override
 	public ArrayList<Customer> searchCustomersByName(String name,
-			boolean retAsso) {
+			boolean retAsso) throws ObjectNotExistException{
 		IFCustomerCtr cCtr = new CustomerCtr();
 		return cCtr.searchCustomersByName(name, retAsso);
 	}
 
 	@Override
 	public ArrayList<Customer> searchCustomersByPhone(String phone,
-			boolean retAsso) {
+			boolean retAsso) throws ObjectNotExistException{
 		IFCustomerCtr cCtr = new CustomerCtr();
 		return cCtr.searchCustomersByPhone(phone, retAsso);
 	}

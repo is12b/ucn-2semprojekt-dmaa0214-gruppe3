@@ -15,7 +15,7 @@ import dbLayer.interfaceLayer.IFDBProduct;
 public class ProductCtr implements IFProductCtr {
 	
 	@Override
-	public Product getProductByID(int id) {
+	public Product getProductByID(int id) throws ObjectNotExistException{
 		IFDBProduct dbProd = new DBProduct();
 		Product product = dbProd.getProductByID(id);
 		
@@ -27,7 +27,7 @@ public class ProductCtr implements IFProductCtr {
 	}
 
 	@Override
-	public ArrayList<Product> searchProductsByName(String name) {
+	public ArrayList<Product> searchProductsByName(String name) throws ObjectNotExistException{
 		IFDBProduct dbProd = new DBProduct();
 		ArrayList<Product> products = dbProd.searchProductsByName(name);
 		
@@ -39,7 +39,7 @@ public class ProductCtr implements IFProductCtr {
 	}
 
 	@Override
-	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) {
+	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) throws ObjectNotExistException{
 		IFDBProduct dbProd = new DBProduct();
 		ArrayList<Product> products = dbProd.searchProductsByItemNumber(itemNumber);
 		
