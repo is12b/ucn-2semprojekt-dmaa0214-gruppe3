@@ -68,8 +68,8 @@ public class ProductCtr implements IFProductCtr {
 				
 				dbProd.updateProduct(product);
 			} catch (CloneNotSupportedException e) {
-				System.out.println("Den fejl burde ikke kunne ske"); //TODO bedre beskrivelse?
-				e.printStackTrace();
+				System.out.println("ProductCtr: CloneNotSupportedException: "+ e.getMessage());
+				//e.printStackTrace();
 			} catch (DBNotFoundException e) {
 				product.setToClone(tempObj);
 				throw new ObjectNotExistException(e.getMessage());

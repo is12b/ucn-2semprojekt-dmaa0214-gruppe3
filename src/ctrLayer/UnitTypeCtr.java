@@ -61,8 +61,8 @@ public class UnitTypeCtr implements IFUnitTypeCtr {
 				
 				dbUnit.updateUnitType(unitType);
 			} catch (CloneNotSupportedException e) {
-				System.out.println("Den fejl burde ikke kunne ske"); //TODO bedre beskrivelse?
-				e.printStackTrace();
+				System.out.println("UnitType: CloneNotSupportedException: "+ e.getMessage());
+				//e.printStackTrace();
 			} catch (DBNotFoundException e) {
 				unitType.setToClone(tempObj);
 				throw new ObjectNotExistException(e.getMessage());
