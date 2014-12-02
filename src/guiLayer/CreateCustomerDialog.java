@@ -1,5 +1,6 @@
 package guiLayer;
 
+import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
 
 import java.awt.BorderLayout;
@@ -36,22 +37,27 @@ import java.awt.Color;
  */
 public class CreateCustomerDialog extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtName;
-	private JTextField txtPhone;
-	private JTextField txtAddress;
-	private JTextField txtPostCode;
-	private JTextField txtCity;
-	private JTextField txtCvr;
-	private JTextField txtRegNr;
-	private JTextField txtVin;
-	private JTextField txtManufact;
-	private JTextField txtModel;
+	private JTextFieldLimit txtName;
+	private JTextFieldLimit txtPhone;
+	private JTextFieldLimit txtAddress;
+	private JTextFieldLimit txtPostCode;
+	private JTextFieldLimit txtCity;
+	private JTextFieldLimit txtCvr;
+	private JTextFieldLimit txtRegNr;
+	private JTextFieldLimit txtVin;
+	private JTextFieldLimit txtManufact;
+	private JTextFieldLimit txtModel;
+	private MainGUI parent;
+	private JButton btnCreate;
 
-	/**
-	 * Create the dialog.
-	 */
-	public CreateCustomerDialog() {
+	public CreateCustomerDialog(MainGUI parent) {
+		this.parent = parent;
+		buildDialog();
+	}
+
+	private void buildDialog() {
 		setTitle("Opret kunde");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -62,7 +68,7 @@ public class CreateCustomerDialog extends JDialog {
 				ColumnSpec.decode("center:default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("center:default:grow"),},
-			new RowSpec[] {
+				new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		{
@@ -74,7 +80,7 @@ public class CreateCustomerDialog extends JDialog {
 					ColumnSpec.decode("50dlu"),
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+					new RowSpec[] {
 					FormFactory.RELATED_GAP_ROWSPEC,
 					RowSpec.decode("fill:default"),
 					FormFactory.RELATED_GAP_ROWSPEC,
@@ -97,7 +103,7 @@ public class CreateCustomerDialog extends JDialog {
 				kundePanel.add(lblName, "2, 2, left, default");
 			}
 			{
-				txtName = new JTextField();
+				txtName = new JTextFieldLimit(50, false);
 				kundePanel.add(txtName, "4, 2, fill, top");
 				txtName.setColumns(10);
 			}
@@ -106,7 +112,7 @@ public class CreateCustomerDialog extends JDialog {
 				kundePanel.add(lblPhone, "2, 4, left, default");
 			}
 			{
-				txtPhone = new JTextField();
+				txtPhone = new JTextFieldLimit(18, false);
 				kundePanel.add(txtPhone, "4, 4, fill, top");
 				txtPhone.setColumns(10);
 			}
@@ -115,7 +121,7 @@ public class CreateCustomerDialog extends JDialog {
 				kundePanel.add(lblPostCode, "2, 6, left, default");
 			}
 			{
-				txtPostCode = new JTextField();
+				txtPostCode = new JTextFieldLimit(18, true);
 				txtPostCode.setText("");
 				kundePanel.add(txtPostCode, "4, 6, fill, top");
 				txtPostCode.setColumns(10);
@@ -125,7 +131,7 @@ public class CreateCustomerDialog extends JDialog {
 				kundePanel.add(lblCity, "2, 8, left, default");
 			}
 			{
-				txtCity = new JTextField();
+				txtCity = new JTextFieldLimit(50, false);
 				txtCity.setText("");
 				kundePanel.add(txtCity, "4, 8, fill, top");
 				txtCity.setColumns(10);
@@ -135,7 +141,7 @@ public class CreateCustomerDialog extends JDialog {
 				kundePanel.add(lblAddress, "2, 10, left, default");
 			}
 			{
-				txtAddress = new JTextField();
+				txtAddress = new JTextFieldLimit(50, false);
 				kundePanel.add(txtAddress, "4, 10, fill, top");
 				txtAddress.setColumns(10);
 			}
@@ -145,19 +151,19 @@ public class CreateCustomerDialog extends JDialog {
 				kundePanel.add(lblCvr, "2, 12, left, default");
 			}
 			{
-				txtCvr = new JTextField();
+				txtCvr = new JTextFieldLimit(20, true);
 				txtCvr.setText("");
 				kundePanel.add(txtCvr, "4, 12, fill, default");
 				txtCvr.setColumns(10);
 			}
 			{
-				JButton btnSave = new JButton("Opret");
-				btnSave.addActionListener(new ActionListener() {
+				btnCreate = new JButton("Opret");
+				btnCreate.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						createCustomer();
 					}
 				});
-				kundePanel.add(btnSave, "2, 16, 3, 1, default, center");
+				kundePanel.add(btnCreate, "2, 16, 3, 1, default, center");
 			}
 		}
 		{
@@ -169,7 +175,7 @@ public class CreateCustomerDialog extends JDialog {
 					ColumnSpec.decode("min(50dlu;default):grow"),
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+					new RowSpec[] {
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.RELATED_GAP_ROWSPEC,
@@ -191,7 +197,7 @@ public class CreateCustomerDialog extends JDialog {
 				bilPanel.add(lblRegNr, "2, 2, left, default");
 			}
 			{
-				txtRegNr = new JTextField();
+				txtRegNr = new JTextFieldLimit(10, false);
 				txtRegNr.setText("");
 				bilPanel.add(txtRegNr, "4, 2, fill, top");
 				txtRegNr.setColumns(10);
@@ -201,7 +207,7 @@ public class CreateCustomerDialog extends JDialog {
 				bilPanel.add(lblVin, "2, 4, left, default");
 			}
 			{
-				txtVin = new JTextField();
+				txtVin = new JTextFieldLimit(100, false);
 				bilPanel.add(txtVin, "4, 4, fill, default");
 				txtVin.setColumns(10);
 			}
@@ -210,7 +216,7 @@ public class CreateCustomerDialog extends JDialog {
 				bilPanel.add(lblManufact, "2, 6, left, default");
 			}
 			{
-				txtManufact = new JTextField();
+				txtManufact = new JTextFieldLimit(30, false);
 				bilPanel.add(txtManufact, "4, 6, fill, default");
 				txtManufact.setColumns(10);
 			}
@@ -219,48 +225,55 @@ public class CreateCustomerDialog extends JDialog {
 				bilPanel.add(lblModel, "2, 8, left, default");
 			}
 			{
-				txtModel = new JTextField();
+				txtModel = new JTextFieldLimit(40, false);
 				bilPanel.add(txtModel, "4, 8, fill, default");
 				txtModel.setColumns(10);
 			}
 			{
-				JButton btnHentBiloplysninger = new JButton("Hent biloplysninger");
-				bilPanel.add(btnHentBiloplysninger, "2, 16, 3, 1, default, center");
+				JButton btnGetCarInfo = new JButton("Hent biloplysninger");
+				bilPanel.add(btnGetCarInfo, "2, 16, 3, 1, default, center");
 			}
 		}
 		{
-			
+
 			this.setVisible(true);
 		}
-		
 	}
-	
+
 	private void createCustomer() {
 
 		String name = txtName.getText();
 		String phone = txtPhone.getText();
 		String address = txtAddress.getText();
-		
+
 		int postalCode = 0;
 		int cvr = 0;
+
+		try {
+			postalCode = Integer.parseInt(txtPostCode.getText());
+		} catch (NumberFormatException e) {
+			Utilities.showError(this, "Postnummer skal være et heltal");
+			e.printStackTrace();
+		}
+		try {
+			cvr = Integer.parseInt(txtCvr.getText());
+		} catch (NumberFormatException e) {
+			Utilities.showError(this, "CVR-nr skal være et heltal");
+			e.printStackTrace();
+		}
 		
-			try {
-				postalCode = Integer.parseInt(txtPostCode.getText());
-			} catch (NumberFormatException e) {
-				Utilities.showError(this, "Postnummer skal være et heltal");
-				e.printStackTrace();
-			}
-			try {
-				cvr = Integer.parseInt(txtCvr.getText());
-			} catch (NumberFormatException e) {
-				Utilities.showError(this, "CVR-nr skal være et heltal");
-				e.printStackTrace();
-			}
-		
-		
+		parent.setDefaultButton(btnCreate);
+
+
+
+
 		CustomerCtr cCtr = new CustomerCtr();
 		cCtr.createCustomer(name, phone, address, postalCode, cvr, false);
-		
+
+	}
+
+	private void setFocus(){
+
 	}
 
 }

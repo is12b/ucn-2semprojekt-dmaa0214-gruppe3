@@ -68,10 +68,10 @@ public class Customer implements Cloneable{
 	/**
 	 * Sets the name.
 	 *
-	 * @param firstName the new name
+	 * @param name the new name
 	 */
-	public void setName(String firstName) {
-		this.name = firstName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**

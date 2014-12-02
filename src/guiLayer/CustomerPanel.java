@@ -1,6 +1,7 @@
 package guiLayer;
 
 import guiLayer.extensions.CustomerTableModel;
+import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 
 import javax.swing.JPanel;
@@ -24,7 +25,6 @@ import java.awt.FlowLayout;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
@@ -35,7 +35,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
 import javax.swing.UIManager;
+
 import java.awt.Color;
 
 /**
@@ -45,26 +47,35 @@ import java.awt.Color;
  *
  */
 public class CustomerPanel extends TabbedPanel {
-
+	private static final long serialVersionUID = 1L;
 	private MainGUI parent;
-	private JTextField txtRegNr;
-	private JTextField txtPhone;
-	private JTextField txtName;
-	private JTextField txtCvr;
+	private JTextFieldLimit txtRegNr;
+	private JTextFieldLimit txtPhone;
+	private JTextFieldLimit txtName;
+	private JTextFieldLimit txtCvr;
 	private JTable table;
 	private CustomerTableModel model;
 	private ArrayList<Customer> customers;
+	private JButton btnSearch;
 
-	/**
-	 * Create the panel.
-	 */
 	public CustomerPanel(MainGUI parent) {
+		buildPanel();
+		this.parent = parent;
+	}
+
+	@Override
+	public void setFocus() {
+		txtRegNr.requestFocusInWindow();
+		parent.setDefaultButton(btnSearch);
+	}
+
+	private void buildPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("center:pref:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
+				new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 
@@ -102,14 +113,14 @@ public class CustomerPanel extends TabbedPanel {
 		JLabel lblRegNr = new JLabel("RegNR");
 		panelSearch.add(lblRegNr, "2, 2, right, default");
 
-		txtRegNr = new JTextField();
+		txtRegNr = new JTextFieldLimit(20, false);
 		panelSearch.add(txtRegNr, "4, 2, fill, default");
 		txtRegNr.setColumns(10);
 
 		JLabel lblPhone = new JLabel("Tlf");
 		panelSearch.add(lblPhone, "2, 4, right, default");
 
-		txtPhone = new JTextField();
+		txtPhone = new JTextFieldLimit(14, false);
 		txtPhone.setText("");
 		panelSearch.add(txtPhone, "4, 4, fill, default");
 		txtPhone.setColumns(10);
@@ -117,7 +128,7 @@ public class CustomerPanel extends TabbedPanel {
 		JLabel lblName = new JLabel("Navn");
 		panelSearch.add(lblName, "2, 6, right, default");
 
-		txtName = new JTextField();
+		txtName = new JTextFieldLimit(50, false);
 		txtName.setText("");
 		panelSearch.add(txtName, "4, 6, fill, default");
 		txtName.setColumns(10);
@@ -125,7 +136,7 @@ public class CustomerPanel extends TabbedPanel {
 		JLabel lblCvr = new JLabel("CVR");
 		panelSearch.add(lblCvr, "2, 8, right, default");
 
-		txtCvr = new JTextField();
+		txtCvr = new JTextFieldLimit(50, true);
 		txtCvr.setText("");
 		panelSearch.add(txtCvr, "4, 8, fill, default");
 		txtCvr.setColumns(10);
@@ -133,13 +144,7 @@ public class CustomerPanel extends TabbedPanel {
 		JPanel panel_4 = new JPanel();
 		panelSearch.add(panel_4, "2, 10, 3, 1, fill, fill");
 
-		JButton btnSearch = new JButton("S\u00F8g");
-
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				searchCustomer();
-			}
-		});
+		btnSearch = new JButton("S\u00F8g");
 
 		panel_4.add(btnSearch);
 
@@ -174,13 +179,14 @@ public class CustomerPanel extends TabbedPanel {
 				}
 			}
 		});
+		
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				searchCustomer();
+			}
+		});
 
 		customers = new ArrayList<Customer>();
-	}
-
-	@Override
-	public void setFocus() {
-		txtRegNr.requestFocusInWindow();
 	}
 
 	private void searchCustomer() {
@@ -213,11 +219,12 @@ public class CustomerPanel extends TabbedPanel {
 	}
 
 	private void createCustomer() {
-		JDialog createPopup = new CreateCustomerDialog();
+		new CreateCustomerDialog(parent);
 	}
 
 	private void updateTable() {
 		model.refresh(customers);
 		model.fireTableDataChanged();
 	}
+
 }
