@@ -172,7 +172,7 @@ public class CarInfoDialog extends JDialog {
 		panel.add(panel_1, "2, 4, fill, fill");
 		
 		Utilities.addEscapeListener(this);
-		Dimension minSize = new Dimension(500,300);
+		Dimension minSize = new Dimension(500,350);
 		this.setMinimumSize(minSize);
 		this.setVisible(true);
 	} //End Build
