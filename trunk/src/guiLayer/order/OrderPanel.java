@@ -1,10 +1,12 @@
 package guiLayer.order;
 
 import guiLayer.MainGUI;
+import guiLayer.exceptions.SubmitException;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
 import guiLayer.models.OrderTableModel;
+import guiLayer.order.extensions.MileageDialog;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -54,6 +56,7 @@ import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
+
 import javax.swing.JCheckBox;
 
 /**
@@ -89,6 +92,9 @@ public class OrderPanel extends TabbedPanel {
 	private JLabel lblSubTotal;
 	private JLabel lblTax;
 	private JLabel lblTotal;
+	private JCheckBox chkPaid;
+	private JButton btnDesc;
+	private JButton btnMileage;
 
 	/**
 	 * Constructors
@@ -136,13 +142,15 @@ public class OrderPanel extends TabbedPanel {
 		scrollPane.setViewportView(table);
 		
 		panel_10.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("max(149dlu;default)"),},
+				ColumnSpec.decode("max(149dlu;default):grow"),},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		JPanel panel_3 = new JPanel();
@@ -251,21 +259,21 @@ public class OrderPanel extends TabbedPanel {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JButton btnNewButton_1 = new JButton("S\u00F8g");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btnProductSearch = new JButton("S\u00F8g");
+		btnProductSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				searchProduct();
 			}
 		});
-		panel_5.add(btnNewButton_1, "1, 1");
+		panel_5.add(btnProductSearch, "1, 1");
 		
-		JButton btnNewButton = new JButton("Ryd");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnProductClear = new JButton("Ryd");
+		btnProductClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearProductSearch();
 			}
 		});
-		panel_5.add(btnNewButton, "3, 1");
+		panel_5.add(btnProductClear, "3, 1");
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "S\u00F8g Bil", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -322,6 +330,33 @@ public class OrderPanel extends TabbedPanel {
 			}
 		});
 		panel.add(btnCarClear, "3, 1");
+		
+		JPanel panel_11 = new JPanel();
+		panel_10.add(panel_11, "1, 7, fill, fill");
+		panel_11.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("88dlu"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		btnDesc = new JButton("Tilf\u00F8j Beskrivelse");
+		btnDesc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createDescriptionDialog();
+			}
+		});
+		
+		btnMileage = new JButton("Tilf\u00F8j Kilometerstand");
+		btnMileage.setVisible(false);
+		btnMileage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createMileageDialog();
+			}
+		});
+		panel_11.add(btnMileage, "2, 1");
+		panel_11.add(btnDesc, "4, 1");
 		
 		JPanel panel_6 = new JPanel();
 		add(panel_6, "2, 4, 3, 1, fill, fill");
@@ -414,8 +449,8 @@ public class OrderPanel extends TabbedPanel {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JCheckBox chckbxBetalt = new JCheckBox("Betalt");
-		panel_8.add(chckbxBetalt, "4, 1");
+		chkPaid = new JCheckBox("Betalt");
+		panel_8.add(chkPaid, "4, 1");
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -470,6 +505,11 @@ public class OrderPanel extends TabbedPanel {
 		panel_9.add(btnClear, "1, 2");
 		
 		JButton btnCommit = new JButton("Opret Faktura");
+		btnCommit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				commit();
+			}
+		});
 		panel_9.add(btnCommit, "5, 2");
 		
 		parent.setDefaultButton(btnCommit);
@@ -611,6 +651,7 @@ public class OrderPanel extends TabbedPanel {
 		System.out.println("Car added");
 		if(c != null){
 			sCtr.setCar(c);
+			btnMileage.setVisible(true);
 			setCustomer(c.getOwner());
 			populateCarPanel(c);
 		}else{
@@ -711,6 +752,76 @@ public class OrderPanel extends TabbedPanel {
 		double tax = subTotal * 0.25;
 		lblTax.setText(String.valueOf(tax));
 		lblTotal.setText(String.valueOf(tax + subTotal));
+	}
+	
+	/**
+	 * Description
+	 */
+	
+	public void createDescriptionDialog(){
+		DescriptionDialog dDialog = new DescriptionDialog(this);
+		dDialog.setVisible(true);
+	}
+	
+	public void setDescription(String desc){
+		sCtr.addDescription(desc);
+		toggleDesc();
+	}
+	
+	public String getDescription(){
+		return sCtr.getDescription();
+	}
+	
+	private void toggleDesc(){
+		final String descChange = "Ret Beskrivelse";
+		final String descAdd = "Tilføj Beskrivelse";
+		if(getDescription().trim().isEmpty()){
+			btnDesc.setText(descAdd);
+		}else{
+			btnDesc.setText(descChange);
+		}
+	}
+	
+	/**
+	 * Mileage
+	 */
+	
+	protected void createMileageDialog() {
+		MileageDialog mDialog = new MileageDialog(this);
+		mDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+		mDialog.setVisible(true);
+	}
+	
+	public void setMileage(int mileage){
+		if(mileage != 0){
+			btnMileage.setText("Ret Kilometerstand");
+		}else{
+			btnMileage.setText("Tilføj Kilometerstand");
+		}
+		sCtr.addMileage(mileage);
+		
+	}
+	
+	public int getMileage() {
+		return sCtr.getMileage();
+	}
+	
+	/**
+	 * Commit
+	 */
+	
+	protected void commit() {
+		int c = Utilities.showConfirm(this, "Er du sikker på du vil Oprette Faktura?", "Opret Faktura?");
+		
+		if(c == JOptionPane.YES_OPTION){
+			try {
+				sCtr.setPaid(chkPaid.isSelected());
+				sCtr.commit();
+			} catch (SubmitException e) {
+				Utilities.showError(this, e.getMessage());
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**

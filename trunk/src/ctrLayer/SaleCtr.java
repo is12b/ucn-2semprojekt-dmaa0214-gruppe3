@@ -1,5 +1,8 @@
 package ctrLayer;
 
+import guiLayer.exceptions.SaleCreationException;
+import guiLayer.exceptions.SubmitException;
+
 import java.util.ArrayList;
 
 import modelLayer.Car;
@@ -12,6 +15,8 @@ import ctrLayer.interfaceLayer.IFCarCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import ctrLayer.interfaceLayer.IFSaleCtr;
+import dbLayer.DBSale;
+import dbLayer.interfaceLayer.IFDBSale;
 
 public class SaleCtr implements IFSaleCtr {
 	
@@ -27,16 +32,6 @@ public class SaleCtr implements IFSaleCtr {
 	public Sale createSale() {
 		sale = new Sale();
 		return sale;
-	}
-
-	@Override
-	public void setCar(Car car){
-		sale.setCar(car);
-	}
-	
-	@Override
-	public void setCustomer(Customer customer){
-		sale.setCustomer(customer);
 	}
 	
 	/**
@@ -94,6 +89,11 @@ public class SaleCtr implements IFSaleCtr {
 	 */
 	
 	@Override
+	public void setCar(Car car){
+		sale.setCar(car);
+	}
+	
+	@Override
 	public Car getCarByRegNr(String regNr, boolean retAsso) throws ObjectNotExistException{
 		IFCarCtr cCtr = new CarCtr();
 		return cCtr.getCarByRegNr(regNr, retAsso);
@@ -108,6 +108,11 @@ public class SaleCtr implements IFSaleCtr {
 	/**
 	 * Customer
 	 */
+	
+	@Override
+	public void setCustomer(Customer customer){
+		sale.setCustomer(customer);
+	}
 
 	@Override
 	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws ObjectNotExistException{
@@ -128,7 +133,67 @@ public class SaleCtr implements IFSaleCtr {
 		IFCustomerCtr cCtr = new CustomerCtr();
 		return cCtr.searchCustomersByPhone(phone, retAsso);
 	}
+	
+	/**
+	 * Description
+	 */
 
+	@Override
+	public void addDescription(String desc) {
+		sale.setDescription(desc);
+	}
+	
+	public String getDescription(){
+		return sale.getDescription();
+	}
+	
+	/**
+	 * Mileage
+	 */
+	
+	@Override
+	public void addMileage(int mileage) {
+		sale.setMileage(mileage);
+	}
+	
+	@Override
+	public int getMileage() {
+		return sale.getMileage();
+	}
+	
+	/**
+	 * Paid
+	 */
+	
+	public void setPaid(boolean paid){
+		sale.setPaid(paid);
+	}
+	
+	/**
+	 * Commit / Save
+	 */
 
+	@Override
+	public void commit() throws SubmitException {
+		if(!checkPartSales()){
+			throw new SubmitException("Der er ikke tilføjet nogle produkter til ordren");
+		}else{
+			IFDBSale dbSale = new DBSale();
+			int rc = dbSale.insertSale(sale);
+			if(rc == -1){
+				throw new SubmitException("Ordren kunne ikke oprettes (Database fejl)");
+			}
+		}
+	}
+
+	private boolean checkPartSales() {
+		boolean retBool = true;
+		
+		if(sale.getPartSales() == null || sale.getPartSales().size() == 0){
+			retBool = false;
+		}
+		
+		return retBool;
+	}
 
 }

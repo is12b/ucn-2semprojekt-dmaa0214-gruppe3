@@ -1,5 +1,7 @@
 package ctrLayer.interfaceLayer;
 
+import guiLayer.exceptions.SubmitException;
+
 import java.util.ArrayList;
 
 import ctrLayer.exceptionLayer.ObjectNotExistException;
@@ -55,6 +57,24 @@ public interface IFSaleCtr {
 	public Car getCarByRegNr(String regNr, boolean retAsso) throws ObjectNotExistException;
 	
 	public Car getCarByVin(String vin, boolean retAsso) throws ObjectNotExistException;
+	
+	public void addDescription(String desc);
+	
+	public String getDescription();
+	
+	public void setPaid(boolean paid);
+	
+	public void commit() throws SubmitException;
+
+	/**
+	 * @param mileage
+	 */
+	public void addMileage(int mileage);
+
+	/**
+	 * @return
+	 */
+	public int getMileage();
 
 
 }
