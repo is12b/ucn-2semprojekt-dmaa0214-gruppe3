@@ -40,6 +40,10 @@ public class ProductDialog extends JDialog {
 	 */
 	public ProductDialog(ArrayList<Product> products, OrderPanel parent) {
 		this.parent = parent;
+		buildDialog(products);
+	}
+	
+	public void buildDialog(ArrayList<Product> products){
 		setTitle("S\u00F8g Produkt");
 		setBounds(100, 100, 296, 456);
 		getContentPane().setLayout(new BorderLayout());

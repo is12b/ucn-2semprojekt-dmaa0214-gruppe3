@@ -3,6 +3,7 @@ package guiLayer.order;
 import guiLayer.MainGUI;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.TabbedPanel;
+import guiLayer.extensions.Utilities;
 import guiLayer.models.OrderTableModel;
 
 import javax.swing.JComboBox;
@@ -53,6 +54,7 @@ import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
+import javax.swing.JCheckBox;
 
 /**
  * Class for OrderPanel
@@ -188,7 +190,7 @@ public class OrderPanel extends TabbedPanel {
 		panel_3.add(panel_4, "1, 7, 3, 1, fill, fill");
 		panel_4.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.GROWING_BUTTON_COLSPEC,
-				ColumnSpec.decode("26px"),
+				ColumnSpec.decode("20px"),
 				FormFactory.GROWING_BUTTON_COLSPEC,},
 			new RowSpec[] {
 				RowSpec.decode("23px"),}));
@@ -244,7 +246,7 @@ public class OrderPanel extends TabbedPanel {
 		panel_2.add(panel_5, "1, 5, 3, 1, fill, fill");
 		panel_5.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.GROWING_BUTTON_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("20px"),
 				FormFactory.GROWING_BUTTON_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
@@ -300,9 +302,7 @@ public class OrderPanel extends TabbedPanel {
 		panel_1.add(panel, "1, 5, 3, 1, fill, fill");
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.GROWING_BUTTON_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("20px"),
 				FormFactory.GROWING_BUTTON_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
@@ -321,18 +321,19 @@ public class OrderPanel extends TabbedPanel {
 				clearCarSearch();
 			}
 		});
-		panel.add(btnCarClear, "5, 1");
+		panel.add(btnCarClear, "3, 1");
 		
 		JPanel panel_6 = new JPanel();
 		add(panel_6, "2, 4, 3, 1, fill, fill");
 		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(103dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(90dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(66dlu;default)"),},
+				ColumnSpec.decode("max(66dlu;default)"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,},
 			new RowSpec[] {
 				RowSpec.decode("default:grow"),
 				FormFactory.DEFAULT_ROWSPEC,
@@ -355,13 +356,13 @@ public class OrderPanel extends TabbedPanel {
 		JLabel lblNewLabel_6 = new JLabel("Navn:");
 		customerPanel.add(lblNewLabel_6, "1, 1");
 		
-		lblName = new JLabel("Mikkel");
+		lblName = new JLabel("");
 		customerPanel.add(lblName, "3, 1");
 		
 		JLabel lblNewLabel_4 = new JLabel("Telefon:");
 		customerPanel.add(lblNewLabel_4, "1, 3");
 		
-		lblPhone = new JLabel("88888888");
+		lblPhone = new JLabel("");
 		customerPanel.add(lblPhone, "3, 3");
 		
 		JLabel lblNewLabel_7 = new JLabel("CVR:");
@@ -388,20 +389,33 @@ public class OrderPanel extends TabbedPanel {
 		JLabel lblNewLabel_9 = new JLabel("Regnr:");
 		carPanel.add(lblNewLabel_9, "2, 1");
 		
-		lblRegNr = new JLabel("FA21981");
+		lblRegNr = new JLabel("");
 		carPanel.add(lblRegNr, "4, 1");
 		
 		JLabel lblStelnr = new JLabel("Stelnr:");
 		carPanel.add(lblStelnr, "2, 3");
 		
-		lblVin = new JLabel("DetVedLasseNok");
+		lblVin = new JLabel("");
 		carPanel.add(lblVin, "4, 3");
 		
 		JLabel lblNewLabel_12 = new JLabel("Kilometer:");
 		carPanel.add(lblNewLabel_12, "2, 5");
 		
-		lblMileAge = new JLabel("400000");
+		lblMileAge = new JLabel("");
 		carPanel.add(lblMileAge, "4, 5");
+		
+		JPanel panel_8 = new JPanel();
+		panel_6.add(panel_8, "5, 1, fill, fill");
+		panel_8.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JCheckBox chckbxBetalt = new JCheckBox("Betalt");
+		panel_8.add(chckbxBetalt, "4, 1");
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -420,19 +434,19 @@ public class OrderPanel extends TabbedPanel {
 		JLabel lblSubtotal = new JLabel("Subtotal:");
 		panel_7.add(lblSubtotal, "1, 1, left, center");
 		
-		lblSubTotal = new JLabel("1000");
+		lblSubTotal = new JLabel("0");
 		panel_7.add(lblSubTotal, "3, 1, right, center");
 		
 		JLabel lblMoms = new JLabel("Moms:");
 		panel_7.add(lblMoms, "1, 3, left, center");
 		
-		lblTax = new JLabel("250");
+		lblTax = new JLabel("0");
 		panel_7.add(lblTax, "3, 3, right, center");
 		
 		JLabel lblTotall = new JLabel("Total:");
 		panel_7.add(lblTotall, "1, 5, left, center");
 		
-		lblTotal = new JLabel("1250");
+		lblTotal = new JLabel("0");
 		panel_7.add(lblTotal, "3, 5, right, center");
 		
 		JPanel panel_9 = new JPanel();
@@ -457,9 +471,6 @@ public class OrderPanel extends TabbedPanel {
 		
 		JButton btnCommit = new JButton("Opret Faktura");
 		panel_9.add(btnCommit, "5, 2");
-		
-		customerPanel.setVisible(false);
-		carPanel.setVisible(false);
 		
 		parent.setDefaultButton(btnCommit);
 		
@@ -510,7 +521,7 @@ public class OrderPanel extends TabbedPanel {
 				}
 			}
 		}catch(ObjectNotExistException e){
-			error(e.getMessage());
+			Utilities.showError(this, e.getMessage());
 		}
 		
 		if(customers != null && !(customers.size() == 0)){
@@ -527,8 +538,12 @@ public class OrderPanel extends TabbedPanel {
 				cDialog.setVisible(true);
 			}else{
 				if(customers.get(0).getCars() == null || customers.get(0).getCars().size() == 0){
-					setCustomer(customers.get(0));
-					setCar(null);
+					int c = Utilities.showWarning(this, "Vil du tilføje " + customers.get(0).getName() + " til faktura?");
+					
+					if(c == JOptionPane.YES_OPTION){
+						setCustomer(customers.get(0));
+						setCar(null);
+					}
 				} else if(customers.get(0).getCars().size() > 1){
 					CustomerDialog cDialog = new CustomerDialog(customers, this);
 					cDialog.setModalityType(ModalityType.APPLICATION_MODAL);
@@ -584,7 +599,7 @@ public class OrderPanel extends TabbedPanel {
 				}
 			}
 		}catch(ObjectNotExistException e){
-			error(e.getMessage());
+			Utilities.showError(this, e.getMessage());
 		}
 		
 		if(c != null){
@@ -608,7 +623,6 @@ public class OrderPanel extends TabbedPanel {
 		lblRegNr.setText(c.getRegNr());
 		lblVin.setText(c.getVin());
 		lblMileAge.setText(String.valueOf(c.getMileage()));
-		carPanel.setVisible(true);
 	}
 	
 	
@@ -616,7 +630,6 @@ public class OrderPanel extends TabbedPanel {
 		lblRegNr.setText("");
 		lblVin.setText("");
 		lblMileAge.setText("");
-		carPanel.setVisible(false);
 	}
 
 
@@ -642,7 +655,7 @@ public class OrderPanel extends TabbedPanel {
 				}
 			}
 		}catch(ObjectNotExistException e){
-			error(e.getMessage());
+			Utilities.showError(this, e.getMessage());
 		}
 		
 		createProductDialog(products);
@@ -655,7 +668,9 @@ public class OrderPanel extends TabbedPanel {
 				pDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 				pDialog.setVisible(true);
 			}else if(products.size() == 1){
-				//TODO Popup med partsale til det enkelte produkt
+				PartSaleDialog pDialog = new PartSaleDialog(products.get(0), this);
+				pDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				pDialog.setVisible(true);
 			}
 		}else{
 			//TODO intet fundet
@@ -675,7 +690,6 @@ public class OrderPanel extends TabbedPanel {
 		oTableModel.refresh(sale.getPartSales());
 		oTableModel.fireTableDataChanged();
 		updatePrice();
-		//TODO tilføje partsale til table
 	}
 	
 	/**
@@ -702,10 +716,6 @@ public class OrderPanel extends TabbedPanel {
 	/**
 	 * Misc
 	 */
-	
-	private void error(String error){
-		JOptionPane.showMessageDialog(this, error, "Fejl", JOptionPane.ERROR_MESSAGE);
-	}
 	
 	private void clearOrder(){
 		parent.recreateOrderPanel();

@@ -37,13 +37,25 @@ public class PartSaleDialog extends JDialog {
 	private ProductDialog parent;
 	private OrderPanel order;
 	private JTextField txtPrice;
+	private boolean isOrderPanel = false;
 	/**
 	 * Create the dialog.
 	 * @param parent 
 	 */
+	public PartSaleDialog(Product product, OrderPanel order){
+		this.order = order;
+		isOrderPanel = true;
+		buildDialog(product);
+	}
+	
 	public PartSaleDialog(Product product, ProductDialog parent, OrderPanel order) {
 		this.parent = parent;
 		this.order = order;
+		buildDialog(product);
+	}
+	
+	public void buildDialog(Product product){
+		setTitle("Tilføj Produkt");
 		setBounds(100, 100, 270, 169);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -129,7 +141,9 @@ public class PartSaleDialog extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						parent.setCloseMe(false);
+						if(!isOrderPanel){
+							parent.setCloseMe(false);
+						}
 						PartSaleDialog.this.dispose();
 					}
 				});
@@ -138,5 +152,6 @@ public class PartSaleDialog extends JDialog {
 			}
 		}
 	}
+	
 
 }

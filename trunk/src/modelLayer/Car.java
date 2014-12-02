@@ -217,12 +217,28 @@ public class Car implements Cloneable{
 	}
 	
 	public String toString(){
+		
 		String retString = "";
-		if(regNr.isEmpty()){
-			retString = vin + " - " + model + " - " + year;
-		}else{
-			retString = regNr + " - " + model + " - " + year;;
+		if(!regNr.trim().isEmpty() && !vin.trim().isEmpty()){
+			retString = regNr + " - " + vin;
+		} else if(!regNr.trim().isEmpty()){
+			retString = regNr;
+		} else if(!vin.trim().isEmpty()){
+			retString = vin;
 		}
+		
+		if(!brand.trim().isEmpty()){
+			retString += " - " + brand;
+		}
+		
+		if(!model.trim().isEmpty()){
+			retString += " - " + model;
+		}
+		
+		if(year != 0){
+			retString += " - " + year;
+		}
+		
 		return retString;
 	}
 	
