@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import modelLayer.Car;
 import modelLayer.Customer;
 import dbLayer.exceptions.DBException;
@@ -153,9 +154,7 @@ public class DBCustomer implements IFDBCustomer {
 		if(!wQuery.isEmpty()){
 			query += " WHERE " + wQuery;
 		}
-
-		System.out.println("DBCustomer - buildQuery: " + query); // TODO Delete when done testing
-
+		
 		return query;
 	}
 
@@ -188,7 +187,6 @@ public class DBCustomer implements IFDBCustomer {
 
 		try{
 			String query = buildQuery(wQuery);
-			System.out.println(query);
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
 			ResultSet rs = stmt.executeQuery(query);
@@ -252,9 +250,17 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public Customer getCustomerByRegNr(String regNr) {
+	public Customer getCustomerByRegNr(String regNr) throws ObjectNotExistException {
 		IFDBCar dbCar = new DBCar();
-		Car car = dbCar.getCarByRegNr(regNr, false);
-		return car.getOwner();
+		Customer customer = null;
+		
+		try {
+			Car car = dbCar.getCarByRegNr(regNr, false);
+			customer = car.getOwner();
+		} catch (NullPointerException e) {
+			throw new ObjectNotExistException("Intet produkt fundet");
+		}
+		
+		return customer;
 	}
 }

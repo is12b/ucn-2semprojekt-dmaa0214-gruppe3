@@ -2,6 +2,7 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import modelLayer.Car;
 import modelLayer.Customer;
 
@@ -80,6 +81,6 @@ public interface IFDBCustomer {
 	/**
 	 * @param regNr
 	 */
-	public Customer getCustomerByRegNr(String regNr);
+	public Customer getCustomerByRegNr(String regNr) throws ObjectNotExistException;
 	
 }

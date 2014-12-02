@@ -50,6 +50,7 @@ public class CustomerPanel extends TabbedPanel {
 	private ArrayList<Customer> customers;
 	private JButton btnSearch;
 
+	//TODO Grey out other fields, so only the one being searched for is highlighted
 	public CustomerPanel(MainGUI parent) {
 		buildPanel();
 		this.parent = parent;
@@ -230,5 +231,4 @@ public class CustomerPanel extends TabbedPanel {
 			updateTable();
 		}
 	}
-
 }
