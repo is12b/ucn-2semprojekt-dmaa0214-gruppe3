@@ -2,7 +2,7 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import dbLayer.interfaceLayer.Setting;
+import modelLayer.Setting;
 
 /**
  * Class for IFSettingCtr

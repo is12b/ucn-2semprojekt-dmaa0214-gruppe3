@@ -1,4 +1,4 @@
-package dbLayer.interfaceLayer;
+package modelLayer;
 
 /**
  * Class for Setting

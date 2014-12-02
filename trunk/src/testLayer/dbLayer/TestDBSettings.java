@@ -4,12 +4,13 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import modelLayer.Setting;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import dbLayer.DBSettings;
 import dbLayer.interfaceLayer.IFDBSettings;
-import dbLayer.interfaceLayer.Setting;
 
 /**
  * Class for TestDBSettings
