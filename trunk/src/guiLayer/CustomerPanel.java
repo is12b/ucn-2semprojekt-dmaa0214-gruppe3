@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.util.Utilities;
+import guiLayer.extensions.Utilities;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.CustomerCtr;
@@ -219,7 +219,7 @@ public class CustomerPanel extends TabbedPanel {
 				customers.add(cCtr.getCustomerByCvr(cvr, true));
 			}
 		}catch(ObjectNotExistException e){
-			guiLayer.extensions.Utilities.showError(this, e.getMessage());
+			Utilities.showError(this, e.getMessage());
 		}
 		updateTable();
 	}
