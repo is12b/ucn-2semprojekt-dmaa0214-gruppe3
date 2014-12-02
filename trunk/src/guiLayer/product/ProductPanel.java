@@ -309,15 +309,30 @@ public class ProductPanel extends TabbedPanel {
 	private void search() {
 		IFProductCtr pCtr = new ProductCtr();
 		ArrayList<Product> pList = new ArrayList<Product>();
-		if (txtID.getValue() != -1) {
-			Product p = pCtr.getProductByID(txtID.getValue());
-			if (p != null) {
-				pList.add(p);
+		if (!txtID.getText().trim().isEmpty()) {
+			try {
+				Product p = pCtr.getProductByID(txtID.getValue());
+				if (p != null) {
+					pList.add(p);
+				}
+			} catch (NumberFormatException | ObjectNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} else if (!txtItemNumber.getText().trim().isEmpty()) {
-			pList = pCtr.searchProductsByItemNumber(txtItemNumber.getText().trim());
+			try {
+				pList = pCtr.searchProductsByItemNumber(txtItemNumber.getText().trim());
+			} catch (ObjectNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (!txtName.getText().trim().isEmpty()) {
-			pList = pCtr.searchProductsByName(txtName.getText().trim());
+			try {
+				pList = pCtr.searchProductsByName(txtName.getText().trim());
+			} catch (ObjectNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		updateModel(pList);
 	}

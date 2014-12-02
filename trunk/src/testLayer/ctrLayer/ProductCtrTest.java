@@ -35,19 +35,21 @@ public class ProductCtrTest {
 
 	/**
 	 * Test method for {@link ctrLayer.ProductCtr#getProductByID(int)}.
+	 * @throws ObjectNotExistException 
 	 * 
 	 */
 	@Test
-	public void testGetProductByID() {
+	public void testGetProductByID() throws ObjectNotExistException {
 		Product product = pCtr.getProductByID(1);
 			System.out.println(product.getName());	
 	}
 
 	/**
 	 * Test method for {@link ctrLayer.ProductCtr#searchProductsByName(java.lang.String)}.
+	 * @throws ObjectNotExistException 
 	 */
 	@Test
-	public void testSearchProductsByName() {
+	public void testSearchProductsByName() throws ObjectNotExistException {
 		ArrayList<Product> products = pCtr.searchProductsByName("for");
 		for(Product p : products) {
 			System.out.println(p.getName());
@@ -56,9 +58,10 @@ public class ProductCtrTest {
 
 	/**
 	 * Test method for {@link ctrLayer.ProductCtr#searchProductsByItemNumber(java.lang.String)}.
+	 * @throws ObjectNotExistException 
 	 */
 	@Test
-	public void testSearchProductsByItemNumber() {
+	public void testSearchProductsByItemNumber() throws ObjectNotExistException {
 		ArrayList<Product> products1 = pCtr.searchProductsByItemNumber("WQ");
 		for(Product p : products1) {
 			System.out.println(p.getItemNumber());

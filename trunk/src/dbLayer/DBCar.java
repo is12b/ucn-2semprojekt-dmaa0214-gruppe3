@@ -28,7 +28,7 @@ public class DBCar implements IFDBCar {
 
 	@Override
 	public ArrayList<Car> getCars(Customer customer, boolean retAsso) {
-		return miscWhere("CustomerID = " + customer.getId(), retAsso);
+		return miscWhere("Hidden = 0 AND CustomerID = " + customer.getId(), retAsso);
 	}
 
 	@Override

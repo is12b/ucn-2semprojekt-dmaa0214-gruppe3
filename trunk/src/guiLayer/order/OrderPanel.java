@@ -18,6 +18,7 @@ import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.CustomerCtr;
 import ctrLayer.SaleCtr;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFSaleCtr;
 
 import javax.swing.JScrollPane;
@@ -508,7 +509,7 @@ public class OrderPanel extends TabbedPanel {
 					customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
 				}
 			}
-		}catch(NullPointerException e){
+		}catch(ObjectNotExistException e){
 			error(e.getMessage());
 		}
 		
@@ -582,7 +583,7 @@ public class OrderPanel extends TabbedPanel {
 					c = sCtr.getCarByVin(txtCarVin.getText(), true);
 				}
 			}
-		}catch(NullPointerException e){
+		}catch(ObjectNotExistException e){
 			error(e.getMessage());
 		}
 		
@@ -640,7 +641,7 @@ public class OrderPanel extends TabbedPanel {
 					products = sCtr.searchProductsByItemNumber(txtProductNumber.getText());
 				}
 			}
-		}catch(NullPointerException e){
+		}catch(ObjectNotExistException e){
 			error(e.getMessage());
 		}
 		
