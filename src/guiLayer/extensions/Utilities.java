@@ -33,6 +33,17 @@ public abstract class Utilities {
 	}
 	
 	/**
+	 * Show confirm dialog as a {@link JOptionPane} object.
+	 *
+	 * @param parent The parent of this confirm dialog 
+	 * @param text The confirm text to show
+	 * @param title The text shows as title of the dialog
+	 */
+	public static int showConfirm(Component parent, String text, String title) {
+		return JOptionPane.showConfirmDialog(parent, text, title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+	}
+	
+	/**
 	 * Show error dialog as a {@link JOptionPane} object.
 	 *
 	 * @param parent The parent of this error 
