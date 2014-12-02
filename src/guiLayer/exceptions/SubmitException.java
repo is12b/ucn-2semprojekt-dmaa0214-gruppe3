@@ -40,6 +40,15 @@ public class SubmitException extends Exception {
 	}
 	
 	/**
+	 * Constructor for SubmitException objects.
+	 *
+	 * @param string
+	 */
+	public SubmitException(String arg0) {
+		super(arg0);
+	}
+
+	/**
 	 * Show an error popup with the error text.
 	 */
 	public void showError(){
