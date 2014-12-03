@@ -322,6 +322,8 @@ public class InvoiceSettingsDialog extends JDialog {
 		sCtr.updateSetting(new Setting("INVOICE_PHONE", txtPhone.getText()));
 		sCtr.updateSetting(new Setting("INVOICE_FAX", txtFax.getText()));
 		sCtr.updateSetting(new Setting("INVOICE_CVR", txtCVR.getText()));
+		
+		this.dispose();
 	}
 	
 }
