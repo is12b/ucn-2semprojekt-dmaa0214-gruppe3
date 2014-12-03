@@ -31,22 +31,22 @@ public class DBSale implements IFDBSale {
 	
 	@Override
 	public ArrayList<Sale> getSales(Car car) {
-		return miscWhere("CarID = " + car.getId());
+		return miscWhere("CarID = " + car.getId(), false);
 	}
 
 	@Override
 	public ArrayList<Sale> getSales(Customer customer) {
-		return miscWhere("CustomerID = " + customer.getId());
+		return miscWhere("CustomerID = " + customer.getId(), false);
 	}
 
 	@Override
 	public Sale getSale(int id) {
-		return singleWhere("SaleID = " + id);
+		return singleWhere("SaleID = " + id, true);
 	}
 
 	@Override
 	public ArrayList<Sale> getAllSales() {
-		return miscWhere("");
+		return miscWhere("", true);
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public class DBSale implements IFDBSale {
 		return rc;
 	}
 
-	private Sale singleWhere(String wQuery) {
+	private Sale singleWhere(String wQuery, boolean retAsso) {
 		Sale sale = null;
 		
 		try {
@@ -195,6 +195,24 @@ public class DBSale implements IFDBSale {
 			
 			if (rs.next()) {
 				sale = buildSale(rs);
+				if(retAsso){
+					
+					if(sale.getCar() != null){
+						IFDBCar dbCar = new DBCar();
+						Car car = dbCar.getCar(sale.getCar().getId(), true);
+						sale.setCar(car);
+					}					
+					if (sale.getCustomer() != null) {
+						IFDBCustomer dbCus = new DBCustomer();
+						Customer cus = dbCus.getCustomerByID(sale.getCustomer().getId(), false);
+						sale.setCustomer(cus);
+					}
+					
+					IFDBPartSale dbPart = new DBPartSale();
+					ArrayList<PartSale> pSales = dbPart.getPartSales(sale, true);
+					
+					sale.setPartSales(pSales);
+				}
 			} 
 			
 			stmt.close();
@@ -206,7 +224,7 @@ public class DBSale implements IFDBSale {
 		return sale;
 	}
 
-	private ArrayList<Sale> miscWhere(String wQuery) {
+	private ArrayList<Sale> miscWhere(String wQuery, boolean retAsso) {
 		ArrayList<Sale> retList = new ArrayList<Sale>();
 		
 		try {
@@ -216,11 +234,26 @@ public class DBSale implements IFDBSale {
 			ResultSet rs = stmt.executeQuery(query);
 			
 			while (rs.next()) {
-				Sale s = buildSale(rs);
-				
-				if (s != null) {
-					retList.add(s);
+				Sale sale = buildSale(rs);
+				if(retAsso){
+					if(sale.getCar() != null){
+						IFDBCar dbCar = new DBCar();
+						Car car = dbCar.getCar(sale.getCar().getId(), true);
+						sale.setCar(car);
+					}					
+					if (sale.getCustomer() != null) {
+						IFDBCustomer dbCus = new DBCustomer();
+						Customer cus = dbCus.getCustomerByID(sale.getCustomer().getId(), false);
+						sale.setCustomer(cus);
+					}
+					
+					IFDBPartSale dbPart = new DBPartSale();
+					ArrayList<PartSale> pSales = dbPart.getPartSales(sale, true);
+					
+					sale.setPartSales(pSales);
 				}
+				
+				retList.add(sale);
 			}
 			
 			stmt.close();
@@ -239,24 +272,18 @@ public class DBSale implements IFDBSale {
 			s = new Sale();
 			s.setId(rs.getInt("SaleID"));
 			
-			int carID = rs.getInt("CarID");
-			Customer cus = null;
-			if(carID != 0) {
-				IFDBCar dbCar = new DBCar();
-				Car car = dbCar.getCar(carID, true);
-				s.setCar(car);
-				cus = car.getOwner();
+			if(rs.getInt("CarID") != 0){
+				s.setCar(new Car(rs.getInt("CarID")));
+			}else{
+				s.setCar(null);
 			}
 			
-			int cusID = rs.getInt("CustomerID");
-			if(cusID != 0) {
-				if (cus == null) {
-					IFDBCustomer dbCus = new DBCustomer();
-					cus = dbCus.getCustomerByID(cusID, false);
-				}
-				s.setCustomer(cus);
+			if(rs.getInt("CustomerID") != 0){
+				s.setCustomer(new Customer(rs.getInt("CustomerID")));
+			}else{
+				s.setCustomer(null);
 			}
-			
+
 			s.setDate(rs.getDate("Date"));
 			s.setPaymentDeadline(rs.getDate("PaymentDeadline"));
 			s.setPaid(rs.getBoolean("Paid"));

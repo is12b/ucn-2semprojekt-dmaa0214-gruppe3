@@ -1,5 +1,6 @@
 package testLayer;
 
+import modelLayer.PartSale;
 import modelLayer.Sale;
 import modelLayer.Setting;
 
@@ -7,11 +8,9 @@ import java.awt.Font;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
- 
-
-
-
 import java.util.ArrayList;
+
+import sun.security.action.GetLongAction;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -33,26 +32,58 @@ import dbLayer.interfaceLayer.IFDBSale;
  *
  */
 public class InvoicePDFGenerator {
+	//INIT
 	private BaseFont bfBold;
 	private BaseFont bf;
-	private final int HEADER_Y_START = 775;
-	private final int HEADER_X_START = 600;
-	private final int HEADER_FONT_SIZE = 8;
 	private int pageNumber = 0;
 	
+	
+	private final int FONT_SIZE = 8;
+	
+	//POSITIONS
+	private final int HEADER_Y_START = 775;
+	private final int HEADER_X_START = 600;
+	
+	private final float xStart = 20;
+	//private final float yEnd = 50;
+	private final float xEnd = 590;
+	private final float AMOUNT_X = 22;
+	private final float ITEM_X = 52;
+	private final float DESCRIPTION_X = 152;
+	private final float PRICE_X = 432;
+	
+	//SALE
+	private float totalPriceX;
+	private Sale sale;
+	
+	//TOTAL
+	private double totalPrice = 0;
+	private float yTotalPos;
+	private float xTotalStart;
+	private float xTotalEnd;
+	
+	//STRING
+	private final String AMOUNT = "Antal";
+	private final String ITEMNUMBER = "Varenummer";
+	private final String DESCRIPTION = "Beskrivelse";
+	private final String PRICE = "Pris";
+	private final String TOTAL_PRICE = "Total Pris";
+	
+
 	public static void main(String[] args) {
 		IFDBSale dbSale = new DBSale();
 		Sale s = dbSale.getSale(4);
-		
-		InvoicePDFGenerator i = new InvoicePDFGenerator(s); 
+
+		InvoicePDFGenerator i = new InvoicePDFGenerator(s);
 	}
-	
+
 	public InvoicePDFGenerator(Sale sale) {
+		this.sale = sale;
 		Document doc = new Document();
 		PdfWriter docWriter = null;
 		initializeFonts();
-		
-		try{
+
+		try {
 			String path = "tmpInvoice.pdf";
 			docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
 			doc.addAuthor("Gruppe 3");
@@ -61,81 +92,83 @@ public class InvoicePDFGenerator {
 			doc.addCreator("Gruppe 3");
 			doc.addTitle("Faktura");
 			doc.setPageSize(PageSize.LETTER);
-			
+
 			doc.open();
-			
+
 			PdfContentByte cb = docWriter.getDirectContent();
-			
+
 			boolean newPage = true;
 			float y = 0;
+
+			ArrayList<PartSale> partSales = sale.getPartSales();
+			System.out.println(partSales.size());
 			
-			for(int i = 0; i < 100; i++){
-				
-				if(newPage){
+			for (PartSale pS : sale.getPartSales()) {
+				if (newPage) {
 					newPage = false;
 					y = generateHeader(doc, cb);
 					y = generateLayout(doc, cb, y);
-					y += 4; 
+					y += 4;
 				}
-				
+
 				y = y - 12;
-				generateDetail(doc, cb, i, y);
-				
-			    if(y < 65){
-			     printPageNumber(cb);
-			     doc.newPage();
-			     newPage = true;
-			    }
-			    
+				generateDetail(doc, cb, pS, y);
+
+				if (y < 65) {
+					generateBotLine(cb, 50);
+					printPageNumber(cb);
+					doc.newPage();
+					newPage = true;
+				}
+
 			}
 			
-			
-			
-		}catch(Exception e){
+			if (y > 65) {
+				y -= 2;
+				generateBotLine(cb, y);
+				generateTotal(cb, y);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if (doc != null){
+		} finally {
+			if (doc != null) {
 				doc.close();
 			}
-			if (docWriter != null){
+			if (docWriter != null) {
 				docWriter.close();
 			}
 		}
 	}
-	
+
 	/**
 	 * Text Manipulation
 	 */
-	
+
 	/**
 	 * Details
 	 */
-	
+
 	private float generateLayout(Document doc, PdfContentByte cb, float yStart) {
 		try {
 			yStart -= 20;
-			float yEnd = 50;
 			float yText = yStart + 2;
-			float xStart = 20;
-			float xEnd = 590;
-			
+
 			cb.setLineWidth(1f);
 
 			// Invoice Detail
 			cb.moveTo(xStart, yStart);
 			cb.lineTo(xEnd, yStart);
-			cb.moveTo(xStart, yEnd);
-			cb.lineTo(xEnd, yEnd);
 			cb.stroke();
 
 			// Invoice Detail
-			createHeadings(cb, 22, yText, "Antal");
-			createHeadings(cb, 52, yText, "Varenummer");
-			createHeadings(cb, 152, yText, "Beskrivelse");
-			createHeadings(cb, 432, yText, "Pris");
-			createHeadings(cb, (xEnd - getTextWidth("Total Pris", bfBold, HEADER_FONT_SIZE)), yText, "Total Pris");
-			
-			
+			createHeadings(cb, AMOUNT_X, yText, AMOUNT);
+			createHeadings(cb, ITEM_X, yText, ITEMNUMBER);
+			createHeadings(cb, DESCRIPTION_X, yText, DESCRIPTION);
+			createHeadings(cb, PRICE_X, yText, PRICE);
+			totalPriceX = (xEnd - getTextWidth(TOTAL_PRICE, bfBold,
+					FONT_SIZE));
+			createHeadings(cb, totalPriceX, yText, TOTAL_PRICE);
+
 			// add the images
 			/*
 			 * Image companyLogo =
@@ -147,77 +180,127 @@ public class InvoicePDFGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return yStart;
 	}
 	
+	private void generateBotLine(PdfContentByte cb, float y){
+		cb.moveTo(xStart, y);
+		cb.lineTo(xEnd, y);
+		cb.stroke();
+	}
+	
+	private void generateTotal(PdfContentByte cb, float y){
+		float longX = generateTotalValue(cb, y);
+		generateTotalText(cb, y, totalPriceX-longX);
+		
+		cb.moveTo(xTotalStart, yTotalPos);
+		cb.lineTo(xEnd, yTotalPos);
+		cb.stroke();
+	}
+	
+	private void generateTotalText(PdfContentByte cb, float y, float x){
+		String[] total = {"SubTotal:", "Moms:", "Total:"};
+		x -= getTextWidth(total[0], bf, FONT_SIZE);
+		float yT = y - 20;
+		for(String s : total){
+			createContent(cb, x, yT, s,
+					PdfContentByte.ALIGN_LEFT);
+			yT -= 8;
+		}
+		
+		xTotalStart = x;
+	}
+	
+	
+	
+	private float generateTotalValue(PdfContentByte cb, float y){
+		float longest = 0;
+		float yT = y - 20;
+		String[] total = {String.valueOf(totalPrice), String.valueOf(totalPrice * 0.25), String.valueOf(totalPrice * 1.25)};
+		for(String s : total){
+			createContent(cb, xEnd, yT, s,
+					PdfContentByte.ALIGN_RIGHT);
+			yT -= 8;
+			float l = getTextWidth(s, bf, FONT_SIZE);
+			if(l > longest){
+				longest = l;
+			}
+		}
+		
+		yTotalPos = yT+6;
+		
+		
+		return longest;
+	}
+
 	/**
 	 * Header
 	 */
-	
-	private float generateHeader(Document doc, PdfContentByte cb){
-		ArrayList<Setting> sets = getHeaderValues();
+
+	private float generateHeader(Document doc, PdfContentByte cb) {
+		ArrayList<String> sets = getHeaderValues();
 		float y = HEADER_Y_START;
 		float x = getHeaderXPos(sets);
-		
-		for(Setting s : sets){
-			if(s.getValue() != null && !s.getValue().trim().isEmpty()){
-				createHeadings(cb, x, y, s.getValue());
+
+		for (String s : sets) {
+			if (s != null && !s.trim().isEmpty()) {
+				createHeadings(cb, x, y, s);
 			}
 			y -= 15;
 		}
-		
+
 		return y;
 
 	}
-	
-	private ArrayList<Setting> getHeaderValues(){
-		ArrayList<Setting> sets = new ArrayList<Setting>();
+
+	private ArrayList<String> getHeaderValues() {
+		ArrayList<String> sets = new ArrayList<String>();
 		IFSettingCtr sCtr = new SettingCtr();
-		
-		sets.add(sCtr.getSettingByKey("INVOICE_CVR"));
-		sets.add(sCtr.getSettingByKey("INVOICE_NAME"));
-		sets.add(sCtr.getSettingByKey("INVOICE_ADDRESS"));
-		sets.add(sCtr.getSettingByKey("INVOICE_POST")); 
-		sets.add(sCtr.getSettingByKey("INVOICE_CITY"));
-		sets.add(sCtr.getSettingByKey("INVOICE_EMAIL"));
-		sets.add(sCtr.getSettingByKey("INVOICE_PHONE"));
-		sets.add(sCtr.getSettingByKey("INVOICE_FAX"));
-		sets.add(sCtr.getSettingByKey("INVOICE_WEBSITE"));
-		
+
+		sets.add(sCtr.getSettingByKey("INVOICE_CVR").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_NAME").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_ADDRESS").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_POST").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_CITY").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_EMAIL").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_PHONE").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_FAX").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_WEBSITE").getValue());
+		sets.add("Faktura: " + sale.getId());
+
 		return sets;
 	}
-	
-	
-	private void createHeadings(PdfContentByte cb, float x, float y, String text){
-	  cb.beginText();
-	  cb.setFontAndSize(bfBold, HEADER_FONT_SIZE);
-	  cb.setTextMatrix(x,y);
-	  cb.showText(text.trim());
-	  cb.endText(); 
+
+	private void createHeadings(PdfContentByte cb, float x, float y, String text) {
+		cb.beginText();
+		cb.setFontAndSize(bfBold, FONT_SIZE);
+		cb.setTextMatrix(x, y);
+		cb.showText(text.trim());
+		cb.endText();
 	}
-	
+
 	/**
 	 * Misc
 	 */
-	
-	private float getHeaderXPos(ArrayList<Setting> sets){
+
+	private float getHeaderXPos(ArrayList<String> sets) {
 		float retF = 0;
-		for(Setting s : sets){
-			if(s.getValue() != null && !s.getValue().trim().isEmpty()){
-				float f = getTextWidth(s.getValue(), bfBold, HEADER_FONT_SIZE);
-				if(f > retF){
+		for (String s : sets) {
+			if (s != null && !s.trim().isEmpty()) {
+				float f = getTextWidth(s, bfBold, FONT_SIZE);
+				if (f > retF) {
 					retF = f;
 				}
 			}
 		}
 		return (HEADER_X_START - retF);
 	}
-	
-	private float getTextWidth(String text, BaseFont font, int fontSize){
+
+	private float getTextWidth(String text, BaseFont font, int fontSize) {
 		return font.getWidthPoint(text, fontSize);
 	}
-	
+
 	private void initializeFonts() {
 		try {
 			bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD,
@@ -230,62 +313,67 @@ public class InvoicePDFGenerator {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * 
 	 * CP
 	 */
+
+	private void generateDetail(Document doc, PdfContentByte cb, PartSale pS,
+			float y) {
+
+		try {
+			String amount = String.valueOf(pS.getAmount());
+
+			createContent(cb, AMOUNT_X+getTextWidth(AMOUNT, bf, FONT_SIZE), y, amount,
+					PdfContentByte.ALIGN_RIGHT);
+			
+			createContent(cb, ITEM_X, y, String.valueOf(pS.getProduct().getItemNumber()),
+					PdfContentByte.ALIGN_LEFT);
+			
+			createContent(cb, DESCRIPTION_X, y,
+					String.valueOf(pS.getProduct().getDescription()),
+					PdfContentByte.ALIGN_LEFT);
+			
+			String unitPrice = String.valueOf(pS.getUnitPrice());
+			
+			createContent(cb, PRICE_X+getTextWidth(PRICE, bf, FONT_SIZE), y, unitPrice,
+					PdfContentByte.ALIGN_RIGHT);
+			
+			double totalP = (pS.getAmount() * pS.getUnitPrice());
+			totalPrice += totalP;
+			
+			String total = String.valueOf(totalP);
+			createContent(cb, xEnd, y, total,
+					PdfContentByte.ALIGN_RIGHT);
+
+		}
+
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
 	
-	private void generateDetail(Document doc, PdfContentByte cb, int index, float y)  {
-		  DecimalFormat df = new DecimalFormat("0,00");
-		   
-		  try {
-		 
-		   createContent(cb,48,y,String.valueOf(index+1),PdfContentByte.ALIGN_RIGHT);
-		   createContent(cb,52,y, "ITEM" + String.valueOf(index+1),PdfContentByte.ALIGN_LEFT);
-		   createContent(cb,152,y, "Product Description - SIZE " + String.valueOf(index+1),PdfContentByte.ALIGN_LEFT);
-		    
-		   double price = Double.valueOf(df.format(Math.random() * 10));
-		   double extPrice = price * (index+1) ;
-		   createContent(cb,498,y, df.format(price),PdfContentByte.ALIGN_RIGHT);
-		   createContent(cb,568,y, df.format(extPrice),PdfContentByte.ALIGN_RIGHT);
-		    
-		  }
-		 
-		  catch (Exception ex){
-		   ex.printStackTrace();
-		  }
-		 
-		 }
 	
-	 private void createContent(PdfContentByte cb, float x, float y, String text, int align){
-		 
-		 
-		  cb.beginText();
-		  cb.setFontAndSize(bf, 8);
-		  cb.showTextAligned(align, text.trim(), x , y, 0);
-		  cb.endText(); 
-		 
-		 }
-	 
-	 private void printPageNumber(PdfContentByte cb){
-		 
-		 
-		  cb.beginText();
-		  cb.setFontAndSize(bfBold, 8);
-		  cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "Page No. " + (pageNumber+1), 570 , 25, 0);
-		  cb.endText(); 
-		   
-		  pageNumber++;
-		   
-		 }
-	
+	private void createContent(PdfContentByte cb, float x, float y,
+			String text, int align) {
+		cb.beginText();
+		cb.setFontAndSize(bf, FONT_SIZE);
+		cb.showTextAligned(align, text.trim(), x, y, 0);
+		cb.endText();
+	}
+
+	private void printPageNumber(PdfContentByte cb) {
+
+		cb.beginText();
+		cb.setFontAndSize(bfBold, FONT_SIZE);
+		cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "Side "
+				+ (pageNumber + 1), 570, 25, 0);
+		cb.endText();
+
+		pageNumber++;
+
+	}
+
 }
