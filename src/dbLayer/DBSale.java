@@ -243,7 +243,7 @@ public class DBSale implements IFDBSale {
 			Customer cus = null;
 			if(carID != 0) {
 				IFDBCar dbCar = new DBCar();
-				Car car = dbCar.getCar(s.getCar().getId(), true);
+				Car car = dbCar.getCar(carID, true);
 				s.setCar(car);
 				cus = car.getOwner();
 			}
@@ -252,7 +252,7 @@ public class DBSale implements IFDBSale {
 			if(cusID != 0) {
 				if (cus == null) {
 					IFDBCustomer dbCus = new DBCustomer();
-					cus = dbCus.getCustomerByID(s.getCustomer().getId(), false);
+					cus = dbCus.getCustomerByID(cusID, false);
 				}
 				s.setCustomer(cus);
 			}
