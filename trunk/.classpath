@@ -8,17 +8,17 @@
 	<classpathentry kind="lib" path="Library/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="Library/itext-pdfa-5.5.3.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/2.%20Semester%20Projekt/Library/itext-pdfa-5.5.3-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="http://api.itextpdf.com/pdfa"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="Library/itext-xtra-5.5.3.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/2.%20Semester%20Projekt/Library/itext-xtra-5.5.3-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="http://api.itextpdf.com/xtra"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="Library/itextpdf-5.5.3.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/2.%20Semester%20Projekt/Library/itextpdf-5.5.3-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="http://api.itextpdf.com/itext"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
