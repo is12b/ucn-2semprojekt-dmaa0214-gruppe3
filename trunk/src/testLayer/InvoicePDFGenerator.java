@@ -4,11 +4,19 @@ import modelLayer.PartSale;
 import modelLayer.Sale;
 import modelLayer.Setting;
 
+import java.awt.Desktop;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import sun.security.action.GetLongAction;
 
@@ -19,6 +27,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.PngImage;
 
 import ctrLayer.SettingCtr;
 import ctrLayer.interfaceLayer.IFSettingCtr;
@@ -36,6 +45,7 @@ public class InvoicePDFGenerator {
 	private BaseFont bfBold;
 	private BaseFont bf;
 	private int pageNumber = 0;
+	private NumberFormat moneyFormat;
 	
 	
 	private final int FONT_SIZE = 8;
@@ -71,13 +81,36 @@ public class InvoicePDFGenerator {
 	
 
 	public static void main(String[] args) {
+		
 		IFDBSale dbSale = new DBSale();
 		Sale s = dbSale.getSale(4);
 
 		InvoicePDFGenerator i = new InvoicePDFGenerator(s);
+		
+		try {
+			 
+			File pdfFile = new File("tmpInvoice.pdf");
+			if (pdfFile.exists()) {
+	 
+				if (Desktop.isDesktopSupported()) {
+					Desktop.getDesktop().open(pdfFile);
+				} else {
+					System.out.println("Awt Desktop is not supported!");
+				}
+	 
+			} else {
+				System.out.println("File is not exists!");
+			}
+	 
+			System.out.println("Done");
+	 
+		  } catch (Exception ex) {
+			ex.printStackTrace();
+		  }
 	}
 
-	public InvoicePDFGenerator(Sale sale) {
+	public InvoicePDFGenerator(Sale sale) {	
+		generateMoneyFormat();
 		this.sale = sale;
 		Document doc = new Document();
 		PdfWriter docWriter = null;
@@ -139,10 +172,17 @@ public class InvoicePDFGenerator {
 			}
 		}
 	}
-
+	
 	/**
-	 * Text Manipulation
+	 * Money Format
 	 */
+	
+	private void generateMoneyFormat(){
+		moneyFormat = NumberFormat.getCurrencyInstance();
+		DecimalFormatSymbols dc = ((DecimalFormat) moneyFormat).getDecimalFormatSymbols();
+		dc.setCurrencySymbol("");
+		((DecimalFormat) moneyFormat).setDecimalFormatSymbols(dc);
+	}
 
 	/**
 	 * Details
@@ -161,21 +201,28 @@ public class InvoicePDFGenerator {
 			cb.stroke();
 
 			// Invoice Detail
-			createHeadings(cb, AMOUNT_X, yText, AMOUNT);
-			createHeadings(cb, ITEM_X, yText, ITEMNUMBER);
-			createHeadings(cb, DESCRIPTION_X, yText, DESCRIPTION);
-			createHeadings(cb, PRICE_X, yText, PRICE);
+			createBoldHeadings(cb, AMOUNT_X, yText, AMOUNT);
+			createBoldHeadings(cb, ITEM_X, yText, ITEMNUMBER);
+			createBoldHeadings(cb, DESCRIPTION_X, yText, DESCRIPTION);
+			createBoldHeadings(cb, PRICE_X, yText, PRICE);
 			totalPriceX = (xEnd - getTextWidth(TOTAL_PRICE, bfBold,
 					FONT_SIZE));
-			createHeadings(cb, totalPriceX, yText, TOTAL_PRICE);
+			createBoldHeadings(cb, totalPriceX, yText, TOTAL_PRICE);
 
 			// add the images
-			/*
-			 * Image companyLogo =
-			 * Image.getInstance("images/olympics_logo.gif");
-			 * companyLogo.setAbsolutePosition(25,700);
-			 * companyLogo.scalePercent(25); doc.add(companyLogo);
-			 */
+			InputStream logo1Is = this.getClass().getClassLoader().getResourceAsStream("2.png");
+			InputStream logo2Is = this.getClass().getClassLoader().getResourceAsStream("3.png");
+			 Image logo1 = PngImage.getImage(logo1Is);
+			 Image logo2 = PngImage.getImage(logo2Is);
+			
+			 logo1.scalePercent(15);
+			 logo1.setAbsolutePosition(25,(float)(doc.top()-(logo1.getHeight()*0.15)));
+			 doc.add(logo1);
+			 
+			 logo2.setAbsolutePosition(25,doc.top());
+			 logo2.scalePercent(15);
+			 doc.add(logo2);
+			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -212,12 +259,10 @@ public class InvoicePDFGenerator {
 		xTotalStart = x;
 	}
 	
-	
-	
 	private float generateTotalValue(PdfContentByte cb, float y){
 		float longest = 0;
 		float yT = y - 20;
-		String[] total = {String.valueOf(totalPrice), String.valueOf(totalPrice * 0.25), String.valueOf(totalPrice * 1.25)};
+		String[] total = {moneyFormat.format(totalPrice), moneyFormat.format(totalPrice * 0.25), moneyFormat.format(totalPrice * 1.25)};
 		for(String s : total){
 			createContent(cb, xEnd, yT, s,
 					PdfContentByte.ALIGN_RIGHT);
@@ -247,7 +292,7 @@ public class InvoicePDFGenerator {
 			if (s != null && !s.trim().isEmpty()) {
 				createHeadings(cb, x, y, s);
 			}
-			y -= 15;
+			y -= 8;
 		}
 
 		return y;
@@ -258,14 +303,13 @@ public class InvoicePDFGenerator {
 		ArrayList<String> sets = new ArrayList<String>();
 		IFSettingCtr sCtr = new SettingCtr();
 
-		sets.add(sCtr.getSettingByKey("INVOICE_CVR").getValue());
+		sets.add("CVR: " + sCtr.getSettingByKey("INVOICE_CVR").getValue());
 		sets.add(sCtr.getSettingByKey("INVOICE_NAME").getValue());
 		sets.add(sCtr.getSettingByKey("INVOICE_ADDRESS").getValue());
-		sets.add(sCtr.getSettingByKey("INVOICE_POST").getValue());
-		sets.add(sCtr.getSettingByKey("INVOICE_CITY").getValue());
-		sets.add(sCtr.getSettingByKey("INVOICE_EMAIL").getValue());
-		sets.add(sCtr.getSettingByKey("INVOICE_PHONE").getValue());
-		sets.add(sCtr.getSettingByKey("INVOICE_FAX").getValue());
+		sets.add(sCtr.getSettingByKey("INVOICE_POST").getValue() + " - " + sCtr.getSettingByKey("INVOICE_CITY").getValue());
+		sets.add("Mail: " + sCtr.getSettingByKey("INVOICE_EMAIL").getValue());
+		sets.add("TLF: " + sCtr.getSettingByKey("INVOICE_PHONE").getValue());
+		sets.add("FAX: " + sCtr.getSettingByKey("INVOICE_FAX").getValue());
 		sets.add(sCtr.getSettingByKey("INVOICE_WEBSITE").getValue());
 		sets.add("Faktura: " + sale.getId());
 
@@ -273,6 +317,14 @@ public class InvoicePDFGenerator {
 	}
 
 	private void createHeadings(PdfContentByte cb, float x, float y, String text) {
+		cb.beginText();
+		cb.setFontAndSize(bf, 6);
+		cb.setTextMatrix(x, y);
+		cb.showText(text.trim());
+		cb.endText();
+	}
+	
+	private void createBoldHeadings(PdfContentByte cb, float x, float y, String text) {
 		cb.beginText();
 		cb.setFontAndSize(bfBold, FONT_SIZE);
 		cb.setTextMatrix(x, y);
@@ -288,13 +340,13 @@ public class InvoicePDFGenerator {
 		float retF = 0;
 		for (String s : sets) {
 			if (s != null && !s.trim().isEmpty()) {
-				float f = getTextWidth(s, bfBold, FONT_SIZE);
+				float f = getTextWidth(s, bf, 6);
 				if (f > retF) {
 					retF = f;
 				}
 			}
 		}
-		return (HEADER_X_START - retF);
+		return (xEnd - retF);
 	}
 
 	private float getTextWidth(String text, BaseFont font, int fontSize) {
@@ -316,7 +368,7 @@ public class InvoicePDFGenerator {
 
 	/**
 	 * 
-	 * CP
+	 * Detail
 	 */
 
 	private void generateDetail(Document doc, PdfContentByte cb, PartSale pS,
@@ -335,7 +387,7 @@ public class InvoicePDFGenerator {
 					String.valueOf(pS.getProduct().getDescription()),
 					PdfContentByte.ALIGN_LEFT);
 			
-			String unitPrice = String.valueOf(pS.getUnitPrice());
+			String unitPrice = moneyFormat.format(pS.getUnitPrice());
 			
 			createContent(cb, PRICE_X+getTextWidth(PRICE, bf, FONT_SIZE), y, unitPrice,
 					PdfContentByte.ALIGN_RIGHT);
@@ -343,7 +395,7 @@ public class InvoicePDFGenerator {
 			double totalP = (pS.getAmount() * pS.getUnitPrice());
 			totalPrice += totalP;
 			
-			String total = String.valueOf(totalP);
+			String total = moneyFormat.format(totalP);
 			createContent(cb, xEnd, y, total,
 					PdfContentByte.ALIGN_RIGHT);
 
@@ -354,8 +406,7 @@ public class InvoicePDFGenerator {
 		}
 
 	}
-	
-	
+
 	private void createContent(PdfContentByte cb, float x, float y,
 			String text, int align) {
 		cb.beginText();
