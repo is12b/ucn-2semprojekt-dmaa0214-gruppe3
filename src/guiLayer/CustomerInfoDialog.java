@@ -190,6 +190,11 @@ public class CustomerInfoDialog extends JDialog {
 				panel.add(panelDiv, "2, 4, fill, fill");
 				{
 					JButton btnOpretNyBil = new JButton("Opret ny bil");
+					btnOpretNyBil.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							new CreateCarDialog(customer);
+						}
+					});
 					panelDiv.add(btnOpretNyBil);
 				}
 				{
