@@ -1,5 +1,6 @@
 package guiLayer.extensions;
 
+import guiLayer.MainGUI;
 import guiLayer.exceptions.SubmitException;
 
 import java.awt.Component;
@@ -7,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -124,6 +127,32 @@ public abstract class Utilities {
 			throw new SubmitException(objText + " må ikke være tom.", field);
 		}
 		return ret;
+	}
+
+	/**
+	 * Method for adding a documentListener on some textfields, 
+	 * that disable all other fields than the active one
+	 * 
+	 * @param fields the list of fields to add the listener to
+	 */
+	public static void addDocumentListener(ArrayList<JTextField> fields) {
+		for(JTextField f : fields){
+			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f));
+		}
+	}
+	
+	/**
+	 * Method for adding a documentListener on some textfields, 
+	 * that disable all other fields than the active one and set default button
+	 * 
+	 * @param fields the list of fields to add the listener to
+	 * @param frame the parent frame
+	 * @param defaultBtn the button to set as default
+	 */
+	public static void addDocumentListener(ArrayList<JTextField> fields, MainGUI frame, JButton defaultBtn) {
+		for(JTextField f : fields){
+			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f, frame, defaultBtn));
+		}
 	}
 
 }

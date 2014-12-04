@@ -31,12 +31,16 @@ public class DBSale implements IFDBSale {
 	
 	@Override
 	public ArrayList<Sale> getSales(Car car) {
-		return miscWhere("CarID = " + car.getId(), false);
+		ArrayList<Sale> list = miscWhere("CarID = " + car.getId(), false, true);
+		list.forEach(c -> c.setCar(car));
+		return list;
 	}
 
 	@Override
 	public ArrayList<Sale> getSales(Customer customer) {
-		return miscWhere("CustomerID = " + customer.getId(), false);
+		ArrayList<Sale> list = miscWhere("CustomerID = " + customer.getId(), true, false);
+		list.forEach(c -> c.setCustomer(customer));
+		return list;
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class DBSale implements IFDBSale {
 
 	@Override
 	public ArrayList<Sale> getAllSales() {
-		return miscWhere("", true);
+		return miscWhere("", true, true);
 	}
 
 	@Override
@@ -224,7 +228,7 @@ public class DBSale implements IFDBSale {
 		return sale;
 	}
 
-	private ArrayList<Sale> miscWhere(String wQuery, boolean retAsso) {
+	private ArrayList<Sale> miscWhere(String wQuery, boolean retCarAsso, boolean retCusAsso) {
 		ArrayList<Sale> retList = new ArrayList<Sale>();
 		
 		try {
@@ -235,23 +239,23 @@ public class DBSale implements IFDBSale {
 			
 			while (rs.next()) {
 				Sale sale = buildSale(rs);
-				if(retAsso){
-					if(sale.getCar() != null){
-						IFDBCar dbCar = new DBCar();
-						Car car = dbCar.getCar(sale.getCar().getId(), true);
-						sale.setCar(car);
-					}					
-					if (sale.getCustomer() != null) {
-						IFDBCustomer dbCus = new DBCustomer();
-						Customer cus = dbCus.getCustomerByID(sale.getCustomer().getId(), false);
-						sale.setCustomer(cus);
-					}
-					
-					IFDBPartSale dbPart = new DBPartSale();
-					ArrayList<PartSale> pSales = dbPart.getPartSales(sale, true);
-					
-					sale.setPartSales(pSales);
+				
+				if(retCarAsso && sale.getCar() != null){
+					IFDBCar dbCar = new DBCar();
+					Car car = dbCar.getCar(sale.getCar().getId(), true);
+					sale.setCar(car);
+				}					
+				if (retCusAsso && sale.getCustomer() != null) {
+					IFDBCustomer dbCus = new DBCustomer();
+					Customer cus = dbCus.getCustomerByID(sale.getCustomer().getId(), false);
+					sale.setCustomer(cus);
 				}
+				
+				IFDBPartSale dbPart = new DBPartSale();
+				ArrayList<PartSale> pSales = dbPart.getPartSales(sale, true);
+				
+				sale.setPartSales(pSales);
+				
 				
 				retList.add(sale);
 			}

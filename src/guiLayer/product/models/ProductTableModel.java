@@ -33,6 +33,7 @@ public class ProductTableModel extends AbstractTableModel {
 		} else {
 			this.products = new ArrayList<Product>();
 		}
+		fireTableDataChanged();
 	}
 	
 	@Override
