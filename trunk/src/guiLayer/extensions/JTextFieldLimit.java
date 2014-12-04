@@ -10,10 +10,24 @@ public class JTextFieldLimit extends JTextField {
 	private int limit;
 	private boolean onlyInt;
 
+	/**
+	 * Constructor for JTextFieldLimit objects.
+	 *
+	 */
 	public JTextFieldLimit(int limit, boolean onlyInt) {
 		super();
 		this.limit = limit;
 		this.onlyInt = onlyInt;
+	}
+	
+	/**
+	 * Constructor for JTextFieldLimit objects.
+	 *
+	 */
+	public JTextFieldLimit(int limit) {
+		super();
+		this.limit = limit;
+		this.onlyInt = false;
 	}
 	
 	@Override
@@ -64,5 +78,13 @@ public class JTextFieldLimit extends JTextField {
 			}
 		}
 		return ret;
+	}
+	
+	/**
+	 * Returns true if, and only if, length() is 0 on trimmed text.
+	 * @return true if length() is 0, otherwise false
+	 */
+	public boolean isEmpty() {
+		return getText().trim().isEmpty();
 	}
 }

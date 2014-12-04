@@ -1,7 +1,6 @@
 package guiLayer.product;
 
 import guiLayer.MainGUI;
-import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
@@ -226,18 +225,16 @@ public class ProductPanel extends TabbedPanel {
 		popupMenu.add(mntmEdit);
 		popupMenu.add(mntmDelete);
 		
+		makeFieldListener();
+	}
+
+	private void makeFieldListener() {
 		fields = new ArrayList<JTextField>();
 		fields.add(txtID);
 		fields.add(txtItemNumber);
 		fields.add(txtName);
 		
-		addDocumentListener(fields);
-	}
-
-	private void addDocumentListener(ArrayList<JTextField> fields) {
-		for(JTextField f : fields){
-			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f));
-		}
+		Utilities.addDocumentListener(fields);
 	}
 
 	private void deleteProduct(int selectedRow) {
@@ -312,14 +309,9 @@ public class ProductPanel extends TabbedPanel {
 		
 		try {
 			if (!txtID.getText().trim().isEmpty()) {
-				try {
-					Product p = pCtr.getProductByID(txtID.getValue());
-					if (p != null) {
-						pList.add(p);
-					}
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				Product p = pCtr.getProductByID(txtID.getValue());
+				if (p != null) {
+					pList.add(p);
 				}
 			} else if (!txtItemNumber.getText().trim().isEmpty()) {
 				pList = pCtr.searchProductsByItemNumber(txtItemNumber.getText().trim());
@@ -336,7 +328,6 @@ public class ProductPanel extends TabbedPanel {
 
 	private void updateModel(ArrayList<Product> pList) {
 		model.refresh(pList);
-		model.fireTableDataChanged();
 	}
 
 	@Override

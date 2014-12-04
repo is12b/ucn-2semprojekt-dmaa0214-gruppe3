@@ -199,4 +199,17 @@ public class Sale {
 		this.car = car;
 	}
 	
+	/**
+	 * Method to get The total price of the Sale
+	 * @return the total price of the sale
+	 */
+	public double getTotalPrice() {
+		double total = 0;
+		
+		for (PartSale partSale : partSales) {
+			total += (partSale.getUnitPrice() * partSale.getAmount());
+		}
+		return total;
+	}
+	
 }
