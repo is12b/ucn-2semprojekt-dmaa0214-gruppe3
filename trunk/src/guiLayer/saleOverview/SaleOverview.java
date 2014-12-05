@@ -1,15 +1,14 @@
 package guiLayer.saleOverview;
 
-import java.awt.Component;
 import java.awt.Dimension;
 
 import guiLayer.MainGUI;
-import guiLayer.extensions.DocumentListenerChange;
+import guiLayer.PDFViewerDialog;
+import guiLayer.exceptions.BuildingPDFException;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
 import guiLayer.saleOverview.extensions.PaidTableCellRenderer;
-import guiLayer.saleOverview.extensions.SaleOverviewTable;
 import guiLayer.saleOverview.models.SaleOverviewTableModel;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -20,13 +19,13 @@ import com.jgoodies.forms.factories.FormFactory;
 import ctrLayer.SaleOverviewCtr;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -44,10 +43,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Class for SaleOverview
@@ -59,7 +58,7 @@ public class SaleOverview extends TabbedPanel {
 
 	private static final long serialVersionUID = 1L;
 	private MainGUI parent;
-	private SaleOverviewTable table;
+	private JTable table;
 	private JTextFieldLimit txtSaleID;
 	private JTextFieldLimit txtRegNr;
 	private JTextFieldLimit txtVIN;
@@ -80,7 +79,6 @@ public class SaleOverview extends TabbedPanel {
 	 *
 	 */
 	public SaleOverview(MainGUI parent) {
-		// TODO Auto-generated constructor stub
 		this.parent = parent;
 		buildPanel();
 	}
@@ -320,7 +318,13 @@ public class SaleOverview extends TabbedPanel {
 		
 		model = new SaleOverviewTableModel();
 		
-		table = new SaleOverviewTable(model);
+		table = new JTable(model);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				tableMouseListener(e);
+			}
+		});
 		styleTable();
 		scrollPane.setViewportView(table);
 		
@@ -335,29 +339,31 @@ public class SaleOverview extends TabbedPanel {
 		table.getColumnModel().getColumn(3).setPreferredWidth(40);
 		table.getColumnModel().getColumn(4).setPreferredWidth(40);
 		table.getColumnModel().getColumn(5).setPreferredWidth(60);
-		//table.setAutoCreateRowSorter(true);
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
 		table.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
-		/*DefaultTableCellRenderer colorRenderer = new DefaultTableCellRenderer() {
-			
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value,
-					boolean isSelected, boolean hasFocus, int row, int column) {
-				// TODO Auto-generated method stub
-				JComponent renderer = null;
-				if (value.getClass()) {
-					renderer = ((JComponent) table.getDefaultRenderer(Boolean.class));
-					renderer.setOpaque(true);
-				}
-				
-				//if(value == true)
-				return renderer;
-			}
-		};*/
-		//colorRenderer.setBackground(Color.RED);
-		//table.getColumnModel().getColumn(4).setCellRenderer(new PaidTableCellRenderer());
-		//table.getRowSorter().toggleSortOrder(0);
+		table.setAutoCreateRowSorter(true);
+		table.getColumnModel().getColumn(4).setCellRenderer(new PaidTableCellRenderer());
+		table.getRowSorter().toggleSortOrder(0);
+		table.getRowSorter().toggleSortOrder(0);
+	}
+
+	protected void tableMouseListener(MouseEvent e) {
+		int rowNumber = table.rowAtPoint(e.getPoint());
+        table.setRowSelectionInterval(rowNumber, rowNumber);
+        if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
+        	System.out.println("Generer pdf for faktura nr.: " + model.getSaleAt(rowNumber).getId());
+        	openPDFViewer(model.getSaleAt(rowNumber));
+        }
+	}
+
+	private void openPDFViewer(Sale sale) {
+		try {
+			new PDFViewerDialog(this, sale);
+		} catch (BuildingPDFException e) {
+			Utilities.showError(this, e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	private void clearSearchByCus() {
