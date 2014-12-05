@@ -45,6 +45,8 @@ public class InvoiceSettingsDialog extends JDialog {
 	private JTextField txtPhone;
 	private JTextField txtFax;
 	private JTextField txtCVR;
+	private JTextField txtReg;
+	private JTextField txtAcc;
 	
 	/**
 	 * Create the dialog.
@@ -62,6 +64,8 @@ public class InvoiceSettingsDialog extends JDialog {
 		txtPhone.setText(sCtr.getSettingByKey("INVOICE_PHONE").getValue());
 		txtFax.setText(sCtr.getSettingByKey("INVOICE_FAX").getValue());
 		txtCVR.setText(sCtr.getSettingByKey("INVOICE_CVR").getValue());
+		txtReg.setText(sCtr.getSettingByKey("INVOICE_REG").getValue());
+		txtAcc.setText(sCtr.getSettingByKey("INVOICE_ACC").getValue());
 	}
 	
 	public void buildDialog(){
@@ -279,6 +283,60 @@ public class InvoiceSettingsDialog extends JDialog {
 		{
 			JPanel panel = new JPanel();
 			contentPanel.add(panel, "3, 1, fill, fill");
+			panel.setLayout(new FormLayout(new ColumnSpec[] {
+					ColumnSpec.decode("default:grow"),
+					FormFactory.RELATED_GAP_COLSPEC,
+					ColumnSpec.decode("default:grow"),},
+				new RowSpec[] {
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.NARROW_LINE_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.NARROW_LINE_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					RowSpec.decode("default:grow"),}));
+			{
+				JLabel lblBankOplysninger = new JLabel("Bank oplysninger:");
+				panel.add(lblBankOplysninger, "1, 1, 3, 1, center, default");
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				panel.add(panel_1, "1, 3, 3, 1, fill, fill");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.DEFAULT_COLSPEC,
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),},
+					new RowSpec[] {
+						FormFactory.DEFAULT_ROWSPEC,}));
+				{
+					JLabel lblNewLabel_8 = new JLabel("Regnr:");
+					panel_1.add(lblNewLabel_8, "1, 1, right, default");
+				}
+				{
+					txtReg = new JTextFieldLimit(100, true);
+					panel_1.add(txtReg, "3, 1, fill, default");
+					txtReg.setColumns(10);
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				panel.add(panel_1, "1, 5, 3, 1, fill, fill");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.DEFAULT_COLSPEC,
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),},
+					new RowSpec[] {
+						FormFactory.DEFAULT_ROWSPEC,}));
+				{
+					JLabel lblNewLabel_9 = new JLabel("Kontonr:");
+					panel_1.add(lblNewLabel_9, "1, 1, right, default");
+				}
+				{
+					txtAcc = new JTextFieldLimit(100, true);
+					panel_1.add(txtAcc, "3, 1, fill, default");
+					txtAcc.setColumns(10);
+				}
+			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -313,6 +371,7 @@ public class InvoiceSettingsDialog extends JDialog {
 	 */
 	protected void saveSettings() {
 		IFSettingCtr sCtr = new SettingCtr();
+		
 		sCtr.updateSetting(new Setting("INVOICE_ADDRESS", txtAddress.getText()));
 		sCtr.updateSetting(new Setting("INVOICE_POST", txtPost.getText()));
 		sCtr.updateSetting(new Setting("INVOICE_CITY", txtCity.getText()));
@@ -322,6 +381,8 @@ public class InvoiceSettingsDialog extends JDialog {
 		sCtr.updateSetting(new Setting("INVOICE_PHONE", txtPhone.getText()));
 		sCtr.updateSetting(new Setting("INVOICE_FAX", txtFax.getText()));
 		sCtr.updateSetting(new Setting("INVOICE_CVR", txtCVR.getText()));
+		sCtr.updateSetting(new Setting("INVOICE_REG", txtReg.getText()));
+		sCtr.updateSetting(new Setting("INVOICE_ACC", txtAcc.getText()));
 		
 		this.dispose();
 	}
