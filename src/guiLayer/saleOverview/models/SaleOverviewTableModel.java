@@ -3,9 +3,9 @@ package guiLayer.saleOverview.models;
 import guiLayer.extensions.Utilities;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-
-import javafx.collections.SetChangeListener;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -97,17 +97,7 @@ public class SaleOverviewTableModel extends AbstractTableModel {
 			} else if (columnIndex == 3) {
 				value = s.getDate();
 			} else if (columnIndex == 4) {
-				if(s.isPaid()) {
-					value = s.isPaid();
-				} else {
-					//System.out.println("paydeadLine: "+s.getPaymentDeadline() + " || today: " + new Date());
-					if (s.getPaymentDeadline().after(new Date())) {
-						value = s.isPaid();
-					} else {
-						value = "Overskredet";
-					}
-					
-				}
+				value = getPaidCell(s);
 			} else if (columnIndex == 5) {
 				value = Utilities.getAsMoney(s.getTotalPrice());
 			}
@@ -115,6 +105,44 @@ public class SaleOverviewTableModel extends AbstractTableModel {
 		return value;
 	}
 	
+	private String getPaidCell(Sale s) {
+		String value = null;
+		if(s.isPaid()) {
+			value = "true";
+		} else {
+			Date dayAfterTomorrow = getDateAfterXDays(2);
+			if (s.getPaymentDeadline().after(dayAfterTomorrow)) {
+				value = "false";
+			} else {
+				value = daysSinceDeadline(s.getPaymentDeadline());
+			}
+			
+		}
+		return value;
+	}
+	
+	private String daysSinceDeadline(Date date) {
+		String ret = "";
+		Date now = new Date();
+		long diff = now.getTime() - date.getTime();
+		long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		ret = days + " Dag";
+		if(days == 1) {
+			ret += "e";
+		}
+		ret += " siden";
+		return ret;
+	}
+	
+	private Date getDateAfterXDays(int x) {
+		Date day = new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(day); 
+		c.add(Calendar.DATE, x);
+		day = c.getTime();
+		return day;
+	}
+
 	public Sale getSaleAt(int rowIndex) {
 		Sale s = sales.get(rowIndex);
 		return s;
