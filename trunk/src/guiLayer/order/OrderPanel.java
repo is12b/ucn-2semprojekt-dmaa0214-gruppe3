@@ -1,6 +1,8 @@
 package guiLayer.order;
 
 import guiLayer.MainGUI;
+import guiLayer.PDFViewerDialog;
+import guiLayer.exceptions.BuildingPDFException;
 import guiLayer.exceptions.SubmitException;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.TabbedPanel;
@@ -8,39 +10,28 @@ import guiLayer.extensions.Utilities;
 import guiLayer.models.OrderTableModel;
 import guiLayer.order.extensions.MileageDialog;
 
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JToolBar;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
-import ctrLayer.CustomerCtr;
-import ctrLayer.PDFViewerICEPDF;
 import ctrLayer.SaleCtr;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFSaleCtr;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
-import java.awt.GridBagLayout;
-
 import javax.swing.JButton;
 
-import java.awt.Component;
 import java.awt.Dialog.ModalityType;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
-import javax.swing.border.MatteBorder;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -48,8 +39,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.border.TitledBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.UIManager;
 
 import modelLayer.Car;
@@ -67,6 +56,7 @@ import javax.swing.JCheckBox;
  *
  */
 public class OrderPanel extends TabbedPanel {
+	private static final long serialVersionUID = 1L;
 	private JTextField txtCustomerName;
 	private JTextField txtCustomerPhone;
 	private JTextField txtCustomerCVR;
@@ -819,8 +809,11 @@ public class OrderPanel extends TabbedPanel {
 				sCtr.setPaid(chkPaid.isSelected());
 				Sale s = sCtr.commit();
 
-				new PDFViewerICEPDF(s.getId());
+				new PDFViewerDialog(this, s.getId());
 			} catch (SubmitException e) {
+				Utilities.showError(this, e.getMessage());
+				e.printStackTrace();
+			} catch (BuildingPDFException e) {
 				Utilities.showError(this, e.getMessage());
 				e.printStackTrace();
 			}

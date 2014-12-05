@@ -12,6 +12,9 @@ import org.icepdf.ri.common.MyAnnotationCallback;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
 
+import ctrLayer.InvoicePDFGenerator;
+import dbLayer.DBSale;
+import dbLayer.interfaceLayer.IFDBSale;
 import testLayer.pdf.CopyOfInvoicePDFGenerator;
 import modelLayer.Sale;
 
@@ -44,11 +47,27 @@ public class PDFViewerDialog extends JDialog {
 		setLocationRelativeTo(parent);
 		setVisible(true);
 	}
+	
+	public PDFViewerDialog(JComponent parent, int saleID) throws BuildingPDFException {
+		IFDBSale dbSale = new DBSale();
+		Sale sale = dbSale.getSale(saleID);
+		
+		if (sale != null) {
+			setTitle("Faktura #" + sale.getId());
+			buildDialog();
+			
+			loadSale(sale);
+		} else {
+			throw new BuildingPDFException("Intet Salg valgt");
+		}
+		setLocationRelativeTo(parent);
+		setVisible(true);
+	}
 
 	private void loadSale(Sale sale) throws BuildingPDFException {
-		CopyOfInvoicePDFGenerator generateInvoice = new CopyOfInvoicePDFGenerator(); //TODO ændre til den rigtige
+		InvoicePDFGenerator generateInvoice = new InvoicePDFGenerator(sale); //TODO ændre til den rigtige
 	        
-		ByteArrayOutputStream baos = generateInvoice.createPDF(sale);
+		ByteArrayOutputStream baos = generateInvoice.createPDF();
 		if (baos.size() > 1) {
 			byte[] tempBytes = baos.toByteArray();
 		      
