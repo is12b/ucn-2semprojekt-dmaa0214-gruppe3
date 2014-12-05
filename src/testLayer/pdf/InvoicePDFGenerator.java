@@ -3,11 +3,11 @@ package testLayer.pdf;
 import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Sale;
+import guiLayer.exceptions.BuildingPDFException;
 
 import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -77,40 +77,47 @@ public class InvoicePDFGenerator {
 	private final String PRICE = "Pris";
 	private final String TOTAL_PRICE = "Total Pris";
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws BuildingPDFException {
 		
-				IFDBSale dbSale = new DBSale();
-				Sale s = dbSale.getSale(2);
-		
-				InvoicePDFGenerator i = new InvoicePDFGenerator(s);
-				i.createPDF();
-				try {
-	
-				File pdfFile = new File("tmpInvoice.pdf");
-				if (pdfFile.exists()) {
-	
-						if (Desktop.isDesktopSupported()) {
-						Desktop.getDesktop().open(pdfFile);
-					} else {
-							System.out.println("Awt Desktop is not supported!");
-					}
-		
-					} else {
-							System.out.println("File is not exists!");
-						}
-			
-						System.out.println("Done");
-			
-					  } catch (Exception ex) {
-						ex.printStackTrace();
-				  }
+		IFDBSale dbSale = new DBSale();
+		Sale s = dbSale.getSale(2);
+
+		InvoicePDFGenerator i = new InvoicePDFGenerator(s);
+		i.createPDF();
+		try {
+
+		File pdfFile = new File("tmpInvoice.pdf");
+		if (pdfFile.exists()) {
+
+				if (Desktop.isDesktopSupported()) {
+				Desktop.getDesktop().open(pdfFile);
+			} else {
+					System.out.println("Awt Desktop is not supported!");
+			}
+
+			} else {
+					System.out.println("File is not exists!");
 				}
-	public InvoicePDFGenerator(Sale sale) {	
+	
+				System.out.println("Done");
+	
+			  } catch (Exception ex) {
+				ex.printStackTrace();
+		  }
+		}
+
+	public InvoicePDFGenerator(Sale sale) throws BuildingPDFException {	
+		if(sale == null){
+			throw new BuildingPDFException("Det ønskede salg eksistere ikke længere?");
+		}else if(sale.getPartSales() == null || sale.getPartSales().size() == 0){
+			throw new BuildingPDFException("Det ønskede salg er tomt");
+		}
+		
 		this.sale = sale;
 	}
 	
 	
-	public ByteArrayOutputStream createPDF(){
+	public ByteArrayOutputStream createPDF() throws BuildingPDFException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
 		generateMoneyFormat();
@@ -120,8 +127,7 @@ public class InvoicePDFGenerator {
 		ArrayList<PartSale> partSales = sale.getPartSales();
 
 		try {
-			String path = "tmpInvoice.pdf";
-			docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
+			docWriter = PdfWriter.getInstance(doc, baos);
 			doc.addAuthor("Gruppe 3");
 			doc.addCreationDate();
 			doc.addProducer();
@@ -178,7 +184,7 @@ public class InvoicePDFGenerator {
 			generateTerms(doc, cb, y);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new BuildingPDFException("PDF filen kunne ikke genereres");
 		} finally {
 			if (doc != null) {
 				doc.close();
