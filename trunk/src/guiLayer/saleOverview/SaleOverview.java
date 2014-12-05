@@ -350,10 +350,11 @@ public class SaleOverview extends TabbedPanel {
 
 	protected void tableMouseListener(MouseEvent e) {
 		int rowNumber = table.rowAtPoint(e.getPoint());
+		int modelRowNum = table.convertRowIndexToModel(rowNumber);
         table.setRowSelectionInterval(rowNumber, rowNumber);
         if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
-        	System.out.println("Generer pdf for faktura nr.: " + model.getSaleAt(rowNumber).getId());
-        	openPDFViewer(model.getSaleAt(rowNumber));
+        	System.out.println("Generer pdf for faktura nr.: " + model.getSaleAt(modelRowNum).getId());
+        	openPDFViewer(model.getSaleAt(modelRowNum));
         }
 	}
 
