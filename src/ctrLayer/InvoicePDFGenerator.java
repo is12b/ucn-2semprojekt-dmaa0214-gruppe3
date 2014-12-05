@@ -3,15 +3,8 @@ package ctrLayer;
 import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Sale;
-import modelLayer.Setting;
 
-import java.awt.Desktop;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -21,10 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
-
-import javax.imageio.ImageIO;
-
-import sun.security.action.GetLongAction;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -36,9 +25,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.codec.PngImage;
 
 import ctrLayer.interfaceLayer.IFSettingCtr;
-import dbLayer.DBSale;
 import dbLayer.DBSettings;
-import dbLayer.interfaceLayer.IFDBSale;
 import dbLayer.interfaceLayer.IFDBSettings;
 
 /**
@@ -59,10 +46,8 @@ public class InvoicePDFGenerator {
 	
 	//POSITIONS
 	private final int HEADER_Y_START = 775;
-	private final int HEADER_X_START = 600;
 	
 	private final float xStart = 20;
-	//private final float yEnd = 50;
 	private final float xEnd = 590;
 	private final float AMOUNT_X = 22;
 	private final float ITEM_X = 52;
@@ -77,7 +62,7 @@ public class InvoicePDFGenerator {
 	private double totalPrice = 0;
 	private float yTotalPos;
 	private float xTotalStart;
-	private float xTotalEnd;
+	//private float xTotalEnd;
 	
 	//STRING
 	private final String AMOUNT = "Antal";
@@ -85,39 +70,6 @@ public class InvoicePDFGenerator {
 	private final String DESCRIPTION = "Beskrivelse";
 	private final String PRICE = "Pris";
 	private final String TOTAL_PRICE = "Total Pris";
-	
-	//OFFSET
-	private float logoOffset = 0;
-	
-
-	public static void main(String[] args) {
-		
-		IFDBSale dbSale = new DBSale();
-		Sale s = dbSale.getSale(7);
-
-		InvoicePDFGenerator i = new InvoicePDFGenerator(s);
-		
-		try {
-			 
-			File pdfFile = new File("tmpInvoice.pdf");
-			if (pdfFile.exists()) {
-	 
-				if (Desktop.isDesktopSupported()) {
-					Desktop.getDesktop().open(pdfFile);
-				} else {
-					System.out.println("Awt Desktop is not supported!");
-				}
-	 
-			} else {
-				System.out.println("File is not exists!");
-			}
-	 
-			System.out.println("Done");
-	 
-		  } catch (Exception ex) {
-			ex.printStackTrace();
-		  }
-	}
 
 	public InvoicePDFGenerator(Sale sale) {	
 		this.sale = sale;
@@ -205,45 +157,45 @@ public class InvoicePDFGenerator {
 	}
 	
 	/**
-	 * @param doc
-	 * @param cb
-	 * @param y
-	 * @throws DocumentException 
-	 * @throws IOException 
+	 * Terms 
 	 */
+	
 	private void generateTerms(Document doc, PdfContentByte cb, float y) throws IOException, DocumentException {
-		y -= 20;
-		
-		if((y - 36) < 65){
-			doc.newPage();
-			y = generateHeader(doc, cb);
-			generateLogo(doc);
-			generateCustomer(doc, cb);
-			y = generateLayout(doc, cb, y, false);
-			printPageNumber(cb);
+		if(!sale.isPaid()){
+			y -= 20;
 			
-			y -= 8;
+			if((y - 36) < 65){
+				doc.newPage();
+				y = generateHeader(doc, cb);
+				generateLogo(doc);
+				generateCustomer(doc, cb);
+				y = generateLayout(doc, cb, y, false);
+				printPageNumber(cb);
+				
+				y -= 8;
+			}
+			
+			IFDBSettings dbSet = new DBSettings();
+			String reg = dbSet.getSettingByKey("INVOICE_REG").getValue();
+			String acc = dbSet.getSettingByKey("INVOICE_ACC").getValue();
+			
+			Date deadlineDate = sale.getPaymentDeadline();
+			String payment = "Betalingsbetingelser: Kontant - forfaldt " + new SimpleDateFormat("dd-MM-yyyy").format(deadlineDate);
+			
+			createBoldHeadings(cb, xStart, y, payment);
+			
+			if(!reg.trim().isEmpty() && !acc.trim().isEmpty()){
+				String paymentMethod = "Brug følgende information til indbetaling gennem vor bank. - Regnr.: " + reg + " / Kontonr.: " + acc; 
+				y -= 8;
+				createBoldHeadings(cb, xStart, y, paymentMethod);
+			}
 		}
-		
-		
-		
-		IFDBSettings dbSet = new DBSettings();
-		String reg = dbSet.getSettingByKey("INVOICE_REG").getValue();
-		String acc = dbSet.getSettingByKey("INVOICE_ACC").getValue();
-		
-		Date deadlineDate = sale.getPaymentDeadline();
-		String payment = "Betalingsbetingelser: Kontant - forfaldt " + new SimpleDateFormat("dd-MM-yyyy").format(deadlineDate);
-		
-		createBoldHeadings(cb, xStart, y, payment);
-		
-		if(!reg.trim().isEmpty() && !acc.trim().isEmpty()){
-			String paymentMethod = "Brug følgende information til indbetaling gennem vor bank. - Regnr.: " + reg + " / Kontonr.: " + acc; 
-			y -= 8;
-			createBoldHeadings(cb, xStart, y, paymentMethod);
-		}
-		
 	}
 
+	/*
+	 * Description
+	 */
+	
 	private float generateDesctiption(Document doc, PdfContentByte cb, String description, float y) throws IOException, DocumentException {
 		ArrayList<String> descs = breakDescription(description, 75);
 		y -= 35;
@@ -280,6 +232,30 @@ public class InvoicePDFGenerator {
 		return y;
 	}
 
+	/*
+	 * Car
+	 */
+	
+	private void generateCarInformation(Document doc, PdfContentByte cb) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/*
+	 * Customer
+	 */
+
+	private void generateCustomerInformation(Document doc, PdfContentByte cb) {
+		Customer c = sale.getCustomer();
+		String[] cust = {c.getName(), c.getAddress(), c.getPostalCode() + " " + c.getCity()};
+		float i = doc.top() - 30;
+				
+		for(String s : cust){
+			i -= 8;
+			createContent(cb, 50, i, s, PdfContentByte.ALIGN_LEFT);
+		}
+	}
+	
 	private void generateCustomer(Document doc, PdfContentByte cb) {
 		if(sale.getCustomer() != null){
 			generateCustomerInformation(doc, cb);
@@ -291,24 +267,7 @@ public class InvoicePDFGenerator {
 		
 	}
 
-	private void generateCarInformation(Document doc, PdfContentByte cb) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void generateCustomerInformation(Document doc, PdfContentByte cb) {
-		Customer c = sale.getCustomer();
-		String[] cust = {c.getName(), c.getAddress(), c.getPostalCode() + " " + c.getCity()};
-		float i = doc.top() - 30;
-				
-		for(String s : cust){
-			i -= 8;
-			createContent(cb, 50, i, s, PdfContentByte.ALIGN_LEFT);
-		}
-		
-	}
-
-	/**
+	/*
 	 * Money Format
 	 */
 	
@@ -319,7 +278,7 @@ public class InvoicePDFGenerator {
 		((DecimalFormat) moneyFormat).setDecimalFormatSymbols(dc);
 	}
 
-	/**
+	/*
 	 * Total
 	 */
 	
@@ -418,7 +377,7 @@ public class InvoicePDFGenerator {
 		cb.endText();
 	}
 
-	/**
+	/*
 	 * Detail
 	 */
 
@@ -520,12 +479,6 @@ public class InvoicePDFGenerator {
 		 logo2.scalePercent(15);
 		 logo2.setAbsolutePosition(25+offset,doc.top());
 		 doc.add(logo2);
-		 
-		 if(logo2.getPlainHeight() > logo1.getPlainHeight()){
-			 logoOffset = doc.top() - logo2.getPlainHeight();
-		 }else{
-			 logoOffset = doc.top() - logo1.getPlainHeight();
-		 }
 	}
 	
 	private void generateBotLine(PdfContentByte cb, float y){
@@ -534,7 +487,7 @@ public class InvoicePDFGenerator {
 		cb.stroke();
 	}
 
-	/**
+	/*
 	 * Misc
 	 */
 	
