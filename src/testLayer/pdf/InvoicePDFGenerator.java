@@ -80,7 +80,7 @@ public class InvoicePDFGenerator {
 	public static void main(String[] args) {
 		
 				IFDBSale dbSale = new DBSale();
-				Sale s = dbSale.getSale(7);
+				Sale s = dbSale.getSale(2);
 		
 				InvoicePDFGenerator i = new InvoicePDFGenerator(s);
 				i.createPDF();

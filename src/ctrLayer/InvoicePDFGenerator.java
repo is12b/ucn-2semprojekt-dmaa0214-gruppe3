@@ -3,6 +3,7 @@ package ctrLayer;
 import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Sale;
+import guiLayer.exceptions.BuildingPDFException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -71,12 +72,18 @@ public class InvoicePDFGenerator {
 	private final String PRICE = "Pris";
 	private final String TOTAL_PRICE = "Total Pris";
 
-	public InvoicePDFGenerator(Sale sale) {	
+	public InvoicePDFGenerator(Sale sale) throws BuildingPDFException {	
+		if(sale == null){
+			throw new BuildingPDFException("Det ønskede salg eksistere ikke længere?");
+		}else if(sale.getPartSales() == null || sale.getPartSales().size() == 0){
+			throw new BuildingPDFException("Det ønskede salg er tomt");
+		}
+		
 		this.sale = sale;
 	}
 	
 	
-	public ByteArrayOutputStream createPDF(){
+	public ByteArrayOutputStream createPDF() throws BuildingPDFException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
 		generateMoneyFormat();
@@ -143,7 +150,7 @@ public class InvoicePDFGenerator {
 			generateTerms(doc, cb, y);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new BuildingPDFException("PDF filen kunne ikke genereres");
 		} finally {
 			if (doc != null) {
 				doc.close();
