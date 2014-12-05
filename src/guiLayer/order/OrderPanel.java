@@ -810,6 +810,8 @@ public class OrderPanel extends TabbedPanel {
 				Sale s = sCtr.commit();
 
 				new PDFViewerDialog(this, s.getId());
+				
+				clearOrder();
 			} catch (SubmitException e) {
 				Utilities.showError(this, e.getMessage());
 				e.printStackTrace();
