@@ -64,7 +64,7 @@ public interface IFSaleCtr {
 	
 	public void setPaid(boolean paid);
 	
-	public void commit() throws SubmitException;
+	public Sale commit() throws SubmitException;
 
 	/**
 	 * @param mileage

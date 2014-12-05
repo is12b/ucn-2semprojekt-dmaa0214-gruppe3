@@ -174,7 +174,7 @@ public class SaleCtr implements IFSaleCtr {
 	 */
 
 	@Override
-	public void commit() throws SubmitException {
+	public Sale commit() throws SubmitException {
 		if(!checkPartSales()){
 			throw new SubmitException("Der er ikke tilføjet nogle produkter til ordren");
 		}else{
@@ -184,6 +184,8 @@ public class SaleCtr implements IFSaleCtr {
 				throw new SubmitException("Ordren kunne ikke oprettes (Database fejl)");
 			}
 		}
+		
+		return sale;
 	}
 
 	private boolean checkPartSales() {

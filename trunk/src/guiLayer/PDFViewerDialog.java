@@ -1,15 +1,18 @@
 package guiLayer;
 
 import java.awt.Dimension;
+
 import guiLayer.exceptions.BuildingPDFException;
+
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+
 import org.icepdf.ri.common.MyAnnotationCallback;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
 
-import testLayer.CopyOfInvoicePDFGenerator;
+import testLayer.pdf.CopyOfInvoicePDFGenerator;
 import modelLayer.Sale;
 
 import java.io.ByteArrayOutputStream;

@@ -20,6 +20,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.CustomerCtr;
+import ctrLayer.PDFViewerICEPDF;
 import ctrLayer.SaleCtr;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFSaleCtr;
@@ -816,7 +817,9 @@ public class OrderPanel extends TabbedPanel {
 		if(c == JOptionPane.YES_OPTION){
 			try {
 				sCtr.setPaid(chkPaid.isSelected());
-				sCtr.commit();
+				Sale s = sCtr.commit();
+
+				new PDFViewerICEPDF(s.getId());
 			} catch (SubmitException e) {
 				Utilities.showError(this, e.getMessage());
 				e.printStackTrace();
