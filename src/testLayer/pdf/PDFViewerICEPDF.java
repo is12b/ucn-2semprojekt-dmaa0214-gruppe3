@@ -1,4 +1,4 @@
-package testLayer;
+package testLayer.pdf;
 
 import java.io.ByteArrayOutputStream;
 
@@ -16,7 +16,7 @@ public class PDFViewerICEPDF {
 	        
 	        // build a component controller
 	        SwingController controller = new SwingController();
-controller.setDocumentToolMode(2);
+	        controller.setDocumentToolMode(2);
 
 	        SwingViewBuilder factory = new SwingViewBuilder(controller);
 

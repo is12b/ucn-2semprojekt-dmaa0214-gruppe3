@@ -1,5 +1,6 @@
-package testLayer;
+package ctrLayer;
 
+import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Sale;
 import modelLayer.Setting;
@@ -7,14 +8,19 @@ import modelLayer.Setting;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
 
@@ -29,10 +35,11 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.codec.PngImage;
 
-import ctrLayer.SettingCtr;
 import ctrLayer.interfaceLayer.IFSettingCtr;
 import dbLayer.DBSale;
+import dbLayer.DBSettings;
 import dbLayer.interfaceLayer.IFDBSale;
+import dbLayer.interfaceLayer.IFDBSettings;
 
 /**
  * Class for InvoicePDFGenerator
@@ -46,7 +53,7 @@ public class InvoicePDFGenerator {
 	private BaseFont bf;
 	private int pageNumber = 0;
 	private NumberFormat moneyFormat;
-	
+	private boolean newPage = true;
 	
 	private final int FONT_SIZE = 8;
 	
@@ -79,11 +86,14 @@ public class InvoicePDFGenerator {
 	private final String PRICE = "Pris";
 	private final String TOTAL_PRICE = "Total Pris";
 	
+	//OFFSET
+	private float logoOffset = 0;
+	
 
 	public static void main(String[] args) {
 		
 		IFDBSale dbSale = new DBSale();
-		Sale s = dbSale.getSale(4);
+		Sale s = dbSale.getSale(7);
 
 		InvoicePDFGenerator i = new InvoicePDFGenerator(s);
 		
@@ -110,37 +120,41 @@ public class InvoicePDFGenerator {
 	}
 
 	public InvoicePDFGenerator(Sale sale) {	
-		generateMoneyFormat();
 		this.sale = sale;
+	}
+	
+	
+	public ByteArrayOutputStream createPDF(){
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		generateMoneyFormat();
 		Document doc = new Document();
 		PdfWriter docWriter = null;
 		initializeFonts();
+		ArrayList<PartSale> partSales = sale.getPartSales();
 
 		try {
-			String path = "tmpInvoice.pdf";
-			docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
+			docWriter = PdfWriter.getInstance(doc, baos);
 			doc.addAuthor("Gruppe 3");
 			doc.addCreationDate();
 			doc.addProducer();
 			doc.addCreator("Gruppe 3");
 			doc.addTitle("Faktura");
 			doc.setPageSize(PageSize.LETTER);
-
 			doc.open();
-
 			PdfContentByte cb = docWriter.getDirectContent();
 
-			boolean newPage = true;
 			float y = 0;
 
-			ArrayList<PartSale> partSales = sale.getPartSales();
 			System.out.println(partSales.size());
 			
 			for (PartSale pS : sale.getPartSales()) {
 				if (newPage) {
 					newPage = false;
 					y = generateHeader(doc, cb);
-					y = generateLayout(doc, cb, y);
+					generateLogo(doc);
+					generateCustomer(doc, cb);
+					y = generateLayout(doc, cb, y, true);
 					y += 4;
 				}
 
@@ -153,14 +167,29 @@ public class InvoicePDFGenerator {
 					doc.newPage();
 					newPage = true;
 				}
-
+			}
+			
+			if(newPage){
+				y = generateHeader(doc, cb);
+				generateLogo(doc);
+				generateCustomer(doc, cb);
+				printPageNumber(cb);
+				y += 4;
 			}
 			
 			if (y > 65) {
 				y -= 2;
 				generateBotLine(cb, y);
 				generateTotal(cb, y);
+				printPageNumber(cb);
 			}
+			
+			if(sale.getDescription() != null && !sale.getDescription().trim().isEmpty()){
+				y = generateDesctiption(doc, cb, sale.getDescription(), y);
+			}
+			
+			generateTerms(doc, cb, y);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -171,8 +200,114 @@ public class InvoicePDFGenerator {
 				docWriter.close();
 			}
 		}
+		
+		return baos;
 	}
 	
+	/**
+	 * @param doc
+	 * @param cb
+	 * @param y
+	 * @throws DocumentException 
+	 * @throws IOException 
+	 */
+	private void generateTerms(Document doc, PdfContentByte cb, float y) throws IOException, DocumentException {
+		y -= 20;
+		
+		if((y - 36) < 65){
+			doc.newPage();
+			y = generateHeader(doc, cb);
+			generateLogo(doc);
+			generateCustomer(doc, cb);
+			y = generateLayout(doc, cb, y, false);
+			printPageNumber(cb);
+			
+			y -= 8;
+		}
+		
+		
+		
+		IFDBSettings dbSet = new DBSettings();
+		String reg = dbSet.getSettingByKey("INVOICE_REG").getValue();
+		String acc = dbSet.getSettingByKey("INVOICE_ACC").getValue();
+		
+		Date deadlineDate = sale.getPaymentDeadline();
+		String payment = "Betalingsbetingelser: Kontant - forfaldt " + new SimpleDateFormat("dd-MM-yyyy").format(deadlineDate);
+		
+		createBoldHeadings(cb, xStart, y, payment);
+		
+		if(!reg.trim().isEmpty() && !acc.trim().isEmpty()){
+			String paymentMethod = "Brug følgende information til indbetaling gennem vor bank. - Regnr.: " + reg + " / Kontonr.: " + acc; 
+			y -= 8;
+			createBoldHeadings(cb, xStart, y, paymentMethod);
+		}
+		
+	}
+
+	private float generateDesctiption(Document doc, PdfContentByte cb, String description, float y) throws IOException, DocumentException {
+		ArrayList<String> descs = breakDescription(description, 75);
+		y -= 35;
+		
+		if((y - (descs.size() * 8)) < 65){
+			printPageNumber(cb);
+			doc.newPage();
+			newPage = true;
+		}
+		
+		for(String s : descs){
+			if (newPage) {
+				newPage = false;
+				y = generateHeader(doc, cb);
+				generateLogo(doc);
+				generateCustomer(doc, cb);
+				y = generateLayout(doc, cb, y, false);
+			}
+			
+			y -= 8;
+			createContent(cb, DESCRIPTION_X, y,
+					s,
+					PdfContentByte.ALIGN_LEFT);
+			/*
+			if (y < 65) {
+				generateBotLine(cb, 50);
+				printPageNumber(cb);
+				doc.newPage();
+				newPage = true;
+			}
+			*/
+		}
+			
+		return y;
+	}
+
+	private void generateCustomer(Document doc, PdfContentByte cb) {
+		if(sale.getCustomer() != null){
+			generateCustomerInformation(doc, cb);
+		}
+		
+		if(sale.getCar() != null){
+			generateCarInformation(doc, cb);
+		}
+		
+	}
+
+	private void generateCarInformation(Document doc, PdfContentByte cb) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void generateCustomerInformation(Document doc, PdfContentByte cb) {
+		Customer c = sale.getCustomer();
+		String[] cust = {c.getName(), c.getAddress(), c.getPostalCode() + " " + c.getCity()};
+		float i = doc.top() - 30;
+				
+		for(String s : cust){
+			i -= 8;
+			createContent(cb, 50, i, s, PdfContentByte.ALIGN_LEFT);
+		}
+		
+	}
+
 	/**
 	 * Money Format
 	 */
@@ -185,57 +320,8 @@ public class InvoicePDFGenerator {
 	}
 
 	/**
-	 * Details
+	 * Total
 	 */
-
-	private float generateLayout(Document doc, PdfContentByte cb, float yStart) {
-		try {
-			yStart -= 20;
-			float yText = yStart + 2;
-
-			cb.setLineWidth(1f);
-
-			// Invoice Detail
-			cb.moveTo(xStart, yStart);
-			cb.lineTo(xEnd, yStart);
-			cb.stroke();
-
-			// Invoice Detail
-			createBoldHeadings(cb, AMOUNT_X, yText, AMOUNT);
-			createBoldHeadings(cb, ITEM_X, yText, ITEMNUMBER);
-			createBoldHeadings(cb, DESCRIPTION_X, yText, DESCRIPTION);
-			createBoldHeadings(cb, PRICE_X, yText, PRICE);
-			totalPriceX = (xEnd - getTextWidth(TOTAL_PRICE, bfBold,
-					FONT_SIZE));
-			createBoldHeadings(cb, totalPriceX, yText, TOTAL_PRICE);
-
-			// add the images
-			InputStream logo1Is = this.getClass().getClassLoader().getResourceAsStream("2.png");
-			InputStream logo2Is = this.getClass().getClassLoader().getResourceAsStream("3.png");
-			 Image logo1 = PngImage.getImage(logo1Is);
-			 Image logo2 = PngImage.getImage(logo2Is);
-			
-			 logo1.scalePercent(15);
-			 logo1.setAbsolutePosition(25,(float)(doc.top()-(logo1.getHeight()*0.15)));
-			 doc.add(logo1);
-			 
-			 logo2.setAbsolutePosition(25,doc.top());
-			 logo2.scalePercent(15);
-			 doc.add(logo2);
-			 
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return yStart;
-	}
-	
-	private void generateBotLine(PdfContentByte cb, float y){
-		cb.moveTo(xStart, y);
-		cb.lineTo(xEnd, y);
-		cb.stroke();
-	}
 	
 	private void generateTotal(PdfContentByte cb, float y){
 		float longX = generateTotalValue(cb, y);
@@ -292,7 +378,7 @@ public class InvoicePDFGenerator {
 			if (s != null && !s.trim().isEmpty()) {
 				createHeadings(cb, x, y, s);
 			}
-			y -= 8;
+			y -= 10;
 		}
 
 		return y;
@@ -318,7 +404,7 @@ public class InvoicePDFGenerator {
 
 	private void createHeadings(PdfContentByte cb, float x, float y, String text) {
 		cb.beginText();
-		cb.setFontAndSize(bf, 6);
+		cb.setFontAndSize(bf, 8);
 		cb.setTextMatrix(x, y);
 		cb.showText(text.trim());
 		cb.endText();
@@ -333,41 +419,6 @@ public class InvoicePDFGenerator {
 	}
 
 	/**
-	 * Misc
-	 */
-
-	private float getHeaderXPos(ArrayList<String> sets) {
-		float retF = 0;
-		for (String s : sets) {
-			if (s != null && !s.trim().isEmpty()) {
-				float f = getTextWidth(s, bf, 6);
-				if (f > retF) {
-					retF = f;
-				}
-			}
-		}
-		return (xEnd - retF);
-	}
-
-	private float getTextWidth(String text, BaseFont font, int fontSize) {
-		return font.getWidthPoint(text, fontSize);
-	}
-
-	private void initializeFonts() {
-		try {
-			bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD,
-					BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-			bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252,
-					BaseFont.NOT_EMBEDDED);
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 
 	 * Detail
 	 */
 
@@ -425,6 +476,117 @@ public class InvoicePDFGenerator {
 
 		pageNumber++;
 
+	}
+
+	private float generateLayout(Document doc, PdfContentByte cb, float yStart, boolean withText) {
+		yStart -= 40;
+		cb.setLineWidth(1f);
+		// Invoice Detail
+		cb.moveTo(xStart, yStart);
+		cb.lineTo(xEnd, yStart);
+		cb.stroke();
+
+		if(withText){
+			generateDetailHeader(cb, yStart);
+		}
+
+		return yStart;
+	}
+	
+	private void generateDetailHeader(PdfContentByte cb, float yStart){
+		float yText = yStart + 2;
+		createBoldHeadings(cb, AMOUNT_X, yText, AMOUNT);
+		createBoldHeadings(cb, ITEM_X, yText, ITEMNUMBER);
+		createBoldHeadings(cb, DESCRIPTION_X, yText, DESCRIPTION);
+		createBoldHeadings(cb, PRICE_X, yText, PRICE);
+		
+		totalPriceX = (xEnd - getTextWidth(TOTAL_PRICE, bfBold, FONT_SIZE));
+		createBoldHeadings(cb, totalPriceX, yText, TOTAL_PRICE);
+	}
+	
+	private void generateLogo(Document doc) throws IOException, DocumentException{
+		InputStream logo1Is = this.getClass().getClassLoader().getResourceAsStream("3.png");
+		InputStream logo2Is = this.getClass().getClassLoader().getResourceAsStream("2.png");
+		
+		 Image logo2 = PngImage.getImage(logo1Is);
+		 Image logo1 = PngImage.getImage(logo2Is);
+
+		 logo1.setAbsolutePosition(25,doc.top());
+		 logo1.scalePercent(15);
+		 doc.add(logo1);
+		 
+		 float offset = logo1.getPlainWidth();
+		 
+		 logo2.scalePercent(15);
+		 logo2.setAbsolutePosition(25+offset,doc.top());
+		 doc.add(logo2);
+		 
+		 if(logo2.getPlainHeight() > logo1.getPlainHeight()){
+			 logoOffset = doc.top() - logo2.getPlainHeight();
+		 }else{
+			 logoOffset = doc.top() - logo1.getPlainHeight();
+		 }
+	}
+	
+	private void generateBotLine(PdfContentByte cb, float y){
+		cb.moveTo(xStart, y);
+		cb.lineTo(xEnd, y);
+		cb.stroke();
+	}
+
+	/**
+	 * Misc
+	 */
+	
+	private ArrayList<String> breakDescription(String desc, int maxLength){
+		ArrayList<String> descs = new ArrayList<String>();
+		descs.add("Beskrivelse:");
+		StringTokenizer stk = new StringTokenizer(desc, " ");
+		String line = "";
+		while(stk.hasMoreTokens()){
+			String token = stk.nextToken();
+			
+			if((line.length() + token.length()) > maxLength){
+				descs.add(line);
+				line = new String();
+				line = token;
+			}else{
+				line += " " + token;
+			}
+		}
+		descs.add(line);
+		
+		return descs;
+	}
+
+	private float getHeaderXPos(ArrayList<String> sets) {
+		float retF = 0;
+		for (String s : sets) {
+			if (s != null && !s.trim().isEmpty()) {
+				float f = getTextWidth(s, bf, 8);
+				if (f > retF) {
+					retF = f;
+				}
+			}
+		}
+		return (xEnd - retF);
+	}
+
+	private float getTextWidth(String text, BaseFont font, int fontSize) {
+		return font.getWidthPoint(text, fontSize);
+	}
+
+	private void initializeFonts() {
+		try {
+			bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD,
+					BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+			bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252,
+					BaseFont.NOT_EMBEDDED);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
