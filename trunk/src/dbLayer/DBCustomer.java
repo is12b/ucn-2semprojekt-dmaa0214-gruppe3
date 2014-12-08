@@ -268,7 +268,7 @@ public class DBCustomer implements IFDBCustomer {
 			Car car = dbCar.getCarByRegNr(regNr, false);
 			customer = car.getOwner();
 		} catch (NullPointerException e) {
-			throw new ObjectNotExistException("Intet produkt fundet");
+			throw new ObjectNotExistException("Ingen kunde fundet");
 		}
 		
 		return customer;

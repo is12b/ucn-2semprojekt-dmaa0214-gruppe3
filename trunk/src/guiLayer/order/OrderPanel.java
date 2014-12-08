@@ -103,7 +103,6 @@ public class OrderPanel extends TabbedPanel {
 
 	private void buildPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(409dlu;default):grow"),},
@@ -115,10 +114,10 @@ public class OrderPanel extends TabbedPanel {
 				FormFactory.LINE_GAP_ROWSPEC,}));
 		
 		JPanel panel_10 = new JPanel();
-		add(panel_10, "2, 2, fill, fill");
+		add(panel_10, "1, 2, fill, fill");
 		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "4, 2, fill, fill");
+		add(scrollPane, "3, 2, fill, fill");
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
@@ -222,7 +221,7 @@ public class OrderPanel extends TabbedPanel {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
@@ -233,15 +232,24 @@ public class OrderPanel extends TabbedPanel {
 		panel_2.add(txtProductName, "3, 1, fill, default");
 		txtProductName.setColumns(10);
 		
-		JLabel lblNewLabel_5 = new JLabel("Nummer:");
-		panel_2.add(lblNewLabel_5, "1, 3, left, default");
+		JPanel panel_12 = new JPanel();
+		panel_2.add(panel_12, "1, 3, 3, 1, fill, fill");
+		panel_12.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_5 = new JLabel("Varenummer:");
+		panel_12.add(lblNewLabel_5, "1, 1");
 		
 		txtProductNumber = new JTextField();
-		panel_2.add(txtProductNumber, "3, 3, fill, default");
+		panel_12.add(txtProductNumber, "3, 1");
 		txtProductNumber.setColumns(10);
+		productFields.add(txtProductNumber);
 		
 		productFields.add(txtProductName);
-		productFields.add(txtProductNumber);
 		
 		JPanel panel_5 = new JPanel();
 		panel_2.add(panel_5, "1, 5, 3, 1, fill, fill");
@@ -352,7 +360,7 @@ public class OrderPanel extends TabbedPanel {
 		panel_11.add(btnDesc, "4, 1");
 		
 		JPanel panel_6 = new JPanel();
-		add(panel_6, "2, 4, 3, 1, fill, fill");
+		add(panel_6, "1, 4, 3, 1, fill, fill");
 		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(103dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
