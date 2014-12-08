@@ -607,7 +607,7 @@ public class OrderPanel extends TabbedPanel {
 				}
 			}
 		}else{
-			Utilities.showConfirm(this, "Ingen resulater fundet", "Ingen Resultater");
+			Utilities.showInformation(this, "Ingen resulater fundet", "Ingen Resultater");
 		}
 	}
 

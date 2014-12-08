@@ -121,8 +121,8 @@ public class MainGUI extends JFrame {
 		tabOrder = new OrderPanel(this);
 		tabbedPane.addTab("Faktura", null, tabOrder, null);
 		
-		tabCar = new CarPanel(this);
-		tabbedPane.addTab("Biler", null, tabCar, null);
+		//tabCar = new CarPanel(this);
+		//tabbedPane.addTab("Biler", null, tabCar, null);
 		
 		tabProd = new ProductPanel(this);
 		tabbedPane.addTab("Produkter", null, tabProd, null);

@@ -61,6 +61,17 @@ public abstract class Utilities {
 	}
 	
 	/**
+	 * Show information dialog as a {@link JOptionPane} object.
+	 *
+	 * @param parent The parent of this information 
+	 * @param text The information text to show
+	 * @param title The text shows as title of the dialog
+	 */
+	public static void showInformation(Component parent, String text, String title){
+		JOptionPane.showMessageDialog(parent, text, title, JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	/**
 	 * Show error dialog as a {@link JOptionPane} object.
 	 *
 	 * @param parent The parent of this error 

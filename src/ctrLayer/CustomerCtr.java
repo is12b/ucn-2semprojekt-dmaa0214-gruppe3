@@ -15,9 +15,9 @@ import dbLayer.interfaceLayer.IFDBCustomer;
 public class CustomerCtr implements IFCustomerCtr {
 
 	@Override
-	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, int cvr, boolean hidden) throws DBException {
+	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, String city, int cvr, boolean hidden) throws DBException {
 		IFDBCustomer dbCus = new DBCustomer();
-		Customer newCustomer = new Customer(name, phoneNumber, address, postalCode, cvr, hidden);
+		Customer newCustomer = new Customer(name, phoneNumber, address, postalCode, city, cvr, hidden);
 		dbCus.insertCustomer(newCustomer);
 		
 		return newCustomer;
