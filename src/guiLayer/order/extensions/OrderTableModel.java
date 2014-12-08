@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 import modelLayer.PartSale;
-import modelLayer.Sale;
 
 /**
  * Class for ProductTableModel

@@ -67,6 +67,10 @@ public class SaleCtr implements IFSaleCtr {
 		return pSale;
 	}
 	
+	public void removePartSale(PartSale pSale){
+		sale.removePartSale(pSale);
+	}
+	
 	/**
 	 * Product
 	 */
