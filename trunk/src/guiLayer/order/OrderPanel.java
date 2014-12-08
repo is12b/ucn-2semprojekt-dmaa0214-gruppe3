@@ -107,7 +107,7 @@ public class OrderPanel extends TabbedPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(409dlu;default):grow"),},
 			new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(41dlu;default)"),
