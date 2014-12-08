@@ -41,11 +41,12 @@ public class DBPostalCode implements IFDBPostalcode { // NO_UCD (use default)
 			stmt.setInt(2, postCode);
 			rc = stmt.executeUpdate();
 			stmt.close();
-		}catch(SQLServerException e){
-			e.printStackTrace();
+		}catch(SQLServerException e){			
 			//Duplicate key Error code
 			if(e.getErrorCode() == 2627){
 				rc = updatePostalCode(postCode, city);
+			}else{
+				e.printStackTrace();
 			}
 		}catch(SQLException e){
 			System.out.println("DBPostalCode - insertPostalCode - Exception");

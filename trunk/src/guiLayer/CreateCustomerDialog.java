@@ -241,6 +241,7 @@ public class CreateCustomerDialog extends JDialog {
 		String name = txtName.getText();
 		String phone = txtPhone.getText();
 		String address = txtAddress.getText();
+		String city = txtCity.getText();
 
 		int postalCode = 0;
 		int cvr = 0;
@@ -266,7 +267,11 @@ public class CreateCustomerDialog extends JDialog {
 		
 		try {
 			CustomerCtr cCtr = new CustomerCtr();
-			cCtr.createCustomer(name, phone, address, postalCode, cvr, false);
+			cCtr.createCustomer(name, phone, address, postalCode, city, cvr, false);
+			
+			Utilities.showInformation(this, "Kunden er oprettet", "Kunde oprettet");
+			
+			this.dispose();
 		} catch (DBException e) {
 			Utilities.showError(this, e.getMessage());
 		}

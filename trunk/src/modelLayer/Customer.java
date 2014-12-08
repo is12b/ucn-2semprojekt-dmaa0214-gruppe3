@@ -34,15 +34,17 @@ public class Customer implements Cloneable{
 	 * @param phoneNumber
 	 * @param address
 	 * @param postalCode
+	 * @param city 
 	 * @param cvr
 	 * @param hidden
 	 */
 	public Customer(String name, String phoneNumber, String address,
-			int postalCode, int cvr, boolean hidden) {
+			int postalCode, String city, int cvr, boolean hidden) {
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.postalCode = postalCode;
+		this.city = city;
 		this.cvr = cvr;
 		this.hidden = hidden;
 	}
