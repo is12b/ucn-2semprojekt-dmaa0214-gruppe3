@@ -3,12 +3,15 @@ package dbLayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
+import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBPartSale;
 import dbLayer.interfaceLayer.IFDBProduct;
 
@@ -32,7 +35,7 @@ public class DBPartSale implements IFDBPartSale {
 	}
 
 	@Override
-	public int insertPartSale(Sale sale, PartSale partSale) {
+	public int insertPartSale(Sale sale, PartSale partSale) throws DBException {
 		int rc = -1;
 
 		try {
@@ -56,17 +59,16 @@ public class DBPartSale implements IFDBPartSale {
 			}
 			
 			stmt.close();
-		} catch (Exception e) {
-			System.out.println();
-			e.printStackTrace();
-			//TODO maybe a throw.
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new DBException("DelSalg", e);
 		}
 	
 		return rc;
 	}
 
 	@Override
-	public int updatePartSale(PartSale partSale) {
+	public int updatePartSale(PartSale partSale) throws DBException {
 		int rc = -1;
 		
 		try {
@@ -81,16 +83,20 @@ public class DBPartSale implements IFDBPartSale {
 			rc = stmt.executeUpdate();
 			
 			stmt.close();
-		} catch (Exception e) {
-			System.out.println("Update PartSale faild");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new DBException("DelSalg", e);
+		}
+		
+		if(rc == 0){
+			throw new DBNotFoundException("DelSalg", 2);
 		}
 		
 		return rc;
 	}
 
 	@Override
-	public int deletePartSale(PartSale partSale) {
+	public int deletePartSale(PartSale partSale) throws DBException {
 		int rc = -1;
 		
 		try {
@@ -102,9 +108,13 @@ public class DBPartSale implements IFDBPartSale {
 			rc = stmt.executeUpdate(query);
 			
 			stmt.close();
-		} catch (Exception e) {
-			System.out.println("DBPartSale - Exception : delete");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new DBException("DelSalg", e);
+		}
+		
+		if(rc == 0){
+			throw new DBNotFoundException("DelSalg", 3);
 		}
 		
 		return rc;

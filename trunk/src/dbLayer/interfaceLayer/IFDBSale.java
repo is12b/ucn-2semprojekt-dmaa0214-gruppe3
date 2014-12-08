@@ -2,6 +2,7 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import dbLayer.exceptions.DBException;
 import modelLayer.Car;
 import modelLayer.Customer;
 import modelLayer.Sale;
@@ -50,7 +51,7 @@ public interface IFDBSale {
 	 * @param sale the Sale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int insertSale(Sale sale);
+	public int insertSale(Sale sale) throws DBException;
 	
 	/**
 	 * Update Sale in the database.
@@ -58,7 +59,7 @@ public interface IFDBSale {
 	 * @param sale the Sale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int updateSale(Sale sale); // NO_UCD (unused code)
+	public int updateSale(Sale sale) throws DBException; // NO_UCD (unused code)
 	
 	/**
 	 * Delete Sale from the database..
@@ -66,5 +67,5 @@ public interface IFDBSale {
 	 * @param sale the Sale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int deleteSale(Sale sale); // NO_UCD (unused code)
+	public int deleteSale(Sale sale) throws DBException; // NO_UCD (unused code)
 }

@@ -137,7 +137,7 @@ public class DBProduct implements IFDBProduct {
 		}
 		
 		if (rc == 0) {
-			throw new DBNotFoundException("Enhedstypen", 2);
+			throw new DBNotFoundException("Produktet", 2);
 		}
 		
 		return rc;
@@ -167,7 +167,7 @@ public class DBProduct implements IFDBProduct {
 		}
 		
 		if (rc == 0) {
-			throw new DBNotFoundException("Enhedstypen", 3);
+			throw new DBNotFoundException("Produktet", 3);
 		}
 		
 		return rc;

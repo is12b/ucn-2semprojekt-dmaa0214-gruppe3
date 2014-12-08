@@ -2,6 +2,7 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import dbLayer.exceptions.DBException;
 import modelLayer.Car;
 import modelLayer.Customer;
 
@@ -53,7 +54,7 @@ public interface IFDBCar {
 	 * @param car the Car
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int insertCar(Car car);
+	public int insertCar(Car car) throws DBException ;
 	
 	/**
 	 * Update Car in the database.
@@ -61,7 +62,7 @@ public interface IFDBCar {
 	 * @param car the Car
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int updateCar(Car car);
+	public int updateCar(Car car) throws DBException ;
 	
 	/**
 	 * Delete Car from the database..
@@ -69,5 +70,5 @@ public interface IFDBCar {
 	 * @param car the Car
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int deleteCar(Car car);
+	public int deleteCar(Car car) throws DBException ;
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import modelLayer.Car;
 import modelLayer.Customer;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
+import dbLayer.exceptions.DBException;
 
 /**
  * Class for IFDBCustomer.
@@ -60,7 +61,7 @@ public interface IFDBCustomer {
 	 * @param customer the Customer
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int insertCustomer(Customer customer);
+	public int insertCustomer(Customer customer) throws DBException;
 	
 	/**
 	 * Update Customer in the database.
@@ -68,7 +69,7 @@ public interface IFDBCustomer {
 	 * @param customer the Customer
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int updateCustomer(Customer customer);
+	public int updateCustomer(Customer customer) throws DBException;
 	
 	/**
 	 * Delete Customer from the database..
@@ -76,7 +77,7 @@ public interface IFDBCustomer {
 	 * @param customer the Customer
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int deleteCustomer(Customer customer);
+	public int deleteCustomer(Customer customer) throws DBException;
 
 	/**
 	 * @param regNr
