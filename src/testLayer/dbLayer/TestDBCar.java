@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dbLayer.DBCar;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBCar;
+import exceptions.DBException;
 
 public class TestDBCar {
 	private IFDBCar dbCar;

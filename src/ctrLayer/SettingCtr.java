@@ -3,11 +3,12 @@ package ctrLayer;
 import java.util.ArrayList;
 
 import modelLayer.Setting;
-import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFSettingCtr;
 import dbLayer.DBSettings;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBSettings;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Class for SettingCtr
@@ -36,13 +37,13 @@ public class SettingCtr implements IFSettingCtr {
 	}
 	
 	@Override
-	public void updateSetting(Setting setting) throws UpdateException {
+	public void updateSetting(Setting setting) throws ObjectNotExistException, DBException {
 		IFDBSettings sCtr = new DBSettings();
 		try {
 			sCtr.updateSetting(setting);
-		} catch (DBException e) {
-			throw new UpdateException("Indstillingen", false);
-		}
+		} catch (DBNotFoundException e) {
+			throw new ObjectNotExistException(e.getMessage());
+		}		
 	}
 	
 }

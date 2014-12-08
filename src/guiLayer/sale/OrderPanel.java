@@ -1,9 +1,10 @@
 package guiLayer.sale;
 
+import exceptions.BuildingPDFException;
+import exceptions.ObjectNotExistException;
+import exceptions.SubmitException;
 import guiLayer.MainGUI;
 import guiLayer.PDFViewerDialog;
-import guiLayer.exceptions.BuildingPDFException;
-import guiLayer.exceptions.SubmitException;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
@@ -42,7 +43,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.SaleCtr;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFSaleCtr;
 
 /**

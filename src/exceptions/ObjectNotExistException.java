@@ -1,4 +1,4 @@
-package ctrLayer.exceptionLayer;
+package exceptions;
 
 /**
  * Class for ObjectNotExistException

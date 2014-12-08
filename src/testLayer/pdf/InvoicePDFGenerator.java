@@ -1,7 +1,5 @@
 package testLayer.pdf;
 
-import guiLayer.exceptions.BuildingPDFException;
-
 import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -34,6 +32,7 @@ import dbLayer.DBSale;
 import dbLayer.DBSettings;
 import dbLayer.interfaceLayer.IFDBSale;
 import dbLayer.interfaceLayer.IFDBSettings;
+import exceptions.BuildingPDFException;
 
 /**
  * Class for InvoicePDFGenerator

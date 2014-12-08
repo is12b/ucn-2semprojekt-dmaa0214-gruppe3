@@ -1,5 +1,6 @@
 package guiLayer;
 
+import exceptions.ObjectNotExistException;
 import guiLayer.extensions.CustomerTableModel;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.JTextFieldLimit;
@@ -31,7 +32,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CustomerCtr;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 
 /**

@@ -1,7 +1,7 @@
 package guiLayer.extensions;
 
+import exceptions.SubmitException;
 import guiLayer.MainGUI;
-import guiLayer.exceptions.SubmitException;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

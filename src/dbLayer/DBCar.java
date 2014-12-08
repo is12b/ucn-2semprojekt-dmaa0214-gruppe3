@@ -12,10 +12,10 @@ import modelLayer.Customer;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
 
 /**
  * Class for DBCar

@@ -1,7 +1,5 @@
 package ctrLayer;
 
-import guiLayer.exceptions.SubmitException;
-
 import java.util.ArrayList;
 
 import modelLayer.Car;
@@ -9,14 +7,15 @@ import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFCarCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import ctrLayer.interfaceLayer.IFSaleCtr;
 import dbLayer.DBSale;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBSale;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
+import exceptions.SubmitException;
 
 public class SaleCtr implements IFSaleCtr {
 	

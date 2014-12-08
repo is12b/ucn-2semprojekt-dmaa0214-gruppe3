@@ -39,8 +39,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.UnitTypeCtr;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Class for UnitTypeDialog

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import modelLayer.Car;
 import modelLayer.Customer;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Class for IFDBCustomer.

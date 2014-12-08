@@ -1,4 +1,4 @@
-package guiLayer.exceptions;
+package exceptions;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;

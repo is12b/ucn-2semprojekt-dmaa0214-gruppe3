@@ -11,12 +11,12 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import modelLayer.Car;
 import modelLayer.Customer;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBPostalcode;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Class for DBCustomer

@@ -8,8 +8,8 @@ import java.sql.Statement;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBPostalcode;
+import exceptions.DBException;
 
 /**
  * Class for DBPostalCode

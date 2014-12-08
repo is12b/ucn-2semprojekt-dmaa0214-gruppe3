@@ -3,10 +3,8 @@ package ctrLayer.interfaceLayer;
 import java.util.ArrayList;
 
 import modelLayer.Customer;
-import ctrLayer.exceptionLayer.DeleteException;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import ctrLayer.exceptionLayer.UpdateException;
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Class for IFCustomerCtr
@@ -16,9 +14,9 @@ import dbLayer.exceptions.DBException;
  */
 public interface IFCustomerCtr {
 
-	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city,  int postalCode, int cvr, boolean hidden) throws UpdateException;
+	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city,  int postalCode, int cvr, boolean hidden) throws ObjectNotExistException, DBException;
 	
-	public void deleteCustomer(Customer customer) throws DeleteException; // NO_UCD (unused code)
+	public void deleteCustomer(Customer customer) throws ObjectNotExistException, DBException; // NO_UCD (unused code)
 
 	/**
 	 * @param cvr

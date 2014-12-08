@@ -11,10 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ctrLayer.ProductCtr;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import dbLayer.DBUnitType;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBUnitType;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Class for ProductCtrTest

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import modelLayer.Product;
 import modelLayer.UnitType;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBProduct;
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBProduct;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
+import exceptions.ObjectNotExistException;
 
 public class ProductCtr implements IFProductCtr {
 	

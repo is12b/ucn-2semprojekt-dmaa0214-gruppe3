@@ -1,7 +1,5 @@
 package guiLayer;
 
-import guiLayer.exceptions.BuildingPDFException;
-
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
 
@@ -18,6 +16,7 @@ import org.icepdf.ri.common.SwingViewBuilder;
 import ctrLayer.InvoicePDFGenerator;
 import dbLayer.DBSale;
 import dbLayer.interfaceLayer.IFDBSale;
+import exceptions.BuildingPDFException;
 
 /**
  * Dialog for showing a PDF Document

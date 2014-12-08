@@ -1,5 +1,7 @@
 package guiLayer;
 
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
 
@@ -24,7 +26,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.SettingCtr;
-import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFSettingCtr;
 
 /**
@@ -384,10 +385,10 @@ class InvoiceSettingsDialog extends JDialog {
 			sCtr.updateSetting(new Setting("INVOICE_CVR", txtCVR.getText()));
 			sCtr.updateSetting(new Setting("INVOICE_REG", txtReg.getText()));
 			sCtr.updateSetting(new Setting("INVOICE_ACC", txtAcc.getText()));
-		} catch (UpdateException e) {
+		} catch (DBException | ObjectNotExistException e) {
+			System.out.println("invoiceSettingDialog exception: " + e.getMessage()); //TODO skal måske fjernes?
 			Utilities.showError(this, "Indtillingerne kunne ikke gemmes \nDette kan muligvis skyldes ulovlige tegn");
 		}
-		
 		
 		this.dispose();
 	}

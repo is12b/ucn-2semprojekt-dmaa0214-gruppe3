@@ -1,4 +1,4 @@
-package guiLayer.exceptions;
+package exceptions;
 
 /**
  * Class for BuildingPDFException

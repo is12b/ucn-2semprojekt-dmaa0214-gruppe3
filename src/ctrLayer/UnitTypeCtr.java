@@ -3,11 +3,11 @@ package ctrLayer;
 import java.util.ArrayList;
 
 import modelLayer.UnitType;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFUnitTypeCtr;
 import dbLayer.DBUnitType;
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Controller for UnitTypes

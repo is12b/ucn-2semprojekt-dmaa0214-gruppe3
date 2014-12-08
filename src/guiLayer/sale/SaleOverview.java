@@ -1,8 +1,9 @@
 package guiLayer.sale;
 
+import exceptions.BuildingPDFException;
+import exceptions.ObjectNotExistException;
 import guiLayer.MainGUI;
 import guiLayer.PDFViewerDialog;
-import guiLayer.exceptions.BuildingPDFException;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
@@ -41,7 +42,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.SaleCtr;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 
 /**
  * Class for SaleOverview

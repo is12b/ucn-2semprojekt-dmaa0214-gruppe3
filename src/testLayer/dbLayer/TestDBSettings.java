@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dbLayer.DBSettings;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBSettings;
+import exceptions.DBException;
 
 /**
  * Class for TestDBSettings

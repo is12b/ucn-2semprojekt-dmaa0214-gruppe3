@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ctrLayer.CarCtr;
-import ctrLayer.exceptionLayer.DeleteException;
-import ctrLayer.exceptionLayer.UpdateException;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 
 public class TestCarCtr {
 
@@ -35,14 +35,14 @@ public class TestCarCtr {
 			car.setOwner(new Customer(1));
 			cCtr.updateCar(car);
 			fail("No exception thrown - Update");
-		} catch (UpdateException e) {
-			System.out.println("Exception Test - UpdateException " + e.getMessage());
+		} catch (DBException | ObjectNotExistException e) {
+			System.out.println("Exception Test - Update Exception " + e.getMessage());
 		}
 		
 		try {
 			cCtr.deleteCar(new Car(999999));
 			fail("No exception thrown - Delete");
-		} catch (DeleteException e) {
+		} catch (DBException | ObjectNotExistException e) {
 			
 			System.out.println("Exception Test - DeleteException " + e.getMessage());
 		}
