@@ -3,6 +3,7 @@ package dbLayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -10,6 +11,8 @@ import modelLayer.Car;
 import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Sale;
+import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBPartSale;
@@ -54,7 +57,7 @@ public class DBSale implements IFDBSale {
 	}
 
 	@Override
-	public int insertSale(Sale sale) {
+	public int insertSale(Sale sale) throws DBException{
 		int rc = -1;
 		
 		try {
@@ -102,17 +105,18 @@ public class DBSale implements IFDBSale {
 			stmt.close();
 			
 			DBConnection.commitTransaction();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			DBConnection.rollBackTransaction();
-			System.out.println("DBSale insert exception: ");
-			e.printStackTrace();
+			//System.out.println("DBSale insert exception: ");
+			//e.printStackTrace();
+			throw new DBException("Faktura", e);
 		}
 		
 		return rc;
 	}
 
 	@Override
-	public int updateSale(Sale sale) {
+	public int updateSale(Sale sale) throws DBException{
 		int rc = -1;
 		
 		try {
@@ -157,16 +161,21 @@ public class DBSale implements IFDBSale {
 			rc = stmt.executeUpdate();
 			
 			stmt.close();
-		} catch (Exception e) {
-			System.out.println("DBSale update exception: ");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//System.out.println("DBSale update exception: ");
+			//e.printStackTrace();
+			throw new DBException("Faktura", e);
+		}
+		
+		if(rc == 0){
+			throw new DBNotFoundException("Faktura", 2);
 		}
 		
 		return rc;
 	}
 
 	@Override
-	public int deleteSale(Sale sale) {
+	public int deleteSale(Sale sale) throws DBException{
 		int rc = -1;
 		
 		try {
@@ -179,9 +188,14 @@ public class DBSale implements IFDBSale {
 			
 			stmt.close();
 			
-		} catch (Exception e) {
-			System.out.println("DBSale delete exception: ");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//System.out.println("DBSale delete exception: ");
+			//e.printStackTrace();
+			throw new DBException("Faktura", e);
+		}
+		
+		if(rc == 0){
+			throw new DBNotFoundException("Faktura", 3);
 		}
 		
 		return rc;

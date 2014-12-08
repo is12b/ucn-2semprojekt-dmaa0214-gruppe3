@@ -2,10 +2,13 @@ package dbLayer;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import modelLayer.Setting;
+import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBSettings;
 
 /**
@@ -32,7 +35,7 @@ public class DBSettings implements IFDBSettings {
 	}
 	
 	@Override
-	public int insertSetting(Setting setting) {
+	public int insertSetting(Setting setting) throws DBException {
 		int rc = -1;
 		
 		try{
@@ -41,16 +44,17 @@ public class DBSettings implements IFDBSettings {
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
 			stmt.close();
-		}catch(Exception e){
-			System.out.println("DBSetting - insertSetting - Exception");
-			e.printStackTrace();
+		}catch(SQLException e){
+			//System.out.println("DBSetting - insertSetting - Exception");
+			//e.printStackTrace();
+			throw new DBException("Indstilling", e);
 		}
 		
 		return rc;
 	}
 	
 	@Override
-	public int updateSetting(Setting setting) {
+	public int updateSetting(Setting setting) throws DBException{
 		int rc = -1;
 		
 		try{
@@ -59,9 +63,14 @@ public class DBSettings implements IFDBSettings {
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
 			stmt.close();
-		}catch(Exception e){
-			System.out.println("DBSettings - updateSetting");
-			e.printStackTrace();
+		}catch(SQLException e){
+			//System.out.println("DBSettings - updateSetting");
+			//e.printStackTrace();
+			throw new DBException("Indstilling", e);
+		}
+		
+		if(rc == 0){
+			throw new DBNotFoundException("Indstilling", 2);
 		}
 		
 		return rc;

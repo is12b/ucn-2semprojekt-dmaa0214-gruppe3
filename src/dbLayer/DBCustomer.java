@@ -7,10 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import modelLayer.Car;
 import modelLayer.Customer;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBPostalcode;
@@ -55,33 +58,34 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public int insertCustomer(Customer customer) {
-		//TODO
+	public int insertCustomer(Customer customer) throws DBException {
 		int rc = -1;
 		final String fields = "(name, phoneNumber, address, postalCode, cvr, hidden)";
 		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?)";
 
 		try {
 			IFDBPostalcode dbPost = new DBPostalCode();
-			int postResult = dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
-			if(postResult != 1) {
-				throw new DBException("");
-			}
+			dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			updateFields(customer, stmt);
 			rc = stmt.executeUpdate();
 			stmt.close();
+		}catch(DBException e){
+			throw new DBException("PostNummer",e);
+		}catch(SQLException e) {
+			throw new DBException("Kunde", e);
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("Error - insertCustomer - DBCustomer");
+		
+		if(rc == 0){
+			throw new DBNotFoundException("Kunde", 1);
 		}
+		
 		return rc;
 	}
 
 	@Override
-	public int updateCustomer(Customer customer) {
+	public int updateCustomer(Customer customer) throws DBException{
 		int rc = -1;
 		final String allFields = 
 				"name = ?, " + 
@@ -96,12 +100,18 @@ public class DBCustomer implements IFDBCustomer {
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			updateFields(customer, stmt);
+			IFDBPostalcode dbPost = new DBPostalCode();
+			dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
 			rc = stmt.executeUpdate();
 			stmt.close();
+		}catch(DBException e){
+			throw new DBException("PostNummer",e);
+		}catch(SQLException e) {
+			throw new DBException("Kunde", e);
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("Error - updateCustomer - DBCustomer");
+		
+		if(rc == 0){
+			throw new DBNotFoundException("Kunde", 2);
 		}
 		return rc;
 	}
@@ -111,7 +121,6 @@ public class DBCustomer implements IFDBCustomer {
 	 * @throws SQLException 
 	 */
 	private void updateFields(Customer customer, PreparedStatement stmt) { 
-		//TODO -- City??
 		try {
 			stmt.setString(1, customer.getName());
 			stmt.setString(2, customer.getPhoneNumber());
@@ -127,7 +136,7 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public int deleteCustomer(Customer customer) {
+	public int deleteCustomer(Customer customer) throws DBException {
 		int rc = -1;
 		String query = "DELETE FROM CUSTOMER WHERE CUSTOMERID = " + customer.getId();
 
@@ -136,18 +145,19 @@ public class DBCustomer implements IFDBCustomer {
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
 			stmt.close();
-			DBConnection.commitTransaction();
-			//TODO Delete if possible, else set hidden
+		}catch(SQLServerException e){    //Foreign key error
+			if(e.getErrorCode() == 547){
+				customer.setHidden(true);
+				updateCustomer(customer);
+			}
+		}catch(SQLException e){
+			throw new DBException("Kunde", e);
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("Error - deleteCustomer - DBCustomer");
-		}
+		
 		return rc;
 	}
 
 	private String buildQuery(String wQuery) {
-		// city , id
 		final String allFields = "CustomerID, name, phoneNumber, address, postalCode, cvr, hidden";
 		String query = "SELECT " + allFields + " FROM Customer";
 

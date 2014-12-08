@@ -2,6 +2,7 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import dbLayer.exceptions.DBException;
 import modelLayer.PartSale;
 import modelLayer.Sale;
 
@@ -28,7 +29,7 @@ public interface IFDBPartSale {
 	 * @param partSale the partSale to add.  
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int insertPartSale(Sale sale, PartSale partSale);
+	public int insertPartSale(Sale sale, PartSale partSale) throws DBException;
 	
 	/**
 	 * Update PartSale in the database.
@@ -36,7 +37,7 @@ public interface IFDBPartSale {
 	 * @param partSale the PartSale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int updatePartSale(PartSale partSale); // NO_UCD (unused code)
+	public int updatePartSale(PartSale partSale) throws DBException; // NO_UCD (unused code)
 	
 	/**
 	 * Delete PartSale from the database..
@@ -44,6 +45,6 @@ public interface IFDBPartSale {
 	 * @param partSale the PartSale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int deletePartSale(PartSale partSale); // NO_UCD (unused code)
+	public int deletePartSale(PartSale partSale) throws DBException; // NO_UCD (unused code)
 
 }

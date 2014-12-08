@@ -2,6 +2,7 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import dbLayer.exceptions.DBException;
 import modelLayer.Setting;
 
 /**
@@ -15,8 +16,8 @@ public interface IFDBSettings {
 	
 	public Setting getSettingByKey(String key);
 	
-	public int insertSetting(Setting setting);
+	public int insertSetting(Setting setting) throws DBException;
 
-	public int updateSetting(Setting setting);
+	public int updateSetting(Setting setting) throws DBException;
 
 }

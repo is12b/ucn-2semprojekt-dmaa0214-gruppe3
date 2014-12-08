@@ -3,6 +3,7 @@ package dbLayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -11,6 +12,8 @@ import modelLayer.Customer;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
+import dbLayer.exceptions.DBException;
+import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
 
@@ -49,7 +52,7 @@ public class DBCar implements IFDBCar {
 	}
 
 	@Override
-	public int insertCar(Car car) {
+	public int insertCar(Car car) throws DBException {
 		int rc = -1;
 		
 		try{
@@ -107,9 +110,13 @@ public class DBCar implements IFDBCar {
 			}
 			
 			stmt.close();
-		}catch(Exception e){
-			System.out.println("DBCar - InsertCar - Exception");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new DBException("Bil", e);
+		}
+		
+		if (rc == 0) {
+			throw new DBNotFoundException("Bil", 1);
 		}
 		
 		
@@ -117,7 +124,7 @@ public class DBCar implements IFDBCar {
 	}
 
 	@Override
-	public int updateCar(Car car) {
+	public int updateCar(Car car) throws DBException {
 		int rc = -1;
 		
 		try{
@@ -171,9 +178,13 @@ public class DBCar implements IFDBCar {
 			rc = stmt.executeUpdate();
 			
 			stmt.close();
-		}catch(Exception e){
-			System.out.println("DBCar - InsertCar - Exception");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new DBException("Bil", e);
+		}
+		
+		if (rc == 0) {
+			throw new DBNotFoundException("Bil", 2);
 		}
 		
 		
@@ -181,7 +192,7 @@ public class DBCar implements IFDBCar {
 	}
 
 	@Override
-	public int deleteCar(Car car) {
+	public int deleteCar(Car car) throws DBException {
 		int rc = -1;
 		
 		try{
@@ -200,9 +211,13 @@ public class DBCar implements IFDBCar {
 				System.out.println("DBCar - deleteCar - Exception");
 				e.printStackTrace();
 			}
-		}catch(Exception e){
-			System.out.println("DBCar - deleteCar - Exception");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new DBException("Bil", e);
+		}
+		
+		if (rc == 0) {
+			throw new DBNotFoundException("Bil", 3);
 		}
 		
 		return rc;
