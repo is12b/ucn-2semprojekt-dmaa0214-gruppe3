@@ -2,9 +2,9 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import modelLayer.UnitType;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import dbLayer.exceptions.DBException;
-import modelLayer.UnitType;
 
 /**
  * Controller for UnitTypeCtr
@@ -13,8 +13,6 @@ import modelLayer.UnitType;
  *
  */
 public interface IFUnitTypeCtr {
-
-	public UnitType getUnitType(String shortDesc);
 	
 	public ArrayList<UnitType> getUnitTypes();
 	

@@ -2,6 +2,7 @@ package guiLayer.product.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import javax.swing.DefaultComboBoxModel;
 
 import modelLayer.UnitType;

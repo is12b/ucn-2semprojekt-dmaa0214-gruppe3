@@ -5,7 +5,6 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import modelLayer.Customer;
 import modelLayer.Product;
 
 public class ProductCellRender extends DefaultListCellRenderer {

@@ -1,6 +1,5 @@
 package ctrLayer;
 
-import guiLayer.exceptions.SaleCreationException;
 import guiLayer.exceptions.SubmitException;
 
 import java.util.ArrayList;

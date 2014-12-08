@@ -34,12 +34,6 @@ public class SettingCtr implements IFSettingCtr {
 	}
 	
 	@Override
-	public void insertSetting(String key, String value) {
-		IFDBSettings sCtr = new DBSettings();
-		sCtr.insertSetting(new Setting(key, value));
-	}
-	
-	@Override
 	public void updateSetting(Setting setting) {
 		IFDBSettings sCtr = new DBSettings();
 		sCtr.updateSetting(setting);

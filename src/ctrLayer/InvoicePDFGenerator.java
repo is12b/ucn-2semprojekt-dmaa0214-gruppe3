@@ -1,8 +1,5 @@
 package ctrLayer;
 
-import modelLayer.Customer;
-import modelLayer.PartSale;
-import modelLayer.Sale;
 import guiLayer.exceptions.BuildingPDFException;
 
 import java.io.ByteArrayOutputStream;
@@ -15,6 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
+
+import modelLayer.Customer;
+import modelLayer.PartSale;
+import modelLayer.Sale;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;

@@ -2,10 +2,10 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import dbLayer.exceptions.DBException;
 import modelLayer.Product;
 import modelLayer.UnitType;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
+import dbLayer.exceptions.DBException;
 
 /**
  * Class for IFProductCtr

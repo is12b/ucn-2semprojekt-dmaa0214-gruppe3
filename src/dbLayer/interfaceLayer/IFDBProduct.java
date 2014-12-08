@@ -2,8 +2,8 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import dbLayer.exceptions.DBException;
 import modelLayer.Product;
+import dbLayer.exceptions.DBException;
 
 /**
  * Class for IFDBProduct.

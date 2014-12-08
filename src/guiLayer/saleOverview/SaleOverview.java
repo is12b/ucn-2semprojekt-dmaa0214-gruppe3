@@ -1,7 +1,5 @@
 package guiLayer.saleOverview;
 
-import java.awt.Dimension;
-
 import guiLayer.MainGUI;
 import guiLayer.PDFViewerDialog;
 import guiLayer.exceptions.BuildingPDFException;
@@ -11,14 +9,17 @@ import guiLayer.extensions.Utilities;
 import guiLayer.saleOverview.extensions.PaidTableCellRenderer;
 import guiLayer.saleOverview.models.SaleOverviewTableModel;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
-import ctrLayer.SaleOverviewCtr;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -26,27 +27,21 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.UIManager;
-
-import java.awt.Color;
-
-import javax.swing.JButton;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import modelLayer.Sale;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
-import javax.swing.table.DefaultTableCellRenderer;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import ctrLayer.SaleOverviewCtr;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 
 /**
  * Class for SaleOverview

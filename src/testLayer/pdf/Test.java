@@ -1,17 +1,12 @@
 package testLayer.pdf;
 
+import modelLayer.PartSale;
 import dbLayer.DBPartSale;
 import dbLayer.DBProduct;
 import dbLayer.DBSale;
-import dbLayer.DBUnitType;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBPartSale;
 import dbLayer.interfaceLayer.IFDBProduct;
 import dbLayer.interfaceLayer.IFDBSale;
-import dbLayer.interfaceLayer.IFDBUnitType;
-import modelLayer.PartSale;
-import modelLayer.Product;
-import modelLayer.UnitType;
 
 /**
  * Class for Test

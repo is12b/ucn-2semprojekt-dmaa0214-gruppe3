@@ -1,12 +1,15 @@
 package guiLayer;
 
-import java.awt.Dimension;
-
 import guiLayer.exceptions.BuildingPDFException;
+
+import java.awt.Dimension;
+import java.io.ByteArrayOutputStream;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+
+import modelLayer.Sale;
 
 import org.icepdf.ri.common.MyAnnotationCallback;
 import org.icepdf.ri.common.SwingController;
@@ -15,10 +18,6 @@ import org.icepdf.ri.common.SwingViewBuilder;
 import ctrLayer.InvoicePDFGenerator;
 import dbLayer.DBSale;
 import dbLayer.interfaceLayer.IFDBSale;
-import testLayer.pdf.CopyOfInvoicePDFGenerator;
-import modelLayer.Sale;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * Dialog for showing a PDF Document
@@ -65,7 +64,7 @@ public class PDFViewerDialog extends JDialog {
 	}
 
 	private void loadSale(Sale sale) throws BuildingPDFException {
-		InvoicePDFGenerator generateInvoice = new InvoicePDFGenerator(sale); //TODO ændre til den rigtige
+		InvoicePDFGenerator generateInvoice = new InvoicePDFGenerator(sale);
 	        
 		ByteArrayOutputStream baos = generateInvoice.createPDF();
 		if (baos.size() > 1) {

@@ -4,25 +4,23 @@ import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import java.awt.BorderLayout;
-import javax.swing.SwingConstants;
 
-public class ProductListPanel extends JPanel {
-	private boolean isSelected;
+class ProductListPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private JPanel listPanel;
 
 	/**
 	 * Create the panel.
 	 */
-	public ProductListPanel(String itemNumber, String name, String desc, double price,
+	ProductListPanel(String itemNumber, String name, String desc, double price,
 			String shortDescription, boolean isSelected) {
-		this.isSelected = isSelected;
 		setLayout(new FormLayout(
 				new ColumnSpec[] { ColumnSpec.decode("default:grow"), },
 				new RowSpec[] { RowSpec.decode("max(29dlu;default):grow"), }));

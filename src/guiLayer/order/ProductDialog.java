@@ -4,23 +4,22 @@ import guiLayer.order.extensions.ProductCellRender;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-
-import modelLayer.Customer;
-import modelLayer.Product;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import modelLayer.Product;
 
 /**
  * Class for ProductDialog
@@ -28,8 +27,8 @@ import javax.swing.event.ListSelectionEvent;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class ProductDialog extends JDialog {
-
+class ProductDialog extends JDialog {
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JList<Product> list;
 	private boolean closeMe = true;
@@ -38,12 +37,12 @@ public class ProductDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ProductDialog(ArrayList<Product> products, OrderPanel parent) {
+	ProductDialog(ArrayList<Product> products, OrderPanel parent) {
 		this.parent = parent;
 		buildDialog(products);
 	}
 	
-	public void buildDialog(ArrayList<Product> products){
+	private void buildDialog(ArrayList<Product> products){
 		setTitle("S\u00F8g Produkt");
 		setBounds(100, 100, 296, 456);
 		getContentPane().setLayout(new BorderLayout());
@@ -104,7 +103,7 @@ public class ProductDialog extends JDialog {
 	/**
 	 * @param selectedValue
 	 */
-	protected void createPartSaleDialog(Product product) {
+	private void createPartSaleDialog(Product product) {
 		if(product != null){
 			PartSaleDialog pDialog = new PartSaleDialog(product, this, parent);
 			pDialog.setModalityType(ModalityType.APPLICATION_MODAL);
@@ -116,13 +115,11 @@ public class ProductDialog extends JDialog {
 				closeMe = true;
 				list.clearSelection();
 			}
-		}else{
-			//TODO du skal vælge noget...
 		}
 	}
 
 
-	protected void redraw(final ArrayList<Product> products) {
+	private void redraw(final ArrayList<Product> products) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

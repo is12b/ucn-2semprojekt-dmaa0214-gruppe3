@@ -1,7 +1,5 @@
 package testLayer.dbLayer;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
 import modelLayer.Customer;

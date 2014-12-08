@@ -4,11 +4,11 @@ import guiLayer.exceptions.SubmitException;
 
 import java.util.ArrayList;
 
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import modelLayer.Car;
 import modelLayer.Customer;
 import modelLayer.Product;
 import modelLayer.Sale;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 
 /**
  * Class for IFSaleCtr
