@@ -81,7 +81,9 @@ public class ProductPanel extends TabbedPanel {
 		sidePanel.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
-				RowSpec.decode("default:grow"),
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		
 		JPanel searchPanel = new JPanel();
@@ -94,7 +96,6 @@ public class ProductPanel extends TabbedPanel {
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,},
 			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -104,31 +105,31 @@ public class ProductPanel extends TabbedPanel {
 				RowSpec.decode("default:grow"),}));
 		
 		JLabel lblID = new JLabel("ID:");
-		searchPanel.add(lblID, "2, 2, right, default");
+		searchPanel.add(lblID, "2, 1, right, default");
 		
 		txtID = new JTextFieldLimit(11, true);
 		lblID.setLabelFor(txtID);
-		searchPanel.add(txtID, "4, 2, fill, default");
+		searchPanel.add(txtID, "4, 1, fill, default");
 		txtID.setColumns(10);
 		
 		JLabel lblItemNumber = new JLabel("Varenummer:");
 		lblItemNumber.setLabelFor(lblItemNumber);
-		searchPanel.add(lblItemNumber, "2, 4, right, default");
+		searchPanel.add(lblItemNumber, "2, 3, right, default");
 		
 		txtItemNumber = new JTextFieldLimit(50,false);
-		searchPanel.add(txtItemNumber, "4, 4, fill, default");
+		searchPanel.add(txtItemNumber, "4, 3, fill, default");
 		txtItemNumber.setColumns(10);
 		
 		JLabel lblName = new JLabel("Navn:");
-		searchPanel.add(lblName, "2, 6, right, default");
+		searchPanel.add(lblName, "2, 5, right, default");
 		
 		txtName = new JTextFieldLimit(200, false);
 		lblName.setLabelFor(txtName);
-		searchPanel.add(txtName, "4, 6, fill, default");
+		searchPanel.add(txtName, "4, 5, fill, default");
 		txtName.setColumns(10);
 		
 		JPanel buttonPanel = new JPanel();
-		searchPanel.add(buttonPanel, "2, 8, 3, 1, fill, fill");
+		searchPanel.add(buttonPanel, "2, 7, 3, 1, fill, fill");
 		buttonPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
@@ -137,7 +138,6 @@ public class ProductPanel extends TabbedPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		btnClear = new JButton("Ryd");
@@ -146,7 +146,7 @@ public class ProductPanel extends TabbedPanel {
 				clear();
 			}
 		});
-		buttonPanel.add(btnClear, "2, 2");
+		buttonPanel.add(btnClear, "2, 1");
 		
 		btnSearch = new JButton("S\u00F8g");
 		btnSearch.addActionListener(new ActionListener() {
@@ -154,7 +154,7 @@ public class ProductPanel extends TabbedPanel {
 				search();
 			}
 		});
-		buttonPanel.add(btnSearch, "6, 2");
+		buttonPanel.add(btnSearch, "6, 1");
 		
 		JPanel createPanel = new JPanel();
 		createPanel.setBorder(new TitledBorder(null, "Opret produkt", TitledBorder.LEADING, TitledBorder.TOP, null, null));

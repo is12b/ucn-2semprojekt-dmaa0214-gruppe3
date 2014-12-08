@@ -1,6 +1,7 @@
 package guiLayer;
 
 import guiLayer.extensions.CustomerTableModel;
+import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
@@ -18,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
@@ -48,12 +50,19 @@ public class CustomerPanel extends TabbedPanel {
 	private JTable table;
 	private CustomerTableModel model;
 	private ArrayList<Customer> customers;
+	private ArrayList<JTextField> customerFields;
 	private JButton btnSearch;
 
 	//TODO Grey out other fields, so only the one being searched for is highlighted
 	public CustomerPanel(MainGUI parent) {
 		buildPanel();
 		this.parent = parent;
+		customerFields = new ArrayList<JTextField>();
+		customerFields.add(txtName);
+		customerFields.add(txtPhone);
+		customerFields.add(txtRegNr);
+		customerFields.add(txtCvr);
+		addDocumentListener(customerFields);
 	}
 
 	@Override
@@ -64,7 +73,6 @@ public class CustomerPanel extends TabbedPanel {
 
 	private void buildPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("center:max(147dlu;pref)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
@@ -73,19 +81,19 @@ public class CustomerPanel extends TabbedPanel {
 				RowSpec.decode("default:grow"),}));
 
 		JPanel panel_1 = new JPanel();
-		add(panel_1, "2, 2, fill, fill");
+		add(panel_1, "1, 2, fill, fill");
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 
 		JPanel panelSearch = new JPanel();
-		panelSearch.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "S\u00F8g Kunde", TitledBorder.RIGHT, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.add(panelSearch, "2, 2, fill, fill");
+		panelSearch.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "S\u00F8g Kunde", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.add(panelSearch, "1, 1, fill, fill");
 		panelSearch.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
@@ -136,14 +144,27 @@ public class CustomerPanel extends TabbedPanel {
 
 		JPanel panel_4 = new JPanel();
 		panelSearch.add(panel_4, "2, 10, 3, 1, fill, fill");
+		panel_4.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.GROWING_BUTTON_COLSPEC,
+				FormFactory.GROWING_BUTTON_COLSPEC,},
+			new RowSpec[] {
+				RowSpec.decode("23px"),}));
+		
+		JButton btnClear = new JButton("Ryd");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearFields();
+			}
+		});
+		panel_4.add(btnClear, "1, 1, center, center");
 
 		btnSearch = new JButton("S\u00F8g");
 
-		panel_4.add(btnSearch);
+		panel_4.add(btnSearch, "2, 1, center, top");
 
 		JPanel panelCreate = new JPanel();
-		panelCreate.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Opret Kunde", TitledBorder.RIGHT, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.add(panelCreate, "2, 4, fill, fill");
+		panelCreate.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Opret Kunde", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.add(panelCreate, "1, 3, fill, fill");
 		panelCreate.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JButton btnCreate = new JButton("Opret");
@@ -155,7 +176,7 @@ public class CustomerPanel extends TabbedPanel {
 		panelCreate.add(btnCreate);
 
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "4, 2, fill, fill");
+		add(scrollPane, "3, 2, fill, fill");
 
 		table = new JTable();
 		model = new CustomerTableModel();
@@ -180,29 +201,19 @@ public class CustomerPanel extends TabbedPanel {
 	private void searchCustomer() {
 
 		IFCustomerCtr cCtr = new CustomerCtr();
-
-		final boolean searchReg = !txtRegNr.getText().isEmpty();
-		final boolean searchPhone = !txtPhone.getText().isEmpty();
-		final boolean searchName = !txtName.getText().isEmpty();
-		final boolean searchCvr = !txtCvr.getText().isEmpty();
-
-		final String regNr = txtRegNr.getText().trim();
-		final String phone = txtPhone.getText().trim();
-		final String name = txtName.getText();
-		final String cvr = txtCvr.getText().trim();
 		
 		try{
-			if(searchReg) {
-				customers.add(cCtr.getCustomerByRegNr(regNr));
+			if(txtRegNr.isEnabled()) {
+				customers.add(cCtr.getCustomerByRegNr(txtRegNr.getText().trim()));
 			}
-			else if(searchPhone) {
-				customers = cCtr.searchCustomersByPhone(phone, true);
+			else if(txtPhone.isEnabled()) {
+				customers = cCtr.searchCustomersByPhone(txtPhone.getText().trim(), true);
 			}
-			else if(searchName) {
-				customers = cCtr.searchCustomersByName(name, true);
+			else if(txtName.isEnabled()) {
+				customers = cCtr.searchCustomersByName(txtName.getText(), true);
 			}
-			else if(searchCvr) {
-				customers.add(cCtr.getCustomerByCvr(cvr, true));
+			else if(txtCvr.isEnabled()) {
+				customers.add(cCtr.getCustomerByCvr(txtCvr.getText().trim(), true));
 			}
 		}catch(ObjectNotExistException e){
 			Utilities.showError(this, e.getMessage());
@@ -230,5 +241,19 @@ public class CustomerPanel extends TabbedPanel {
 			new CustomerInfoDialog(customer);
 			updateTable();
 		}
+	}
+	
+	/**
+	 * Misc
+	 */
+	
+	private void addDocumentListener(ArrayList<JTextField> fields) {
+		for(JTextField f : fields){
+			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f));
+		}
+	}
+	
+	private void clearFields() {
+		customerFields.forEach(c -> c.setText(""));
 	}
 }
