@@ -12,8 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dbLayer.DBUnitType;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBUnitType;
+import exceptions.DBException;
 
 /**
  * Class for TestDBUnitType

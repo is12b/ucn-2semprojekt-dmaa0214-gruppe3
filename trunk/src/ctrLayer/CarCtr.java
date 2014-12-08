@@ -2,17 +2,14 @@ package ctrLayer;
 
 import modelLayer.Car;
 import modelLayer.Customer;
-import ctrLayer.exceptionLayer.DeleteException;
-import ctrLayer.exceptionLayer.InsertException;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFCarCtr;
 import dbLayer.DBCar;
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBCar;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
+import exceptions.ObjectNotExistException;
 
-public class CarCtr implements IFCarCtr {
+public class CarCtr implements IFCarCtr { //TODO KIGGE PÅ FEJLHÅNDTERING
 	
 	public CarCtr() {
 		
@@ -34,7 +31,7 @@ public class CarCtr implements IFCarCtr {
 		
 		Car car = dbCar.getCarByRegNr(regNr, retAsso);
 		
-		if(car == null){
+		if(car == null){ //TODO DB KLASSE ELLER HER?
 			throw new ObjectNotExistException("Bilen blev ikke fundet");
 		}
 		
@@ -49,7 +46,7 @@ public class CarCtr implements IFCarCtr {
 		
 		Car car = dbCar.getCarByVin(vin, retAsso);
 		
-		if(car == null){
+		if(car == null){ //TODO DB KLASSE ELLER HER?
 			throw new ObjectNotExistException("Bilen blev ikke fundet");
 		}
 		
@@ -57,29 +54,23 @@ public class CarCtr implements IFCarCtr {
 	}
 
 	@Override
-	public void updateCar(Car car) throws UpdateException { // NO_UCD (test only)
+	public void updateCar(Car car) throws ObjectNotExistException, DBException { // NO_UCD (test only)
 		IFDBCar dbCar = new DBCar();
 		
 		try {
 			dbCar.updateCar(car);
 		} catch(DBNotFoundException e){
-			throw new UpdateException("Bilen", true);
-		} catch (DBException e) {
-			throw new UpdateException("Bilen", false);
+			throw new ObjectNotExistException("Bilen blev ikke fundet");
 		}
-
 	}
 
 	@Override
-	public void deleteCar(Car car) throws DeleteException{ // NO_UCD (test only)
+	public void deleteCar(Car car) throws ObjectNotExistException, DBException { // NO_UCD (test only)
 		IFDBCar dbCar = new DBCar();
-		int rc;
 		try {
-			rc = dbCar.deleteCar(car);
+			dbCar.deleteCar(car);
 		} catch(DBNotFoundException e){
-			throw new DeleteException("Bilen", true);
-		} catch (DBException e) {
-			throw new DeleteException("Bilen", false);
+			throw new ObjectNotExistException("Bilen blev ikke fundet");
 		}
 	}	
 	

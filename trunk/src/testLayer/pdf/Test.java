@@ -4,10 +4,10 @@ import modelLayer.PartSale;
 import dbLayer.DBPartSale;
 import dbLayer.DBProduct;
 import dbLayer.DBSale;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBPartSale;
 import dbLayer.interfaceLayer.IFDBProduct;
 import dbLayer.interfaceLayer.IFDBSale;
+import exceptions.DBException;
 
 /**
  * Class for Test

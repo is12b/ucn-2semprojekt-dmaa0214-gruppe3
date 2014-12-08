@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBPartSale;
 import dbLayer.interfaceLayer.IFDBProduct;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
 
 /**
  * Class for DBPartSale

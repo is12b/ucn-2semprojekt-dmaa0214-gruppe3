@@ -1,6 +1,6 @@
 package dbLayer.interfaceLayer;
 
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
 
 /**
  * Interface for DBPostalcode

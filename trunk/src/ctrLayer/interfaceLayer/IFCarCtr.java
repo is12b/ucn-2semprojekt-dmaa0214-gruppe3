@@ -1,11 +1,8 @@
 package ctrLayer.interfaceLayer;
 import modelLayer.Car;
 import modelLayer.Customer;
-import ctrLayer.exceptionLayer.DeleteException;
-import ctrLayer.exceptionLayer.InsertException;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import ctrLayer.exceptionLayer.UpdateException;
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Class for IFCarCtr
@@ -21,8 +18,8 @@ public interface IFCarCtr {
 	
 	public Car createCar(String brand, String model, String regNr, String vin, int mileage, int year, Customer owner) throws DBException; // NO_UCD (unused code)
 	
-	public void updateCar(Car car) throws UpdateException; // NO_UCD (test only)
+	public void updateCar(Car car) throws ObjectNotExistException, DBException; // NO_UCD (test only)
 	
-	public void deleteCar(Car car) throws DeleteException; // NO_UCD (test only)
+	public void deleteCar(Car car) throws ObjectNotExistException, DBException; // NO_UCD (test only)
 
 }

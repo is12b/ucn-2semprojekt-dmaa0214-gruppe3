@@ -11,12 +11,12 @@ import modelLayer.Car;
 import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Sale;
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBPartSale;
 import dbLayer.interfaceLayer.IFDBSale;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
 
 /**
  * Class for DBSale

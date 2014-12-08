@@ -23,7 +23,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CustomerCtr;
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
 
 /**
  * Class for CreateCustomerDialog

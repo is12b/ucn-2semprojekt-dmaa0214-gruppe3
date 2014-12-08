@@ -3,8 +3,8 @@ package ctrLayer.interfaceLayer;
 import java.util.ArrayList;
 
 import modelLayer.UnitType;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Controller for UnitTypeCtr

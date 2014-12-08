@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import modelLayer.UnitType;
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBUnitType;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
 
 /**
  * Class for DBUnitType

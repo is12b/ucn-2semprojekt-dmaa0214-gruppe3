@@ -2,7 +2,7 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
 import modelLayer.Car;
 import modelLayer.Customer;
 import modelLayer.Sale;

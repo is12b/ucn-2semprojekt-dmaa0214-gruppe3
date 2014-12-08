@@ -8,8 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import modelLayer.Setting;
-import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBSettings;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
 
 /**
  * Class for DBSettings
@@ -69,11 +70,13 @@ public class DBSettings implements IFDBSettings {
 		}catch(SQLException e){
 			//System.out.println("DBSettings - updateSetting");
 			e.printStackTrace();
-			throw new DBException("Indstilling", e);
+			throw new DBException("Indstillingen", e);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+		if(rc == 0) {
+			throw new DBNotFoundException("Indstillingen", 2);
+		}
 		
 		return rc;
 	}

@@ -1,4 +1,5 @@
-package dbLayer.exceptions;
+package exceptions;
+
 
 /**
  * Class for DBNotFoundException

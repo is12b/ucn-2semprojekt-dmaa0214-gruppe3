@@ -1,7 +1,5 @@
 package ctrLayer;
 
-import guiLayer.exceptions.BuildingPDFException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +27,7 @@ import com.itextpdf.text.pdf.codec.PngImage;
 import ctrLayer.interfaceLayer.IFSettingCtr;
 import dbLayer.DBSettings;
 import dbLayer.interfaceLayer.IFDBSettings;
+import exceptions.BuildingPDFException;
 
 /**
  * Class for InvoicePDFGenerator

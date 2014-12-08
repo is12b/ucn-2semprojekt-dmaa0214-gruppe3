@@ -1,5 +1,7 @@
 package guiLayer;
 
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 import guiLayer.extensions.CarListModel;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
@@ -28,7 +30,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CustomerCtr;
-import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 
 /**
@@ -260,8 +261,8 @@ public class CustomerInfoDialog extends JDialog {
 	private void updateCustomer() {
 		IFCustomerCtr cCtr = new CustomerCtr();
 		try {
-			cCtr.updateCustomer(customer, txtName.getText(), txtPhone.getText(), txtAddress.getText(), txtCity.getText(), Integer.parseInt(txtPost.getText()), Integer.parseInt(txtCvr.getText()), false);
-		} catch (UpdateException e) {
+			cCtr.updateCustomer(customer, txtName.getText(), txtPhone.getText(), txtAddress.getText(), txtCity.getText(), txtPost.getValue(), txtCvr.getValue(), false);
+		} catch (DBException | ObjectNotExistException e) {
 			Utilities.showError(this, e.getMessage());
 		}
 	}

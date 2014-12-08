@@ -1,6 +1,7 @@
 package ctrLayer.interfaceLayer;
 
-import guiLayer.exceptions.SubmitException;
+import exceptions.ObjectNotExistException;
+import exceptions.SubmitException;
 
 import java.util.ArrayList;
 
@@ -9,7 +10,6 @@ import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 
 /**
  * Class for IFSaleCtr

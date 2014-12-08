@@ -1,4 +1,4 @@
-package dbLayer.exceptions;
+package exceptions;
 
 import java.sql.SQLException;
 

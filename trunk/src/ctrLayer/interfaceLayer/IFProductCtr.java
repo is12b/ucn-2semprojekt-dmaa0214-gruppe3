@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import modelLayer.Product;
 import modelLayer.UnitType;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import dbLayer.exceptions.DBException;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 
 /**
  * Class for IFProductCtr

@@ -3,14 +3,12 @@ package ctrLayer;
 import java.util.ArrayList;
 
 import modelLayer.Customer;
-import ctrLayer.exceptionLayer.DeleteException;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import dbLayer.DBCustomer;
-import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBCustomer;
+import exceptions.DBException;
+import exceptions.DBNotFoundException;
+import exceptions.ObjectNotExistException;
 
 public class CustomerCtr implements IFCustomerCtr {
 
@@ -24,7 +22,7 @@ public class CustomerCtr implements IFCustomerCtr {
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city, int postalCode, int cvr, boolean hidden) throws UpdateException {
+	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city, int postalCode, int cvr, boolean hidden) throws ObjectNotExistException, DBException {
 
 		IFDBCustomer dbCus = new DBCustomer();
 		
@@ -59,23 +57,19 @@ public class CustomerCtr implements IFCustomerCtr {
 		try {
 			dbCus.updateCustomer(customer);
 		} catch(DBNotFoundException e){
-			throw new UpdateException("Kunden", true);
-		} catch (DBException e) {
-			throw new UpdateException("Kunden", false);
+			throw new ObjectNotExistException("Kunden blev ikke fundet");
 		}
 		
 		return customer;
 	}
 
 	@Override
-	public void deleteCustomer(Customer customer) throws DeleteException {
+	public void deleteCustomer(Customer customer) throws ObjectNotExistException, DBException {
 		IFDBCustomer dbCus = new DBCustomer();
 		try {
 			dbCus.deleteCustomer(customer);
 		} catch(DBNotFoundException e){
-			throw new DeleteException("Kunden", true);
-		} catch (DBException e) {
-			throw new DeleteException("Kunden", false);
+			throw new ObjectNotExistException("Kunden blev ikke fundet");
 		}
 	}
 

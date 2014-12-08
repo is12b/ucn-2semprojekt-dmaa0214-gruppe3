@@ -2,7 +2,8 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import ctrLayer.exceptionLayer.UpdateException;
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 import modelLayer.Setting;
 
 /**
@@ -17,5 +18,5 @@ public interface IFSettingCtr {
 	
 	public ArrayList<Setting> getAllSettings();
 	
-	public void updateSetting(Setting setting) throws UpdateException;
+	public void updateSetting(Setting setting) throws ObjectNotExistException, DBException;
 }
