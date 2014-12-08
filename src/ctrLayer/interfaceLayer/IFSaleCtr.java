@@ -79,5 +79,20 @@ public interface IFSaleCtr {
 	 */
 	public int getMileage();
 
-
+	
+	public Sale getSaleByID(int id) throws ObjectNotExistException;
+	
+	public ArrayList<Sale> getAllSales() throws ObjectNotExistException;
+	
+	public ArrayList<Sale> getSaleByCarRegNr(String regNr) throws ObjectNotExistException;
+	
+	public ArrayList<Sale> getSaleByCarVIN(String vin) throws ObjectNotExistException;
+	
+	public ArrayList<Sale> getSaleByCusName(String name) throws ObjectNotExistException;
+	
+	public ArrayList<Sale> getSaleByCusPhone(String phone) throws ObjectNotExistException;
+	
+	public ArrayList<Sale> getSaleByCusCVR(String cvr) throws ObjectNotExistException;
+	
+	
 }
