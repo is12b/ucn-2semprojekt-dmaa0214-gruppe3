@@ -17,7 +17,7 @@ public interface IFCustomerCtr {
 	
 	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city,  int postalCode, int cvr, boolean hidden);
 	
-	public void deleteCustomer(Customer customer);
+	public void deleteCustomer(Customer customer); // NO_UCD (unused code)
 
 	/**
 	 * @param cvr

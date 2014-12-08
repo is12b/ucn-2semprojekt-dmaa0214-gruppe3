@@ -57,7 +57,7 @@ public class CarCtr implements IFCarCtr {
 	}
 
 	@Override
-	public void updateCar(Car car) throws UpdateException {
+	public void updateCar(Car car) throws UpdateException { // NO_UCD (test only)
 		IFDBCar dbCar = new DBCar();
 		int rc = dbCar.updateCar(car);
 		
@@ -69,7 +69,7 @@ public class CarCtr implements IFCarCtr {
 	}
 
 	@Override
-	public void deleteCar(Car car) throws DeleteException{
+	public void deleteCar(Car car) throws DeleteException{ // NO_UCD (test only)
 		IFDBCar dbCar = new DBCar();
 		int rc = dbCar.deleteCar(car);
 		
