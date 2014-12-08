@@ -64,11 +64,11 @@ public class DBCustomer implements IFDBCustomer {
 		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?)";
 
 		try {
-			IFDBPostalcode dbPost = new DBPostalCode();
-			dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			updateFields(customer, stmt);
+			IFDBPostalcode dbPost = new DBPostalCode();
+			dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
 			rc = stmt.executeUpdate();
 			stmt.close();
 		}catch(DBException e){
@@ -100,6 +100,7 @@ public class DBCustomer implements IFDBCustomer {
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			updateFields(customer, stmt);
+			stmt.setInt(7, customer.getId());
 			IFDBPostalcode dbPost = new DBPostalCode();
 			dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
 			rc = stmt.executeUpdate();
@@ -128,7 +129,6 @@ public class DBCustomer implements IFDBCustomer {
 			stmt.setInt(4, customer.getPostalCode());
 			stmt.setInt(5, customer.getCvr());
 			stmt.setBoolean(6, customer.getHidden());
-			stmt.setInt(7, customer.getId());
 		} catch (Exception e) {
 			System.out.println("Error - updateFields - DBCustomer");
 			e.printStackTrace();
