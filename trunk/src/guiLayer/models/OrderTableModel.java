@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 import modelLayer.PartSale;
-import modelLayer.Product;
 
 /**
  * Class for ProductTableModel
@@ -16,7 +15,6 @@ import modelLayer.Product;
  *
  */
 public class OrderTableModel extends AbstractTableModel {
-	//TODO - Adapt to Order Table
 	private static final long serialVersionUID = 1L;
 	private ArrayList<PartSale> partSales;
 	

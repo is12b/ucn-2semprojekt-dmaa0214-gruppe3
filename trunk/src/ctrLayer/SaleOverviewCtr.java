@@ -2,14 +2,14 @@ package ctrLayer;
 
 import java.util.ArrayList;
 
+import modelLayer.Car;
+import modelLayer.Customer;
+import modelLayer.Sale;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.interfaceLayer.IFCarCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import dbLayer.DBSale;
 import dbLayer.interfaceLayer.IFDBSale;
-import modelLayer.Car;
-import modelLayer.Customer;
-import modelLayer.Sale;
 
 /**
  * Controller for SaleOverview

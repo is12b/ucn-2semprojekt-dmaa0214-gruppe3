@@ -2,8 +2,6 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import modelLayer.Car;
-import modelLayer.Customer;
 import modelLayer.Setting;
 
 /**

@@ -2,9 +2,9 @@ package dbLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import modelLayer.Car;
 import modelLayer.Customer;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 
 /**
  * Class for IFDBCustomer.

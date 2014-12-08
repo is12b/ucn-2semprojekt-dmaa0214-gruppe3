@@ -10,36 +10,22 @@ import guiLayer.extensions.Utilities;
 import guiLayer.models.OrderTableModel;
 import guiLayer.order.extensions.MileageDialog;
 
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-
-import ctrLayer.SaleCtr;
-import ctrLayer.exceptionLayer.ObjectNotExistException;
-import ctrLayer.interfaceLayer.IFSaleCtr;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-
-import javax.swing.JButton;
-
-import java.awt.Dialog.ModalityType;
-
-
 import java.awt.Color;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.border.TitledBorder;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 
 import modelLayer.Car;
 import modelLayer.Customer;
@@ -47,7 +33,14 @@ import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
 
-import javax.swing.JCheckBox;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+
+import ctrLayer.SaleCtr;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
+import ctrLayer.interfaceLayer.IFSaleCtr;
 
 /**
  * Class for OrderPanel
@@ -584,15 +577,13 @@ public class OrderPanel extends TabbedPanel {
 				}
 			}
 		}else{
-			//TODO Error intet fundet
+			Utilities.showConfirm(this, "Ingen resulater fundet", "Ingen Resultater");
 		}
 	}
 
 		
 
 	public void setCustomer(Customer c){
-		System.out.println("Customer Added");
-		//TODO
 		if(c != null){
 			sCtr.setCustomer(c);
 			populateCustomerPanel(c);
@@ -704,8 +695,6 @@ public class OrderPanel extends TabbedPanel {
 				pDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 				pDialog.setVisible(true);
 			}
-		}else{
-			//TODO intet fundet
 		}
 	}
 
@@ -717,7 +706,7 @@ public class OrderPanel extends TabbedPanel {
 	 * PartSale
 	 */
 	
-	public void addPartSale(Product product, double amount, double unitPrice){
+	void addPartSale(Product product, double amount, double unitPrice){
 		sCtr.createPartSale(product, amount, unitPrice);
 		oTableModel.refresh(sale.getPartSales());
 		oTableModel.fireTableDataChanged();
@@ -749,7 +738,7 @@ public class OrderPanel extends TabbedPanel {
 	 * Description
 	 */
 	
-	public void createDescriptionDialog(){
+	private void createDescriptionDialog(){
 		DescriptionDialog dDialog = new DescriptionDialog(this);
 		dDialog.setVisible(true);
 	}
@@ -777,7 +766,7 @@ public class OrderPanel extends TabbedPanel {
 	 * Mileage
 	 */
 	
-	protected void createMileageDialog() {
+	private void createMileageDialog() {
 		MileageDialog mDialog = new MileageDialog(this);
 		mDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 		mDialog.setVisible(true);
@@ -801,7 +790,7 @@ public class OrderPanel extends TabbedPanel {
 	 * Commit
 	 */
 	
-	protected void commit() {
+	private void commit() {
 		int c = Utilities.showConfirm(this, "Er du sikker på du vil Oprette Faktura?", "Opret Faktura?");
 		
 		if(c == JOptionPane.YES_OPTION){

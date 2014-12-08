@@ -2,6 +2,7 @@ package guiLayer.saleOverview.extensions;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;

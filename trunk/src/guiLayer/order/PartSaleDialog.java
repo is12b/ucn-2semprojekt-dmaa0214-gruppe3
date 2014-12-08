@@ -5,24 +5,22 @@ import guiLayer.extensions.JTextFieldLimit;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import modelLayer.Product;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 /**
  * Class for PartSaleDialog
@@ -30,8 +28,8 @@ import javax.swing.JTextField;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class PartSaleDialog extends JDialog {
-
+class PartSaleDialog extends JDialog {
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtAmount;
 	private ProductDialog parent;
@@ -42,19 +40,19 @@ public class PartSaleDialog extends JDialog {
 	 * Create the dialog.
 	 * @param parent 
 	 */
-	public PartSaleDialog(Product product, OrderPanel order){
+	PartSaleDialog(Product product, OrderPanel order){
 		this.order = order;
 		isOrderPanel = true;
 		buildDialog(product);
 	}
 	
-	public PartSaleDialog(Product product, ProductDialog parent, OrderPanel order) {
+	PartSaleDialog(Product product, ProductDialog parent, OrderPanel order) {
 		this.parent = parent;
 		this.order = order;
 		buildDialog(product);
 	}
 	
-	public void buildDialog(Product product){
+	private void buildDialog(Product product){
 		setTitle("Tilføj Produkt");
 		setBounds(100, 100, 270, 169);
 		getContentPane().setLayout(new BorderLayout());

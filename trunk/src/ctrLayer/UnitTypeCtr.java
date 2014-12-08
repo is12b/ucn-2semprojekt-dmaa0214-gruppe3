@@ -26,11 +26,6 @@ public class UnitTypeCtr implements IFUnitTypeCtr {
 	public UnitTypeCtr() {
 		dbUnit = new DBUnitType();
 	}
-	
-	@Override
-	public UnitType getUnitType(String shortDesc) {
-		return dbUnit.getUnitType(shortDesc);
-	}
 
 	@Override
 	public ArrayList<UnitType> getUnitTypes() {

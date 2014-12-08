@@ -1,15 +1,6 @@
 package testLayer.pdf;
 
-import modelLayer.PartSale;
-import modelLayer.Sale;
-import modelLayer.Setting;
-
-import java.awt.Desktop;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -17,9 +8,8 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-
-import sun.security.action.GetLongAction;
+import modelLayer.PartSale;
+import modelLayer.Sale;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;

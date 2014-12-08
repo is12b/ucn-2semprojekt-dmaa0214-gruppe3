@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import modelLayer.Car;
 import modelLayer.Customer;
+
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
 

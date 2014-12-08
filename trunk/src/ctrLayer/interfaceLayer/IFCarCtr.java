@@ -1,10 +1,10 @@
 package ctrLayer.interfaceLayer;
+import modelLayer.Car;
+import modelLayer.Customer;
 import ctrLayer.exceptionLayer.DeleteException;
 import ctrLayer.exceptionLayer.InsertException;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.exceptionLayer.UpdateException;
-import modelLayer.Car;
-import modelLayer.Customer;
 
 /**
  * Class for IFCarCtr

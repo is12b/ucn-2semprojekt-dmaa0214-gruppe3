@@ -26,7 +26,7 @@ import com.jgoodies.forms.layout.RowSpec;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class CarInfoDialog extends JDialog {
+class CarInfoDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private Car car;
@@ -43,9 +43,7 @@ public class CarInfoDialog extends JDialog {
 	 *
 	 * @param car
 	 */
-	public CarInfoDialog(Car car) {
-		
-		
+	CarInfoDialog(Car car) {
 		this.car = car;
 		buildDialog();
 	}	

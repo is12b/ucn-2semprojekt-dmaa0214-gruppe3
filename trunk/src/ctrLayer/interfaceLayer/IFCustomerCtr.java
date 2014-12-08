@@ -2,8 +2,8 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
-import ctrLayer.exceptionLayer.ObjectNotExistException;
 import modelLayer.Customer;
+import ctrLayer.exceptionLayer.ObjectNotExistException;
 
 /**
  * Class for IFCustomerCtr

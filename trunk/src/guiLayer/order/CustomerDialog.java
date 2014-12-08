@@ -4,26 +4,20 @@ import guiLayer.models.CustomerTreeModel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
-
-import javafx.scene.control.SingleSelectionModel;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeSelectionModel;
-import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.border.EmptyBorder;
+import javax.swing.tree.TreeSelectionModel;
 
 import modelLayer.Car;
 import modelLayer.Customer;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * Class for CustomerDialog
@@ -31,7 +25,7 @@ import java.awt.event.ActionEvent;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class CustomerDialog extends JDialog {
+class CustomerDialog extends JDialog {
 	/**
 	 * 
 	 */
@@ -46,24 +40,12 @@ public class CustomerDialog extends JDialog {
 	 * @wbp.parser.constructor
 	 */
 	
-	public CustomerDialog(ArrayList<Customer> customers, OrderPanel parent){
+	CustomerDialog(ArrayList<Customer> customers, OrderPanel parent){
 		this.parent = parent;
 		buildDialog(customers);
-	}
+	}	
 	
-	public CustomerDialog(List<Car> cars, OrderPanel parent){
-		this.parent = parent;
-		
-		ArrayList<Customer> cust = new ArrayList<Customer>();
-		for(Car c : cars){
-			cust.add(c.getOwner());
-		}
-		
-		buildDialog(cust);
-	}
-	
-	
-	public void buildDialog(ArrayList<Customer> customers) {
+	private void buildDialog(ArrayList<Customer> customers) {
 		setTitle("Tilføj Kunde / Bil");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -114,11 +96,10 @@ public class CustomerDialog extends JDialog {
 	/**
 	 * 
 	 */
-	protected void setSelected() {
+	private void setSelected() {
 		Object o = tree.getLastSelectedPathComponent();
 		
 		if(o == null){
-			//TODO Error here
 			return;
 		}else{
 			if(o instanceof Customer){
@@ -127,7 +108,6 @@ public class CustomerDialog extends JDialog {
 			}else if(o instanceof Car){
 				parent.setCar((Car) o);
 			}else{
-				//TODO Error here
 				return;
 			}
 		}

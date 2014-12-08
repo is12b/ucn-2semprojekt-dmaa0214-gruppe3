@@ -1,6 +1,5 @@
 package modelLayer;
 
-import modelLayer.Product;
 
 /**
  * Class for PartSale.

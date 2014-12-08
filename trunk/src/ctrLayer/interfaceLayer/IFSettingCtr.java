@@ -16,7 +16,5 @@ public interface IFSettingCtr {
 	
 	public ArrayList<Setting> getAllSettings();
 	
-	public void insertSetting(String key, String value);
-	
 	public void updateSetting(Setting setting);
 }

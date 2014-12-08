@@ -4,28 +4,26 @@ import guiLayer.extensions.JTextFieldLimit;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-
-import ctrLayer.SettingCtr;
-import ctrLayer.interfaceLayer.IFSettingCtr;
-
-import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import modelLayer.Setting;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+
+import ctrLayer.SettingCtr;
+import ctrLayer.interfaceLayer.IFSettingCtr;
 
 /**
  * Class for InvoiceSettingsDialog
@@ -33,8 +31,8 @@ import java.awt.event.ActionEvent;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class InvoiceSettingsDialog extends JDialog {
-	
+class InvoiceSettingsDialog extends JDialog {
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtAddress;
 	private JTextField txtPost;
@@ -68,7 +66,7 @@ public class InvoiceSettingsDialog extends JDialog {
 		txtAcc.setText(sCtr.getSettingByKey("INVOICE_ACC").getValue());
 	}
 	
-	public void buildDialog(){
+	private void buildDialog(){
 		setTitle("Faktura Indstillinger");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -369,7 +367,7 @@ public class InvoiceSettingsDialog extends JDialog {
 	/**
 	 * 
 	 */
-	protected void saveSettings() {
+	private void saveSettings() {
 		IFSettingCtr sCtr = new SettingCtr();
 		
 		sCtr.updateSetting(new Setting("INVOICE_ADDRESS", txtAddress.getText()));

@@ -8,7 +8,7 @@ import guiLayer.extensions.TabbedPanel;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class CarPanel extends TabbedPanel {
+class CarPanel extends TabbedPanel {
 
 	private static final long serialVersionUID = 1L;
 	private MainGUI parent;
