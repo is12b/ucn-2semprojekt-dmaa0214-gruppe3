@@ -1,10 +1,10 @@
 package guiLayer;
 
 import guiLayer.extensions.TabbedPanel;
-import guiLayer.order.OrderPanel;
 import guiLayer.product.ProductPanel;
 import guiLayer.product.UnitTypeDialog;
-import guiLayer.saleOverview.SaleOverview;
+import guiLayer.sale.OrderPanel;
+import guiLayer.sale.SaleOverview;
 
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;

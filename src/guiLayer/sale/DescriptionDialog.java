@@ -1,4 +1,4 @@
-package guiLayer.order;
+package guiLayer.sale;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

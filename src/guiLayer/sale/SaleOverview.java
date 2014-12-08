@@ -1,4 +1,4 @@
-package guiLayer.saleOverview;
+package guiLayer.sale;
 
 import guiLayer.MainGUI;
 import guiLayer.PDFViewerDialog;
@@ -6,8 +6,8 @@ import guiLayer.exceptions.BuildingPDFException;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
-import guiLayer.saleOverview.extensions.PaidTableCellRenderer;
-import guiLayer.saleOverview.models.SaleOverviewTableModel;
+import guiLayer.sale.extensions.PaidTableCellRenderer;
+import guiLayer.sale.models.SaleOverviewTableModel;
 
 import java.awt.Color;
 import java.awt.Dimension;

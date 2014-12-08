@@ -1,6 +1,6 @@
-package guiLayer.order;
+package guiLayer.sale;
 
-import guiLayer.order.extensions.ProductCellRender;
+import guiLayer.sale.extensions.ProductCellRender;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

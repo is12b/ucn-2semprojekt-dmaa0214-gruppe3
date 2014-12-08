@@ -1,4 +1,4 @@
-package guiLayer.order;
+package guiLayer.sale;
 
 import guiLayer.MainGUI;
 import guiLayer.PDFViewerDialog;
@@ -7,8 +7,8 @@ import guiLayer.exceptions.SubmitException;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
-import guiLayer.order.extensions.MileageDialog;
-import guiLayer.order.extensions.OrderTableModel;
+import guiLayer.sale.extensions.MileageDialog;
+import guiLayer.sale.models.OrderTableModel;
 
 import java.awt.Color;
 import java.awt.Dialog.ModalityType;

@@ -1,4 +1,4 @@
-package guiLayer.order.extensions;
+package guiLayer.sale.models;
 
 import guiLayer.extensions.Utilities;
 

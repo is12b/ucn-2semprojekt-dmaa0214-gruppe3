@@ -1,4 +1,4 @@
-package guiLayer.saleOverview.models;
+package guiLayer.sale.models;
 
 import guiLayer.extensions.Utilities;
 
