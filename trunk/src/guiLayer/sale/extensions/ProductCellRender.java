@@ -1,4 +1,4 @@
-package guiLayer.order.extensions;
+package guiLayer.sale.extensions;
 
 import java.awt.Component;
 

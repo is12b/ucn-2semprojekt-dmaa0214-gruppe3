@@ -1,7 +1,7 @@
-package guiLayer.order.extensions;
+package guiLayer.sale.extensions;
 
 import guiLayer.extensions.JTextFieldLimit;
-import guiLayer.order.OrderPanel;
+import guiLayer.sale.OrderPanel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

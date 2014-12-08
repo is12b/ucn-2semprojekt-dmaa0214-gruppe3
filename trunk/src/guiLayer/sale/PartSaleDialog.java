@@ -1,4 +1,4 @@
-package guiLayer.order;
+package guiLayer.sale;
 
 import guiLayer.extensions.JDoubleField;
 import guiLayer.extensions.JTextFieldLimit;
