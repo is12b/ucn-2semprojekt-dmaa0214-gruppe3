@@ -43,10 +43,5 @@ public class UnitTypeComboBoxModel extends DefaultComboBoxModel<String> {
 		String str = (String) getSelectedItem();
 		return map.get(str);
 	}
-	
-	public UnitType getUnitTypeAt(int index) {
-		String str = getElementAt(index);
-		return map.get(str);
-	}
 
 }

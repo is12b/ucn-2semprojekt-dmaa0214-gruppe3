@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import modelLayer.PartSale;
 import modelLayer.Product;
 
 import com.jgoodies.forms.factories.FormFactory;
@@ -35,7 +36,9 @@ class PartSaleDialog extends JDialog {
 	private ProductDialog parent;
 	private OrderPanel order;
 	private JTextField txtPrice;
+	private PartSale pSale;
 	private boolean isOrderPanel = false;
+	private Product product;
 	/**
 	 * Create the dialog.
 	 * @param parent 
@@ -52,7 +55,17 @@ class PartSaleDialog extends JDialog {
 		buildDialog(product);
 	}
 	
+	PartSaleDialog(PartSale pSale, OrderPanel order){
+		this.order = order;
+		isOrderPanel = true;
+		this.pSale = pSale;
+		buildDialog(pSale.getProduct());
+		txtAmount.setText(String.valueOf(pSale.getAmount()));
+		txtPrice.setText(String.valueOf(pSale.getUnitPrice()));
+	}
+	
 	private void buildDialog(Product product){
+		this.product = product;
 		setTitle("Tilføj Produkt");
 		setBounds(100, 100, 270, 169);
 		getContentPane().setLayout(new BorderLayout());
@@ -125,9 +138,7 @@ class PartSaleDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtAmount.getText().isEmpty() && !txtPrice.getText().isEmpty()){
-							order.addPartSale(product, Double.parseDouble(txtAmount.getText()), Double.parseDouble(txtPrice.getText()));
-							
-							PartSaleDialog.this.dispose();
+							addPartSale();
 						}
 					}
 				});
@@ -149,6 +160,20 @@ class PartSaleDialog extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private void addPartSale() {
+		if(pSale != null){
+			pSale.setUnitPrice(Double.parseDouble(txtPrice.getText()));
+			pSale.setAmount(Double.parseDouble(txtAmount.getText()));
+		}else{
+			order.addPartSale(product, Double.parseDouble(txtAmount.getText()), Double.parseDouble(txtPrice.getText()));
+		}
+		
+		PartSaleDialog.this.dispose();
 	}
 	
 

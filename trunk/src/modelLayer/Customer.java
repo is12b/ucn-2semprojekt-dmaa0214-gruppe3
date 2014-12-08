@@ -204,11 +204,11 @@ public class Customer implements Cloneable{
 		return hidden;
 	}
 	
-	public void addCar(Car car) {
+	public void addCar(Car car) { // NO_UCD (unused code)
 		cars.add(car);
 	}
 	
-	public void removeCar(Car car) {
+	public void removeCar(Car car) { // NO_UCD (unused code)
 		cars.remove(car);
 	}
 	

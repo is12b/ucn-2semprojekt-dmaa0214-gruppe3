@@ -1,4 +1,4 @@
-package guiLayer.models;
+package guiLayer.order.extensions;
 
 import guiLayer.extensions.Utilities;
 
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 import modelLayer.PartSale;
+import modelLayer.Sale;
 
 /**
  * Class for ProductTableModel
@@ -94,4 +95,8 @@ public class OrderTableModel extends AbstractTableModel {
 		return value;
 	}
 
+	public PartSale getPartSaleAt(int rowIndex) {
+		PartSale pSale = partSales.get(rowIndex);
+		return pSale;
+	}
 }

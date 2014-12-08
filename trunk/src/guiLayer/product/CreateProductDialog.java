@@ -48,7 +48,7 @@ import dbLayer.exceptions.DBException;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class CreateProductDialog extends JDialog {
+class CreateProductDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JFormattedTextField txtPrice;
@@ -73,7 +73,7 @@ public class CreateProductDialog extends JDialog {
 	 * @param parent the parent of the dialog
 	 * @param product the product to edit
 	 */
-	public CreateProductDialog(ProductPanel parent, Product product) {
+	CreateProductDialog(ProductPanel parent, Product product) {
 		
 		setTitle("Ændre Produkt #" + product.getId());
 		this.product = product;
@@ -103,7 +103,7 @@ public class CreateProductDialog extends JDialog {
 	 * 
 	 * @param parent the parent of the dialog
 	 */
-	public CreateProductDialog(ProductPanel parent) {
+	CreateProductDialog(ProductPanel parent) {
 				
 		setTitle("Opret Produkt");
 		buildDialog();
@@ -323,7 +323,7 @@ public class CreateProductDialog extends JDialog {
 		return (!isFieldEmpty(txtName) && !isFieldEmpty(txtPrice) && cmbModel.getSelectedUnitType() != null);
 	}
 
-	protected void edit() {
+	private void edit() {
 		try {
 			String name = Utilities.getTextFromReqField(txtName, "Navn");
 			UnitType unitType = cmbModel.getSelectedUnitType();
