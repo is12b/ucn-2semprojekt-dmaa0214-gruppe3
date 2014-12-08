@@ -19,7 +19,7 @@ public class UpdateException extends Exception {
 		super(obj + getError(exists));	
 	}
 	
-	public UpdateException(String obj, int rc) {
+	public UpdateException(String obj, int rc) { // NO_UCD (unused code)
 		super(obj + getError(rc));
 	}
 	

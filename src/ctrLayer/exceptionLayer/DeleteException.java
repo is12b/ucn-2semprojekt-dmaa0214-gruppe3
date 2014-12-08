@@ -20,7 +20,7 @@ public class DeleteException extends Exception {
 		super(obj + getError(exists));	
 	}
 	
-	public DeleteException(String obj, int rc) {
+	public DeleteException(String obj, int rc) { // NO_UCD (unused code)
 		super(obj + getError(rc));
 	}
 	
