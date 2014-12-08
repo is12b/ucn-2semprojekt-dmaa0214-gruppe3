@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dbLayer.DBCar;
+import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBCar;
 
 public class TestDBCar {
@@ -22,7 +23,7 @@ public class TestDBCar {
 	}
 
 	@Test
-	public void test() {
+	public void test() throws DBException {
 		Car car = new Car();
 		car.setOwner(new Customer(1));
 		car.setRegNr("FA21984");

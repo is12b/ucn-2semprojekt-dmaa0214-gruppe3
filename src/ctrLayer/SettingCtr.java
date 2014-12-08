@@ -3,8 +3,10 @@ package ctrLayer;
 import java.util.ArrayList;
 
 import modelLayer.Setting;
+import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFSettingCtr;
 import dbLayer.DBSettings;
+import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBSettings;
 
 /**
@@ -34,9 +36,13 @@ public class SettingCtr implements IFSettingCtr {
 	}
 	
 	@Override
-	public void updateSetting(Setting setting) {
+	public void updateSetting(Setting setting) throws UpdateException {
 		IFDBSettings sCtr = new DBSettings();
-		sCtr.updateSetting(setting);
+		try {
+			sCtr.updateSetting(setting);
+		} catch (DBException e) {
+			throw new UpdateException("Indstillingen", false);
+		}
 	}
 	
 }

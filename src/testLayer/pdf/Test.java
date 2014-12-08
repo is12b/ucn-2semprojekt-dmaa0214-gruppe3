@@ -4,6 +4,7 @@ import modelLayer.PartSale;
 import dbLayer.DBPartSale;
 import dbLayer.DBProduct;
 import dbLayer.DBSale;
+import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBPartSale;
 import dbLayer.interfaceLayer.IFDBProduct;
 import dbLayer.interfaceLayer.IFDBSale;
@@ -18,9 +19,10 @@ public class Test {
 
 	/**
 	 * Constructor for Test objects.
+	 * @throws DBException 
 	 *
 	 */
-	public Test() {
+	public Test() throws DBException {
 		IFDBPartSale dbPartSale = new DBPartSale();
 		IFDBProduct dbProd = new DBProduct();
 		
@@ -53,7 +55,7 @@ public class Test {
 			try {
 				dbProd.insertProduct(p);
 			} catch (DBException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -62,8 +64,9 @@ public class Test {
 
 	/**
 	 * @param args
+	 * @throws DBException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DBException {
 		new Test();
 	}
 

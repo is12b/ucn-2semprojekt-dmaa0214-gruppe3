@@ -1,6 +1,7 @@
 package dbLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 
 import modelLayer.Setting;
 import dbLayer.exceptions.DBException;
-import dbLayer.exceptions.DBNotFoundException;
 import dbLayer.interfaceLayer.IFDBSettings;
 
 /**
@@ -33,7 +33,7 @@ public class DBSettings implements IFDBSettings {
 	public Setting getSettingByKey(String key) {
 		return singleWhere("SETTING = '" + key + "'");
 	}
-	
+	/*
 	@Override
 	public int insertSetting(Setting setting) throws DBException {
 		int rc = -1;
@@ -52,26 +52,28 @@ public class DBSettings implements IFDBSettings {
 		
 		return rc;
 	}
+	*/
 	
 	@Override
 	public int updateSetting(Setting setting) throws DBException{
 		int rc = -1;
 		
 		try{
-			String query = "UPDATE SETTINGS SET value = '" + setting.getValue() + "' WHERE Setting = '" + setting.getKey() + "'";
-			Statement stmt = conn.createStatement();
+			String query = "UPDATE SETTINGS SET value=? WHERE Setting=?";
+			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
-			rc = stmt.executeUpdate(query);
+			stmt.setString(1, setting.getValue());
+			stmt.setString(2, setting.getKey());
+			rc = stmt.executeUpdate();
 			stmt.close();
 		}catch(SQLException e){
 			//System.out.println("DBSettings - updateSetting");
-			//e.printStackTrace();
+			e.printStackTrace();
 			throw new DBException("Indstilling", e);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
-		if(rc == 0){
-			throw new DBNotFoundException("Indstilling", 2);
-		}
 		
 		return rc;
 	}

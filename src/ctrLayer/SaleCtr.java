@@ -15,6 +15,7 @@ import ctrLayer.interfaceLayer.IFCustomerCtr;
 import ctrLayer.interfaceLayer.IFProductCtr;
 import ctrLayer.interfaceLayer.IFSaleCtr;
 import dbLayer.DBSale;
+import dbLayer.exceptions.DBException;
 import dbLayer.interfaceLayer.IFDBSale;
 
 public class SaleCtr implements IFSaleCtr {
@@ -182,8 +183,9 @@ public class SaleCtr implements IFSaleCtr {
 			throw new SubmitException("Der er ikke tilføjet nogle produkter til ordren");
 		}else{
 			IFDBSale dbSale = new DBSale();
-			int rc = dbSale.insertSale(sale);
-			if(rc == -1){
+			try {
+				dbSale.insertSale(sale);
+			} catch (DBException e) {
 				throw new SubmitException("Ordren kunne ikke oprettes (Database fejl)");
 			}
 		}

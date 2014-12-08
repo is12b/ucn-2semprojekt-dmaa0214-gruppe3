@@ -2,6 +2,7 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import ctrLayer.exceptionLayer.UpdateException;
 import modelLayer.Setting;
 
 /**
@@ -16,5 +17,5 @@ public interface IFSettingCtr {
 	
 	public ArrayList<Setting> getAllSettings();
 	
-	public void updateSetting(Setting setting);
+	public void updateSetting(Setting setting) throws UpdateException;
 }

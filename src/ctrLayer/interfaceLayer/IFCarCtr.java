@@ -5,6 +5,7 @@ import ctrLayer.exceptionLayer.DeleteException;
 import ctrLayer.exceptionLayer.InsertException;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 import ctrLayer.exceptionLayer.UpdateException;
+import dbLayer.exceptions.DBException;
 
 /**
  * Class for IFCarCtr
@@ -18,7 +19,7 @@ public interface IFCarCtr {
 	
 	public Car getCarByVin(String vin, boolean retAsso) throws ObjectNotExistException;
 	
-	public Car createCar(String brand, String model, String regNr, String vin, int mileage, int year, Customer owner) throws InsertException; // NO_UCD (unused code)
+	public Car createCar(String brand, String model, String regNr, String vin, int mileage, int year, Customer owner) throws DBException; // NO_UCD (unused code)
 	
 	public void updateCar(Car car) throws UpdateException; // NO_UCD (test only)
 	

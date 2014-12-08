@@ -28,6 +28,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CustomerCtr;
+import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 
 /**
@@ -258,7 +259,11 @@ public class CustomerInfoDialog extends JDialog {
 	 */
 	private void updateCustomer() {
 		IFCustomerCtr cCtr = new CustomerCtr();
-		cCtr.updateCustomer(customer, txtName.getText(), txtPhone.getText(), txtAddress.getText(), txtCity.getText(), Integer.parseInt(txtPost.getText()), Integer.parseInt(txtCvr.getText()), false);
+		try {
+			cCtr.updateCustomer(customer, txtName.getText(), txtPhone.getText(), txtAddress.getText(), txtCity.getText(), Integer.parseInt(txtPost.getText()), Integer.parseInt(txtCvr.getText()), false);
+		} catch (UpdateException e) {
+			Utilities.showError(this, e.getMessage());
+		}
 	}
 
 	private void updateList() {

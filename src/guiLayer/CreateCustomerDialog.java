@@ -23,6 +23,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CustomerCtr;
+import dbLayer.exceptions.DBException;
 
 /**
  * Class for CreateCustomerDialog
@@ -262,8 +263,13 @@ public class CreateCustomerDialog extends JDialog {
 
 
 
-		CustomerCtr cCtr = new CustomerCtr();
-		cCtr.createCustomer(name, phone, address, postalCode, cvr, false);
+		
+		try {
+			CustomerCtr cCtr = new CustomerCtr();
+			cCtr.createCustomer(name, phone, address, postalCode, cvr, false);
+		} catch (DBException e) {
+			Utilities.showError(this, e.getMessage());
+		}
 
 	}
 

@@ -16,7 +16,7 @@ public interface IFDBSettings {
 	
 	public Setting getSettingByKey(String key);
 	
-	public int insertSetting(Setting setting) throws DBException;
+	//public int insertSetting(Setting setting) throws DBException;
 
 	public int updateSetting(Setting setting) throws DBException;
 

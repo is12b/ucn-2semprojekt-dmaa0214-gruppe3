@@ -1,6 +1,7 @@
 package guiLayer;
 
 import guiLayer.extensions.JTextFieldLimit;
+import guiLayer.extensions.Utilities;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -23,6 +24,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.SettingCtr;
+import ctrLayer.exceptionLayer.UpdateException;
 import ctrLayer.interfaceLayer.IFSettingCtr;
 
 /**
@@ -370,17 +372,22 @@ class InvoiceSettingsDialog extends JDialog {
 	private void saveSettings() {
 		IFSettingCtr sCtr = new SettingCtr();
 		
-		sCtr.updateSetting(new Setting("INVOICE_ADDRESS", txtAddress.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_POST", txtPost.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_CITY", txtCity.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_WEBSITE", txtWebsite.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_NAME", txtName.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_EMAIL", txtEmail.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_PHONE", txtPhone.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_FAX", txtFax.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_CVR", txtCVR.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_REG", txtReg.getText()));
-		sCtr.updateSetting(new Setting("INVOICE_ACC", txtAcc.getText()));
+		try {
+			sCtr.updateSetting(new Setting("INVOICE_ADDRESS", txtAddress.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_POST", txtPost.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_CITY", txtCity.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_WEBSITE", txtWebsite.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_NAME", txtName.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_EMAIL", txtEmail.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_PHONE", txtPhone.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_FAX", txtFax.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_CVR", txtCVR.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_REG", txtReg.getText()));
+			sCtr.updateSetting(new Setting("INVOICE_ACC", txtAcc.getText()));
+		} catch (UpdateException e) {
+			Utilities.showError(this, "Indtillingerne kunne ikke gemmes \nDette kan muligvis skyldes ulovlige tegn");
+		}
+		
 		
 		this.dispose();
 	}
