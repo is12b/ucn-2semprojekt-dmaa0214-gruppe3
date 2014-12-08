@@ -68,6 +68,7 @@ public class SaleCtr implements IFSaleCtr {
 		return pSale;
 	}
 	
+	@Override
 	public void removePartSale(PartSale pSale){
 		sale.removePartSale(pSale);
 	}
@@ -168,7 +169,7 @@ public class SaleCtr implements IFSaleCtr {
 	/**
 	 * Paid
 	 */
-	
+	@Override
 	public void setPaid(boolean paid){
 		sale.setPaid(paid);
 	}
@@ -203,4 +204,110 @@ public class SaleCtr implements IFSaleCtr {
 		return retBool;
 	}
 
+//SaleOverview downhere	
+	
+	@Override
+	public Sale getSaleByID(int id) throws ObjectNotExistException {
+		IFDBSale dbSale = new DBSale();
+		Sale s = dbSale.getSale(id);
+		if (s == null) {
+			throw new ObjectNotExistException("Faktura Nummeret blev ikke fundet");
+		}
+		return s;
+	}
+	
+	@Override
+	public ArrayList<Sale> getAllSales() throws ObjectNotExistException {
+		IFDBSale dbSale = new DBSale();
+		
+		ArrayList<Sale> list = dbSale.getAllSales();
+		if (list == null || list.size() == 0) {
+			throw new ObjectNotExistException("Der er ingen fakturaer i systemet");
+		}
+		return list;
+	}
+	
+	@Override
+	public ArrayList<Sale> getSaleByCarRegNr(String regNr) throws ObjectNotExistException {
+		IFCarCtr carCtr = new CarCtr();
+		Car car = carCtr.getCarByRegNr(regNr, false);
+		
+		IFDBSale dbSale = new DBSale();
+		ArrayList<Sale> sales = dbSale.getSales(car);
+		if (sales == null || sales.size() == 0) {
+			throw new ObjectNotExistException("Bilen blev fundet, men der er ingen "
+					+ "faktura tilknyttet bilen med regNr: " + car.getRegNr());
+		}
+		return sales;
+	}
+	
+	@Override
+	public ArrayList<Sale> getSaleByCarVIN(String vin) throws ObjectNotExistException {
+		IFCarCtr carCtr = new CarCtr();
+		Car car = carCtr.getCarByVin(vin, false);
+		
+		IFDBSale dbSale = new DBSale();
+		ArrayList<Sale> sales = dbSale.getSales(car);
+		if (sales == null || sales.size() == 0) {
+			throw new ObjectNotExistException("Bilen blev fundet, men der er ingen "
+					+ "faktura tilknyttet bilen med stelnr.: " + car.getVin());
+		}
+		return sales;
+	}
+	
+	@Override
+	public ArrayList<Sale> getSaleByCusName(String name) throws ObjectNotExistException {
+		IFCustomerCtr cusCtr = new CustomerCtr();
+		ArrayList<Customer> cusList = cusCtr.searchCustomersByName(name, false);
+		
+		ArrayList<Sale> sales = getSalesByCusList(cusList);
+		
+		if (sales == null || sales.size() == 0) {
+			throw new ObjectNotExistException("min. 1 kunde med navnet blev fundet, men der er ingen "
+					+ "faktura tilknyttet kunden/kunderne");
+		}
+		return sales;
+	}
+	
+	@Override
+	public ArrayList<Sale> getSaleByCusPhone(String phone) throws ObjectNotExistException {
+		IFCustomerCtr cusCtr = new CustomerCtr();
+		ArrayList<Customer> cusList = cusCtr.searchCustomersByPhone(phone, false);
+		
+		ArrayList<Sale> sales = getSalesByCusList(cusList);
+		
+		if (sales == null || sales.size() == 0) {
+			throw new ObjectNotExistException("min. 1 kunde med navnet blev fundet, men der er ingen "
+					+ "faktura tilknyttet kunden/kunderne");
+		}
+		return sales;
+	}
+	
+	@Override
+	public ArrayList<Sale> getSaleByCusCVR(String cvr) throws ObjectNotExistException {
+		IFCustomerCtr cusCtr = new CustomerCtr();
+		Customer cus = cusCtr.getCustomerByCvr(cvr, false);
+		
+		IFDBSale dbSale = new DBSale();
+		ArrayList<Sale> sales = dbSale.getSales(cus);
+		
+		if (sales == null || sales.size() == 0) {
+			throw new ObjectNotExistException("min. 1 kunde med navnet blev fundet, men der er ingen "
+					+ "faktura tilknyttet kunden/kunderne");
+		}
+		return sales;
+	}
+		
+	private ArrayList<Sale> getSalesByCusList(ArrayList<Customer> cusList) {
+		IFDBSale dbSale = new DBSale();
+		ArrayList<Sale> sales = new ArrayList<Sale>();
+		
+		for (Customer cus : cusList) {
+			ArrayList<Sale> cusSales = dbSale.getSales(cus);
+			if (cusSales != null && cusSales.size() != 0) {
+				sales.addAll(cusSales);
+			}
+		}
+		return sales;
+	}
 }

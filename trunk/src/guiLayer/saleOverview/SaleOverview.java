@@ -40,7 +40,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-import ctrLayer.SaleOverviewCtr;
+import ctrLayer.SaleCtr;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
 
 /**
@@ -432,7 +432,7 @@ public class SaleOverview extends TabbedPanel {
 
 	private void searchBySale() {
 		try {
-			SaleOverviewCtr sCtr = new SaleOverviewCtr();
+			SaleCtr sCtr = new SaleCtr();
 			ArrayList<Sale> sList = new ArrayList<Sale>();
 			if (!txtSaleID.isEmpty()) {
 				Sale s = sCtr.getSaleByID(txtSaleID.getValue());
@@ -453,7 +453,7 @@ public class SaleOverview extends TabbedPanel {
 	private void searchByCar() {
 		try {
 			ArrayList<Sale> sList = null;
-			SaleOverviewCtr sCtr = new SaleOverviewCtr();
+			SaleCtr sCtr = new SaleCtr();
 			if(!txtRegNr.isEmpty()) {
 				sList = sCtr.getSaleByCarRegNr(txtRegNr.getText().trim());
 			} else if (!txtVIN.isEmpty()) {
@@ -468,7 +468,7 @@ public class SaleOverview extends TabbedPanel {
 	private void searchByCus() {
 		try {
 			ArrayList<Sale> sList = null;
-			SaleOverviewCtr sCtr = new SaleOverviewCtr();
+			SaleCtr sCtr = new SaleCtr();
 			if(!txtCusName.isEmpty()) {
 				sList = sCtr.getSaleByCusName(txtCusName.getText());
 			} else if (!txtPhone.isEmpty()) {
