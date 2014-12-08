@@ -11,9 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ctrLayer.ProductCtr;
-import ctrLayer.UnitTypeCtr;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
+import dbLayer.DBUnitType;
 import dbLayer.exceptions.DBException;
+import dbLayer.interfaceLayer.IFDBUnitType;
 
 /**
  * Class for ProductCtrTest
@@ -70,13 +71,14 @@ public class ProductCtrTest {
 
 	@Test
 	public void testCreateDelete() throws DBException, ObjectNotExistException {
-		//UnitTypeCtr uCtr = new UnitTypeCtr();
-		//UnitType unitType = uCtr.getUnitType("L");
-		//Product createdProduct = pCtr.createProduct("Brand", "Name", "Description", "itemNumber", 111.1, unitType);
-		//System.out.println(createdProduct.getName());
+		IFDBUnitType dbUnit = new DBUnitType();
+		UnitType unitType = dbUnit.getUnitType("L");
+		Product createdProduct = pCtr.createProduct("Brand", "Name", "Description", "itemNumber", 111.1, unitType);
+		System.out.println(createdProduct.getName());
 
-		//pCtr.deleteProduct(createdProduct);
-		//assertNotNull(createdProduct);
+		pCtr.deleteProduct(createdProduct);
+		assertNotNull(createdProduct);
 
 	}
+	
 }

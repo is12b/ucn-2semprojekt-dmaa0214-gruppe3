@@ -58,7 +58,7 @@ public interface IFDBSale {
 	 * @param sale the Sale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int updateSale(Sale sale);
+	public int updateSale(Sale sale); // NO_UCD (unused code)
 	
 	/**
 	 * Delete Sale from the database..
@@ -66,5 +66,5 @@ public interface IFDBSale {
 	 * @param sale the Sale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int deleteSale(Sale sale);
+	public int deleteSale(Sale sale); // NO_UCD (unused code)
 }

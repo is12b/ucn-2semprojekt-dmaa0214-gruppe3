@@ -105,7 +105,7 @@ public abstract class Utilities {
 	 * @param i the length of the returned string
 	 * @return the shorten string
 	 */
-	public static String shortenString(String str, int length) {
+	public static String shortenString(String str, int length) { // NO_UCD (unused code)
 		String retStr = str;
 		
 		if(str.length() > length) {

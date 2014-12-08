@@ -343,7 +343,7 @@ public class SaleOverview extends TabbedPanel {
 		table.getRowSorter().toggleSortOrder(0);
 	}
 
-	protected void tableMouseListener(MouseEvent e) {
+	private void tableMouseListener(MouseEvent e) {
 		int rowNumber = table.rowAtPoint(e.getPoint());
 		int modelRowNum = table.convertRowIndexToModel(rowNumber);
         table.setRowSelectionInterval(rowNumber, rowNumber);

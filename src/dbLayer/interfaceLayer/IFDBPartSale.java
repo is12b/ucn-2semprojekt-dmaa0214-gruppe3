@@ -36,7 +36,7 @@ public interface IFDBPartSale {
 	 * @param partSale the PartSale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int updatePartSale(PartSale partSale);
+	public int updatePartSale(PartSale partSale); // NO_UCD (unused code)
 	
 	/**
 	 * Delete PartSale from the database..
@@ -44,6 +44,6 @@ public interface IFDBPartSale {
 	 * @param partSale the PartSale
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int deletePartSale(PartSale partSale);
+	public int deletePartSale(PartSale partSale); // NO_UCD (unused code)
 
 }

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 
-public class DBConnection {
+class DBConnection {
 	private static final String driver = "jdbc:sqlserver://balder.ucn.dk";
 	private static final String dbName = ";databaseName=dmaa0214Projekt_3";
 
@@ -54,7 +54,7 @@ public class DBConnection {
 	/**
 	 * Closing the Connection
 	 */
-	public static void closeConnection() {
+	static void closeConnection() { // NO_UCD (unused code)
 		try {
 			conn.close();
 			System.out.println("Connection closed!");
@@ -78,7 +78,7 @@ public class DBConnection {
 	 *
 	 * @return DBConnection
 	 */
-	public static DBConnection getInstance() {
+	static DBConnection getInstance() {
 		if (instance == null) {
 			try {
 				instance = new DBConnection();
@@ -94,7 +94,7 @@ public class DBConnection {
 	/**
 	 * Starting Transaction
 	 */
-	public static void startTransaction() {
+	static void startTransaction() {
 		try {
 			conn.setAutoCommit(false);
 		} catch (Exception e) {
@@ -105,7 +105,7 @@ public class DBConnection {
 	/**
 	 * Commiting Transaction
 	 */
-	public static void commitTransaction() {
+	static void commitTransaction() {
 		try {
 			conn.setAutoCommit(true);
 		} catch (Exception e) {
@@ -117,7 +117,7 @@ public class DBConnection {
 	/**
 	 * Rollback Transaction
 	 */
-	public static void rollBackTransaction() {
+	static void rollBackTransaction() {
 		try {
 			conn.rollback();
 			conn.setAutoCommit(true);

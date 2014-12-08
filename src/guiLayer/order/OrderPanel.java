@@ -7,13 +7,15 @@ import guiLayer.exceptions.SubmitException;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.extensions.Utilities;
-import guiLayer.models.OrderTableModel;
 import guiLayer.order.extensions.MileageDialog;
+import guiLayer.order.extensions.OrderTableModel;
 
 import java.awt.Color;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -24,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
@@ -118,6 +121,12 @@ public class OrderPanel extends TabbedPanel {
 		add(scrollPane, "4, 2, fill, fill");
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				tableMouseListener(e);
+			}
+		});
 		oTableModel = new OrderTableModel();
 		table.setModel(oTableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -502,6 +511,27 @@ public class OrderPanel extends TabbedPanel {
 		
 	}
 
+	private void tableMouseListener(MouseEvent e) {
+		int rowNumber = table.rowAtPoint(e.getPoint());
+		int modelRowNum = table.convertRowIndexToModel(rowNumber);
+        table.setRowSelectionInterval(rowNumber, rowNumber);
+        if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
+        	PartSale pSale = oTableModel.getPartSaleAt(modelRowNum);
+        	
+        	PartSaleDialog pDialog = new PartSaleDialog(pSale, this);
+			pDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+			pDialog.setVisible(true);
+			
+			refresh();
+        }else if(SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 2){
+        	PartSale pSale = oTableModel.getPartSaleAt(modelRowNum);
+        	
+        	sale.removePartSale(pSale);
+        	refresh();
+
+        }
+	}
+
 	/**
 	 * TextFields
 	 */
@@ -708,11 +738,9 @@ public class OrderPanel extends TabbedPanel {
 	
 	void addPartSale(Product product, double amount, double unitPrice){
 		sCtr.createPartSale(product, amount, unitPrice);
-		oTableModel.refresh(sale.getPartSales());
-		oTableModel.fireTableDataChanged();
-		updatePrice();
-	}
-	
+		refresh();
+	}	
+
 	/**
 	 * Price
 	 */
@@ -817,5 +845,11 @@ public class OrderPanel extends TabbedPanel {
 	
 	private void clearOrder(){
 		parent.recreateOrderPanel();
+	}
+	
+	private void refresh() {
+		oTableModel.refresh(sale.getPartSales());
+		oTableModel.fireTableDataChanged();
+		updatePrice();
 	}
 }

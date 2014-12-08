@@ -321,7 +321,7 @@ public class UnitTypeDialog extends JDialog {
 		}
 	}
 
-	protected void edit() {
+	private void edit() {
 		if (isSomethingChanged()) {
 			//System.out.println("før: " + unitType);
 			try {

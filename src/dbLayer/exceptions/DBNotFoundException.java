@@ -39,7 +39,7 @@ public class DBNotFoundException extends DBException {
 	 *
 	 * @param message
 	 */
-	public DBNotFoundException(String message) {
+	public DBNotFoundException(String message) { // NO_UCD (unused code)
 		super(message);
 	}
 	

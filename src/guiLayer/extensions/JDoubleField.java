@@ -14,7 +14,7 @@ public class JDoubleField extends JTextField {
 		super();
 	}
 	
-	public JDoubleField(int col) {
+	public JDoubleField(int col) { // NO_UCD (unused code)
 		super(col);
 	}
 	
@@ -41,10 +41,10 @@ public class JDoubleField extends JTextField {
 		return new UpperCaseDocument();
 	}
 	
-	static class UpperCaseDocument extends PlainDocument {
+	private static class UpperCaseDocument extends PlainDocument {
 		private static final long serialVersionUID = 1L;
 		
-		public void insertString(int offs, String str, AttributeSet a, boolean forced) throws BadLocationException {
+		private void insertString(int offs, String str, AttributeSet a, boolean forced) throws BadLocationException {
 			super.insertString(offs, str, a);
 		}
 		

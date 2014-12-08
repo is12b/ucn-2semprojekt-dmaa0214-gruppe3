@@ -15,7 +15,7 @@ import modelLayer.Car;
 public class CarListModel extends AbstractListModel<Car> {
 
 	private static final long serialVersionUID = 1L;
-	ArrayList<Car> cars;
+	private ArrayList<Car> cars;
 	
 	public CarListModel(ArrayList<Car> cars){
 		this.cars = cars; 

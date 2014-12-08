@@ -16,7 +16,7 @@ import dbLayer.interfaceLayer.IFDBPostalcode;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class DBPostalCode implements IFDBPostalcode {
+public class DBPostalCode implements IFDBPostalcode { // NO_UCD (use default)
 	private Connection conn;
 
 	public DBPostalCode(){
@@ -106,13 +106,7 @@ public class DBPostalCode implements IFDBPostalcode {
 			}
 
 			stmt.close();
-		}catch(SQLException e){    //Foreign key error
-			if(e.getErrorCode() == 547){
-				//TODO
-				//TODO
-			}
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			System.out.println("DBPostalCode - singleWhere - Exception");
 			e.printStackTrace();
 		}
