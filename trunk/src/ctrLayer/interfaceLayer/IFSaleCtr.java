@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import modelLayer.Car;
 import modelLayer.Customer;
+import modelLayer.PartSale;
 import modelLayer.Product;
 import modelLayer.Sale;
 import ctrLayer.exceptionLayer.ObjectNotExistException;
@@ -29,6 +30,8 @@ public interface IFSaleCtr {
 	public ArrayList<Product> searchProductsByItemNumber(String itemNumber) throws ObjectNotExistException;
 	
 	public void createPartSale(Product product, double amount, double unitPrice);
+	
+	public void removePartSale(PartSale pSale);
 	
 	/**
 	 * @param cvr

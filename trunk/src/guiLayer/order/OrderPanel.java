@@ -525,8 +525,8 @@ public class OrderPanel extends TabbedPanel {
 			refresh();
         }else if(SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 2){
         	PartSale pSale = oTableModel.getPartSaleAt(modelRowNum);
+        	sCtr.removePartSale(pSale);
         	
-        	sale.removePartSale(pSale);
         	refresh();
 
         }
