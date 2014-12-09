@@ -834,8 +834,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		
 		if(c == JOptionPane.YES_OPTION){
 			try {
-				sCtr.setPaid(chkPaid.isSelected());
-				Sale s = sCtr.commit();
+				Sale s = sCtr.commit(chkPaid.isSelected());
 
 				new PDFViewerDialog(this, s.getId());
 				

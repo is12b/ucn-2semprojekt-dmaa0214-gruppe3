@@ -240,7 +240,7 @@ public class DBCar implements IFDBCar {
 			}
 			
 			stmt.close();
-		}catch(Exception e){
+		}catch(Exception e){ //TODO exception skal laves til DBException i hele klassen
 			System.out.println("DBCar - SingleWhere - Exception");
 			e.printStackTrace();
 		}

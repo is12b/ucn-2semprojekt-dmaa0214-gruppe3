@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import modelLayer.Car;
 import modelLayer.Customer;
 import dbLayer.interfaceLayer.IFDBCar;
@@ -145,15 +143,14 @@ public class DBCustomer implements IFDBCustomer {
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
 			stmt.close();
-		}catch(SQLServerException e){    //Foreign key error
+		}catch(SQLException e){    //Foreign key error
 			if(e.getErrorCode() == 547){
 				customer.setHidden(true);
-				updateCustomer(customer);
+				rc = updateCustomer(customer);
+			} else {
+				throw new DBException("Kunde", e);
 			}
-		}catch(SQLException e){
-			throw new DBException("Kunde", e);
 		}
-		
 		return rc;
 	}
 
@@ -251,7 +248,7 @@ public class DBCustomer implements IFDBCustomer {
 					customer.setCars(getCars(customer));
 				}
 			}
-		} catch (Exception e) {
+		} catch (Exception e) { //TODO Exception skal være DBExcetion
 			System.out.println("DBCustomer - singleWhere - Exception");
 			e.printStackTrace();
 		}		
