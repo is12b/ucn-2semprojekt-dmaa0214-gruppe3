@@ -64,10 +64,8 @@ public interface IFSaleCtr {
 	public void addDescription(String desc);
 	
 	public String getDescription();
-	
-	public void setPaid(boolean paid);
-	
-	public Sale commit() throws SubmitException;
+		
+	public Sale commit(boolean paid) throws SubmitException;
 
 	/**
 	 * @param mileage

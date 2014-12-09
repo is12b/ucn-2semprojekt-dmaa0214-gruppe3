@@ -162,29 +162,22 @@ public class SaleCtr implements IFSaleCtr {
 	public int getMileage() {
 		return sale.getMileage();
 	}
-	
-	/**
-	 * Paid
-	 */
-	@Override
-	public void setPaid(boolean paid){
-		sale.setPaid(paid);
-	}
-	
+		
 	/**
 	 * Commit / Save
 	 */
 
 	@Override
-	public Sale commit() throws SubmitException {
+	public Sale commit(boolean paid) throws SubmitException {
 		if(!checkPartSales()){
 			throw new SubmitException("Der er ikke tilføjet nogle produkter til ordren");
 		}else{
 			IFDBSale dbSale = new DBSale();
 			try {
+				sale.setPaid(paid);
 				dbSale.insertSale(sale);
 			} catch (DBException e) {
-				throw new SubmitException("Ordren kunne ikke oprettes (Database fejl)");
+				throw new SubmitException("Ordren kunne ikke oprettes (Database fejl)"); //TODO hvorfor gribes?
 			}
 		}
 		
@@ -201,7 +194,7 @@ public class SaleCtr implements IFSaleCtr {
 		return retBool;
 	}
 
-//SaleOverviewPanel downhere	
+//SaleOverviewPanel down here	
 	
 	@Override
 	public Sale getSaleByID(int id) throws ObjectNotExistException {
