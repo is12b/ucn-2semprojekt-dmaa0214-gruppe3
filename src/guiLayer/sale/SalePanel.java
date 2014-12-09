@@ -82,6 +82,9 @@ public class SalePanel extends TabbedPanel {
 	private JCheckBox chkPaid;
 	private JButton btnDesc;
 	private JButton btnMileage;
+	private JButton btnCarSearch;
+	private JButton btnCustomerSearch;
+	private JButton btnProductSearch;
 
 	/**
 	 * Constructors
@@ -195,7 +198,7 @@ public class SalePanel extends TabbedPanel {
 			new RowSpec[] {
 				RowSpec.decode("23px"),}));
 		
-		JButton btnCustomerSearch = new JButton("S\u00F8g");
+		btnCustomerSearch = new JButton("S\u00F8g");
 		btnCustomerSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				customerSearch();
@@ -260,7 +263,7 @@ public class SalePanel extends TabbedPanel {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JButton btnProductSearch = new JButton("S\u00F8g");
+		btnProductSearch = new JButton("S\u00F8g");
 		btnProductSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				searchProduct();
@@ -316,7 +319,7 @@ public class SalePanel extends TabbedPanel {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JButton btnCarSearch = new JButton("S\u00F8g");
+		btnCarSearch = new JButton("S\u00F8g");
 		btnCarSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carSearch();
@@ -550,14 +553,14 @@ public class SalePanel extends TabbedPanel {
 	}
 
 	private void populateTextFields() {
-		addDocumentListener(customerFields);
-		addDocumentListener(carFields);
-		addDocumentListener(productFields);
+		addDocumentListener(customerFields, parent, btnCustomerSearch);
+		addDocumentListener(carFields, parent, btnCarSearch);
+		addDocumentListener(productFields, parent, btnProductSearch);
 	}
 
-	private void addDocumentListener(ArrayList<JTextField> fields) {
+	private void addDocumentListener(ArrayList<JTextField> fields, MainGUI parent, JButton button) {
 		for(JTextField f : fields){
-			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f));
+			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f, parent, button));
 		}
 	}
 	
