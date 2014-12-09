@@ -8,7 +8,7 @@ import javax.swing.JPanel;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public interface TabbedPanel {
+public interface IFTabbedPanel {
 	
 	/**
 	 * Defined that Component that {@link java.awt.Component#requestFocusInWindow()

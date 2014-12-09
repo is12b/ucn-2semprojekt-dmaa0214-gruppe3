@@ -5,7 +5,7 @@ import exceptions.ObjectNotExistException;
 import guiLayer.MainGUI;
 import guiLayer.PDFViewerDialog;
 import guiLayer.extensions.JTextFieldLimit;
-import guiLayer.extensions.TabbedPanel;
+import guiLayer.extensions.IFTabbedPanel;
 import guiLayer.extensions.Utilities;
 import guiLayer.sale.extensions.PaidTableCellRenderer;
 import guiLayer.sale.models.SaleOverviewTableModel;
@@ -49,7 +49,7 @@ import ctrLayer.SaleCtr;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class SaleOverviewPanel extends JPanel implements TabbedPanel {
+public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 
 	private static final long serialVersionUID = 1L;
 	private MainGUI parent;
