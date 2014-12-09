@@ -33,14 +33,14 @@ class CustomerDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private CustomerTreeModel model;
 	private JTree tree;
-	private OrderPanel parent;
+	private SalePanel parent;
 	
 	/**
 	 * Create the dialog.
 	 * @wbp.parser.constructor
 	 */
 	
-	CustomerDialog(ArrayList<Customer> customers, OrderPanel parent){
+	CustomerDialog(ArrayList<Customer> customers, SalePanel parent){
 		this.parent = parent;
 		buildDialog(customers);
 	}	

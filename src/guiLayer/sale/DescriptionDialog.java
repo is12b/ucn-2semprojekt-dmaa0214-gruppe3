@@ -26,12 +26,12 @@ class DescriptionDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextArea txtDesc;
-	private OrderPanel parent;
+	private SalePanel parent;
 	
 	/**
 	 * Create the dialog.
 	 */
-	DescriptionDialog(OrderPanel parent) {
+	DescriptionDialog(SalePanel parent) {
 		this.parent = parent;
 		setTitle("Beskrivelse");
 		setModalityType(ModalityType.APPLICATION_MODAL);
