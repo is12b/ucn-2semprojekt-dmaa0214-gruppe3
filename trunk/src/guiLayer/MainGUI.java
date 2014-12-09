@@ -36,7 +36,7 @@ public class MainGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
 	private CustomerPanel tabCus;
-	private CarPanel tabCar;
+	//private CarPanel tabCar;
 	private SalePanel tabOrder;
 	private ProductPanel tabProd;
 	private SaleOverview tabSaleOverview;
