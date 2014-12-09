@@ -203,7 +203,7 @@ public class SaleCtr implements IFSaleCtr {
 		return retBool;
 	}
 
-//SaleOverview downhere	
+//SaleOverviewPanel downhere	
 	
 	@Override
 	public Sale getSaleByID(int id) throws ObjectNotExistException {
