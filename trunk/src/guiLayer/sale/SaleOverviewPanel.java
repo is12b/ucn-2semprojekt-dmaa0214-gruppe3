@@ -44,12 +44,12 @@ import com.jgoodies.forms.layout.RowSpec;
 import ctrLayer.SaleCtr;
 
 /**
- * Class for SaleOverview
+ * Class for SaleOverviewPanel
  *
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class SaleOverview extends TabbedPanel {
+public class SaleOverviewPanel extends TabbedPanel {
 
 	private static final long serialVersionUID = 1L;
 	private MainGUI parent;
@@ -70,10 +70,10 @@ public class SaleOverview extends TabbedPanel {
 	private JCheckBox chbAll;
 
 	/**
-	 * Constructor for SaleOverview objects.
+	 * Constructor for SaleOverviewPanel objects.
 	 *
 	 */
-	public SaleOverview(MainGUI parent) {
+	public SaleOverviewPanel(MainGUI parent) {
 		this.parent = parent;
 		buildPanel();
 	}
