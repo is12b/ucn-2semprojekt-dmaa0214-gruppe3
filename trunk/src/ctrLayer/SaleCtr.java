@@ -98,15 +98,15 @@ public class SaleCtr implements IFSaleCtr {
 	}
 	
 	@Override
-	public Car getCarByRegNr(String regNr, boolean retAsso) throws ObjectNotExistException{
+	public Car getCarByRegNr(String regNr) throws ObjectNotExistException{
 		IFCarCtr cCtr = new CarCtr();
-		return cCtr.getCarByRegNr(regNr, retAsso);
+		return cCtr.getCarByRegNr(regNr, true);
 	}
 
 	@Override
-	public Car getCarByVin(String vin, boolean retAsso) throws ObjectNotExistException{
+	public Car getCarByVin(String vin) throws ObjectNotExistException{
 		IFCarCtr cCtr = new CarCtr();
-		return cCtr.getCarByVin(vin, retAsso);
+		return cCtr.getCarByVin(vin, true);
 	}	
 	
 	/**
@@ -119,23 +119,21 @@ public class SaleCtr implements IFSaleCtr {
 	}
 
 	@Override
-	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws ObjectNotExistException{
+	public Customer getCustomerByCvr(String cvr) throws ObjectNotExistException{
 		IFCustomerCtr cCtr = new CustomerCtr();
-		return cCtr.getCustomerByCvr(cvr, retAsso);
+		return cCtr.getCustomerByCvr(cvr, true);
 	}
 
 	@Override
-	public ArrayList<Customer> searchCustomersByName(String name,
-			boolean retAsso) throws ObjectNotExistException{
+	public ArrayList<Customer> searchCustomersByName(String name) throws ObjectNotExistException{
 		IFCustomerCtr cCtr = new CustomerCtr();
-		return cCtr.searchCustomersByName(name, retAsso);
+		return cCtr.searchCustomersByName(name, true);
 	}
 
 	@Override
-	public ArrayList<Customer> searchCustomersByPhone(String phone,
-			boolean retAsso) throws ObjectNotExistException{
+	public ArrayList<Customer> searchCustomersByPhone(String phone) throws ObjectNotExistException{
 		IFCustomerCtr cCtr = new CustomerCtr();
-		return cCtr.searchCustomersByPhone(phone, retAsso);
+		return cCtr.searchCustomersByPhone(phone, true);
 	}
 	
 	/**
