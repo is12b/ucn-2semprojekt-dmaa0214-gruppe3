@@ -34,7 +34,7 @@ public class DBSettings implements IFDBSettings {
 	public Setting getSettingByKey(String key) {
 		return singleWhere("SETTING = '" + key + "'");
 	}
-	/*
+	
 	@Override
 	public int insertSetting(Setting setting) throws DBException {
 		int rc = -1;
@@ -53,7 +53,7 @@ public class DBSettings implements IFDBSettings {
 		
 		return rc;
 	}
-	*/
+	
 	
 	@Override
 	public int updateSetting(Setting setting) throws DBException{

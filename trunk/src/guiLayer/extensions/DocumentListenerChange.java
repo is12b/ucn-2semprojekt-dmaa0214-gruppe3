@@ -34,7 +34,7 @@ public class DocumentListenerChange implements DocumentListener {
 	 * Constructor for DocumentListenerChange objects.
 	 *
 	 */
-	public DocumentListenerChange(ArrayList<JTextField> fields, JTextField root, MainGUI frame, // NO_UCD (use default)
+	public DocumentListenerChange(ArrayList<JTextField> fields, JTextField root, MainGUI frame,
 			JButton defaultBtn) {
 		this.fields = fields;
 		this.root = root;
