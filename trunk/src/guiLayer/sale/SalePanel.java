@@ -51,7 +51,7 @@ import ctrLayer.interfaceLayer.IFSaleCtr;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class SalePanel extends TabbedPanel {
+public class SalePanel extends JPanel implements TabbedPanel  {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtCustomerName;
 	private JTextField txtCustomerPhone;

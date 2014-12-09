@@ -40,7 +40,7 @@ import ctrLayer.interfaceLayer.IFCustomerCtr;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class CustomerPanel extends TabbedPanel {
+public class CustomerPanel extends JPanel implements TabbedPanel  {
 	private static final long serialVersionUID = 1L;
 	private MainGUI parent;
 	private JTextFieldLimit txtRegNr;
@@ -53,7 +53,6 @@ public class CustomerPanel extends TabbedPanel {
 	private ArrayList<JTextField> customerFields;
 	private JButton btnSearch;
 
-	//TODO Grey out other fields, so only the one being searched for is highlighted
 	public CustomerPanel(MainGUI parent) {
 		buildPanel();
 		this.parent = parent;

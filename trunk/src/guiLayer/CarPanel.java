@@ -1,5 +1,7 @@
 package guiLayer;
 
+import javax.swing.JPanel;
+
 import guiLayer.extensions.TabbedPanel;
 
 /**
@@ -8,7 +10,7 @@ import guiLayer.extensions.TabbedPanel;
  * @author Group 3, dmaa0214, UCN
  *
  */
-class CarPanel extends TabbedPanel {
+class CarPanel extends JPanel implements TabbedPanel  {
 
 	private static final long serialVersionUID = 1L;
 	private MainGUI parent;
