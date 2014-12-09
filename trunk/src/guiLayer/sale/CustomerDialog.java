@@ -1,6 +1,6 @@
 package guiLayer.sale;
 
-import guiLayer.models.CustomerTreeModel;
+import guiLayer.sale.models.CustomerTreeModel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
