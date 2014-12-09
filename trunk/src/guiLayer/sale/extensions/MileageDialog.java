@@ -1,7 +1,7 @@
 package guiLayer.sale.extensions;
 
 import guiLayer.extensions.JTextFieldLimit;
-import guiLayer.sale.OrderPanel;
+import guiLayer.sale.SalePanel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -29,12 +29,12 @@ public class MileageDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextFieldLimit txtMileage;
-	private OrderPanel parent;
+	private SalePanel parent;
 
 	/**
 	 * Create the dialog.
 	 */
-	public MileageDialog(OrderPanel parent) {
+	public MileageDialog(SalePanel parent) {
 		this.parent = parent;
 		setTitle("Kilometerstand");
 		setBounds(100, 100, 246, 104);

@@ -3,7 +3,7 @@ package guiLayer;
 import guiLayer.extensions.TabbedPanel;
 import guiLayer.product.ProductPanel;
 import guiLayer.product.UnitTypeDialog;
-import guiLayer.sale.OrderPanel;
+import guiLayer.sale.SalePanel;
 import guiLayer.sale.SaleOverview;
 
 import java.awt.Dialog.ModalityType;
@@ -37,7 +37,7 @@ public class MainGUI extends JFrame {
 	private JTabbedPane tabbedPane;
 	private CustomerPanel tabCus;
 	private CarPanel tabCar;
-	private OrderPanel tabOrder;
+	private SalePanel tabOrder;
 	private ProductPanel tabProd;
 	private SaleOverview tabSaleOverview;
 	
@@ -118,7 +118,7 @@ public class MainGUI extends JFrame {
 		tabCus = new CustomerPanel(this);
 		tabbedPane.addTab("Kunde", null, tabCus, null);
 		
-		tabOrder = new OrderPanel(this);
+		tabOrder = new SalePanel(this);
 		tabbedPane.addTab("Faktura", null, tabOrder, null);
 		
 		//tabCar = new CarPanel(this);
@@ -155,7 +155,7 @@ public class MainGUI extends JFrame {
 	
 	public void recreateOrderPanel(){
 		tabbedPane.remove(tabOrder);
-		tabOrder = new OrderPanel(this);
+		tabOrder = new SalePanel(this);
 		tabbedPane.insertTab("Faktura", null, tabOrder, null, 1);
 		tabbedPane.setSelectedIndex(1);
 	}

@@ -46,12 +46,12 @@ import ctrLayer.SaleCtr;
 import ctrLayer.interfaceLayer.IFSaleCtr;
 
 /**
- * Class for OrderPanel
+ * Class for SalePanel
  *
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class OrderPanel extends TabbedPanel {
+public class SalePanel extends TabbedPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtCustomerName;
 	private JTextField txtCustomerPhone;
@@ -87,7 +87,7 @@ public class OrderPanel extends TabbedPanel {
 	 * Constructors
 	 */
 	
-	public OrderPanel(MainGUI parent) {
+	public SalePanel(MainGUI parent) {
 		this.parent = parent;
 		sCtr = new SaleCtr();
 		sale = sCtr.createSale();

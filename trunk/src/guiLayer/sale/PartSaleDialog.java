@@ -34,7 +34,7 @@ class PartSaleDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtAmount;
 	private ProductDialog parent;
-	private OrderPanel order;
+	private SalePanel order;
 	private JTextField txtPrice;
 	private PartSale pSale;
 	private boolean isOrderPanel = false;
@@ -43,19 +43,19 @@ class PartSaleDialog extends JDialog {
 	 * Create the dialog.
 	 * @param parent 
 	 */
-	PartSaleDialog(Product product, OrderPanel order){
+	PartSaleDialog(Product product, SalePanel order){
 		this.order = order;
 		isOrderPanel = true;
 		buildDialog(product);
 	}
 	
-	PartSaleDialog(Product product, ProductDialog parent, OrderPanel order) {
+	PartSaleDialog(Product product, ProductDialog parent, SalePanel order) {
 		this.parent = parent;
 		this.order = order;
 		buildDialog(product);
 	}
 	
-	PartSaleDialog(PartSale pSale, OrderPanel order){
+	PartSaleDialog(PartSale pSale, SalePanel order){
 		this.order = order;
 		isOrderPanel = true;
 		this.pSale = pSale;

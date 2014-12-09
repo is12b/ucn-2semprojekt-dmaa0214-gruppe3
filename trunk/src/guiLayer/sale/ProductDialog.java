@@ -32,12 +32,12 @@ class ProductDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JList<Product> list;
 	private boolean closeMe = true;
-	private OrderPanel parent;
+	private SalePanel parent;
 	private JButton okButton;
 	/**
 	 * Create the dialog.
 	 */
-	ProductDialog(ArrayList<Product> products, OrderPanel parent) {
+	ProductDialog(ArrayList<Product> products, SalePanel parent) {
 		this.parent = parent;
 		buildDialog(products);
 	}
