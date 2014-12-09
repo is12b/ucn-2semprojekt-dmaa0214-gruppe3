@@ -2,7 +2,7 @@ package guiLayer.product;
 
 import guiLayer.MainGUI;
 import guiLayer.extensions.JTextFieldLimit;
-import guiLayer.extensions.TabbedPanel;
+import guiLayer.extensions.IFTabbedPanel;
 import guiLayer.extensions.Utilities;
 import guiLayer.product.models.ProductTableModel;
 
@@ -47,7 +47,7 @@ import exceptions.ObjectNotExistException;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class ProductPanel extends JPanel implements TabbedPanel  {
+public class ProductPanel extends JPanel implements IFTabbedPanel  {
 
 	private static final long serialVersionUID = 1L;
 	private JTextFieldLimit txtID;

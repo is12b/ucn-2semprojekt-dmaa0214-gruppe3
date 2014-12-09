@@ -1,6 +1,6 @@
 package guiLayer;
 
-import guiLayer.extensions.TabbedPanel;
+import guiLayer.extensions.IFTabbedPanel;
 import guiLayer.product.ProductPanel;
 import guiLayer.product.UnitTypeDialog;
 import guiLayer.sale.SalePanel;
@@ -162,7 +162,7 @@ public class MainGUI extends JFrame {
 	
 	private void setFocus() {
 		try {
-			TabbedPanel selectedTab = (TabbedPanel) tabbedPane.getSelectedComponent();
+			IFTabbedPanel selectedTab = (IFTabbedPanel) tabbedPane.getSelectedComponent();
 			selectedTab.setFocus();
 		} catch (Exception e) {
 			

@@ -4,7 +4,7 @@ import exceptions.ObjectNotExistException;
 import guiLayer.extensions.CustomerTableModel;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.JTextFieldLimit;
-import guiLayer.extensions.TabbedPanel;
+import guiLayer.extensions.IFTabbedPanel;
 import guiLayer.extensions.Utilities;
 
 import java.awt.Color;
@@ -40,7 +40,7 @@ import ctrLayer.interfaceLayer.IFCustomerCtr;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class CustomerPanel extends JPanel implements TabbedPanel  {
+public class CustomerPanel extends JPanel implements IFTabbedPanel  {
 	private static final long serialVersionUID = 1L;
 	private MainGUI parent;
 	private JTextFieldLimit txtRegNr;

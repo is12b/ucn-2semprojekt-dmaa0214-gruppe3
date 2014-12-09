@@ -6,7 +6,7 @@ import exceptions.SubmitException;
 import guiLayer.MainGUI;
 import guiLayer.PDFViewerDialog;
 import guiLayer.extensions.DocumentListenerChange;
-import guiLayer.extensions.TabbedPanel;
+import guiLayer.extensions.IFTabbedPanel;
 import guiLayer.extensions.Utilities;
 import guiLayer.sale.extensions.MileageDialog;
 import guiLayer.sale.models.OrderTableModel;
@@ -51,7 +51,7 @@ import ctrLayer.interfaceLayer.IFSaleCtr;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class SalePanel extends JPanel implements TabbedPanel  {
+public class SalePanel extends JPanel implements IFTabbedPanel  {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtCustomerName;
 	private JTextField txtCustomerPhone;
