@@ -37,19 +37,19 @@ public interface IFSaleCtr {
 	 * @param cvr
 	 * @return
 	 */
-	public Customer getCustomerByCvr(String cvr, boolean retAsso) throws ObjectNotExistException;
+	public Customer getCustomerByCvr(String cvr) throws ObjectNotExistException;
 
 	/**
 	 * @param name
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByName(String name, boolean retAsso) throws ObjectNotExistException;
+	public ArrayList<Customer> searchCustomersByName(String name) throws ObjectNotExistException;
 
 	/**
 	 * @param phone
 	 * @return
 	 */
-	public ArrayList<Customer> searchCustomersByPhone(String phone, boolean retAsso) throws ObjectNotExistException;
+	public ArrayList<Customer> searchCustomersByPhone(String phone) throws ObjectNotExistException;
 
 	/**
 	 * @param regNr
@@ -57,9 +57,9 @@ public interface IFSaleCtr {
 	 * @throws ObjectNotExistException 
 	 */
 	
-	public Car getCarByRegNr(String regNr, boolean retAsso) throws ObjectNotExistException;
+	public Car getCarByRegNr(String regNr) throws ObjectNotExistException;
 	
-	public Car getCarByVin(String vin, boolean retAsso) throws ObjectNotExistException;
+	public Car getCarByVin(String vin) throws ObjectNotExistException;
 	
 	public void addDescription(String desc);
 	

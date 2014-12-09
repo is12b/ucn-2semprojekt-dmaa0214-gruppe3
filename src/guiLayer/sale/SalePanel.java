@@ -571,15 +571,15 @@ public class SalePanel extends TabbedPanel {
 		try{
 			if(txtCustomerCVR.isEnabled()){
 				if(!txtCustomerCVR.getText().isEmpty()){
-					customers.add(sCtr.getCustomerByCvr(txtCustomerCVR.getText(), true));
+					customers.add(sCtr.getCustomerByCvr(txtCustomerCVR.getText()));
 				}
 			}else if(txtCustomerName.isEnabled()){
 				if(!txtCustomerName.getText().isEmpty()){
-					customers = sCtr.searchCustomersByName(txtCustomerName.getText(), true);
+					customers = sCtr.searchCustomersByName(txtCustomerName.getText());
 				}
 			}else if(txtCustomerPhone.isEnabled()){
 				if(!txtCustomerPhone.getText().isEmpty()){
-					customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText(), true);
+					customers = sCtr.searchCustomersByPhone(txtCustomerPhone.getText());
 				}
 			}
 		}catch(ObjectNotExistException e){
@@ -651,11 +651,11 @@ public class SalePanel extends TabbedPanel {
 		try{
 			if(txtCarRegNr.isEnabled()){
 				if(!txtCarRegNr.getText().isEmpty()){
-					c = sCtr.getCarByRegNr(txtCarRegNr.getText(), true);
+					c = sCtr.getCarByRegNr(txtCarRegNr.getText());
 				}
 			}else if(txtCarVin.isEnabled()){
 				if(!txtCarVin.getText().isEmpty()){
-					c = sCtr.getCarByVin(txtCarVin.getText(), true);
+					c = sCtr.getCarByVin(txtCarVin.getText());
 				}
 			}
 		}catch(ObjectNotExistException e){
