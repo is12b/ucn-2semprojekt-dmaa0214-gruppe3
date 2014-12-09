@@ -1,4 +1,4 @@
-package guiLayer.models;
+package guiLayer.sale.models;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ import modelLayer.Customer;
  */
 public class CustomerTreeModel implements TreeModel {
 	private ArrayList<Customer> customers;
-	private final String ROOT = "Customers";
+	private final String ROOT = "Kunder";
 
 	/**
 	 * Constructor for CustomerTreeModel objects.
