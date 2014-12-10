@@ -17,9 +17,7 @@ import exceptions.BuildingPDFException;
 
 public class PDFViewerICEPDF {
 	    public PDFViewerICEPDF() throws BuildingPDFException {
-	        // Get a file from the command line to open
-	        String filePath = "tmpInvoice.pdf";
-	        
+	        	        
 	        // build a component controller
 	        SwingController controller = new SwingController();
 	        controller.setDocumentToolMode(2);
