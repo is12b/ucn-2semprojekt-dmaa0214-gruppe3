@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import modelLayer.Car;
 import modelLayer.Customer;
 import modelLayer.PartSale;
 import modelLayer.Sale;
@@ -48,10 +49,10 @@ public class InvoicePDFGenerator {
 	private NumberFormat moneyFormat;
 	private boolean newPage = true;
 	
-	private final int FONT_SIZE = 8;
+	private final int FONT_SIZE = 10;
 	
 	//POSITIONS
-	private final int HEADER_Y_START = 775;
+	private final int HEADER_Y_START = 760; //775
 	
 	private final float xStart = 20;
 	private final float xEnd = 590;
@@ -79,6 +80,9 @@ public class InvoicePDFGenerator {
 	
 	public static void main(String[] args) throws BuildingPDFException {
 		
+		PDFViewerICEPDF pdf = new PDFViewerICEPDF();
+		
+		/*
 		IFDBSale dbSale = new DBSale();
 		Sale s = dbSale.getSale(2);
 
@@ -96,7 +100,7 @@ public class InvoicePDFGenerator {
 			}
 
 			} else {
-					System.out.println("File is not exists!");
+					System.out.println("File does not exists!");
 				}
 	
 				System.out.println("Done");
@@ -104,6 +108,7 @@ public class InvoicePDFGenerator {
 			  } catch (Exception ex) {
 				ex.printStackTrace();
 		  }
+		  */
 		}
 
 	public InvoicePDFGenerator(Sale sale) throws BuildingPDFException {	
@@ -148,7 +153,7 @@ public class InvoicePDFGenerator {
 					generateLogo(doc);
 					generateCustomer(doc, cb);
 					y = generateLayout(doc, cb, y, true);
-					y += 4;
+					//y += 6;
 				}
 
 				y = y - 12;
@@ -203,7 +208,7 @@ public class InvoicePDFGenerator {
 	
 	private void generateTerms(Document doc, PdfContentByte cb, float y) throws IOException, DocumentException {
 		if(!sale.isPaid()){
-			y -= 20;
+			y -= 45;
 			
 			if((y - 36) < 65){
 				doc.newPage();
@@ -213,7 +218,7 @@ public class InvoicePDFGenerator {
 				y = generateLayout(doc, cb, y, false);
 				printPageNumber(cb);
 				
-				y -= 8;
+				y -= 10;
 			}
 			
 			IFDBSettings dbSet = new DBSettings();
@@ -227,7 +232,7 @@ public class InvoicePDFGenerator {
 			
 			if(!reg.trim().isEmpty() && !acc.trim().isEmpty()){
 				String paymentMethod = "Brug følgende information til indbetaling gennem vor bank. - Regnr.: " + reg + " / Kontonr.: " + acc; 
-				y -= 8;
+				y -= 10;
 				createBoldHeadings(cb, xStart, y, paymentMethod);
 			}
 		}
@@ -239,7 +244,7 @@ public class InvoicePDFGenerator {
 	
 	private float generateDesctiption(Document doc, PdfContentByte cb, String description, float y) throws IOException, DocumentException {
 		ArrayList<String> descs = breakDescription(description, 75);
-		y -= 35;
+		y -= 40;
 		
 		if((y - (descs.size() * 8)) < 65){
 			printPageNumber(cb);
@@ -278,8 +283,27 @@ public class InvoicePDFGenerator {
 	 */
 	
 	private void generateCarInformation(Document doc, PdfContentByte cb) {
-		// TODO Auto-generated method stub
+		Car c = sale.getCar();
+		ArrayList<String> car = new ArrayList<String>();
 		
+		if(c.getRegNr() != null && !c.getRegNr().isEmpty()){
+			car.add(c.getRegNr());
+		}
+		
+		if(c.getVin() != null && !c.getVin().isEmpty()){
+			car.add(c.getVin());
+		}
+
+		if(sale.getMileage() != 0){
+			car.add(String.valueOf(sale.getMileage()));
+		}
+		
+		float i = doc.top() - 30;
+				
+		for(String s : car){
+			i -= 10;
+			createContent(cb, 200, i, s, PdfContentByte.ALIGN_LEFT);
+		}
 	}
 	
 	/*
@@ -292,7 +316,7 @@ public class InvoicePDFGenerator {
 		float i = doc.top() - 30;
 				
 		for(String s : cust){
-			i -= 8;
+			i -= 10;
 			createContent(cb, 50, i, s, PdfContentByte.ALIGN_LEFT);
 		}
 	}
@@ -339,7 +363,7 @@ public class InvoicePDFGenerator {
 		for(String s : total){
 			createContent(cb, x, yT, s,
 					PdfContentByte.ALIGN_LEFT);
-			yT -= 8;
+			yT -= 10;
 		}
 		
 		xTotalStart = x;
@@ -352,7 +376,7 @@ public class InvoicePDFGenerator {
 		for(String s : total){
 			createContent(cb, xEnd, yT, s,
 					PdfContentByte.ALIGN_RIGHT);
-			yT -= 8;
+			yT -= 10;
 			float l = getTextWidth(s, bf, FONT_SIZE);
 			if(l > longest){
 				longest = l;
@@ -397,14 +421,15 @@ public class InvoicePDFGenerator {
 		sets.add("TLF: " + sCtr.getSettingByKey("INVOICE_PHONE").getValue());
 		sets.add("FAX: " + sCtr.getSettingByKey("INVOICE_FAX").getValue());
 		sets.add(sCtr.getSettingByKey("INVOICE_WEBSITE").getValue());
-		sets.add("Faktura: " + sale.getId());
+		sets.add("Fakturanr: " + sale.getId());
+		sets.add("Fakturadato: " + new SimpleDateFormat("dd-MM-yyyy").format(sale.getDate()));
 
 		return sets;
 	}
 
 	private void createHeadings(PdfContentByte cb, float x, float y, String text) {
 		cb.beginText();
-		cb.setFontAndSize(bf, 8);
+		cb.setFontAndSize(bf, 10);
 		cb.setTextMatrix(x, y);
 		cb.showText(text.trim());
 		cb.endText();
@@ -511,14 +536,14 @@ public class InvoicePDFGenerator {
 		 Image logo2 = PngImage.getImage(logo1Is);
 		 Image logo1 = PngImage.getImage(logo2Is);
 
-		 logo1.setAbsolutePosition(25,doc.top());
+		 logo1.setAbsolutePosition(25,doc.top()-15); //doc.top()
 		 logo1.scalePercent(15);
 		 doc.add(logo1);
 		 
 		 float offset = logo1.getPlainWidth();
 		 
 		 logo2.scalePercent(15);
-		 logo2.setAbsolutePosition(25+offset,doc.top());
+		 logo2.setAbsolutePosition(25+offset,doc.top()-15);
 		 doc.add(logo2);
 	}
 	
@@ -557,7 +582,7 @@ public class InvoicePDFGenerator {
 		float retF = 0;
 		for (String s : sets) {
 			if (s != null && !s.trim().isEmpty()) {
-				float f = getTextWidth(s, bf, 8);
+				float f = getTextWidth(s, bf, 10);
 				if (f > retF) {
 					retF = f;
 				}
