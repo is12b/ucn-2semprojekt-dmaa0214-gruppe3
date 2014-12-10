@@ -5,14 +5,20 @@ import java.io.ByteArrayOutputStream;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import modelLayer.Sale;
+
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
 
+import dbLayer.DBSale;
+import dbLayer.interfaceLayer.IFDBSale;
+import exceptions.BuildingPDFException;
+
 
 public class PDFViewerICEPDF {
-	    public static void main(String[] args) {
+	    public PDFViewerICEPDF() throws BuildingPDFException {
 	        // Get a file from the command line to open
-	        String filePath = "C:\\tmpInvoice.pdf";
+	        String filePath = "tmpInvoice.pdf";
 	        
 	        // build a component controller
 	        SwingController controller = new SwingController();
@@ -36,9 +42,12 @@ public class PDFViewerICEPDF {
 	        // Now that the GUI is all in place, we can try openning a PDF
 	        //controller.openDocument(filePath);
 	        
-	        CopyOfInvoicePDFGenerator generateInvoice = new CopyOfInvoicePDFGenerator();
+	        IFDBSale dbSale = new DBSale();
+	        Sale s = dbSale.getSale(7);
+	        
+	        InvoicePDFGenerator generateInvoice = new InvoicePDFGenerator(s);
 	        	        
-	        ByteArrayOutputStream baos = generateInvoice.createPDF(generateInvoice.getSale());
+	        ByteArrayOutputStream baos = generateInvoice.createPDF();
 	        byte[] tempBytes = baos.toByteArray();
 	        
 	        controller.openDocument(tempBytes, 0, tempBytes.length, "TEST, HVOR ER DETTE?", null);

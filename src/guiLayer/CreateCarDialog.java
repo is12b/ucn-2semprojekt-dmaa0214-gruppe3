@@ -23,6 +23,7 @@ import com.jgoodies.forms.layout.RowSpec;
  */
 public class CreateCarDialog extends JDialog {
 	
+	private static final long serialVersionUID = 1L;
 	private Customer customer;
 	private JTextField txtReg;
 	private JTextField txtVin;

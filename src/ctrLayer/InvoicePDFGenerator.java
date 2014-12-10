@@ -43,7 +43,7 @@ public class InvoicePDFGenerator {
 	private NumberFormat moneyFormat;
 	private boolean newPage = true;
 	
-	private final int FONT_SIZE = 8;
+	private final int FONT_SIZE = 12;
 	
 	//POSITIONS
 	private final int HEADER_Y_START = 775;
@@ -370,7 +370,7 @@ public class InvoicePDFGenerator {
 
 	private void createHeadings(PdfContentByte cb, float x, float y, String text) {
 		cb.beginText();
-		cb.setFontAndSize(bf, 8);
+		cb.setFontAndSize(bf, 10);
 		cb.setTextMatrix(x, y);
 		cb.showText(text.trim());
 		cb.endText();

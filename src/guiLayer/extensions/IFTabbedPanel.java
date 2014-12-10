@@ -1,7 +1,5 @@
 package guiLayer.extensions;
 
-import javax.swing.JPanel;
-
 /**
  * An interface, to ensure that all "Tabs" have a setFocus method implemented
  *
