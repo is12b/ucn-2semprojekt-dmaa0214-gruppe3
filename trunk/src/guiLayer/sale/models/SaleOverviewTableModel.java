@@ -110,22 +110,27 @@ public class SaleOverviewTableModel extends AbstractTableModel {
 		if(s.isPaid()) {
 			value = "true";
 		} else {
-			Date dayAfterTomorrow = getDateAfterXDays(2);
-			if (s.getPaymentDeadline().after(dayAfterTomorrow)) {
+			Date bankDeadline = getDateAfterXDays(2, s.getPaymentDeadline());
+			long days = daysSinceDeadline(bankDeadline);
+			if (days <= 0 ) {
 				value = "false";
 			} else {
-				value = daysSinceDeadline(s.getPaymentDeadline());
+				value = daysSinceDeadline(days);
 			}
 			
 		}
 		return value;
 	}
 	
-	private String daysSinceDeadline(Date date) {
-		String ret = "";
-		Date now = new Date();
-		long diff = now.getTime() - date.getTime();
+	private long daysSinceDeadline(Date date) {
+		Date dayAfterTomorrow = getDateAfterXDays(2, null);
+		long diff = dayAfterTomorrow.getTime() - date.getTime();
 		long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		return days;
+	}
+	
+	private String daysSinceDeadline(long days) {
+		String ret = "";
 		ret = days + " Dag";
 		if(days == 1) {
 			ret += "e";
@@ -134,8 +139,11 @@ public class SaleOverviewTableModel extends AbstractTableModel {
 		return ret;
 	}
 	
-	private Date getDateAfterXDays(int x) {
-		Date day = new Date();
+	private Date getDateAfterXDays(int x, Date from) {
+		Date day = from;
+		if (day == null) {
+			day = new Date();
+		}
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(day); 
 		c.add(Calendar.DATE, x);
