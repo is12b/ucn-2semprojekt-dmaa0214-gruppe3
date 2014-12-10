@@ -1,8 +1,6 @@
 package testLayer.pdf;
 
-import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -29,9 +27,7 @@ import com.itextpdf.text.pdf.codec.PngImage;
 
 import ctrLayer.SettingCtr;
 import ctrLayer.interfaceLayer.IFSettingCtr;
-import dbLayer.DBSale;
 import dbLayer.DBSettings;
-import dbLayer.interfaceLayer.IFDBSale;
 import dbLayer.interfaceLayer.IFDBSettings;
 import exceptions.BuildingPDFException;
 
@@ -49,17 +45,18 @@ public class InvoicePDFGenerator {
 	private NumberFormat moneyFormat;
 	private boolean newPage = true;
 	
-	private final int FONT_SIZE = 10;
+	private final int font_size = 10;
 	
 	//POSITIONS
-	private final int HEADER_Y_START = 760; //775
+	private final int header_y_start = 760; //775
 	
 	private final float xStart = 20;
 	private final float xEnd = 590;
-	private final float AMOUNT_X = 22;
-	private final float ITEM_X = 52;
-	private final float DESCRIPTION_X = 152;
-	private final float PRICE_X = 432;
+	private final float amount_x = 22;
+	private final float unittype_x = 52;
+	private final float item_x = 90; //52
+	private final float description_x = 190; //152
+	private final float price_x = 470; // 432
 	
 	//SALE
 	private float totalPriceX;
@@ -72,15 +69,16 @@ public class InvoicePDFGenerator {
 	//private float xTotalEnd;
 	
 	//STRING
-	private final String AMOUNT = "Antal";
-	private final String ITEMNUMBER = "Varenummer";
-	private final String DESCRIPTION = "Beskrivelse";
-	private final String PRICE = "Pris";
-	private final String TOTAL_PRICE = "Total Pris";
+	private final String amount_headText = "Antal";
+	private final String unittype_headText = "Enhed";
+	private final String itemnumber_headText = "Varenummer";
+	private final String description_headText = "Beskrivelse";
+	private final String price_headText = "Pris";
+	private final String total_price_headText = "Total Pris";
 	
 	public static void main(String[] args) throws BuildingPDFException {
 		
-		PDFViewerICEPDF pdf = new PDFViewerICEPDF();
+		new PDFViewerICEPDF();
 		
 		/*
 		IFDBSale dbSale = new DBSale();
@@ -262,7 +260,7 @@ public class InvoicePDFGenerator {
 			}
 			
 			y -= 8;
-			createContent(cb, DESCRIPTION_X, y,
+			createContent(cb, description_x, y,
 					s,
 					PdfContentByte.ALIGN_LEFT);
 			/*
@@ -287,15 +285,15 @@ public class InvoicePDFGenerator {
 		ArrayList<String> car = new ArrayList<String>();
 		
 		if(c.getRegNr() != null && !c.getRegNr().isEmpty()){
-			car.add(c.getRegNr());
+			car.add("Regnr.: " + c.getRegNr());
 		}
 		
 		if(c.getVin() != null && !c.getVin().isEmpty()){
-			car.add(c.getVin());
+			car.add("Stelnr.: " +c.getVin());
 		}
 
 		if(sale.getMileage() != 0){
-			car.add(String.valueOf(sale.getMileage()));
+			car.add("Km.stand: " +String.valueOf(sale.getMileage()));
 		}
 		
 		float i = doc.top() - 30;
@@ -358,7 +356,7 @@ public class InvoicePDFGenerator {
 	
 	private void generateTotalText(PdfContentByte cb, float y, float x){
 		String[] total = {"SubTotal:", "Moms:", "Total:"};
-		x -= getTextWidth(total[0], bf, FONT_SIZE);
+		x -= getTextWidth(total[0], bf, font_size);
 		float yT = y - 20;
 		for(String s : total){
 			createContent(cb, x, yT, s,
@@ -377,7 +375,7 @@ public class InvoicePDFGenerator {
 			createContent(cb, xEnd, yT, s,
 					PdfContentByte.ALIGN_RIGHT);
 			yT -= 10;
-			float l = getTextWidth(s, bf, FONT_SIZE);
+			float l = getTextWidth(s, bf, font_size);
 			if(l > longest){
 				longest = l;
 			}
@@ -395,7 +393,7 @@ public class InvoicePDFGenerator {
 
 	private float generateHeader(Document doc, PdfContentByte cb) {
 		ArrayList<String> sets = getHeaderValues();
-		float y = HEADER_Y_START;
+		float y = header_y_start;
 		float x = getHeaderXPos(sets);
 
 		for (String s : sets) {
@@ -437,7 +435,7 @@ public class InvoicePDFGenerator {
 	
 	private void createBoldHeadings(PdfContentByte cb, float x, float y, String text) {
 		cb.beginText();
-		cb.setFontAndSize(bfBold, FONT_SIZE);
+		cb.setFontAndSize(bfBold, font_size);
 		cb.setTextMatrix(x, y);
 		cb.showText(text.trim());
 		cb.endText();
@@ -453,19 +451,21 @@ public class InvoicePDFGenerator {
 		try {
 			String amount = String.valueOf(pS.getAmount());
 
-			createContent(cb, AMOUNT_X+getTextWidth(AMOUNT, bf, FONT_SIZE), y, amount,
+			createContent(cb, amount_x+getTextWidth(amount_headText, bf, font_size), y, amount,
 					PdfContentByte.ALIGN_RIGHT);
 			
-			createContent(cb, ITEM_X, y, String.valueOf(pS.getProduct().getItemNumber()),
+			createContent(cb, unittype_x, y, pS.getProduct().getUnitType().getShortDescription(), PdfContentByte.ALIGN_LEFT);
+			
+			createContent(cb, item_x, y, String.valueOf(pS.getProduct().getItemNumber()),
 					PdfContentByte.ALIGN_LEFT);
 			
-			createContent(cb, DESCRIPTION_X, y,
+			createContent(cb, description_x, y,
 					String.valueOf(pS.getProduct().getDescription()),
 					PdfContentByte.ALIGN_LEFT);
 			
 			String unitPrice = moneyFormat.format(pS.getUnitPrice());
 			
-			createContent(cb, PRICE_X+getTextWidth(PRICE, bf, FONT_SIZE), y, unitPrice,
+			createContent(cb, price_x+getTextWidth(price_headText, bf, font_size), y, unitPrice,
 					PdfContentByte.ALIGN_RIGHT);
 			
 			double totalP = (pS.getAmount() * pS.getUnitPrice());
@@ -486,7 +486,7 @@ public class InvoicePDFGenerator {
 	private void createContent(PdfContentByte cb, float x, float y,
 			String text, int align) {
 		cb.beginText();
-		cb.setFontAndSize(bf, FONT_SIZE);
+		cb.setFontAndSize(bf, font_size);
 		cb.showTextAligned(align, text.trim(), x, y, 0);
 		cb.endText();
 	}
@@ -494,7 +494,7 @@ public class InvoicePDFGenerator {
 	private void printPageNumber(PdfContentByte cb) {
 
 		cb.beginText();
-		cb.setFontAndSize(bfBold, FONT_SIZE);
+		cb.setFontAndSize(bfBold, font_size);
 		cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "Side "
 				+ (pageNumber + 1), 570, 25, 0);
 		cb.endText();
@@ -520,13 +520,14 @@ public class InvoicePDFGenerator {
 	
 	private void generateDetailHeader(PdfContentByte cb, float yStart){
 		float yText = yStart + 2;
-		createBoldHeadings(cb, AMOUNT_X, yText, AMOUNT);
-		createBoldHeadings(cb, ITEM_X, yText, ITEMNUMBER);
-		createBoldHeadings(cb, DESCRIPTION_X, yText, DESCRIPTION);
-		createBoldHeadings(cb, PRICE_X, yText, PRICE);
+		createBoldHeadings(cb, amount_x, yText, amount_headText);
+		createBoldHeadings(cb, unittype_x, yText, unittype_headText);
+		createBoldHeadings(cb, item_x, yText, itemnumber_headText);
+		createBoldHeadings(cb, description_x, yText, description_headText);
+		createBoldHeadings(cb, price_x, yText, price_headText);
 		
-		totalPriceX = (xEnd - getTextWidth(TOTAL_PRICE, bfBold, FONT_SIZE));
-		createBoldHeadings(cb, totalPriceX, yText, TOTAL_PRICE);
+		totalPriceX = (xEnd - getTextWidth(total_price_headText, bfBold, font_size));
+		createBoldHeadings(cb, totalPriceX, yText, total_price_headText);
 	}
 	
 	private void generateLogo(Document doc) throws IOException, DocumentException{
