@@ -86,7 +86,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 	private JButton btnCustomerSearch;
 	private JButton btnProductSearch;
 
-	/**
+	/*
 	 * Constructors
 	 */
 	
@@ -100,7 +100,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		buildPanel();
 	}
 	
-	/**
+	/*
 	 * Panels
 	 */
 
@@ -543,7 +543,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
         }
 	}
 
-	/**
+	/*
 	 * TextFields
 	 */
 	
@@ -564,7 +564,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		}
 	}
 	
-	/**
+	/*
 	 * Customer
 	 */
 	
@@ -644,7 +644,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		customerFields.forEach(c -> c.setText(""));
 	}
 	
-	/**
+	/*
 	 * Car
 	 */
 	
@@ -701,7 +701,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		carFields.forEach(c -> c.setText(""));
 	}
 
-	/**
+	/*
 	 * Product
 	 */
 	
@@ -743,7 +743,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		productFields.forEach(p -> p.setText(""));
 	}
 	
-	/**
+	/*
 	 * PartSale
 	 */
 	
@@ -752,7 +752,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		refresh();
 	}	
 
-	/**
+	/*
 	 * Price
 	 */
 	
@@ -773,7 +773,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		lblTotal.setText(String.valueOf(tax + subTotal));
 	}
 	
-	/**
+	/*
 	 * Description
 	 */
 	
@@ -801,7 +801,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		}
 	}
 	
-	/**
+	/*
 	 * Mileage
 	 */
 	
@@ -825,7 +825,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		return sCtr.getMileage();
 	}
 	
-	/**
+	/*
 	 * Commit
 	 */
 	
@@ -849,7 +849,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		}
 	}
 	
-	/**
+	/*
 	 * Misc
 	 */
 	

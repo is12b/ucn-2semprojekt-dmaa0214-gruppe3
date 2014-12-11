@@ -166,7 +166,7 @@ public class InvoicePDFGenerator {
 		return baos;
 	}
 	
-	/**
+	/*
 	 * Terms 
 	 */
 	
@@ -359,7 +359,7 @@ public class InvoicePDFGenerator {
 		return longest;
 	}
 
-	/**
+	/*
 	 * Header
 	 */
 
