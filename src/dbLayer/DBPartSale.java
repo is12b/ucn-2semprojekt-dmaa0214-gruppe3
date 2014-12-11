@@ -48,7 +48,7 @@ public class DBPartSale implements IFDBPartSale {
 			stmt.setInt(1, sale.getId());
 			stmt.setInt(2, partSale.getProduct().getId());
 			stmt.setDouble(3, partSale.getAmount());
-			stmt.setDouble(4, partSale.getUnitPrice());
+			stmt.setDouble(4, partSale.getPrice());
 			
 			rc = stmt.executeUpdate();
 			
@@ -77,7 +77,7 @@ public class DBPartSale implements IFDBPartSale {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			stmt.setDouble(1, partSale.getAmount());
-			stmt.setDouble(2, partSale.getUnitPrice());
+			stmt.setDouble(2, partSale.getPrice());
 			stmt.setInt(3, partSale.getId());
 			
 			rc = stmt.executeUpdate();
@@ -154,7 +154,7 @@ public class DBPartSale implements IFDBPartSale {
 			ps = new PartSale();
 			ps.setId(rs.getInt("PartSaleID"));
 			ps.setAmount(rs.getDouble("Amount"));
-			ps.setUnitPrice(rs.getDouble("Price"));
+			ps.setPrice(rs.getDouble("Price"));
 			ps.setProduct(new Product(rs.getInt("ProductID")));
 		} catch(Exception e) {
 			System.out.println("Error in building PartSale object.");

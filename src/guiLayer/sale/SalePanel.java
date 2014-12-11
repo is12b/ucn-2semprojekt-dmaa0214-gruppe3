@@ -760,7 +760,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 		double subTotal = 0;
 		ArrayList<PartSale> pSales = sale.getPartSales();
 		for(PartSale p : pSales){
-			subTotal += p.getAmount() * p.getUnitPrice();
+			subTotal += p.getAmount() * p.getPrice();
 		}
 		
 		setPrice(subTotal);

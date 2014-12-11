@@ -61,7 +61,7 @@ class PartSaleDialog extends JDialog {
 		this.pSale = pSale;
 		buildDialog(pSale.getProduct());
 		txtAmount.setText(String.valueOf(pSale.getAmount()));
-		txtPrice.setText(String.valueOf(pSale.getUnitPrice()));
+		txtPrice.setText(String.valueOf(pSale.getPrice()));
 	}
 	
 	private void buildDialog(Product product){
@@ -167,7 +167,7 @@ class PartSaleDialog extends JDialog {
 	 */
 	private void addPartSale() {
 		if(pSale != null){
-			pSale.setUnitPrice(Double.parseDouble(txtPrice.getText()));
+			pSale.setPrice(Double.parseDouble(txtPrice.getText()));
 			pSale.setAmount(Double.parseDouble(txtAmount.getText()));
 		}else{
 			order.addPartSale(product, Double.parseDouble(txtAmount.getText()), Double.parseDouble(txtPrice.getText()));

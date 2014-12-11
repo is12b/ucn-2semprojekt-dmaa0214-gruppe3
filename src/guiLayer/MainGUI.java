@@ -110,8 +110,6 @@ public class MainGUI extends JFrame {
 			public void stateChanged(ChangeEvent arg0) {
 				setFocus();
 			}
-
-			
 		});
 		contentPane.add(tabbedPane);
 		

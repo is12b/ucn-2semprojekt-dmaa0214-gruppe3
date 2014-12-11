@@ -85,11 +85,11 @@ public class OrderTableModel extends AbstractTableModel {
 		} else if (columnIndex == 4) {
 			value = p.getAmount();
 		} else if (columnIndex == 5) {
-			value = Utilities.getAsMoney(p.getUnitPrice());
+			value = Utilities.getAsMoney(p.getPrice());
 		} else if (columnIndex == 6) {
 			value = p.getProduct().getUnitType().getShortDescription();
 		} else if (columnIndex == 7) {
-			value = Utilities.getAsMoney(p.getAmount() * p.getUnitPrice());
+			value = Utilities.getAsMoney(p.getAmount() * p.getPrice());
 		}
 		return value;
 	}

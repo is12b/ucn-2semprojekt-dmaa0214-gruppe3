@@ -388,12 +388,12 @@ public class CopyOfInvoicePDFGenerator {
 					String.valueOf(pS.getProduct().getDescription()),
 					PdfContentByte.ALIGN_LEFT);
 			
-			String unitPrice = moneyFormat.format(pS.getUnitPrice());
+			String unitPrice = moneyFormat.format(pS.getPrice());
 			
 			createContent(cb, PRICE_X+getTextWidth(PRICE, bf, FONT_SIZE), y, unitPrice,
 					PdfContentByte.ALIGN_RIGHT);
 			
-			double totalP = (pS.getAmount() * pS.getUnitPrice());
+			double totalP = (pS.getAmount() * pS.getPrice());
 			totalPrice += totalP;
 			
 			String total = moneyFormat.format(totalP);
