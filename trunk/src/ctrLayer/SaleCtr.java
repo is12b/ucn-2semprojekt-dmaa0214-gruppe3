@@ -48,7 +48,7 @@ public class SaleCtr implements IFSaleCtr {
 		}
 	}
 	
-	private PartSale isSameProduct(Product product, double unitPrice){
+	private PartSale isSameProduct(Product product, double price){
 		PartSale pSale = null;
 		
 		boolean found = false;
@@ -56,7 +56,7 @@ public class SaleCtr implements IFSaleCtr {
 		while(!found && i < sale.getPartSales().size()){
 			PartSale p = sale.getPartSales().get(i);
 			if(p.getProduct().getId() == product.getId()){
-				if(p.getUnitPrice() == unitPrice){
+				if(p.getPrice() == price){
 					pSale = p;
 					found = true;
 				}

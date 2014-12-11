@@ -207,7 +207,7 @@ public class Sale {
 		double total = 0;
 		
 		for (PartSale partSale : partSales) {
-			total += (partSale.getUnitPrice() * partSale.getAmount());
+			total += (partSale.getPrice() * partSale.getAmount());
 		}
 		return total;
 	}

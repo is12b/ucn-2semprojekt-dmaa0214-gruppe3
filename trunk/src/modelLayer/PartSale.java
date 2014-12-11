@@ -9,7 +9,7 @@ package modelLayer;
 public class PartSale {
 
 	private double amount;
-	private double unitPrice;
+	private double price;
 	private Product product;
 	private int id;
 	
@@ -19,10 +19,10 @@ public class PartSale {
 	public PartSale() {
 	}
 
-	public PartSale(double amount, Product product, double unitPrice) {
+	public PartSale(double amount, Product product, double price) {
 		this.amount = amount;
 		this.product = product;
-		this.unitPrice = unitPrice;
+		this.price = price;
 	}
 
 	/**
@@ -48,17 +48,17 @@ public class PartSale {
 	 *
 	 * @return the unit price
 	 */
-	public double getUnitPrice() {
-		return unitPrice;
+	public double getPrice() {
+		return price;
 	}
 
 	/**
 	 * Sets the unit price.
 	 *
-	 * @param unitPrice the new unit price
+	 * @param price the new unit price
 	 */
-	public void setUnitPrice(double unitPrice) {
-		this.unitPrice = unitPrice;
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	/**

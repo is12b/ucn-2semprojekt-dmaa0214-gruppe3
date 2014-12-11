@@ -30,7 +30,7 @@ public class Test {
 			PartSale ps = new PartSale();
 			ps.setAmount(2);
 			ps.setProduct(dbProd.getProductByID(18 + i));
-			ps.setUnitPrice(100);
+			ps.setPrice(100);
 			
 			IFDBSale dbSale = new DBSale();
 			
