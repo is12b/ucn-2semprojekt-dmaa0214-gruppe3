@@ -75,7 +75,7 @@ public class InvoicePDFGenerator {
 	private final String description_headText = "Beskrivelse";
 	private final String price_headText = "Pris";
 	private final String total_price_headText = "Total Pris";
-	
+
 	public InvoicePDFGenerator(Sale sale) throws BuildingPDFException {	
 		if(sale == null){
 			throw new BuildingPDFException("Det ønskede salg eksistere ikke længere?");
@@ -85,7 +85,6 @@ public class InvoicePDFGenerator {
 		
 		this.sale = sale;
 	}
-	
 	
 	public ByteArrayOutputStream createPDF() throws BuildingPDFException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -191,7 +190,7 @@ public class InvoicePDFGenerator {
 			String acc = dbSet.getSettingByKey("INVOICE_ACC").getValue();
 			
 			Date deadlineDate = sale.getPaymentDeadline();
-			String payment = "Betalingsbetingelser: Kontant - forfaldt " + new SimpleDateFormat("dd-MM-yyyy").format(deadlineDate);
+			String payment = "Betalingsbetingelser: Kontant - forfald " + new SimpleDateFormat("dd-MM-yyyy").format(deadlineDate);
 			
 			createBoldHeadings(cb, xStart, y, payment);
 			
@@ -199,6 +198,12 @@ public class InvoicePDFGenerator {
 				String paymentMethod = "Brug følgende information til indbetaling gennem vor bank. - Regnr.: " + reg + " / Kontonr.: " + acc; 
 				y -= 10;
 				createBoldHeadings(cb, xStart, y, paymentMethod);
+				String paymentNote = "Angiv venligst fakturanr. " + sale.getId() + " ved bankoverførsel";
+				y -= 10;
+				createBoldHeadings(cb, xStart, y, paymentNote);
+				String paymentLate = "Ved for sen betaling tilskrives renter";
+				y -= 20;
+				createBoldHeadings(cb, xStart, y, paymentLate);
 			}
 		}
 	}
