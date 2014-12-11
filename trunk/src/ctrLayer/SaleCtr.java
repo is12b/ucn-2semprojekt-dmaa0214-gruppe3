@@ -168,17 +168,14 @@ public class SaleCtr implements IFSaleCtr {
 	 */
 
 	@Override
-	public Sale commit(boolean paid) throws SubmitException {
+	public Sale commit(boolean paid) throws DBException, SubmitException {
 		if(!checkPartSales()){
 			throw new SubmitException("Der er ikke tilføjet nogle produkter til ordren");
 		}else{
 			IFDBSale dbSale = new DBSale();
-			try {
-				sale.setPaid(paid);
-				dbSale.insertSale(sale);
-			} catch (DBException e) {
-				throw new SubmitException("Ordren kunne ikke oprettes (Database fejl)"); //TODO hvorfor gribes?
-			}
+			
+			sale.setPaid(paid);
+			dbSale.insertSale(sale);
 		}
 		
 		return sale;

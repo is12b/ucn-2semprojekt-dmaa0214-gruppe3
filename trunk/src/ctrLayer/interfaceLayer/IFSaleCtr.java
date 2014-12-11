@@ -1,5 +1,6 @@
 package ctrLayer.interfaceLayer;
 
+import exceptions.DBException;
 import exceptions.ObjectNotExistException;
 import exceptions.SubmitException;
 
@@ -65,7 +66,7 @@ public interface IFSaleCtr {
 	
 	public String getDescription();
 		
-	public Sale commit(boolean paid) throws SubmitException;
+	public Sale commit(boolean paid) throws SubmitException, DBException;
 
 	/**
 	 * @param mileage

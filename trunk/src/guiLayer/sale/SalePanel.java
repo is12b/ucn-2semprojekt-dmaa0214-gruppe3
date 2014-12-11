@@ -1,6 +1,7 @@
 package guiLayer.sale;
 
 import exceptions.BuildingPDFException;
+import exceptions.DBException;
 import exceptions.ObjectNotExistException;
 import exceptions.SubmitException;
 import guiLayer.MainGUI;
@@ -844,6 +845,9 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 				e.printStackTrace();
 			} catch (BuildingPDFException e) {
 				Utilities.showError(this, e.getMessage());
+				e.printStackTrace();
+			} catch (DBException e) {
+				Utilities.showError(this, "Faktura blev ikke oprettet(Database fejl)");
 				e.printStackTrace();
 			}
 		}
