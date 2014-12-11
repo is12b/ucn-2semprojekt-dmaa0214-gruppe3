@@ -23,7 +23,7 @@ public class SaleCtr implements IFSaleCtr {
 	
 	public SaleCtr() {}
 	
-	/**
+	/*
 	 * Sale
 	 */
 
@@ -33,7 +33,7 @@ public class SaleCtr implements IFSaleCtr {
 		return sale;
 	}
 	
-	/**
+	/*
 	 * PartSale
 	 */
 
@@ -72,7 +72,7 @@ public class SaleCtr implements IFSaleCtr {
 		sale.removePartSale(pSale);
 	}
 	
-	/**
+	/*
 	 * Product
 	 */
 	
@@ -88,7 +88,7 @@ public class SaleCtr implements IFSaleCtr {
 		return pCtr.searchProductsByName(name);
 	}
 	
-	/**
+	/*
 	 * Car
 	 */
 	
@@ -109,7 +109,7 @@ public class SaleCtr implements IFSaleCtr {
 		return cCtr.getCarByVin(vin, true);
 	}	
 	
-	/**
+	/*
 	 * Customer
 	 */
 	
@@ -136,7 +136,7 @@ public class SaleCtr implements IFSaleCtr {
 		return cCtr.searchCustomersByPhone(phone, true);
 	}
 	
-	/**
+	/*
 	 * Description
 	 */
 
@@ -149,7 +149,7 @@ public class SaleCtr implements IFSaleCtr {
 		return sale.getDescription();
 	}
 	
-	/**
+	/*
 	 * Mileage
 	 */
 	
@@ -163,7 +163,7 @@ public class SaleCtr implements IFSaleCtr {
 		return sale.getMileage();
 	}
 		
-	/**
+	/*
 	 * Commit / Save
 	 */
 
@@ -194,7 +194,9 @@ public class SaleCtr implements IFSaleCtr {
 		return retBool;
 	}
 
-//SaleOverviewPanel down here	
+    /*
+     * Sale	
+     */
 	
 	@Override
 	public Sale getSaleByID(int id) throws ObjectNotExistException {
