@@ -132,7 +132,7 @@ public class SaleOverviewTableModel extends AbstractTableModel {
 	private String daysSinceDeadline(long days) {
 		String ret = "";
 		ret = days + " Dag";
-		if(days == 1) {
+		if(days != 1) {
 			ret += "e";
 		}
 		ret += " siden";
