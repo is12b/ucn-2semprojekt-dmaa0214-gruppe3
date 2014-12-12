@@ -55,6 +55,8 @@ public class DBUnitType implements IFDBUnitType {
 			
 			stmt.close();
 		} catch (SQLException e) {
+			//System.out.println("DBUnitType: UnitType is not inserted correct");
+			//e.printStackTrace();
 			throw new DBException("Enhedstypen", e);
 		}
 		
@@ -87,6 +89,8 @@ public class DBUnitType implements IFDBUnitType {
 			
 			stmt.close();
 		} catch (SQLException e) {
+			System.out.println("DBUnitType: Update UnitType faild");
+			//e.printStackTrace();
 			throw new DBException("Enhedstypen", e);
 		}
 		
@@ -111,6 +115,8 @@ public class DBUnitType implements IFDBUnitType {
 			
 			stmt.close();
 		} catch (SQLException e) {
+			System.out.println("DBUnitType: Delete UnitType faild");
+			//e.printStackTrace();
 			throw new DBException("Enhedstypen", e);
 		}
 		

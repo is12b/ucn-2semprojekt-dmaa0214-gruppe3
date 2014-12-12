@@ -49,6 +49,7 @@ public class InvoicePDFGenerator {
 	
 	//POSITIONS
 	private final int header_y_start = 760; //775
+	
 	private final float xStart = 20;
 	private final float xEnd = 590;
 	private final float amount_x = 22;
