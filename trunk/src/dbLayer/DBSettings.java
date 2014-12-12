@@ -46,8 +46,6 @@ public class DBSettings implements IFDBSettings {
 			rc = stmt.executeUpdate(query);
 			stmt.close();
 		}catch(SQLException e){
-			//System.out.println("DBSetting - insertSetting - Exception");
-			//e.printStackTrace();
 			throw new DBException("Indstilling", e);
 		}
 		
@@ -68,8 +66,6 @@ public class DBSettings implements IFDBSettings {
 			rc = stmt.executeUpdate();
 			stmt.close();
 		}catch(SQLException e){
-			//System.out.println("DBSettings - updateSetting");
-			e.printStackTrace();
 			throw new DBException("Indstillingen", e);
 		}catch(Exception e){
 			e.printStackTrace();

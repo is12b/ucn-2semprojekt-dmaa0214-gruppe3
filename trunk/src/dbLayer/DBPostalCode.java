@@ -17,7 +17,7 @@ import exceptions.DBException;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class DBPostalCode implements IFDBPostalcode { // NO_UCD (use default)
+public class DBPostalCode implements IFDBPostalcode {
 	private Connection conn;
 
 	public DBPostalCode(){
@@ -79,26 +79,6 @@ public class DBPostalCode implements IFDBPostalcode { // NO_UCD (use default)
 
 		return rc;
 	}
-
-	/**
-	@Override
-	public int deletePostalCode(int postCode) {
-		int rc = -1;
-
-		try{
-			String query = "DELETE FROM POSTCODE WHERE PostalCode = " + postCode;
-			Statement stmt = conn.createStatement();
-			stmt.setQueryTimeout(5);
-			rc = stmt.executeUpdate(query);
-			stmt.close();
-		}catch(Exception e){
-			System.out.println("DBPostalCode - deletePostalCode - Exception");
-			e.printStackTrace();
-		}
-
-		return rc;
-	}
-	 */
 
 	private String singleWhere(String wQuery){
 		String result = "";
