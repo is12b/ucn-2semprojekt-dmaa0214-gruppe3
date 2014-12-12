@@ -2,7 +2,6 @@ package modelLayer;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class for Customer.
  *
@@ -206,11 +205,11 @@ public class Customer implements Cloneable{
 		return hidden;
 	}
 	
-	public void addCar(Car car) { // NO_UCD (unused code)
+	public void addCar(Car car) {
 		cars.add(car);
 	}
 	
-	public void removeCar(Car car) { // NO_UCD (unused code)
+	public void removeCar(Car car) {
 		cars.remove(car);
 	}
 	

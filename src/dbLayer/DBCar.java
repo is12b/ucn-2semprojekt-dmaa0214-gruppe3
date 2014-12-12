@@ -111,7 +111,6 @@ public class DBCar implements IFDBCar {
 			
 			stmt.close();
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			throw new DBException("Bil", e);
 		}
 		
@@ -179,7 +178,6 @@ public class DBCar implements IFDBCar {
 			
 			stmt.close();
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			throw new DBException("Bil", e);
 		}
 		
@@ -212,7 +210,6 @@ public class DBCar implements IFDBCar {
 				e.printStackTrace();
 			}
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			throw new DBException("Bil", e);
 		}
 		
@@ -223,7 +220,7 @@ public class DBCar implements IFDBCar {
 		return rc;
 	}	
 	
-	private Car singleWhere(String wQuery, boolean retAsso){
+	private Car singleWhere(String wQuery, boolean retAsso) {
 		Car car = null;
 		
 		try{
@@ -240,15 +237,14 @@ public class DBCar implements IFDBCar {
 			}
 			
 			stmt.close();
-		}catch(Exception e){ //TODO exception skal laves til DBException i hele klassen
-			System.out.println("DBCar - SingleWhere - Exception");
+		}catch(Exception e){
+			System.out.println("DBCar - singleWhere - Exception");
 			e.printStackTrace();
 		}
-		
 		return car;
 	}
 	
-	private ArrayList<Car> miscWhere(String wQuery, boolean retAsso){
+	private ArrayList<Car> miscWhere(String wQuery, boolean retAsso) {
 		ArrayList<Car> cars = new ArrayList<Car>();
 		
 		try{
@@ -279,8 +275,9 @@ public class DBCar implements IFDBCar {
 	/**
 	 * @param rs
 	 * @return
+	 * @throws SQLException 
 	 */
-	private Car buildCar(ResultSet rs) {
+	private Car buildCar(ResultSet rs) throws SQLException {
 		Car car = new Car();
 		
 		try{
@@ -294,9 +291,8 @@ public class DBCar implements IFDBCar {
 			car.setVin(rs.getString("VIN"));
 			car.setYear(rs.getInt("Year"));
 			car.setHidden(rs.getBoolean("Hidden"));
-		}catch(Exception e){
-			System.out.println("DBCar - BuildCar - Exception");
-			e.printStackTrace();
+		}catch(SQLException e){
+			throw new DBException("Bil", e);
 		}
 		
 		return car;
