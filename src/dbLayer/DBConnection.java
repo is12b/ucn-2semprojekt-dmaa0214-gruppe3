@@ -54,7 +54,7 @@ class DBConnection {
 	/**
 	 * Closing the Connection
 	 */
-	static void closeConnection() {
+	static void closeConnection() { // NO_UCD (unused code)
 		try {
 			conn.close();
 			System.out.println("Connection closed!");

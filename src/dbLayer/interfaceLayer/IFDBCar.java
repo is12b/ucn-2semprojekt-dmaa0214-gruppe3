@@ -1,6 +1,5 @@
 package dbLayer.interfaceLayer;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import exceptions.DBException;
@@ -29,7 +28,6 @@ public interface IFDBCar {
 	 * @param regNr the reg nr
 	 * @param retAsso If true: include associations to other objects
 	 * @return the car by reg nr
-	 * @throws SQLException 
 	 */
 	public Car getCarByRegNr(String regNr, boolean retAsso);
 	
