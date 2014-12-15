@@ -21,7 +21,7 @@ import com.jgoodies.forms.layout.RowSpec;
  * @author Group 3, dmaa0214, UCN
  *
  */
-public class CreateCarDialog extends JDialog {
+class CreateCarDialog extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 	private Customer customer;
@@ -32,7 +32,7 @@ public class CreateCarDialog extends JDialog {
 	private JTextField txtYear;
 	private JTextField txtMileage;
 
-	public CreateCarDialog(Customer cust) {
+	CreateCarDialog(Customer cust) {
 		setTitle(customer.getName() + " - Opret Ny Bil");
 		this.customer = cust;
 		
