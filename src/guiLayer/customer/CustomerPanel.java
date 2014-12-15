@@ -2,7 +2,7 @@ package guiLayer.customer;
 
 import exceptions.ObjectNotExistException;
 import guiLayer.MainGUI;
-import guiLayer.extensions.CustomerTableModel;
+import guiLayer.customer.models.CustomerTableModel;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.IFTabbedPanel;

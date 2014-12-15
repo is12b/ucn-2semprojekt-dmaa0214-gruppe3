@@ -9,7 +9,6 @@ import guiLayer.PDFViewerDialog;
 import guiLayer.extensions.DocumentListenerChange;
 import guiLayer.extensions.IFTabbedPanel;
 import guiLayer.extensions.Utilities;
-import guiLayer.sale.extensions.MileageDialog;
 import guiLayer.sale.models.OrderTableModel;
 
 import java.awt.Color;

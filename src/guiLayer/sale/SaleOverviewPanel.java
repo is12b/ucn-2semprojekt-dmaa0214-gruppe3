@@ -7,7 +7,7 @@ import guiLayer.PDFViewerDialog;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.IFTabbedPanel;
 import guiLayer.extensions.Utilities;
-import guiLayer.sale.extensions.PaidTableCellRenderer;
+import guiLayer.sale.models.PaidTableCellRenderer;
 import guiLayer.sale.models.SaleOverviewTableModel;
 
 import java.awt.Color;

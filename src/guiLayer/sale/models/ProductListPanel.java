@@ -1,4 +1,4 @@
-package guiLayer.sale.extensions;
+package guiLayer.sale.models;
 
 import java.awt.Color;
 
