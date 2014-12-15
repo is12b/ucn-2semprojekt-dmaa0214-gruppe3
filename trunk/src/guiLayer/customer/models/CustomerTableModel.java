@@ -1,4 +1,4 @@
-package guiLayer.extensions;
+package guiLayer.customer.models;
 
 import java.util.ArrayList;
 

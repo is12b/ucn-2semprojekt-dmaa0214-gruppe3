@@ -2,7 +2,7 @@ package guiLayer.customer;
 
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;
-import guiLayer.extensions.CarListModel;
+import guiLayer.customer.models.CarListModel;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
 

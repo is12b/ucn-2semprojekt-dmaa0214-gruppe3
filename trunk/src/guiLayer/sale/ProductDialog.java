@@ -1,6 +1,6 @@
 package guiLayer.sale;
 
-import guiLayer.sale.extensions.ProductCellRender;
+import guiLayer.sale.models.ProductCellRender;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
