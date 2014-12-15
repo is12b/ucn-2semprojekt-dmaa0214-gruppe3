@@ -1,5 +1,6 @@
-package guiLayer;
+package guiLayer.customer;
 
+import guiLayer.MainGUI;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
 
