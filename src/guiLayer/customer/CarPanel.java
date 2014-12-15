@@ -1,7 +1,8 @@
-package guiLayer;
+package guiLayer.customer;
 
 import javax.swing.JPanel;
 
+import guiLayer.MainGUI;
 import guiLayer.extensions.IFTabbedPanel;
 
 /**

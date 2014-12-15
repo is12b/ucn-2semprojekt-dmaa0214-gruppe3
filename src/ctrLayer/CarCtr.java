@@ -9,7 +9,7 @@ import exceptions.DBException;
 import exceptions.DBNotFoundException;
 import exceptions.ObjectNotExistException;
 
-public class CarCtr implements IFCarCtr { //TODO KIGGE PÅ FEJLHÅNDTERING
+public class CarCtr implements IFCarCtr {
 	
 	public CarCtr() {
 		
@@ -31,7 +31,7 @@ public class CarCtr implements IFCarCtr { //TODO KIGGE PÅ FEJLHÅNDTERING
 		
 		Car car = dbCar.getCarByRegNr(regNr, retAsso);
 		
-		if(car == null){ //TODO DB KLASSE ELLER HER?
+		if(car == null){
 			throw new ObjectNotExistException("Bilen blev ikke fundet");
 		}
 		
@@ -46,7 +46,7 @@ public class CarCtr implements IFCarCtr { //TODO KIGGE PÅ FEJLHÅNDTERING
 		
 		Car car = dbCar.getCarByVin(vin, retAsso);
 		
-		if(car == null){ //TODO DB KLASSE ELLER HER?
+		if(car == null){
 			throw new ObjectNotExistException("Bilen blev ikke fundet");
 		}
 		

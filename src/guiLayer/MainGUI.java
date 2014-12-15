@@ -1,8 +1,10 @@
 package guiLayer;
 
+import guiLayer.customer.CustomerPanel;
 import guiLayer.extensions.IFTabbedPanel;
 import guiLayer.product.ProductPanel;
 import guiLayer.product.UnitTypeDialog;
+import guiLayer.sale.InvoiceSettingsDialog;
 import guiLayer.sale.SalePanel;
 import guiLayer.sale.SaleOverviewPanel;
 

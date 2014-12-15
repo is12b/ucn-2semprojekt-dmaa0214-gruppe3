@@ -1,4 +1,4 @@
-package guiLayer;
+package guiLayer.customer;
 
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;

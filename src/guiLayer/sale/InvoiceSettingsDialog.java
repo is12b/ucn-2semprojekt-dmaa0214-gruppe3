@@ -1,4 +1,4 @@
-package guiLayer;
+package guiLayer.sale;
 
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;
@@ -34,7 +34,7 @@ import ctrLayer.interfaceLayer.IFSettingCtr;
  * @author Group 3, dmaa0214, UCN
  *
  */
-class InvoiceSettingsDialog extends JDialog {
+public class InvoiceSettingsDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtAddress;
