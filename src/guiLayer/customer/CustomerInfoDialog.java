@@ -277,8 +277,8 @@ public class CustomerInfoDialog extends JDialog {
 	 */
 	private void mouseClickCar(Customer customer, MouseEvent e) {
 		if (e.getClickCount() == 2) {
-			JList list = (JList)e.getSource();
-			int index = list.getSelectedIndex();
+			//JList list = (JList)e.getSource();
+			int index = carList.getSelectedIndex();
 			Car car = customer.getCars().get(index);
 			new CarInfoDialog(car);
 			updateList();
