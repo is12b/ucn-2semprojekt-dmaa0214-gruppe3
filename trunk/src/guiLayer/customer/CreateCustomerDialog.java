@@ -279,8 +279,4 @@ public class CreateCustomerDialog extends JDialog {
 
 	}
 
-	private void setFocus(){
-
-	}
-
 }
