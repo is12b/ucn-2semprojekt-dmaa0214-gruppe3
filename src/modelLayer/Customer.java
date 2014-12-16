@@ -2,7 +2,6 @@ package modelLayer;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class for Customer.
  *

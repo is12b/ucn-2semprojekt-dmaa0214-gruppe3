@@ -14,6 +14,7 @@ import guiLayer.extensions.IFTabbedPanel;
 class CarPanel extends JPanel implements IFTabbedPanel  {
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused") //TODO SKAL FJERENS, HVIS KLASSEN LAVES
 	private MainGUI parent;
 
 	/**

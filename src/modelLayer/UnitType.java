@@ -1,6 +1,4 @@
 package modelLayer;
-
-// TODO: Auto-generated Javadoc
 /**
  * Class for UnitType.
  *
