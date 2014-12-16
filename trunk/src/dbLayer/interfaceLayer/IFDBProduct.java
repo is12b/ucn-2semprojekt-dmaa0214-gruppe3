@@ -6,7 +6,7 @@ import modelLayer.Product;
 import exceptions.DBException;
 
 /**
- * Class for IFDBProduct.
+ * Interface for DBProduct.
  *
  * @author Group 3, dmaa0214, UCN
  */

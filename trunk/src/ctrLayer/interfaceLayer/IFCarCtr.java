@@ -5,13 +5,20 @@ import exceptions.DBException;
 import exceptions.ObjectNotExistException;
 
 /**
- * Class for IFCarCtr
+ * Interface for CarCtr
  *
  * @author Group 3, dmaa0214, UCN
  *
  */
 public interface IFCarCtr {
 	
+	/**
+	 * Get a car object by regNr
+	 * @param regNr the regNr to look for
+	 * @param retAsso retrieve associations to the object.
+	 * @return The found car object
+	 * @throws ObjectNotExistException If no car is found
+	 */
 	public Car getCarByRegNr(String regNr, boolean retAsso) throws ObjectNotExistException;
 	
 	public Car getCarByVin(String vin, boolean retAsso) throws ObjectNotExistException;

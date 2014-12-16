@@ -8,7 +8,7 @@ import modelLayer.Customer;
 import modelLayer.Sale;
 
 /**
- * Class for IFDBSale.
+ * Interface for DBSale.
  *
  * @author Group 3, dmaa0214, UCN
  */
