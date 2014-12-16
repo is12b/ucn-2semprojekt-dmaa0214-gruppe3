@@ -146,6 +146,7 @@ public class CustomerPanel extends JPanel implements IFTabbedPanel  {
 		panelSearch.add(panel_4, "2, 10, 3, 1, fill, fill");
 		panel_4.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.GROWING_BUTTON_COLSPEC,
+				ColumnSpec.decode("20px"),
 				FormFactory.GROWING_BUTTON_COLSPEC,},
 			new RowSpec[] {
 				RowSpec.decode("23px"),}));
@@ -156,11 +157,11 @@ public class CustomerPanel extends JPanel implements IFTabbedPanel  {
 				clearFields();
 			}
 		});
-		panel_4.add(btnClear, "1, 1, center, center");
+		panel_4.add(btnClear, "1, 1, fill, center");
 
 		btnSearch = new JButton("S\u00F8g");
 
-		panel_4.add(btnSearch, "2, 1, center, top");
+		panel_4.add(btnSearch, "3, 1, fill, top");
 
 		JPanel panelCreate = new JPanel();
 		panelCreate.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Opret Kunde", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
