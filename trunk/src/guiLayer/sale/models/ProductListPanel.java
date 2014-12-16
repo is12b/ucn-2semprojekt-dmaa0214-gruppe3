@@ -21,20 +21,25 @@ class ProductListPanel extends JPanel {
 	 */
 	ProductListPanel(String itemNumber, String name, String desc, double price,
 			String shortDescription, boolean isSelected) {
-		setLayout(new FormLayout(
-				new ColumnSpec[] { ColumnSpec.decode("default:grow"), },
-				new RowSpec[] { RowSpec.decode("max(29dlu;default):grow"), }));
+		setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				RowSpec.decode("max(29dlu;default):grow"),}));
+		
 		listPanel = new JPanel();
-
+		
 		if (!isSelected) {
-			listPanel.setBorder(new MatteBorder(2, 2, 2, 2, new Color(
+			setBorder(new MatteBorder(2, 2, 2, 2, new Color(
 					100, 0, 0)));
 		} else {
-			listPanel.setBorder(new MatteBorder(0, 0, 1, 0, new Color(
+			setBorder(new MatteBorder(1, 0, 1, 0, new Color(
 					0, 0, 0)));
 		}
+		
+		
 
 		add(listPanel, "1, 1, fill, fill");
+		
 		listPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
