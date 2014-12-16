@@ -96,10 +96,7 @@ public class DBSale implements IFDBSale {
 			
 			IFDBPartSale dbPS = new DBPartSale();
 			for (PartSale ps : sale.getPartSales()) {
-				int rows = dbPS.insertPartSale(sale, ps);
-				if (rows <= 0) {
-					throw new NullPointerException("DBSale: Insert partsale"); //TODO Nullpointer?
-				}
+				dbPS.insertPartSale(sale, ps);
 			}
 			
 			stmt.close();
