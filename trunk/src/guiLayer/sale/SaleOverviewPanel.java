@@ -105,7 +105,6 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 		saleSearchPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "S\u00F8g via Fakturaoplysninger", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		sidePanel.add(saleSearchPanel, "1, 1, fill, fill");
 		saleSearchPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
@@ -118,31 +117,27 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				RowSpec.decode("default:grow"),}));
 		
 		JLabel lblSaleID = new JLabel("Faktura Nummer");
-		saleSearchPanel.add(lblSaleID, "2, 1, right, default");
+		saleSearchPanel.add(lblSaleID, "1, 1, right, default");
 		
 		txtSaleID = new JTextFieldLimit(10, true);
 		lblSaleID.setLabelFor(txtSaleID);
-		saleSearchPanel.add(txtSaleID, "4, 1, fill, default");
+		saleSearchPanel.add(txtSaleID, "3, 1, fill, default");
 		txtSaleID.setColumns(10);
 		
 		chbAll = new JCheckBox("(Meget kr\u00E6vende)");
 				
-		saleSearchPanel.add(chbAll, "4, 3");
+		saleSearchPanel.add(chbAll, "3, 3");
 		
 		JLabel lblAll = new JLabel("Vis alle");
-		saleSearchPanel.add(lblAll, "2, 3, right, default");
+		saleSearchPanel.add(lblAll, "1, 3, right, default");
 		lblAll.setLabelFor(chbAll);
 		
 		JPanel saleBtnsPanel = new JPanel();
-		saleSearchPanel.add(saleBtnsPanel, "2, 5, 3, 1, fill, fill");
+		saleSearchPanel.add(saleBtnsPanel, "1, 5, 3, 1, fill, fill");
 		saleBtnsPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,},
+				ColumnSpec.decode("20px"),
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
@@ -152,7 +147,7 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				clearSearchBySale();
 			}
 		});
-		saleBtnsPanel.add(btnSaleClear, "2, 1");
+		saleBtnsPanel.add(btnSaleClear, "1, 1");
 		
 		btnSaleSearch = new JButton("S\u00F8g");
 		btnSaleSearch.addActionListener(new ActionListener() {
@@ -160,14 +155,13 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				searchBySale();
 			}
 		});
-		saleBtnsPanel.add(btnSaleSearch, "6, 1");
+		saleBtnsPanel.add(btnSaleSearch, "3, 1");
 		
 		JPanel carSearchPanel = new JPanel();
 		carSearchPanel.setBorder(new TitledBorder(null, "S\u00F8g via Biloplysninger", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		sidePanel.add(carSearchPanel, "1, 3, fill, fill");
 		carSearchPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,},
@@ -179,31 +173,27 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				RowSpec.decode("default:grow"),}));
 		
 		JLabel lblRegNr = new JLabel("Reg. Nummer");
-		carSearchPanel.add(lblRegNr, "2, 1, right, default");
+		carSearchPanel.add(lblRegNr, "1, 1, right, default");
 		
 		txtRegNr = new JTextFieldLimit(10);
 		lblRegNr.setLabelFor(txtRegNr);
-		carSearchPanel.add(txtRegNr, "4, 1");
+		carSearchPanel.add(txtRegNr, "3, 1");
 		txtRegNr.setColumns(10);
 		
 		JLabel lblVIN = new JLabel("Stelnummer");
-		carSearchPanel.add(lblVIN, "2, 3, right, default");
+		carSearchPanel.add(lblVIN, "1, 3, right, default");
 		
 		txtVIN = new JTextFieldLimit(100);
 		lblVIN.setLabelFor(txtVIN);
-		carSearchPanel.add(txtVIN, "4, 3, fill, top");
+		carSearchPanel.add(txtVIN, "3, 3, fill, top");
 		txtVIN.setColumns(10);
 		
 		JPanel carBtnsPanel = new JPanel();
-		carSearchPanel.add(carBtnsPanel, "2, 5, 3, 1, fill, fill");
+		carSearchPanel.add(carBtnsPanel, "1, 5, 3, 1, fill, fill");
 		carBtnsPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,},
+				ColumnSpec.decode("20px"),
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
@@ -213,7 +203,7 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				clearSearchByCar();
 			}
 		});
-		carBtnsPanel.add(btnCarClear, "2, 1");
+		carBtnsPanel.add(btnCarClear, "1, 1");
 		
 		btnCarSearch = new JButton("S\u00F8g");
 		btnCarSearch.addActionListener(new ActionListener() {
@@ -221,14 +211,13 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				searchByCar();
 			}
 		});
-		carBtnsPanel.add(btnCarSearch, "6, 1");
+		carBtnsPanel.add(btnCarSearch, "3, 1");
 		
 		JPanel cusSearchPanel = new JPanel();
 		cusSearchPanel.setBorder(new TitledBorder(null, "S\u00F8g via Kundeoplysninger", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		sidePanel.add(cusSearchPanel, "1, 5, fill, fill");
 		cusSearchPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("75px:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,},
@@ -242,39 +231,35 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblName = new JLabel("Navn");
-		cusSearchPanel.add(lblName, "2, 1, right, default");
+		cusSearchPanel.add(lblName, "1, 1, right, default");
 		
 		txtCusName = new JTextFieldLimit(100);
 		lblName.setLabelFor(txtCusName);
-		cusSearchPanel.add(txtCusName, "4, 1, fill, default");
+		cusSearchPanel.add(txtCusName, "3, 1, fill, default");
 		txtCusName.setColumns(10);
 		
 		JLabel lblPhone = new JLabel("TelefonNr.");
-		cusSearchPanel.add(lblPhone, "2, 3, right, default");
+		cusSearchPanel.add(lblPhone, "1, 3, right, default");
 		
 		txtPhone = new JTextFieldLimit(100);
 		lblPhone.setLabelFor(txtPhone);
-		cusSearchPanel.add(txtPhone, "4, 3, fill, default");
+		cusSearchPanel.add(txtPhone, "3, 3, fill, default");
 		txtPhone.setColumns(10);
 		
 		JLabel lblCVR = new JLabel("CVR nummer");
-		cusSearchPanel.add(lblCVR, "2, 5, right, default");
+		cusSearchPanel.add(lblCVR, "1, 5, right, default");
 		
 		txtCVR = new JTextFieldLimit(20, true);
 		lblCVR.setLabelFor(txtCVR);
-		cusSearchPanel.add(txtCVR, "4, 5, fill, default");
+		cusSearchPanel.add(txtCVR, "3, 5, fill, default");
 		txtCVR.setColumns(10);
 		
 		JPanel cusBtnsPanel = new JPanel();
-		cusSearchPanel.add(cusBtnsPanel, "2, 7, 3, 1, fill, fill");
+		cusSearchPanel.add(cusBtnsPanel, "1, 7, 3, 1, fill, fill");
 		cusBtnsPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,},
+				ColumnSpec.decode("20px"),
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				RowSpec.decode("default:grow"),}));
 		
@@ -284,7 +269,7 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				clearSearchByCus();
 			}
 		});
-		cusBtnsPanel.add(btnCusClear, "2, 1");
+		cusBtnsPanel.add(btnCusClear, "1, 1");
 		
 		btnCusSearch = new JButton("S\u00F8g");
 		btnCusSearch.addActionListener(new ActionListener() {
@@ -292,7 +277,7 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 				searchByCus();
 			}
 		});
-		cusBtnsPanel.add(btnCusSearch, "6, 1");
+		cusBtnsPanel.add(btnCusSearch, "3, 1");
 		
 		JPanel mainPanel = new JPanel();
 		add(mainPanel, "3, 2, fill, fill");

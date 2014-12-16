@@ -204,7 +204,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 				customerSearch();
 			}
 		});
-		panel_4.add(btnCustomerSearch, "1, 1, fill, center");
+		panel_4.add(btnCustomerSearch, "3, 1, fill, center");
 		
 		JButton btnCustomerClear = new JButton("Ryd");
 		btnCustomerClear.addActionListener(new ActionListener() {
@@ -212,7 +212,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 				clearCustomerSearch();
 			}
 		});
-		panel_4.add(btnCustomerClear, "3, 1, fill, center");
+		panel_4.add(btnCustomerClear, "1, 1, fill, center");
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "S\u00F8g Produkt", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -269,7 +269,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 				searchProduct();
 			}
 		});
-		panel_5.add(btnProductSearch, "1, 1");
+		panel_5.add(btnProductSearch, "3, 1");
 		
 		JButton btnProductClear = new JButton("Ryd");
 		btnProductClear.addActionListener(new ActionListener() {
@@ -277,7 +277,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 				clearProductSearch();
 			}
 		});
-		panel_5.add(btnProductClear, "3, 1");
+		panel_5.add(btnProductClear, "1, 1");
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "S\u00F8g Bil", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -325,7 +325,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 				carSearch();
 			}
 		});
-		panel.add(btnCarSearch, "1, 1");
+		panel.add(btnCarSearch, "3, 1");
 		
 		JButton btnCarClear = new JButton("Ryd");
 		btnCarClear.addActionListener(new ActionListener() {
@@ -333,7 +333,7 @@ public class SalePanel extends JPanel implements IFTabbedPanel  {
 				clearCarSearch();
 			}
 		});
-		panel.add(btnCarClear, "3, 1");
+		panel.add(btnCarClear, "1, 1");
 		
 		JPanel panel_11 = new JPanel();
 		panel_10.add(panel_11, "1, 7, fill, fill");
