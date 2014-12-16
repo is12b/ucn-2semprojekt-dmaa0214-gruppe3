@@ -386,7 +386,7 @@ public class InvoiceSettingsDialog extends JDialog {
 			sCtr.updateSetting(new Setting("INVOICE_REG", txtReg.getText()));
 			sCtr.updateSetting(new Setting("INVOICE_ACC", txtAcc.getText()));
 		} catch (DBException | ObjectNotExistException e) {
-			System.out.println("invoiceSettingDialog exception: " + e.getMessage()); //TODO skal måske fjernes?
+			System.out.println("invoiceSettingDialog exception: " + e.getMessage());
 			Utilities.showError(this, "Indtillingerne kunne ikke gemmes \nDette kan muligvis skyldes ulovlige tegn");
 		}
 		

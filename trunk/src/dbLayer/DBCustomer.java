@@ -248,7 +248,7 @@ public class DBCustomer implements IFDBCustomer {
 					customer.setCars(getCars(customer));
 				}
 			}
-		} catch (Exception e) { //TODO Exception skal være DBExcetion
+		} catch (Exception e) { 
 			System.out.println("DBCustomer - singleWhere - Exception");
 			e.printStackTrace();
 		}		

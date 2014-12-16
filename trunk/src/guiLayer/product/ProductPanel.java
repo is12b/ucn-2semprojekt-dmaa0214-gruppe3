@@ -273,7 +273,7 @@ public class ProductPanel extends JPanel implements IFTabbedPanel  {
         	popupMenu.show(table, e.getX(), e.getY());
         }
         else if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
-        	System.out.println("venstreklik"); //TODO DO SOMETHING?
+        	System.out.println("venstreklik");
         	editProduct(rowNumber);
         }
 	}

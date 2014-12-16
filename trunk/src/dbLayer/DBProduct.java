@@ -153,7 +153,7 @@ public class DBProduct implements IFDBProduct {
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
 			stmt.close();
-		}catch(SQLException e){ //TODO edited from SQLServerException
+		}catch(SQLException e){ // edited from SQLServerException
 			//Foreign key error
 			if(e.getErrorCode() == 547){
 				product.setHidden(true);

@@ -17,7 +17,6 @@ public class BuildingPDFException extends Exception {
 	 */
 	public BuildingPDFException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 }
