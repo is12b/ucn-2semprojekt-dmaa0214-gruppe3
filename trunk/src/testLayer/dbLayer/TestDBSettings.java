@@ -1,18 +1,5 @@
 package testLayer.dbLayer;
 
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-
-import modelLayer.Setting;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import dbLayer.DBSettings;
-import dbLayer.interfaceLayer.IFDBSettings;
-import exceptions.DBException;
-
 /**
  * Class for TestDBSettings
  * May be used in the future, for now there is no use for Insert / Delete. Making the test unnecessary
@@ -21,7 +8,7 @@ import exceptions.DBException;
  *
  */
 public class TestDBSettings {
-	private IFDBSettings dbSet;
+	//private IFDBSettings dbSet;
 	/**
 	 * @throws java.lang.Exception
 	 */

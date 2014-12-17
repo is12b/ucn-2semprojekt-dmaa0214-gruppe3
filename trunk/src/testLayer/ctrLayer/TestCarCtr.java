@@ -1,6 +1,5 @@
 package testLayer.ctrLayer;
 
-import static org.junit.Assert.fail;
 import modelLayer.Car;
 import modelLayer.Customer;
 
