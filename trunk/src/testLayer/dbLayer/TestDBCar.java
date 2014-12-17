@@ -1,6 +1,6 @@
 package testLayer.dbLayer;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
@@ -24,22 +24,28 @@ public class TestDBCar {
 
 	@Test
 	public void test() throws DBException {
+		boolean test = true;
+		
 		Car car = new Car();
 		car.setOwner(new Customer(1));
 		car.setRegNr("FA21984");
 		int rc = dbCar.insertCar(car);
 		
 		if(rc == -1){
-			fail("Insert Failed!");
+			test = false;
+			System.out.println("Insert Failed");
 		}else{
+			test = true;
 			System.out.println("Inserted Car: " + car.getId());
 		}
 		
 		Car fetchedCar = dbCar.getCarByRegNr("FA21984", false);
 		
 		if(fetchedCar == null){
-			fail("Single Select Failed");
+			test = false;
+			System.out.println("GetCarByRegNr Failed");
 		}else{
+			test = true;
 			System.out.println("Fetched Car: " + fetchedCar.getId());
 		}
 		
@@ -49,18 +55,24 @@ public class TestDBCar {
 		
 		
 		if(cars == null || cars.size() < 1){
-			fail("Misc Select Failed");
+			test = false;
+			System.out.println("GetCars Failed");
 		}else{
+			test = true;
 			System.out.println("Fetched Cars: " + cars.size());
 		}
 		
 		int deleteRc = dbCar.deleteCar(car);
 		
-		if(deleteRc == 0){
-			fail("Delete failed");
+		if(deleteRc == 0 || deleteRc == -1){
+			test = false;
+			System.out.println("Delete Failed");
 		}else{
+			test = true;
 			System.out.println("Deleted car: " + car.getId());
 		}
+		
+		assertTrue(test);
 	}
 
 }

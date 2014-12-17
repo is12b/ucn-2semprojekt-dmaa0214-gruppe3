@@ -15,6 +15,7 @@ import exceptions.DBException;
 
 /**
  * Class for TestDBSettings
+ * May be used in the future, for now there is no use for Insert / Delete. Making the test unnecessary
  *
  * @author Group 3, dmaa0214, UCN
  *
