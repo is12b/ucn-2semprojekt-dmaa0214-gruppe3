@@ -20,33 +20,22 @@ public class TestCarCtr {
 		cCtr = new CarCtr();
 	}
 	
-	@Test
-	public void testCRUD() {
-		
-		try{
-			cCtr.getCarByRegNr("99999999999999999999999999", false);
-			fail("No exception thrown - getCarByRegNr");
-		}catch(Exception e){
-			System.out.println("Exception Test - NullPointer " + e.getMessage());
-		}
-
-		try {
-			Car car = new Car(9999999);
-			car.setOwner(new Customer(1));
-			cCtr.updateCar(car);
-			fail("No exception thrown - Update");
-		} catch (DBException | ObjectNotExistException e) {
-			System.out.println("Exception Test - Update Exception " + e.getMessage());
-		}
-		
-		try {
-			cCtr.deleteCar(new Car(999999));
-			fail("No exception thrown - Delete");
-		} catch (DBException | ObjectNotExistException e) {
-			
-			System.out.println("Exception Test - DeleteException " + e.getMessage());
-		}
-
+	@Test(expected=Exception.class)
+	public void testRegNr() throws ObjectNotExistException{
+		cCtr.getCarByRegNr("99999999999999999999999999", false);
 	}
+	
+	@Test(expected=Exception.class)
+	public void testUpdateCar() throws DBException, ObjectNotExistException{
+		Car car = new Car(9999999);
+		car.setOwner(new Customer(1));
+		cCtr.updateCar(car);
+	}
+	
+	@Test(expected=Exception.class)
+	public void testDeleteCar() throws DBException, ObjectNotExistException{
+		cCtr.deleteCar(new Car(999999));
+	}
+	
 
 }
