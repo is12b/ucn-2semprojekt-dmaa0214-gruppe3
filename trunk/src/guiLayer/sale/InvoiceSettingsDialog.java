@@ -53,6 +53,7 @@ public class InvoiceSettingsDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public InvoiceSettingsDialog() {
+		
 		buildDialog();
 		
 		IFSettingCtr sCtr = new SettingCtr();
@@ -70,6 +71,8 @@ public class InvoiceSettingsDialog extends JDialog {
 	}
 	
 	private void buildDialog(){
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("Faktura Indstillinger");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -358,7 +361,7 @@ public class InvoiceSettingsDialog extends JDialog {
 				JButton cancelButton = new JButton("Annuller");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						InvoiceSettingsDialog.this.dispose();
+						dispose();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
@@ -387,7 +390,7 @@ public class InvoiceSettingsDialog extends JDialog {
 			sCtr.updateSetting(new Setting("INVOICE_ACC", txtAcc.getText()));
 		} catch (DBException | ObjectNotExistException e) {
 			System.out.println("invoiceSettingDialog exception: " + e.getMessage());
-			Utilities.showError(this, "Indtillingerne kunne ikke gemmes \nDette kan muligvis skyldes ulovlige tegn");
+			Utilities.showError(this, "Indstillingerne kunne ikke gemmes \nDette kan muligvis skyldes ulovlige tegn");
 		}
 		
 		this.dispose();

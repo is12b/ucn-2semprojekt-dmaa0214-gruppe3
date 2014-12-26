@@ -8,7 +8,6 @@ import guiLayer.sale.InvoiceSettingsDialog;
 import guiLayer.sale.SalePanel;
 import guiLayer.sale.SaleOverviewPanel;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -100,6 +99,14 @@ public class MainGUI extends JFrame {
 		});
 		mnSettings.add(mntmInvoiceSettings);
 		
+		JMenuItem mntmEmail = new JMenuItem("E-Mail");
+		mntmEmail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openEmailSettings();
+			}
+		});
+		mnSettings.add(mntmEmail);
+		
 		JMenu mnHelp = new JMenu("Hj\u00E6lp");
 		menuBar.add(mnHelp);
 		
@@ -134,13 +141,16 @@ public class MainGUI extends JFrame {
 		setFocus();
 	}
 
-	/**
-	 * 
-	 */
+	private void openEmailSettings() {
+		EmailSettingsDialog eDialog = new EmailSettingsDialog(this);
+		eDialog.setVisible(false);
+		eDialog.dispose();
+	}
+
 	private void openInvoiceSettings() {
 		InvoiceSettingsDialog iDialog = new InvoiceSettingsDialog();
-		iDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 		iDialog.setVisible(true);
+		iDialog.dispose();
 	}
 
 	private void openUnitTypeGUI() {
