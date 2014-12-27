@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import modelLayer.Car;
+import modelLayer.Inspection;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -22,6 +24,14 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CarCtr;
+
+import javax.swing.BoxLayout;
+
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
 /**
  * Class for CarInfoDialog
@@ -40,6 +50,8 @@ class CarInfoDialog extends JDialog {
 	private JTextField txtFirstReg;
 	private JTextField txtInsurance;
 	private JTextField txtStatus;
+	private JList<String> list;
+	private DefaultListModel<String> model;
 
 	/**
 	 * Constructor for CarInfoDialog objects.
@@ -81,7 +93,9 @@ class CarInfoDialog extends JDialog {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -155,42 +169,78 @@ class CarInfoDialog extends JDialog {
 		JLabel lblStatus = new JLabel("Status");
 		panel_2.add(lblStatus, "2, 14, right, default");
 
-		JButton btnSave = new JButton("Gem");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-
 		txtStatus = new JTextField();
 		if(car.getExtra() != null){
 			txtStatus.setText(car.getExtra().getStatus());
 		}
 		panel_2.add(txtStatus, "4, 14, fill, default");
 		txtStatus.setColumns(10);
-		panel_2.add(btnSave, "2, 16");
 
 		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, "4, 16, fill, fill");
+		panel_2.add(panel_3, "2, 16, 3, 1, fill, fill");
+		panel_3.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JButton btnSave = new JButton("Gem");
+		panel_3.add(btnSave, "1, 1, fill, default");
+		
+		JButton btnUpdate = new JButton("Opdater");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateExtra();
+			}
+		});
+		panel_3.add(btnUpdate, "5, 1, fill, default");
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Synsinformation", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(panel, "4, 2, fill, fill");
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
+			new RowSpec[] {
 				RowSpec.decode("default:grow"),}));
 
 		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, "2, 4, fill, fill");
+		panel.add(panel_1, "1, 1, fill, fill");
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel_1.add(scrollPane, BorderLayout.CENTER);
+		
+		list = new JList<String>();
+		model = new DefaultListModel<String>();
+		list.setModel(model);
+		if(car.getInspections() != null || car.getInspections().size() > 0){
+			populateList(car.getInspections());
+		}
+		scrollPane.setViewportView(list);
 		
 		Utilities.addEscapeListener(this);
 		Dimension minSize = new Dimension(500,350);
 		this.setMinimumSize(minSize);
 		this.setVisible(true);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected void updateExtra() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void populateList(ArrayList<Inspection> inspecs){
+		for(Inspection i : inspecs){
+			System.out.println(i.getDate());
+			model.addElement(i.toString());
+		}
 	}
 }
 
