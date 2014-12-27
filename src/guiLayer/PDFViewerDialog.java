@@ -1,12 +1,18 @@
 package guiLayer;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
+import modelLayer.Customer;
 import modelLayer.Sale;
 
 import org.icepdf.ri.common.MyAnnotationCallback;
@@ -17,6 +23,8 @@ import ctrLayer.InvoicePDFGenerator;
 import dbLayer.DBSale;
 import dbLayer.interfaceLayer.IFDBSale;
 import exceptions.BuildingPDFException;
+import exceptions.EmailException;
+import guiLayer.extensions.Utilities;
 
 /**
  * Dialog for showing a PDF Document
@@ -28,6 +36,9 @@ public class PDFViewerDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private SwingController controller;
+	private Sale sale;
+	private ByteArrayOutputStream baos;
+	private InvoicePDFGenerator pdfGenerator;
 
 	/**
 	 * Constructor for PDFViewerDialog objects.
@@ -63,9 +74,10 @@ public class PDFViewerDialog extends JDialog {
 	}
 
 	private void loadSale(Sale sale) throws BuildingPDFException {
-		InvoicePDFGenerator generateInvoice = new InvoicePDFGenerator(sale);
+		this.sale = sale;
+		pdfGenerator = new InvoicePDFGenerator(sale);
 	        
-		ByteArrayOutputStream baos = generateInvoice.createPDF();
+		baos = pdfGenerator.createPDF();
 		if (baos.size() > 1) {
 			byte[] tempBytes = baos.toByteArray();
 		      
@@ -83,8 +95,9 @@ public class PDFViewerDialog extends JDialog {
 		
 		controller = new SwingController();
 
-		SwingViewBuilder factory = new SwingViewBuilder(controller);
-
+		
+		SwingViewBuilder factory = createFactory(controller);
+		
 		JPanel viewerComponentPanel = factory.buildViewerPanel();
 		
 		// add interactive mouse link annotation support via callback
@@ -93,6 +106,60 @@ public class PDFViewerDialog extends JDialog {
 		
 		getContentPane().add(viewerComponentPanel);
 		
+	}
+
+	private SwingViewBuilder createFactory(SwingController controller2) {
+		SwingViewBuilder factory = new SwingViewBuilder(controller) {
+						
+			@Override
+			public JToolBar buildRotateToolBar() {
+				return null;
+			}
+									
+			@Override
+			public JToolBar buildCompleteToolBar(boolean embeddableComponent) {
+				JToolBar tb = super.buildCompleteToolBar(embeddableComponent);			
+				tb.add(emailButton(), 1);
+				return tb;
+			}
+		
+		};
+		return factory;
+	}
+	
+	private JButton emailButton() {
+		JButton b = new JButton("Send Email");
+		b.setToolTipText("Send faktura til kundens mail");
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sendInvoice();
+			}
+		});
+		return b;
+	}
+
+	private void sendInvoice() {
+		
+		try {
+			Customer cus = sale.getCustomer();
+			if (cus.getEmail() != null) {
+				int c = Utilities.showConfirm(this, "Vil du sende en email med fakturaen til " + cus.getName() + " (" + cus.getEmail() + ")?"
+						+ "\nDet kan tage et par sekunder", "Bekræft");
+				if (c == JOptionPane.YES_OPTION) {			
+					try {
+						pdfGenerator.sendEmailWithInvoice(baos);
+						Utilities.showInformation(this, "En email med fakturaen er sendt til " + cus.getName(), "Email sendt");
+					} catch (EmailException e) {
+						Utilities.showError(this, e.getMessage(), "Email ikke sendt");
+					}		
+				}	
+			} else {
+				Utilities.showError(this, "Emailen kan ikke sendes, da kunden ikke har en email tilknyttet", "Email ikke sendt");
+			}
+		} catch (NullPointerException e) {
+			System.out.println(e.getMessage());
+			Utilities.showError(this, "Emailen kan ikke sendes, da der ikke er en kunde tilknyttet", "Email ikke sendt");
+		}
 	}
 
 }

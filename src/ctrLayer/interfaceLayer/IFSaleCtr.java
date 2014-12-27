@@ -1,6 +1,7 @@
 package ctrLayer.interfaceLayer;
 
 import exceptions.DBException;
+import exceptions.EmailException;
 import exceptions.ObjectNotExistException;
 import exceptions.SubmitException;
 
@@ -171,5 +172,7 @@ public interface IFSaleCtr {
 
 	public ArrayList<Sale> getSaleByCusCVR(String cvr) throws ObjectNotExistException;
 	
+	// Iteration 2
 	
+	public void sendEmailWithInvoice(Sale sale) throws ObjectNotExistException, EmailException;
 }

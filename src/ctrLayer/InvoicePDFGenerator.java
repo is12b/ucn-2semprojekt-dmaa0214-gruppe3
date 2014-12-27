@@ -30,6 +30,7 @@ import ctrLayer.interfaceLayer.IFSettingCtr;
 import dbLayer.DBSettings;
 import dbLayer.interfaceLayer.IFDBSettings;
 import exceptions.BuildingPDFException;
+import exceptions.EmailException;
 
 /**
  * Class for InvoicePDFGenerator
@@ -84,6 +85,13 @@ public class InvoicePDFGenerator {
 		}
 		
 		this.sale = sale;
+	}
+	
+	// Iteration 2
+	
+	public void sendEmailWithInvoice(ByteArrayOutputStream baos) throws EmailException {
+		EmailCtr eCtr = new EmailCtr();
+		eCtr.sendInvoice(sale, baos);
 	}
 	
 	public ByteArrayOutputStream createPDF() throws BuildingPDFException{
