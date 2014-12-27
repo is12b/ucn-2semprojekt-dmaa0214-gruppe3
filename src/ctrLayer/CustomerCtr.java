@@ -1,7 +1,6 @@
 package ctrLayer;
 
 import java.util.ArrayList;
-
 import modelLayer.Customer;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import dbLayer.DBCustomer;
@@ -13,18 +12,25 @@ import exceptions.ObjectNotExistException;
 public class CustomerCtr implements IFCustomerCtr {
 
 	@Override
-	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, String city, int cvr, boolean hidden) throws DBException {
+	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, String city, int cvr, String email, boolean hidden) throws DBException {
 		IFDBCustomer dbCus = new DBCustomer();
-		Customer newCustomer = new Customer(name, phoneNumber, address, postalCode, city, cvr, hidden);
+		Customer newCustomer = new Customer(name, phoneNumber, address, postalCode, city, cvr, email, hidden);
 		dbCus.insertCustomer(newCustomer);
 		
 		return newCustomer;
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city, int postalCode, int cvr, boolean hidden) throws ObjectNotExistException, DBException {
+	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city, int postalCode, int cvr, String email, boolean hidden) throws ObjectNotExistException, DBException {
 
 		IFDBCustomer dbCus = new DBCustomer();
+		Customer tempCus = null;
+		try {
+			tempCus = customer.clone();
+		} catch (CloneNotSupportedException e) {
+			System.out.println("CustomerCtr: CloneNotSupportedException: "+ e.getMessage());
+			//e.printStackTrace();
+		}
 		
 		final boolean setCity = !city.trim().isEmpty();
 		final boolean setName = !name.trim().isEmpty();
@@ -32,6 +38,7 @@ public class CustomerCtr implements IFCustomerCtr {
 		final boolean setAddress = !address.trim().isEmpty();
 		final boolean setPostalCode = postalCode != 0;
 		final boolean setCvr = cvr != 0;
+		final boolean setEmail = !email.trim().isEmpty();
 
 		if(setCity) {
 			customer.setCity(city);
@@ -52,12 +59,18 @@ public class CustomerCtr implements IFCustomerCtr {
 		if(setCvr) {
 			customer.setCvr(cvr);
 		}
+		if(setEmail) {
+			customer.setEmail(email);
+		}
 		
 		customer.setHidden(hidden);
 		try {
 			dbCus.updateCustomer(customer);
 		} catch(DBNotFoundException e){
 			throw new ObjectNotExistException("Kunden blev ikke fundet");
+		} catch(DBException e) {
+			customer.setToClone(tempCus);
+			throw new DBException(e.getMessage());
 		}
 		
 		return customer;

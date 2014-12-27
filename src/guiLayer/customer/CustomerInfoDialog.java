@@ -2,6 +2,7 @@ package guiLayer.customer;
 
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;
+import exceptions.SubmitException;
 import guiLayer.customer.models.CarListModel;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
@@ -51,6 +52,7 @@ public class CustomerInfoDialog extends JDialog {
 	private JTextFieldLimit txtCvr;
 	private JList<Car> carList;
 	private CarListModel carModel;
+	private JTextFieldLimit txtEmail;
 
 	public CustomerInfoDialog(Customer customer) {
 		buildDialog(customer);
@@ -85,7 +87,7 @@ public class CustomerInfoDialog extends JDialog {
 					ColumnSpec.decode("default:grow"),
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("default:grow"),},
-					new RowSpec[] {
+				new RowSpec[] {
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.RELATED_GAP_ROWSPEC,
@@ -159,6 +161,16 @@ public class CustomerInfoDialog extends JDialog {
 				txtCvr.setText("" + customer.getCvr());
 				panelCustInfo.add(txtCvr, "4, 12, fill, default");
 				txtCvr.setColumns(10);
+			}
+			{
+				JLabel lblEmail = new JLabel("Email:");
+				panelCustInfo.add(lblEmail, "2, 14, left, default");
+			}
+			{
+				txtEmail = new JTextFieldLimit(100, false);
+				txtEmail.setText(customer.getEmail());
+				panelCustInfo.add(txtEmail, "4, 14, fill, default");
+				txtEmail.setColumns(10);
 			}
 		}
 		{
@@ -254,14 +266,31 @@ public class CustomerInfoDialog extends JDialog {
 		this.dispose();
 	}
 
-	/**
-	 * @return 
-	 * 
-	 */
+	
 	private void updateCustomer() {
 		IFCustomerCtr cCtr = new CustomerCtr();
 		try {
-			cCtr.updateCustomer(customer, txtName.getText(), txtPhone.getText(), txtAddress.getText(), txtCity.getText(), txtPost.getValue(), txtCvr.getValue(), false);
+			String name = Utilities.getTextFromReqField(txtName, "Navnet");
+			String phone = Utilities.getTextFromReqField(txtPhone, "Tlf");
+			
+			int postalCode = txtPost.getValue();
+			if (postalCode == -1) {
+				throw new SubmitException("Postnummeret skal angives", txtPost);
+			}
+			
+			String city = Utilities.getTextFromReqField(txtCity, "Byen");
+			String address = Utilities.getTextFromReqField(txtAddress, "Adressen");
+			
+			int cvr = txtCvr.getValue();
+			if (cvr != -1 && txtCvr.getText().length() < 4) {
+				throw new SubmitException("CVRnummeret er for kort", txtCvr);
+			}
+
+			String email = txtEmail.getEmail();
+			
+			cCtr.updateCustomer(customer, name, phone, address, city, postalCode, cvr, email , false);
+		} catch (SubmitException e) {
+			e.showError();
 		} catch (DBException | ObjectNotExistException e) {
 			Utilities.showError(this, e.getMessage());
 		}

@@ -1,9 +1,14 @@
 package guiLayer.extensions;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
+
+import exceptions.SubmitException;
 
 public class JTextFieldLimit extends JTextField {
 	private static final long serialVersionUID = 1L;
@@ -86,5 +91,22 @@ public class JTextFieldLimit extends JTextField {
 	 */
 	public boolean isEmpty() {
 		return getText().trim().isEmpty();
+	}
+	
+	/**
+	 * Returns a string, if the text is an email
+	 * @return the email as a string
+	 * @throws SubmitException if the text is not an email
+	 */
+	public String getEmail() throws SubmitException {
+		String email = getText();
+		if(!email.trim().isEmpty()) {
+			Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+			Matcher matcher = pattern.matcher(email);
+			if (!matcher.matches()) {
+				throw new SubmitException("Emailen er ikke angivet i korrekt format", this);
+			}
+		}
+		return email;
 	}
 }

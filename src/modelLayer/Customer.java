@@ -13,6 +13,7 @@ public class Customer implements Cloneable{
 	private String phoneNumber;
 	private String address;
 	private String city;
+	private String email;
 	private int postalCode;
 	private int cvr; 
 	private int id;
@@ -38,13 +39,14 @@ public class Customer implements Cloneable{
 	 * @param hidden
 	 */
 	public Customer(String name, String phoneNumber, String address,
-			int postalCode, String city, int cvr, boolean hidden) {
+			int postalCode, String city, int cvr, String email, boolean hidden) {
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.postalCode = postalCode;
 		this.city = city;
 		this.cvr = cvr;
+		this.email = email;
 		this.hidden = hidden;
 	}
 
@@ -252,6 +254,22 @@ public class Customer implements Cloneable{
 		}
 		
 		return retString;
+	}
+
+	/**
+	 * Get method for email
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * Set method for email
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }
