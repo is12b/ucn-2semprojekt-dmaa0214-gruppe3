@@ -55,6 +55,7 @@ public class CustomerInfoDialog extends JDialog {
 	private JTextFieldLimit txtEmail;
 
 	public CustomerInfoDialog(Customer customer) {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		buildDialog(customer);
 	}
 
