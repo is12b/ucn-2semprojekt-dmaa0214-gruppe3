@@ -2,7 +2,7 @@ package modelLayer;
 
 import java.util.ArrayList;
 
-public class CarExtra {
+public class CarExtra implements Cloneable{
 	//Vehicle - Køretøj
 	private String type; // Art
 	private String latestChangeVehicle; // Seneste ændring
@@ -32,7 +32,6 @@ public class CarExtra {
 	//inspection - Syn
 	private String inspectionFreq; // Frekvens for periodisk syn
 	private String calInspectionDate; // Beregnet dato for næste indkaldelse til periodisk syn
-	private ArrayList<Inspection> inspections;
 	
 	//Insurance - Forsikring
 	//private boolean isInsured = false;
@@ -44,7 +43,6 @@ public class CarExtra {
 	//private HashSet<String> permissions;
 	
 	public CarExtra() {
-		inspections = new ArrayList<Inspection>();
 		//permissions = new HashSet<String>();
 	}
 	
@@ -302,17 +300,6 @@ public class CarExtra {
 		this.calInspectionDate = calInspectionDate;
 	}
 
-	/**
-	 * @return the inspections
-	 */
-	public ArrayList<Inspection> getInspections() {
-		return inspections;
-	}
-	
-	public Inspection addInspection(Inspection i) {
-		inspections.add(i);
-		return i;
-	}
 //
 //	/**
 //	 * @return the isInsured
@@ -383,4 +370,27 @@ public class CarExtra {
 //	public void addPermission(String permission) {
 //		permissions.add(permission);
 //	}
+	
+	/**
+	 * Method to set values in Object back to some values from a clone of it.
+	 * @param clone the backup clone of the object
+	 */
+	public void setToClone(CarExtra clone) {
+		this.calInspectionDate = clone.getCalInspectionDate();
+		this.firstRegDate = clone.getFirstRegDate();
+		this.inspectionFreq = clone.getInspectionFreq();
+		this.latestChangeReg = clone.getLatestChangeReg();
+		this.latestChangeVehicle = clone.getLatestChangeVehicle();
+		this.posOfChassisNumber = clone.getPosOfChassisNumber();
+		this.status = clone.getStatus();
+		this.tecTotalWeight = clone.getTecTotalWeight();
+		this.totalWeight = clone.getTotalWeight();
+		this.type = clone.getType();
+		this.use = clone.getUse();
+	}
+	
+	@Override
+	public CarExtra clone() throws CloneNotSupportedException {
+		return (CarExtra) super.clone();
+	}
 }

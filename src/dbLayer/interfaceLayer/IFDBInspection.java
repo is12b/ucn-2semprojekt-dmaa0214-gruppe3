@@ -31,5 +31,11 @@ public interface IFDBInspection {
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int insertInspection(Inspection inspec, Car car) throws SQLException;
+
+	/**
+	 * @param inspections
+	 * @param car
+	 */
+	public void insertInspections(ArrayList<Inspection> inspections, Car car) throws SQLException;
 	
 }
