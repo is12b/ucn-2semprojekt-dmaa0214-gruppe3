@@ -18,11 +18,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
 import modelLayer.CarExtra;
 
-public class Scraper {
+public class CarScraper {
 	private HtmlPage finalPage;
 	private WebClient webClient;
 
-	public Scraper(){
+	public CarScraper(){
 
 	}
 
@@ -41,7 +41,7 @@ public class Scraper {
 		    writeTechnicalData(ext);
 		    
 		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=2&_pageLabel=vis_koeretoej_side");
-		    writeInspectionData(ext, regNr);
+		    writeInspectionData(ext, car);
 		    
 		    /*
 		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=3&_pageLabel=vis_koeretoej_side");
@@ -130,17 +130,17 @@ public class Scraper {
 		ext.setPosOfChassisNumber(getLabelValueByKey("Anbringelse af stelnummer:"));
 	}
 	
-	private void writeInspectionData(CarExtra ext, String regNr) {
+	private void writeInspectionData(CarExtra ext, Car car) {
 		ext.setInspectionFreq(getLabelValueByKey("Frekvens for periodisk syn:"));
 		ext.setCalInspectionDate(getLabelValueByKey("Beregnet dato for næste indkaldelse til periodisk syn:"));
 		DomElement dE = (DomElement) finalPage.getFirstByXPath("//p[contains(., 'Køretøjet har aldrig været synet.')]");
 		if(dE == null) {
-			addInspections(regNr, ext);
+			addInspections(car, ext);
 		}
 	}
 
-	public void addInspections(String regNr, CarExtra ext) {
-		String url = "http://selvbetjening.trafikstyrelsen.dk/Sider/resultater.aspx?Reg=" + regNr;
+	private void addInspections(Car car, CarExtra ext) {
+		String url = "http://selvbetjening.trafikstyrelsen.dk/Sider/resultater.aspx?Reg=" + car.getRegNr();
 		try {
 			WebClient webClient = new WebClient();
 		    HtmlPage page = webClient.getPage(url);
@@ -165,7 +165,7 @@ public class Scraper {
 		    	inspec.setRegNr(data[3]);
 		    	inspec.setUrl(data[4]);
 		    	
-		    	ext.addInspection(inspec);
+		    	car.addInspection(inspec);
 		    }
 		} catch(Exception e) {
 			System.out.println(e);

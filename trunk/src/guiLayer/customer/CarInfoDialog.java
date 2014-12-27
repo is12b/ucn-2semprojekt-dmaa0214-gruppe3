@@ -1,5 +1,6 @@
 package guiLayer.customer;
 
+import exceptions.ObjectNotExistException;
 import guiLayer.extensions.Utilities;
 
 import java.awt.Dimension;
@@ -19,6 +20,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
+import ctrLayer.CarCtr;
 
 /**
  * Class for CarInfoDialog
@@ -45,6 +48,15 @@ class CarInfoDialog extends JDialog {
 	 */
 	CarInfoDialog(Car car) {
 		this.car = car;
+		if(car.getExtra() == null){
+			try {
+				CarCtr cCtr = new CarCtr();
+				cCtr.getCarExtra(car);
+			} catch (ObjectNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		buildDialog();
 	}	
 
@@ -53,10 +65,10 @@ class CarInfoDialog extends JDialog {
 		
 		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("max(195dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 
@@ -93,6 +105,7 @@ class CarInfoDialog extends JDialog {
 		panel_2.add(lblRegNr, "2, 2, right, default");
 
 		txtReg = new JTextField();
+		txtReg.setText(car.getRegNr());
 		panel_2.add(txtReg, "4, 2, fill, default");
 		txtReg.setColumns(10);
 
@@ -100,7 +113,7 @@ class CarInfoDialog extends JDialog {
 		panel_2.add(lblVin, "2, 4, right, default");
 
 		txtVin = new JTextField();
-		txtVin.setText("");
+		txtVin.setText(car.getVin());
 		panel_2.add(txtVin, "4, 4, fill, top");
 		txtVin.setColumns(10);
 
@@ -116,15 +129,18 @@ class CarInfoDialog extends JDialog {
 		panel_2.add(lblModel, "2, 8, right, default");
 
 		txtModel = new JTextField();
-		txtModel.setText("");
+		txtModel.setText(car.getModel());
 		panel_2.add(txtModel, "4, 8, fill, default");
 		txtModel.setColumns(10);
 
 		JLabel lblFistReg = new JLabel("1. reg. dato");
 		panel_2.add(lblFistReg, "2, 10, right, default");
+		
 
 		txtFirstReg = new JTextField();
-		txtFirstReg.setText("");
+		if(car.getExtra() != null){
+			txtFirstReg.setText(car.getExtra().getFirstRegDate());
+		}
 		panel_2.add(txtFirstReg, "4, 10, fill, default");
 		txtFirstReg.setColumns(10);
 
@@ -146,7 +162,9 @@ class CarInfoDialog extends JDialog {
 		});
 
 		txtStatus = new JTextField();
-		txtStatus.setText("");
+		if(car.getExtra() != null){
+			txtStatus.setText(car.getExtra().getStatus());
+		}
 		panel_2.add(txtStatus, "4, 14, fill, default");
 		txtStatus.setColumns(10);
 		panel_2.add(btnSave, "2, 16");
@@ -173,6 +191,6 @@ class CarInfoDialog extends JDialog {
 		Dimension minSize = new Dimension(500,350);
 		this.setMinimumSize(minSize);
 		this.setVisible(true);
-	} //End Build
+	}
 }
 

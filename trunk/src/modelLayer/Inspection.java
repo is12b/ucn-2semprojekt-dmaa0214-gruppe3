@@ -1,7 +1,7 @@
 
 package modelLayer;
 
-public class Inspection {
+public class Inspection implements Cloneable{
 
 	private String date;
 	private String result;
@@ -105,6 +105,20 @@ public class Inspection {
 	public String toString() {
 		return "Inspection [date=" + date + ", result=" + result + ", km=" + km
 				+ ", regNr=" + regNr + ", url=" + url + "]";
+	}
+	
+	/**
+	 * Method to set values in Object back to some values from a clone of it.
+	 * @param clone the backup clone of the object
+	 */
+	public void setToClone(Inspection clone) {
+		this.date = clone.getDate();
+		this.result = clone.getResult();
+	}
+	
+	@Override
+	public Inspection clone() throws CloneNotSupportedException {
+		return (Inspection) super.clone();
 	}
 
 }

@@ -39,6 +39,12 @@ public class DBInspection implements IFDBInspection {
 	public ArrayList<Inspection> getInspections(Car car) {
 		return miscWhere("CarID = " + car.getId());
 	}
+	
+	public void insertInspections(ArrayList<Inspection> inspections, Car car) throws SQLException{
+		for(Inspection i : inspections){
+			insertInspection(i, car);
+		}
+	}
 
 	@Override
 	public int insertInspection(Inspection inspec, Car car) throws SQLException {

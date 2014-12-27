@@ -1,5 +1,7 @@
 package modelLayer;
 
+import java.util.ArrayList;
+
 /**
  * Class for Car.
  *
@@ -16,14 +18,39 @@ public class Car implements Cloneable{
 	private boolean hidden = false;
 	private int year;
 	private Customer owner;
+	private ArrayList<Inspection> inspections;
+	private CarExtra extra;
 	
 	/**
 	 * Instantiates a new car.
 	 */
 	public Car() {
-		
+		inspections = new ArrayList<Inspection>();
+	}
+
+	public CarExtra getExtra() {
+		return extra;
+	}
+
+	public void setExtra(CarExtra extra) {
+		this.extra = extra;
+	}
+
+	public void setInspections(ArrayList<Inspection> inspections) {
+		this.inspections = inspections;
 	}
 	
+	/**
+	 * @return the inspections
+	 */
+	public ArrayList<Inspection> getInspections() {
+		return inspections;
+	}
+	
+	public void addInspection(Inspection i) {
+		inspections.add(i);
+	}
+
 	/**
 	 * Instantiates a new car.
 	 * 
