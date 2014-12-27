@@ -52,6 +52,7 @@ public class CreateCustomerDialog extends JDialog {
 	private JTextFieldLimit txtEmail;
 
 	public CreateCustomerDialog(MainGUI parent) {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.parent = parent;
 		buildDialog();
 	}
