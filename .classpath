@@ -36,5 +36,6 @@
 			<attribute name="javadoc_location" value="http://javamail.java.net/nonav/docs/api/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="Library/htmlunit-2.15-OSGi.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
