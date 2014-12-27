@@ -14,7 +14,7 @@ import exceptions.ObjectNotExistException;
  */
 public interface IFCustomerCtr {
 
-	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city,  int postalCode, int cvr, boolean hidden) throws ObjectNotExistException, DBException;
+	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city,  int postalCode, int cvr, String email, boolean hidden) throws ObjectNotExistException, DBException;
 	
 	public void deleteCustomer(Customer customer) throws ObjectNotExistException, DBException; // NO_UCD (unused code)
 
@@ -54,6 +54,6 @@ public interface IFCustomerCtr {
 	 * @return
 	 * @throws DBException
 	 */
-	Customer createCustomer(String name, String phoneNumber, String address, int postalCode, String city, int cvr, boolean hidden) throws DBException;
+	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, String city, int cvr, String email, boolean hidden) throws DBException;
 	
 }

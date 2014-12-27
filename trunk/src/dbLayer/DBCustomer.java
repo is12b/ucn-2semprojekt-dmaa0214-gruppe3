@@ -58,8 +58,8 @@ public class DBCustomer implements IFDBCustomer {
 	@Override
 	public int insertCustomer(Customer customer) throws DBException {
 		int rc = -1;
-		final String fields = "(name, phoneNumber, address, postalCode, cvr, hidden)";
-		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?)";
+		final String fields = "(name, phoneNumber, address, postalCode, cvr, email, hidden)";
+		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?,?)";
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(query);
@@ -91,6 +91,7 @@ public class DBCustomer implements IFDBCustomer {
 						"address = ?, " + 
 						"postalCode = ?, " + 
 						"cvr = ?, " + 
+						"email = ?, " + 
 						"hidden = ? "; 
 		String query = "UPDATE CUSTOMER SET " + allFields + "WHERE customerID = ?" 	;
 
@@ -98,7 +99,7 @@ public class DBCustomer implements IFDBCustomer {
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			updateFields(customer, stmt);
-			stmt.setInt(7, customer.getId());
+			stmt.setInt(8, customer.getId());
 			IFDBPostalcode dbPost = new DBPostalCode();
 			dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
 			rc = stmt.executeUpdate();
@@ -126,7 +127,8 @@ public class DBCustomer implements IFDBCustomer {
 			stmt.setString(3, customer.getAddress());
 			stmt.setInt(4, customer.getPostalCode());
 			stmt.setInt(5, customer.getCvr());
-			stmt.setBoolean(6, customer.getHidden());
+			stmt.setString(6, customer.getEmail());
+			stmt.setBoolean(7, customer.getHidden());
 		} catch (Exception e) {
 			System.out.println("Error - updateFields - DBCustomer");
 			e.printStackTrace();

@@ -25,6 +25,7 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CustomerCtr;
 import exceptions.DBException;
+import exceptions.SubmitException;
 
 /**
  * Class for CreateCustomerDialog
@@ -48,6 +49,7 @@ public class CreateCustomerDialog extends JDialog {
 	private JTextFieldLimit txtModel;
 	private MainGUI parent;
 	private JButton btnCreate;
+	private JTextFieldLimit txtEmail;
 
 	public CreateCustomerDialog(MainGUI parent) {
 		this.parent = parent;
@@ -55,6 +57,7 @@ public class CreateCustomerDialog extends JDialog {
 	}
 
 	private void buildDialog() {
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("Opret kunde");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -77,7 +80,7 @@ public class CreateCustomerDialog extends JDialog {
 					ColumnSpec.decode("50dlu"),
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("default:grow"),},
-					new RowSpec[] {
+				new RowSpec[] {
 					FormFactory.RELATED_GAP_ROWSPEC,
 					RowSpec.decode("fill:default"),
 					FormFactory.RELATED_GAP_ROWSPEC,
@@ -160,6 +163,15 @@ public class CreateCustomerDialog extends JDialog {
 						createCustomer();
 					}
 				});
+				{
+					JLabel lblEmail = new JLabel("Email");
+					kundePanel.add(lblEmail, "2, 14, left, default");
+				}
+				{
+					txtEmail = new JTextFieldLimit(100, false);
+					kundePanel.add(txtEmail, "4, 14, fill, default");
+					txtEmail.setColumns(10);
+				}
 				kundePanel.add(btnCreate, "2, 16, 3, 1, default, center");
 			}
 		}
@@ -235,44 +247,39 @@ public class CreateCustomerDialog extends JDialog {
 
 			this.setVisible(true);
 		}
+		parent.setDefaultButton(btnCreate);
 	}
 
 	private void createCustomer() {
 
-		String name = txtName.getText();
-		String phone = txtPhone.getText();
-		String address = txtAddress.getText();
-		String city = txtCity.getText();
-
-		int postalCode = 0;
-		int cvr = 0;
-
 		try {
-			postalCode = Integer.parseInt(txtPostCode.getText());
-		} catch (NumberFormatException e) {
-			Utilities.showError(this, "Postnummer skal være et heltal");
-			e.printStackTrace();
-		}
-		try {
-			cvr = Integer.parseInt(txtCvr.getText());
-		} catch (NumberFormatException e) {
-			Utilities.showError(this, "CVR-nr skal være et heltal");
-			e.printStackTrace();
-		}
-		
-		parent.setDefaultButton(btnCreate);
+			
+			String name = Utilities.getTextFromReqField(txtName, "Navnet");
+			String phone = Utilities.getTextFromReqField(txtPhone, "Tlf");
+			
+			int postalCode = txtPostCode.getValue();
+			if (postalCode == -1) {
+				throw new SubmitException("Postnummeret skal angives", txtPostCode);
+			}
+			
+			String city = Utilities.getTextFromReqField(txtCity, "Byen");
+			String address = Utilities.getTextFromReqField(txtAddress, "Adressen");
+			
+			int cvr = txtCvr.getValue();
+			if (cvr != -1 && txtCvr.getText().length() < 4) {
+				throw new SubmitException("CVRnummeret er for kort", txtCvr);
+			}
 
-
-
-
-		
-		try {
+			String email = txtEmail.getEmail();
+			
 			CustomerCtr cCtr = new CustomerCtr();
-			cCtr.createCustomer(name, phone, address, postalCode, city, cvr, false);
+			cCtr.createCustomer(name, phone, address, postalCode, city, cvr, email, false);
 			
 			Utilities.showInformation(this, "Kunden er oprettet", "Kunde oprettet");
 			
 			this.dispose();
+		} catch (SubmitException e) {
+			e.showError();
 		} catch (DBException e) {
 			Utilities.showError(this, e.getMessage());
 		}
