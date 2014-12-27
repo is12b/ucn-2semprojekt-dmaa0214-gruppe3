@@ -14,6 +14,7 @@ import ctrLayer.interfaceLayer.IFSaleCtr;
 import dbLayer.DBSale;
 import dbLayer.interfaceLayer.IFDBSale;
 import exceptions.DBException;
+import exceptions.EmailException;
 import exceptions.ObjectNotExistException;
 import exceptions.SubmitException;
 
@@ -298,5 +299,18 @@ public class SaleCtr implements IFSaleCtr {
 			}
 		}
 		return sales;
+	}
+
+	// Iteration 2
+
+	@Override
+	public void sendEmailWithInvoice(Sale sale) throws ObjectNotExistException,
+			EmailException {
+		if (sale == null) {
+			throw new ObjectNotExistException("Salget blev ikke fundet");
+		}
+		
+		EmailCtr eCtr = new EmailCtr();
+		eCtr.sendInvoice(sale);
 	}
 }

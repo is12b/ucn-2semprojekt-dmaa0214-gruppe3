@@ -1,6 +1,7 @@
 package guiLayer.sale;
 
 import exceptions.BuildingPDFException;
+import exceptions.EmailException;
 import exceptions.ObjectNotExistException;
 import guiLayer.MainGUI;
 import guiLayer.PDFViewerDialog;
@@ -21,7 +22,10 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -34,6 +38,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import modelLayer.Customer;
 import modelLayer.Sale;
 
 import com.jgoodies.forms.factories.FormFactory;
@@ -42,6 +47,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.SaleCtr;
+import ctrLayer.interfaceLayer.IFSaleCtr;
 
 /**
  * Class for SaleOverviewPanel
@@ -68,6 +74,7 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 	private JButton btnSaleClear;
 	private SaleOverviewTableModel model;
 	private JCheckBox chbAll;
+	private JPopupMenu popupMenu;
 
 	/**
 	 * Constructor for SaleOverviewPanel objects.
@@ -301,6 +308,24 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 		styleTable();
 		scrollPane.setViewportView(table);
 		
+		popupMenu = new JPopupMenu();
+		JMenuItem mntmSee = new JMenuItem("Se Faktura");
+		mntmSee.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int modelRowNum = table.convertRowIndexToModel(table.getSelectedRow());
+				openPDFViewer(model.getSaleAt(modelRowNum));
+			}
+		});
+		JMenuItem mntmSendEmail = new JMenuItem("Send Faktura");
+		mntmSendEmail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int modelRowNum = table.convertRowIndexToModel(table.getSelectedRow());
+				SendInvoiceEmail(model.getSaleAt(modelRowNum));
+			}
+		});
+		popupMenu.add(mntmSee);
+		popupMenu.add(mntmSendEmail);
+		
 		makeFieldListeners();
 	}
 
@@ -328,6 +353,9 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
         if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
         	System.out.println("Generer pdf for faktura nr.: " + model.getSaleAt(modelRowNum).getId());
         	openPDFViewer(model.getSaleAt(modelRowNum));
+        }
+        else if (SwingUtilities.isRightMouseButton(e)) {
+        	popupMenu.show(table, e.getX(), e.getY());
         }
 	}
 
@@ -475,6 +503,33 @@ public class SaleOverviewPanel extends JPanel implements IFTabbedPanel {
 	public void setFocus() {
 		txtSaleID.requestFocusInWindow();
 		parent.setDefaultButton(btnSaleSearch);
+	}
+	
+	// Iteration 2
+	
+	private void SendInvoiceEmail(Sale sale) {
+		try {
+			Customer cus = sale.getCustomer();
+			if (cus.getEmail() != null) {
+				int c = Utilities.showConfirm(this, "Vil du sende en Email med fakturaen til " + cus.getName() + " (" + cus.getEmail() + ")?"
+						+ "\nDet kan tage et par sekunder", "Bekræft");
+				if (c == JOptionPane.YES_OPTION) {			
+					try {
+						IFSaleCtr sCtr = new SaleCtr();
+						sCtr.sendEmailWithInvoice(sale);
+						Utilities.showInformation(this, "En Email med fakturaen er sendt til " + cus.getName(), "Email sendt");
+					} catch (EmailException e) {
+						Utilities.showError(this, e.getMessage(), "Email ikke sendt");
+					} catch (ObjectNotExistException e) {
+						Utilities.showError(this, e.getMessage(), "Email ikke sendt");
+					}		
+				}	
+			} else {
+				Utilities.showError(this, "Emailen kan ikke sendes, da kunden ikke har en email tilknyttet", "Email ikke sendt");
+			}
+		} catch (NullPointerException e) {
+			Utilities.showError(this, "Emailen kan ikke sendes, da der ikke er en kunde tilknyttet", "Email ikke sendt");
+		}
 	}
 
 }
