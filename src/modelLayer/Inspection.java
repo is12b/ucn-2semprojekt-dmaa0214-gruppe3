@@ -8,10 +8,25 @@ public class Inspection {
 	private String km;
 	private String regNr;
 	private String url;
+	private int id;
 	
 	public Inspection() {
 		
 	}
+
+	
+	
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
 
 	/**
 	 * @return the date
