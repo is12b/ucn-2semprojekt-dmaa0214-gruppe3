@@ -1,7 +1,6 @@
 package modelLayer;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Extra {
 	//Vehicle - Køretøj
@@ -17,17 +16,17 @@ public class Extra {
 	//Weight - Vægt
 	private String tecTotalWeight; // Teknisk totalvægt
 	private String totalWeight; // Totalvægt
-	private String ownWeight; // Egenvægt
-	private String couplingDevice; // Tilkoblingsanordning
-	private String weightOfTrailerWithBrakes; // Vægt af påhængskøretøj med bremser
-	private String weightOfTrailerWithoutBrakes; // Vægt af påhængskøretøj uden bremser
+	//private String ownWeight; // Egenvægt
+	//private String couplingDevice; // Tilkoblingsanordning
+	//private String weightOfTrailerWithBrakes; // Vægt af påhængskøretøj med bremser
+	//private String weightOfTrailerWithoutBrakes; // Vægt af påhængskøretøj uden bremser
 	
 	//Motor
-	private String propellant; // Drivkraft
-	private String fuelConsumption; // Brændstofforbrug
+	//private String propellant; // Drivkraft
+	//private String fuelConsumption; // Brændstofforbrug
 	
 	//Body - Karrosseri
-	private String bodyType; // Karrosseritype
+	//private String bodyType; // Karrosseritype
 	private String posOfChassisNumber; // Anbringelse af stelnummer
 	
 	//inspection - Syn
@@ -36,17 +35,17 @@ public class Extra {
 	private ArrayList<Inspection> inspections;
 	
 	//Insurance - Forsikring
-	private boolean isInsured = false;
-	private String insuranceComp; // forsikringsselskab
-	private String insuranceStatus; // forsikringsstatus
-	private String insuranceCreated; // oprettelsedato for forsikring
+	//private boolean isInsured = false;
+	//private String insuranceComp; // forsikringsselskab
+	//private String insuranceStatus; // forsikringsstatus
+	//private String insuranceCreated; // oprettelsedato for forsikring
 	
 	//Permissions - Dispensationer og tilladelser
-	private HashSet<String> permissions;
+	//private HashSet<String> permissions;
 	
 	public Extra() {
 		inspections = new ArrayList<Inspection>();
-		permissions = new HashSet<String>();
+		//permissions = new HashSet<String>();
 	}
 	
 	/**
@@ -161,103 +160,105 @@ public class Extra {
 		this.totalWeight = totalWeight;
 	}
 
-	/**
-	 * @return the ownWeight
-	 */
-	public String getOwnWeight() {
-		return ownWeight;
-	}
+//	/**
+//	 * @return the ownWeight
+//	 */
+//	public String getOwnWeight() {
+//		return ownWeight;
+//	}
+//
+//	/**
+//	 * @param ownWeight the ownWeight to set
+//	 */
+//	public void setOwnWeight(String ownWeight) {
+//		this.ownWeight = ownWeight;
+//	}
+//
+//	/**
+//	 * @return the couplingDevice
+//	 */
+//	public String getCouplingDevice() {
+//		return couplingDevice;
+//	}
+//
+//	/**
+//	 * @param couplingDevice the couplingDevice to set
+//	 */
+//	public void setCouplingDevice(String couplingDevice) {
+//		this.couplingDevice = couplingDevice;
+//	}
 
-	/**
-	 * @param ownWeight the ownWeight to set
-	 */
-	public void setOwnWeight(String ownWeight) {
-		this.ownWeight = ownWeight;
-	}
-
-	/**
-	 * @return the couplingDevice
-	 */
-	public String getCouplingDevice() {
-		return couplingDevice;
-	}
-
-	/**
-	 * @param couplingDevice the couplingDevice to set
-	 */
-	public void setCouplingDevice(String couplingDevice) {
-		this.couplingDevice = couplingDevice;
-	}
-
-	/**
-	 * @return the weightOfTrailerWithBrakes
-	 */
-	public String getWeightOfTrailerWithBrakes() {
-		return weightOfTrailerWithBrakes;
-	}
-
-	/**
-	 * @param weightOfTrailerWithBrakes the weightOfTrailerWithBrakes to set
-	 */
-	public void setWeightOfTrailerWithBrakes(String weightOfTrailerWithBrakes) {
-		this.weightOfTrailerWithBrakes = weightOfTrailerWithBrakes;
-	}
-
-	/**
-	 * @return the weightOfTrailerWithoutBrakes
-	 */
-	public String getWeightOfTrailerWithoutBrakes() {
-		return weightOfTrailerWithoutBrakes;
-	}
-
-	/**
-	 * @param weightOfTrailerWithoutBrakes the weightOfTrailerWithoutBrakes to set
-	 */
-	public void setWeightOfTrailerWithoutBrakes(String weightOfTrailerWithoutBrakes) {
-		this.weightOfTrailerWithoutBrakes = weightOfTrailerWithoutBrakes;
-	}
-
-	/**
-	 * @return the propellant
-	 */
-	public String getPropellant() {
-		return propellant;
-	}
-
-	/**
-	 * @param propellant the propellant to set
-	 */
-	public void setPropellant(String propellant) {
-		this.propellant = propellant;
-	}
-
-	/**
-	 * @return the fuelConsumption
-	 */
-	public String getFuelConsumption() {
-		return fuelConsumption;
-	}
-
-	/**
-	 * @param fuelConsumption the fuelConsumption to set
-	 */
-	public void setFuelConsumption(String fuelConsumption) {
-		this.fuelConsumption = fuelConsumption;
-	}
-
-	/**
-	 * @return the bodyType
-	 */
-	public String getBodyType() {
-		return bodyType;
-	}
-
-	/**
-	 * @param bodyType the bodyType to set
-	 */
-	public void setBodyType(String bodyType) {
-		this.bodyType = bodyType;
-	}
+//	
+//	
+//	/**
+//	 * @return the weightOfTrailerWithBrakes
+//	 */
+//	public String getWeightOfTrailerWithBrakes() {
+//		return weightOfTrailerWithBrakes;
+//	}
+//
+//	/**
+//	 * @param weightOfTrailerWithBrakes the weightOfTrailerWithBrakes to set
+//	 */
+//	public void setWeightOfTrailerWithBrakes(String weightOfTrailerWithBrakes) {
+//		this.weightOfTrailerWithBrakes = weightOfTrailerWithBrakes;
+//	}
+//
+//	/**
+//	 * @return the weightOfTrailerWithoutBrakes
+//	 */
+//	public String getWeightOfTrailerWithoutBrakes() {
+//		return weightOfTrailerWithoutBrakes;
+//	}
+//
+//	/**
+//	 * @param weightOfTrailerWithoutBrakes the weightOfTrailerWithoutBrakes to set
+//	 */
+//	public void setWeightOfTrailerWithoutBrakes(String weightOfTrailerWithoutBrakes) {
+//		this.weightOfTrailerWithoutBrakes = weightOfTrailerWithoutBrakes;
+//	}
+//
+//	/**
+//	 * @return the propellant
+//	 */
+//	public String getPropellant() {
+//		return propellant;
+//	}
+//
+//	/**
+//	 * @param propellant the propellant to set
+//	 */
+//	public void setPropellant(String propellant) {
+//		this.propellant = propellant;
+//	}
+//
+//	/**
+//	 * @return the fuelConsumption
+//	 */
+//	public String getFuelConsumption() {
+//		return fuelConsumption;
+//	}
+//
+//	/**
+//	 * @param fuelConsumption the fuelConsumption to set
+//	 */
+//	public void setFuelConsumption(String fuelConsumption) {
+//		this.fuelConsumption = fuelConsumption;
+//	}
+//
+//	/**
+//	 * @return the bodyType
+//	 */
+//	public String getBodyType() {
+//		return bodyType;
+//	}
+//
+//	/**
+//	 * @param bodyType the bodyType to set
+//	 */
+//	public void setBodyType(String bodyType) {
+//		this.bodyType = bodyType;
+//	}
 
 	/**
 	 * @return the posOfChassisNumber
@@ -312,74 +313,74 @@ public class Extra {
 		inspections.add(i);
 		return i;
 	}
-
-	/**
-	 * @return the isInsured
-	 */
-	public boolean isInsured() {
-		return isInsured;
-	}
-
-	/**
-	 * @param isInsured the isInsured to set
-	 */
-	public void setIsInsured(boolean isInsured) {
-		this.isInsured = isInsured;
-	}
-
-	/**
-	 * @return the insuranceComp
-	 */
-	public String getInsuranceComp() {
-		return insuranceComp;
-	}
-
-	/**
-	 * @param insuranceComp the insuranceComp to set
-	 */
-	public void setInsuranceComp(String insuranceComp) {
-		this.insuranceComp = insuranceComp;
-	}
-
-	/**
-	 * @return the insuranceStatus
-	 */
-	public String getInsuranceStatus() {
-		return insuranceStatus;
-	}
-
-	/**
-	 * @param insuranceStatus the insuranceStatus to set
-	 */
-	public void setInsuranceStatus(String insuranceStatus) {
-		this.insuranceStatus = insuranceStatus;
-	}
-
-	/**
-	 * @return the insuranceCreated
-	 */
-	public String getInsuranceCreated() {
-		return insuranceCreated;
-	}
-
-	/**
-	 * @param insuranceCreated the insuranceCreated to set
-	 */
-	public void setInsuranceCreated(String insuranceCreated) {
-		this.insuranceCreated = insuranceCreated;
-	}
-
-	/**
-	 * @return the permissions
-	 */
-	public HashSet<String> getPermissions() {
-		return permissions;
-	}
-	
-	/**
-	 * @param permission
-	 */
-	public void addPermission(String permission) {
-		permissions.add(permission);
-	}
+//
+//	/**
+//	 * @return the isInsured
+//	 */
+//	public boolean isInsured() {
+//		return isInsured;
+//	}
+//
+//	/**
+//	 * @param isInsured the isInsured to set
+//	 */
+//	public void setIsInsured(boolean isInsured) {
+//		this.isInsured = isInsured;
+//	}
+//
+//	/**
+//	 * @return the insuranceComp
+//	 */
+//	public String getInsuranceComp() {
+//		return insuranceComp;
+//	}
+//
+//	/**
+//	 * @param insuranceComp the insuranceComp to set
+//	 */
+//	public void setInsuranceComp(String insuranceComp) {
+//		this.insuranceComp = insuranceComp;
+//	}
+//
+//	/**
+//	 * @return the insuranceStatus
+//	 */
+//	public String getInsuranceStatus() {
+//		return insuranceStatus;
+//	}
+//
+//	/**
+//	 * @param insuranceStatus the insuranceStatus to set
+//	 */
+//	public void setInsuranceStatus(String insuranceStatus) {
+//		this.insuranceStatus = insuranceStatus;
+//	}
+//
+//	/**
+//	 * @return the insuranceCreated
+//	 */
+//	public String getInsuranceCreated() {
+//		return insuranceCreated;
+//	}
+//
+//	/**
+//	 * @param insuranceCreated the insuranceCreated to set
+//	 */
+//	public void setInsuranceCreated(String insuranceCreated) {
+//		this.insuranceCreated = insuranceCreated;
+//	}
+//
+//	/**
+//	 * @return the permissions
+//	 */
+//	public HashSet<String> getPermissions() {
+//		return permissions;
+//	}
+//	
+//	/**
+//	 * @param permission
+//	 */
+//	public void addPermission(String permission) {
+//		permissions.add(permission);
+//	}
 }

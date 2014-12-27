@@ -2,7 +2,6 @@ package ctrLayer;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.List;
 
 import modelLayer.Car;
 import modelLayer.Inspection;
@@ -13,7 +12,6 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableBody;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
@@ -45,11 +43,14 @@ public class Scraper {
 		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=2&_pageLabel=vis_koeretoej_side");
 		    writeInspectionData(ext, regNr);
 		    
+		    /*
 		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=3&_pageLabel=vis_koeretoej_side");
 		    writeInsuranceData(ext);
 		    
 		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=5&_pageLabel=vis_koeretoej_side");
 		    writePermissions(ext);
+		    */
+		    
 	    }
 	   
 	    webClient.closeAllWindows();
@@ -94,7 +95,7 @@ public class Scraper {
 		}
 	    return retS;
 	}
-	
+	/*
 	private String getIndentedLabelValueByKey(String key){
 		String retS = "";
 		DomElement dE = (DomElement) finalPage.getFirstByXPath("//label[contains(., '" + key + "')]");
@@ -105,7 +106,7 @@ public class Scraper {
 		}
 	    return retS;
 	}
-	
+	*/
 	private void writeVehicleData(Extra ext){
 		ext.setType(getSpanValueByKey("Art:"));
 		ext.setLatestChangeVehicle(getSpanValueByKey("Seneste ændring:"));
@@ -119,13 +120,13 @@ public class Scraper {
 	private void writeTechnicalData(Extra ext) {
 		ext.setTecTotalWeight(getLabelValueByKey("Teknisk totalvægt:"));
 		ext.setTotalWeight(getLabelValueByKey("Totalvægt:"));
-		ext.setOwnWeight(getLabelValueByKey("Egenvægt:"));
-		ext.setCouplingDevice(getLabelValueByKey("Tilkoblingsanordning:"));
-		ext.setWeightOfTrailerWithBrakes(getIndentedLabelValueByKey("Med bremser:"));
-		ext.setWeightOfTrailerWithoutBrakes(getIndentedLabelValueByKey("Uden bremser:"));
-		ext.setPropellant(getLabelValueByKey("Drivkraft:"));
-		ext.setFuelConsumption(getLabelValueByKey("Brændstofforbrug:"));
-		ext.setBodyType(getLabelValueByKey("Karrosseritype:"));
+//		ext.setOwnWeight(getLabelValueByKey("Egenvægt:"));
+//		ext.setCouplingDevice(getLabelValueByKey("Tilkoblingsanordning:"));
+//		ext.setWeightOfTrailerWithBrakes(getIndentedLabelValueByKey("Med bremser:"));
+//		ext.setWeightOfTrailerWithoutBrakes(getIndentedLabelValueByKey("Uden bremser:"));
+//		ext.setPropellant(getLabelValueByKey("Drivkraft:"));
+//		ext.setFuelConsumption(getLabelValueByKey("Brændstofforbrug:"));
+//		ext.setBodyType(getLabelValueByKey("Karrosseritype:"));
 		ext.setPosOfChassisNumber(getLabelValueByKey("Anbringelse af stelnummer:"));
 	}
 	
@@ -170,7 +171,7 @@ public class Scraper {
 			System.out.println(e);
 		}
 	}
-	
+	/*
 	private void writeInsuranceData(Extra ext) {
 		DomElement dE = (DomElement) finalPage.getFirstByXPath("//span[contains(., 'Ingen forsikring:')]");
 		if(dE == null) {
@@ -180,6 +181,7 @@ public class Scraper {
 			ext.setInsuranceCreated(getSpanValueByKey("Oprettet:"));
 		}
 	}
+	
 	
 	private void writePermissions(Extra ext) {
 		HtmlTable table = (HtmlTable)  finalPage.getFirstByXPath("//table[@class='stripes']");
@@ -193,5 +195,6 @@ public class Scraper {
 		}
 				
 	}
+	*/
 
 }
