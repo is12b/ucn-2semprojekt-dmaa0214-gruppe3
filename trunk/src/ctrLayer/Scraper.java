@@ -16,7 +16,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableBody;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
-import modelLayer.Extra;
+import modelLayer.CarExtra;
 
 public class Scraper {
 	private HtmlPage finalPage;
@@ -26,10 +26,10 @@ public class Scraper {
 
 	}
 
-	public Extra getExtra(Car car) throws Exception {
+	public CarExtra getExtra(Car car) throws Exception {
 		String regNr = car.getRegNr();
 
-		Extra ext = new Extra();
+		CarExtra ext = new CarExtra();
 	    webClient = new WebClient();
 	    finalPage = getExecutedDMRPage(true, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_nfpb=true&_pageLabel=vis_koeretoej_side&_nfls=false");
 	    
@@ -107,7 +107,7 @@ public class Scraper {
 	    return retS;
 	}
 	*/
-	private void writeVehicleData(Extra ext){
+	private void writeVehicleData(CarExtra ext){
 		ext.setType(getSpanValueByKey("Art:"));
 		ext.setLatestChangeVehicle(getSpanValueByKey("Seneste ændring:"));
 		ext.setFirstRegDate(getSpanValueByKey("Første registrerings­dato:"));
@@ -117,7 +117,7 @@ public class Scraper {
 	}
 	
 
-	private void writeTechnicalData(Extra ext) {
+	private void writeTechnicalData(CarExtra ext) {
 		ext.setTecTotalWeight(getLabelValueByKey("Teknisk totalvægt:"));
 		ext.setTotalWeight(getLabelValueByKey("Totalvægt:"));
 //		ext.setOwnWeight(getLabelValueByKey("Egenvægt:"));
@@ -130,7 +130,7 @@ public class Scraper {
 		ext.setPosOfChassisNumber(getLabelValueByKey("Anbringelse af stelnummer:"));
 	}
 	
-	private void writeInspectionData(Extra ext, String regNr) {
+	private void writeInspectionData(CarExtra ext, String regNr) {
 		ext.setInspectionFreq(getLabelValueByKey("Frekvens for periodisk syn:"));
 		ext.setCalInspectionDate(getLabelValueByKey("Beregnet dato for næste indkaldelse til periodisk syn:"));
 		DomElement dE = (DomElement) finalPage.getFirstByXPath("//p[contains(., 'Køretøjet har aldrig været synet.')]");
@@ -139,7 +139,7 @@ public class Scraper {
 		}
 	}
 
-	public void addInspections(String regNr, Extra ext) {
+	public void addInspections(String regNr, CarExtra ext) {
 		String url = "http://selvbetjening.trafikstyrelsen.dk/Sider/resultater.aspx?Reg=" + regNr;
 		try {
 			WebClient webClient = new WebClient();

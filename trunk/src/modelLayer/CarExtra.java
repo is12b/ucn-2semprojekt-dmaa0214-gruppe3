@@ -2,7 +2,7 @@ package modelLayer;
 
 import java.util.ArrayList;
 
-public class Extra {
+public class CarExtra {
 	//Vehicle - Køretøj
 	private String type; // Art
 	private String latestChangeVehicle; // Seneste ændring
@@ -43,7 +43,7 @@ public class Extra {
 	//Permissions - Dispensationer og tilladelser
 	//private HashSet<String> permissions;
 	
-	public Extra() {
+	public CarExtra() {
 		inspections = new ArrayList<Inspection>();
 		//permissions = new HashSet<String>();
 	}
