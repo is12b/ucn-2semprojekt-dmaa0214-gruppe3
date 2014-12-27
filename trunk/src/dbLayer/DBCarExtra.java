@@ -44,7 +44,7 @@ public class DBCarExtra implements IFDBCarExtra {
 		
 		try{
 			String query = "INSERT INTO CarExtra" 
-						 + " (CarID, carType, latestChangeVehicle, firstRegDate, carUse, latestChangeReg, status, tecTotalWeight"
+						 + " (CarID, carType, LatestChangedVehicle, firstRegDate, carUse, latestChangeReg, status, tecTotalWeight"
 						 + ", totalWeight, posOfChassisNumber, inspectionFreq, calInspectionDate) VALUES " 
 						 + "(?,?,?,?,?,?,?,?,?,?,?,?)";
 			
@@ -85,7 +85,7 @@ public class DBCarExtra implements IFDBCarExtra {
 		
 		try{
 			String query = "UPDATE CarExtra SET " 
-						 + "carType = ?, latestChangeVehicle = ?, firstRegDate = ?, carUse = ?, latestChangeReg = ?, status = ?, tecTotalWeight = ?"
+						 + "carType = ?, LatestChangedVehicle = ?, firstRegDate = ?, carUse = ?, latestChangeReg = ?, status = ?, tecTotalWeight = ?"
 						 + ", totalWeight = ?, posOfChassisNumber = ?, inspectionFreq = ?, calInspectionDate = ? WHERE CarID = ? ";
 			
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -158,8 +158,8 @@ public class DBCarExtra implements IFDBCarExtra {
 		CarExtra ext = new CarExtra();
 		
 		try{
-			ext.setType(rs.getString("carType"));
-			ext.setLatestChangeVehicle(rs.getString("latestChangeVehicle"));
+			ext.setType(rs.getString("CarType"));
+			ext.setLatestChangeVehicle(rs.getString("LatestChangedVehicle"));
 			ext.setFirstRegDate(rs.getString("firstRegDate"));
 			ext.setUse(rs.getString("carUse"));
 			ext.setLatestChangeReg(rs.getString("latestChangeReg"));
@@ -182,8 +182,8 @@ public class DBCarExtra implements IFDBCarExtra {
 	 * @return
 	 */
 	private String buildQuery(String wQuery) {
-		String query = "SELECT carType, latestChangeVehicle, firstRegDate, carUse, latestChangeReg, status, tecTotalWeight, " 
-				     + "totalWeight, posOfChassisNumber, inspectionFreq, calInspectionDate FROM CAR";
+		String query = "SELECT carType, LatestChangedVehicle, firstRegDate, carUse, latestChangeReg, status, tecTotalWeight, " 
+				     + "totalWeight, posOfChassisNumber, inspectionFreq, calInspectionDate FROM CAREXTRA";
 		
 		if(!wQuery.isEmpty()){
 			query += " WHERE " + wQuery;
