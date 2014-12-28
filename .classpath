@@ -27,7 +27,15 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="Library/htmlunit-2.15-OSGi.jar"/>
-	<classpathentry kind="lib" path="Library/icepdf-core.jar"/>
-	<classpathentry kind="lib" path="Library/icepdf-viewer.jar"/>
+	<classpathentry kind="lib" path="Library/icepdf-core.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://res.icesoft.org/docs/icepdf/latest/core/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="Library/icepdf-viewer.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://res.icesoft.org/docs/icepdf/latest/viewer/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
