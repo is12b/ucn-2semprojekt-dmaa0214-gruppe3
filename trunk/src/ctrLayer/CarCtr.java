@@ -1,10 +1,12 @@
 package ctrLayer;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import modelLayer.Car;
 import modelLayer.CarExtra;
 import modelLayer.Customer;
+import modelLayer.Inspection;
 import ctrLayer.interfaceLayer.IFCarCtr;
 import dbLayer.DBCar;
 import dbLayer.DBCarExtra;
@@ -87,6 +89,9 @@ public class CarCtr implements IFCarCtr {
 		
 		if(ext == null){
 			ext = updateExtra(car);
+		}else{
+			IFDBInspection dbInspec = new DBInspection();
+			car.setInspections(dbInspec.getInspections(car));
 		}
 		
 		car.setExtra(ext);
@@ -101,11 +106,31 @@ public class CarCtr implements IFCarCtr {
 			ext = scraper.getExtra(car);
 			if(ext != null){
 				IFDBCarExtra dbExtra = new DBCarExtra();
-				dbExtra.insertCarExtra(ext, car);
+				if(dbExtra.getCarExtra(car) == null){
+					dbExtra.insertCarExtra(ext, car);
+				}else{
+					dbExtra.updateCarExtra(ext, car);
+				}
 				
 				if(car.getInspections() != null || car.getInspections().size() > 0){
 					IFDBInspection dbInspec = new DBInspection();
-					dbInspec.insertInspections(car.getInspections(), car);
+					ArrayList<Inspection> inspecs = dbInspec.getInspections(car);
+					if(inspecs == null || inspecs.size() == 0){
+						dbInspec.insertInspections(car.getInspections(), car);
+					}else{
+						for(Inspection i : car.getInspections()){
+							boolean insert = true;
+							for(Inspection insp : inspecs){
+								if(i.getDate().equals(insp.getDate())){
+									insert = false;
+								}
+							}
+							if(insert){
+								dbInspec.insertInspection(i, car);
+							}
+						}
+					}
+					
 				}
 			}
 		} catch(Exception e){

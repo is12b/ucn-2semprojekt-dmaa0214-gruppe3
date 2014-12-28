@@ -51,9 +51,9 @@ public class DBInspection implements IFDBInspection {
 		int rc = -1;
 		
 		try{
-			String query = "INSERT INTO CarExtra" 
-						 + " (CarID, Date, Result) VALUES " 
-						 + "(?,?,?)";
+			String query = "INSERT INTO Inspection" 
+						 + " (CarID, Date, Result, Km, Url) VALUES " 
+						 + "(?,?,?,?,?)";
 			
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
@@ -61,6 +61,8 @@ public class DBInspection implements IFDBInspection {
 			stmt.setInt(1, car.getId());
 			addToStatement(2, inspec.getDate(), stmt);
 			addToStatement(3, inspec.getResult(), stmt);
+			addToStatement(4, inspec.getKm(), stmt);
+			addToStatement(5, inspec.getUrl(), stmt);
 			
 			rc = stmt.executeUpdate();
 			
@@ -119,9 +121,11 @@ public class DBInspection implements IFDBInspection {
 		Inspection inspec = new Inspection();
 		
 		try{
-			inspec.setId(rs.getInt(rs.getInt("InspectionID")));
+			inspec.setId(rs.getInt("InspectionID"));
 			inspec.setDate(rs.getString("Date"));
 			inspec.setResult(rs.getString("Result"));
+			inspec.setKm(rs.getString("Km"));
+			inspec.setUrl(rs.getString("Url"));
 		}catch(Exception e){
 			System.out.println("DBInspection - BuildInsection - Exception");
 			e.printStackTrace();
@@ -135,7 +139,7 @@ public class DBInspection implements IFDBInspection {
 	 * @return
 	 */
 	private String buildQuery(String wQuery) {
-		String query = "SELECT InspectionID, Date, Result FROM CAR";
+		String query = "SELECT InspectionID, Date, Result, Km, Url FROM Inspection";
 		
 		if(!wQuery.isEmpty()){
 			query += " WHERE " + wQuery;

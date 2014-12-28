@@ -103,8 +103,17 @@ public class Inspection implements Cloneable{
 	 */
 	@Override
 	public String toString() {
-		return "Inspection [date=" + date + ", result=" + result + ", km=" + km
-				+ ", regNr=" + regNr + ", url=" + url + "]";
+		String res = "";
+		
+		if(result.equals("BET")){
+			res = "Betinget Godkendt";
+		}else if(result.equals("GOD")){
+			res = "Godkendt";
+		}else{
+			res = result;
+		}
+		
+		return date + ", " + res + ", " + km;
 	}
 	
 	/**

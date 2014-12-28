@@ -21,21 +21,13 @@
 			<attribute name="javadoc_location" value="http://api.itextpdf.com/itext"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="Library/icepdf-core-5.0.2.jar" sourcepath="Library/icepdf-core-5.0.2-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/2.%20SP/Library/icepdf-core-5.0.2-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="Library/icepdf-viewer-5.0.2.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/2.%20SP/Library/icepdf-viewer-5.0.2-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="Library/javax.mail.jar" sourcepath="Library/javamail-1.5.2-src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="http://javamail.java.net/nonav/docs/api/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="Library/htmlunit-2.15-OSGi.jar"/>
+	<classpathentry kind="lib" path="Library/icepdf-core.jar"/>
+	<classpathentry kind="lib" path="Library/icepdf-viewer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
