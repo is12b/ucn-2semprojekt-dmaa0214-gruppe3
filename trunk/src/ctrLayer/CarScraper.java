@@ -27,7 +27,7 @@ public class CarScraper {
 
 	}
 
-	public CarExtra getExtra(Car car) throws Exception {
+	public CarExtra getExtra(Car car) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		String regNr = car.getRegNr();
 
 		CarExtra ext = new CarExtra();
@@ -36,7 +36,7 @@ public class CarScraper {
 	    
 	    if(getSpanValueByKey("Stelnummer:") != "Ukendt") {
 	    
-		    writeVehicleData(ext);
+		    writeVehicleData(ext, car);
 		    
 		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=1&_pageLabel=vis_koeretoej_side");
 		    writeTechnicalData(ext);
@@ -108,7 +108,9 @@ public class CarScraper {
 	    return retS;
 	}
 	*/
-	private void writeVehicleData(CarExtra ext){
+	private void writeVehicleData(CarExtra ext, Car car){
+		car.setVin(getSpanValueByKey("Stelnummer:"));
+		car.setModel(getSpanValueByKey("Mærke, Model, Variant:"));
 		ext.setType(getSpanValueByKey("Art:"));
 		ext.setLatestChangeVehicle(getSpanValueByKey("Seneste ændring:"));
 		ext.setFirstRegDate(getSpanValueByKey("Første registrerings­dato:"));

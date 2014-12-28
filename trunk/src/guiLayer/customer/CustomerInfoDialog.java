@@ -64,19 +64,19 @@ public class CustomerInfoDialog extends JDialog {
 	 */
 	private void buildDialog(Customer customer) {
 		Dimension minSize = new Dimension(500, 200);
-		this.setMinimumSize(minSize);
+		this.setMinimumSize(new Dimension(620, 200));
 		this.setModalityType(DEFAULT_MODALITY_TYPE);
 		setTitle("Kundeinformation");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 600, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("max(150dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		{
@@ -85,7 +85,7 @@ public class CustomerInfoDialog extends JDialog {
 			contentPanel.add(panelCustInfo, "2, 2, fill, fill");
 			panelCustInfo.setLayout(new FormLayout(new ColumnSpec[] {
 					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("default:grow"),
+					FormFactory.DEFAULT_COLSPEC,
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("default:grow"),},
 				new RowSpec[] {

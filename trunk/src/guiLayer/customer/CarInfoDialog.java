@@ -63,6 +63,9 @@ class CarInfoDialog extends JDialog {
 	private JTextField txtTecTotal;
 	private JTextField txtInspectionFreq;
 	private JTextField txtCallInspectionDate;
+	private JTextField txtModel;
+	private JTextField txtBrand;
+	private JTextField txtMileage;
 
 	/**
 	 * Constructor for CarInfoDialog objects.
@@ -105,6 +108,12 @@ class CarInfoDialog extends JDialog {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -293,9 +302,57 @@ class CarInfoDialog extends JDialog {
 		txtPosVin = new JTextField();
 		panel_13.add(txtPosVin, "3, 1, fill, default");
 		txtPosVin.setColumns(10);
+		
+		JPanel panel_18 = new JPanel();
+		panel_2.add(panel_18, "2, 21, 3, 1, fill, fill");
+		panel_18.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_10 = new JLabel("Model:");
+		panel_18.add(lblNewLabel_10, "1, 1, right, default");
+		
+		txtModel = new JTextField();
+		panel_18.add(txtModel, "3, 1, fill, default");
+		txtModel.setColumns(10);
+		
+		JPanel panel_17 = new JPanel();
+		panel_2.add(panel_17, "2, 23, 3, 1, fill, fill");
+		panel_17.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_11 = new JLabel("Fabrikat:");
+		panel_17.add(lblNewLabel_11, "1, 1, right, default");
+		
+		txtBrand = new JTextField();
+		panel_17.add(txtBrand, "3, 1, fill, default");
+		txtBrand.setColumns(10);
+		
+		JPanel panel_16 = new JPanel();
+		panel_2.add(panel_16, "2, 25, 3, 1, fill, fill");
+		panel_16.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_12 = new JLabel("Kilometer stand:");
+		panel_16.add(lblNewLabel_12, "1, 1, right, default");
+		
+		txtMileage = new JTextField();
+		panel_16.add(txtMileage, "3, 1, fill, default");
+		txtMileage.setColumns(10);
 
 		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, "2, 21, 3, 1, fill, fill");
+		panel_2.add(panel_3, "2, 27, 3, 1, fill, fill");
 		panel_3.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -394,7 +451,7 @@ class CarInfoDialog extends JDialog {
 		
 		Utilities.addEscapeListener(this);
 		Dimension minSize = new Dimension(500,350);
-		this.setMinimumSize(new Dimension(725, 350));
+		this.setMinimumSize(new Dimension(725, 450));
 		this.setVisible(true);
 	}
 	
@@ -428,6 +485,9 @@ class CarInfoDialog extends JDialog {
 			setText(txtTecTotal, car.getExtra().getTecTotalWeight());
 			setText(txtInspectionFreq, car.getExtra().getInspectionFreq());
 			setText(txtCallInspectionDate, car.getExtra().getCalInspectionDate());
+			setText(txtModel, car.getModel());
+			setText(txtBrand, car.getBrand());
+			setText(txtMileage, String.valueOf(car.getMileage()));
 		}
 		
 		if(car.getInspections() != null && car.getInspections().size() > 0){
