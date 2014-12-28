@@ -3,6 +3,8 @@ package ctrLayer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+
 import modelLayer.Car;
 import modelLayer.CarExtra;
 import modelLayer.Customer;
@@ -120,9 +122,12 @@ public class CarCtr implements IFCarCtr {
 					}else{
 						for(Inspection i : car.getInspections()){
 							boolean insert = true;
-							for(Inspection insp : inspecs){
-								if(i.getDate().equals(insp.getDate())){
+							boolean in = false;
+							int index = 0;
+							while(index < inspecs.size() && !in){
+								if(i.getUrl().equals(inspecs.get(index).getUrl())){
 									insert = false;
+									in = true;
 								}
 							}
 							if(insert){
@@ -133,6 +138,11 @@ public class CarCtr implements IFCarCtr {
 					
 				}
 			}
+			
+			IFDBCar dbCar = new DBCar();
+			dbCar.updateCar(car);
+		} catch(FailingHttpStatusCodeException e){
+			throw new ObjectNotExistException("Trafikstyrelsen eller motorregisteret's hjemmeside er nede, prøv igen senere");
 		} catch(Exception e){
 			throw new ObjectNotExistException("Ekstra information om bilen blev ikke fundet");
 		}
