@@ -53,7 +53,7 @@ public class PDFViewerDialog extends JDialog {
 	public PDFViewerDialog(JComponent parent, Sale sale) throws BuildingPDFException {
 		if (sale != null) {
 			setTitle("Faktura #" + sale.getId());
-			buildDialog();
+			buildDialog(true);
 			
 			loadSale(sale);
 		} else {
@@ -71,7 +71,7 @@ public class PDFViewerDialog extends JDialog {
 			throw new BuildingPDFException("Ingen PDF valgt");
 		}
 		
-		buildDialog();
+		buildDialog(false);
 		
 		loadPDF(url);
 
@@ -85,7 +85,7 @@ public class PDFViewerDialog extends JDialog {
 		
 		if (sale != null) {
 			setTitle("Faktura #" + sale.getId());
-			buildDialog();
+			buildDialog(true);
 			
 			loadSale(sale);
 		} else {
@@ -123,7 +123,8 @@ public class PDFViewerDialog extends JDialog {
 				baos.write(byteChunk, 0, n);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new BuildingPDFException(
+					"Det var ikke muligt at vise den ønskede PDF");
 		} finally {
 			if (is != null) {
 				try {
@@ -140,11 +141,11 @@ public class PDFViewerDialog extends JDialog {
 			controller.openDocument(tempBytes, 0, tempBytes.length, "", null);
 		} else {
 			throw new BuildingPDFException(
-					"Salget kan ikke vises pga. en systemfejl");
+					"Det var ikke muligt at vise den ønskede PDF");
 		}
 	}
 
-	private void buildDialog() {
+	private void buildDialog(boolean send) {
 		setModalityType(DEFAULT_MODALITY_TYPE);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setMinimumSize(new Dimension(800, 600));
@@ -152,7 +153,7 @@ public class PDFViewerDialog extends JDialog {
 		controller = new SwingController();
 
 		
-		SwingViewBuilder factory = createFactory(controller);
+		SwingViewBuilder factory = createFactory(controller, send);
 		
 		JPanel viewerComponentPanel = factory.buildViewerPanel();
 		
@@ -164,7 +165,7 @@ public class PDFViewerDialog extends JDialog {
 		
 	}
 
-	private SwingViewBuilder createFactory(SwingController controller2) {
+	private SwingViewBuilder createFactory(SwingController controller2, boolean send) {
 		SwingViewBuilder factory = new SwingViewBuilder(controller) {
 						
 			@Override
@@ -175,7 +176,9 @@ public class PDFViewerDialog extends JDialog {
 			@Override
 			public JToolBar buildCompleteToolBar(boolean embeddableComponent) {
 				JToolBar tb = super.buildCompleteToolBar(embeddableComponent);			
-				tb.add(emailButton(), 1);
+				if(send){
+					tb.add(emailButton(), 1);
+				}
 				return tb;
 			}
 		

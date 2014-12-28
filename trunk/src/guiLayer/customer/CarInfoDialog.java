@@ -379,9 +379,9 @@ class CarInfoDialog extends JDialog {
 		        if (evt.getClickCount() == 2) {
 		            Inspection i = (Inspection) list.getModel().getElementAt(list.locationToIndex(evt.getPoint()));
 		            try {
-						PDFViewerDialog pdf = new PDFViewerDialog(CarInfoDialog.this, i.getUrl());
+						new PDFViewerDialog(CarInfoDialog.this, i.getUrl());
 					} catch (BuildingPDFException e) {
-						e.printStackTrace();
+						Utilities.showError(CarInfoDialog.this, e.getMessage());
 					}
 		        }
 		    }
