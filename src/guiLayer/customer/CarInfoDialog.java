@@ -1,11 +1,15 @@
 package guiLayer.customer;
 
+import exceptions.BuildingPDFException;
 import exceptions.ObjectNotExistException;
+import guiLayer.PDFViewerDialog;
 import guiLayer.extensions.Utilities;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -33,6 +37,8 @@ import java.util.ArrayList;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 
+import guiLayer.extensions.InfoPanel;
+
 /**
  * Class for CarInfoDialog
  *
@@ -43,15 +49,20 @@ class CarInfoDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private Car car;
-	private JTextField txtReg;
+	private JList<Inspection> list;
+	private DefaultListModel<Inspection> model;
+	private JTextField txtRegnr;
 	private JTextField txtVin;
-	private JTextField txtManufact;
-	private JTextField txtModel;
-	private JTextField txtFirstReg;
-	private JTextField txtInsurance;
+	private JTextField txtType;
+	private JTextField txtLastChangeReg;
+	private JTextField txtUse;
+	private JTextField txtLastChangeVehicle;
 	private JTextField txtStatus;
-	private JList<String> list;
-	private DefaultListModel<String> model;
+	private JTextField txtPosVin;
+	private JTextField txtTotal;
+	private JTextField txtTecTotal;
+	private JTextField txtInspectionFreq;
+	private JTextField txtCallInspectionDate;
 
 	/**
 	 * Constructor for CarInfoDialog objects.
@@ -82,7 +93,7 @@ class CarInfoDialog extends JDialog {
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
+				RowSpec.decode("max(195dlu;default):grow"),}));
 
 		
 		JPanel panel_2 = new JPanel();
@@ -90,10 +101,15 @@ class CarInfoDialog extends JDialog {
 		getContentPane().add(panel_2, "2, 2, fill, fill");
 		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -113,71 +129,173 @@ class CarInfoDialog extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 
-		setTitle(car.getRegNr() + " - Biloplysninger");
+		if(car.getRegNr() != null && !car.getRegNr().trim().isEmpty()){
+			setTitle(car.getRegNr() + " - Biloplysninger");
+		}else if(car.getVin() != null && !car.getVin().trim().isEmpty()){
+			setTitle(car.getVin() + " - Biloplysninger");
+		}
 		
-		JLabel lblRegNr = new JLabel("Reg-nr.");
-		panel_2.add(lblRegNr, "2, 2, right, default");
-
-		txtReg = new JTextField();
-		txtReg.setText(car.getRegNr());
-		panel_2.add(txtReg, "4, 2, fill, default");
-		txtReg.setColumns(10);
-
-		JLabel lblVin = new JLabel("Stel-nr.");
-		panel_2.add(lblVin, "2, 4, right, default");
-
+		JPanel panel_4 = new JPanel();
+		panel_2.add(panel_4, "2, 1, 3, 1, fill, fill");
+		panel_4.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblRegnr = new JLabel("Regnr:");
+		panel_4.add(lblRegnr, "1, 1, right, default");
+		
+		txtRegnr = new JTextField();
+		panel_4.add(txtRegnr, "3, 1, fill, default");
+		txtRegnr.setColumns(10);
+		
+		JPanel panel_5 = new JPanel();
+		panel_2.add(panel_5, "2, 3, 3, 1, fill, fill");
+		panel_5.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblStelnr = new JLabel("Stelnr:");
+		panel_5.add(lblStelnr, "1, 1, right, default");
+		
 		txtVin = new JTextField();
-		txtVin.setText(car.getVin());
-		panel_2.add(txtVin, "4, 4, fill, top");
+		panel_5.add(txtVin, "3, 1, fill, default");
 		txtVin.setColumns(10);
-
-		JLabel lblManufact = new JLabel("Fabrikant");
-		panel_2.add(lblManufact, "2, 6, right, default");
-
-		txtManufact = new JTextField();
-		txtManufact.setText("");
-		panel_2.add(txtManufact, "4, 6, fill, default");
-		txtManufact.setColumns(10);
-
-		JLabel lblModel = new JLabel("Model");
-		panel_2.add(lblModel, "2, 8, right, default");
-
-		txtModel = new JTextField();
-		txtModel.setText(car.getModel());
-		panel_2.add(txtModel, "4, 8, fill, default");
-		txtModel.setColumns(10);
-
-		JLabel lblFistReg = new JLabel("1. reg. dato");
-		panel_2.add(lblFistReg, "2, 10, right, default");
 		
-
-		txtFirstReg = new JTextField();
-		if(car.getExtra() != null){
-			txtFirstReg.setText(car.getExtra().getFirstRegDate());
-		}
-		panel_2.add(txtFirstReg, "4, 10, fill, default");
-		txtFirstReg.setColumns(10);
-
-		JLabel lblInsurance = new JLabel("Forsikring");
-		panel_2.add(lblInsurance, "2, 12, right, default");
-
-		txtInsurance = new JTextField();
-		txtInsurance.setText("");
-		panel_2.add(txtInsurance, "4, 12, fill, default");
-		txtInsurance.setColumns(10);
-
-		JLabel lblStatus = new JLabel("Status");
-		panel_2.add(lblStatus, "2, 14, right, default");
-
+		JPanel panel_6 = new JPanel();
+		panel_2.add(panel_6, "2, 5, 3, 1, fill, fill");
+		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel = new JLabel("Art:");
+		panel_6.add(lblNewLabel, "1, 1, right, default");
+		
+		txtType = new JTextField();
+		panel_6.add(txtType, "3, 1, fill, default");
+		txtType.setColumns(10);		
+		JPanel panel_8 = new JPanel();
+		panel_2.add(panel_8, "2, 7, 3, 1, fill, fill");
+		panel_8.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_1 = new JLabel("Seneste \u00E6ndring:");
+		panel_8.add(lblNewLabel_1, "1, 1, right, default");
+		
+		txtLastChangeVehicle = new JTextField();
+		panel_8.add(txtLastChangeVehicle, "3, 1, fill, default");
+		txtLastChangeVehicle.setColumns(10);
+		
+		JPanel panel_9 = new JPanel();
+		panel_2.add(panel_9, "2, 9, 3, 1, fill, fill");
+		panel_9.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_2 = new JLabel("Anvendelse:");
+		panel_9.add(lblNewLabel_2, "1, 1, right, default");
+		
+		txtUse = new JTextField();
+		panel_9.add(txtUse, "3, 1, fill, default");
+		txtUse.setColumns(10);
+		
+		JPanel panel_7 = new JPanel();
+		panel_2.add(panel_7, "2, 11, 3, 1, fill, fill");
+		panel_7.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_3 = new JLabel("Seneste \u00E6ndring:");
+		panel_7.add(lblNewLabel_3, "1, 1, right, default");
+		
+		txtLastChangeReg = new JTextField();
+		panel_7.add(txtLastChangeReg, "3, 1, fill, default");
+		txtLastChangeReg.setColumns(10);
+		
+		JPanel panel_10 = new JPanel();
+		panel_2.add(panel_10, "2, 13, 3, 1, fill, fill");
+		panel_10.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_4 = new JLabel("Status:");
+		panel_10.add(lblNewLabel_4, "1, 1, right, default");
+		
 		txtStatus = new JTextField();
-		if(car.getExtra() != null){
-			txtStatus.setText(car.getExtra().getStatus());
-		}
-		panel_2.add(txtStatus, "4, 14, fill, default");
+		panel_10.add(txtStatus, "3, 1, fill, default");
 		txtStatus.setColumns(10);
+		
+		JPanel panel_11 = new JPanel();
+		panel_2.add(panel_11, "2, 15, 3, 1, fill, fill");
+		panel_11.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_5 = new JLabel("Teknisk total v\u00E6gt:");
+		panel_11.add(lblNewLabel_5, "1, 1, right, default");
+		
+		txtTecTotal = new JTextField();
+		panel_11.add(txtTecTotal, "3, 1, fill, default");
+		txtTecTotal.setColumns(10);
+		
+		JPanel panel_12 = new JPanel();
+		panel_2.add(panel_12, "2, 17, 3, 1, fill, fill");
+		panel_12.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_6 = new JLabel("Total v\u00E6gt:");
+		panel_12.add(lblNewLabel_6, "1, 1, right, default");
+		
+		txtTotal = new JTextField();
+		panel_12.add(txtTotal, "3, 1, fill, default");
+		txtTotal.setColumns(10);
+		
+		JPanel panel_13 = new JPanel();
+		panel_2.add(panel_13, "2, 19, 3, 1, fill, fill");
+		panel_13.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_7 = new JLabel("Anbringelse af stelnummer:");
+		panel_13.add(lblNewLabel_7, "1, 1, right, default");
+		
+		txtPosVin = new JTextField();
+		panel_13.add(txtPosVin, "3, 1, fill, default");
+		txtPosVin.setColumns(10);
 
 		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, "2, 16, 3, 1, fill, fill");
+		panel_2.add(panel_3, "2, 21, 3, 1, fill, fill");
 		panel_3.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -204,26 +322,79 @@ class CarInfoDialog extends JDialog {
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.UNRELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
+		
+		JPanel panel_14 = new JPanel();
+		panel.add(panel_14, "1, 1, fill, fill");
+		panel_14.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_9 = new JLabel("Frekvens for periodisk syn:");
+		panel_14.add(lblNewLabel_9, "1, 1, right, default");
+		
+		txtInspectionFreq = new JTextField();
+		panel_14.add(txtInspectionFreq, "3, 1, fill, default");
+		txtInspectionFreq.setColumns(10);
+		
+		JPanel panel_15 = new JPanel();
+		panel.add(panel_15, "1, 3, fill, fill");
+		panel_15.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblNewLabel_8 = new JLabel("Beregnet dato for syn:");
+		panel_15.add(lblNewLabel_8, "1, 1, right, default");
+		
+		txtCallInspectionDate = new JTextField();
+		panel_15.add(txtCallInspectionDate, "3, 1, fill, default");
+		txtCallInspectionDate.setColumns(10);
+		
+		JLabel lblTidligereSyn = new JLabel("Tidligere syn:");
+		panel.add(lblTidligereSyn, "1, 5");
 
 		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, "1, 1, fill, fill");
+		panel.add(panel_1, "1, 6, fill, fill");
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		panel_1.add(scrollPane, BorderLayout.CENTER);
 		
-		list = new JList<String>();
-		model = new DefaultListModel<String>();
+		list = new JList<Inspection>();
+		
+		list.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2) {
+		            Inspection i = (Inspection) list.getModel().getElementAt(list.locationToIndex(evt.getPoint()));
+		            try {
+						PDFViewerDialog pdf = new PDFViewerDialog(CarInfoDialog.this, i.getUrl());
+					} catch (BuildingPDFException e) {
+						e.printStackTrace();
+					}
+		        }
+		    }
+		});
+		model = new DefaultListModel<Inspection>();
 		list.setModel(model);
-		if(car.getInspections() != null || car.getInspections().size() > 0){
-			populateList(car.getInspections());
-		}
+
+		populate();
 		scrollPane.setViewportView(list);
 		
 		Utilities.addEscapeListener(this);
 		Dimension minSize = new Dimension(500,350);
-		this.setMinimumSize(minSize);
+		this.setMinimumSize(new Dimension(725, 350));
 		this.setVisible(true);
 	}
 	
@@ -232,14 +403,50 @@ class CarInfoDialog extends JDialog {
 	 * 
 	 */
 	protected void updateExtra() {
-		// TODO Auto-generated method stub
+		CarCtr cCtr = new CarCtr();
+		try {
+			cCtr.updateExtra(car);
+			populate();
+		} catch (ObjectNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void populate(){
+		setText(txtRegnr, car.getRegNr());
+		setText(txtVin, car.getVin());
 		
+		if(car.getExtra() != null){
+			setText(txtType, car.getExtra().getType());
+			setText(txtLastChangeReg, car.getExtra().getLatestChangeReg());
+			setText(txtUse, car.getExtra().getUse());
+			setText(txtLastChangeVehicle, car.getExtra().getLatestChangeVehicle());
+			setText(txtStatus, car.getExtra().getStatus());
+			setText(txtPosVin, car.getExtra().getPosOfChassisNumber());
+			setText(txtTotal, car.getExtra().getTotalWeight());
+			setText(txtTecTotal, car.getExtra().getTecTotalWeight());
+			setText(txtInspectionFreq, car.getExtra().getInspectionFreq());
+			setText(txtCallInspectionDate, car.getExtra().getCalInspectionDate());
+		}
+		
+		if(car.getInspections() != null && car.getInspections().size() > 0){
+			populateList(car.getInspections());
+		}
+	}
+	
+	private void setText(JTextField field, String text){
+		if(text != null && !text.trim().isEmpty()){
+			field.setText(text);
+		}
 	}
 
 	private void populateList(ArrayList<Inspection> inspecs){
+		model.clear();
+		
 		for(Inspection i : inspecs){
 			System.out.println(i.getDate());
-			model.addElement(i.toString());
+			model.addElement(i);
 		}
 	}
 }

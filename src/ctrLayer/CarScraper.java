@@ -2,6 +2,7 @@ package ctrLayer;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 import modelLayer.Car;
 import modelLayer.Inspection;
@@ -141,6 +142,7 @@ public class CarScraper {
 
 	private void addInspections(Car car, CarExtra ext) {
 		String url = "http://selvbetjening.trafikstyrelsen.dk/Sider/resultater.aspx?Reg=" + car.getRegNr();
+		ArrayList<Inspection> inspecs = new ArrayList<Inspection>();
 		try {
 			WebClient webClient = new WebClient();
 		    HtmlPage page = webClient.getPage(url);
@@ -165,8 +167,10 @@ public class CarScraper {
 		    	inspec.setRegNr(data[3]);
 		    	inspec.setUrl(data[4]);
 		    	
-		    	car.addInspection(inspec);
+		    	inspecs.add(inspec);
 		    }
+		    
+		    car.setInspections(inspecs);
 		} catch(Exception e) {
 			System.out.println(e);
 		}

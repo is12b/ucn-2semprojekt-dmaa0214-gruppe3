@@ -14,6 +14,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCustomer;
+import dbLayer.interfaceLayer.IFDBInspection;
 import exceptions.DBException;
 import exceptions.DBNotFoundException;
 
@@ -236,6 +237,9 @@ public class DBCar implements IFDBCar {
 				if(retAsso){
 					IFDBCustomer dbCustomer = new DBCustomer();
 					car.setOwner(dbCustomer.getCustomerByCar(car));
+					
+					IFDBInspection dbInspec = new DBInspection();
+					car.setInspections(dbInspec.getInspections(car));
 				}
 			}
 			
@@ -262,6 +266,9 @@ public class DBCar implements IFDBCar {
 				if(retAsso){
 					IFDBCustomer dbCustomer = new DBCustomer();
 					car.setOwner(dbCustomer.getCustomerByCar(car));
+					
+					IFDBInspection dbInspec = new DBInspection();
+					car.setInspections(dbInspec.getInspections(car));
 				}
 				
 				cars.add(car);

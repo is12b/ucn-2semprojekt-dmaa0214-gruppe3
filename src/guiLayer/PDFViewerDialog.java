@@ -4,6 +4,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -18,6 +22,8 @@ import modelLayer.Sale;
 import org.icepdf.ri.common.MyAnnotationCallback;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
+
+import com.sun.jndi.toolkit.url.Uri;
 
 import ctrLayer.InvoicePDFGenerator;
 import dbLayer.DBSale;
@@ -57,6 +63,22 @@ public class PDFViewerDialog extends JDialog {
 		setVisible(true);
 	}
 	
+	public PDFViewerDialog(JDialog parent, String uri) throws BuildingPDFException {
+		URL url;
+		try {
+			url = new URL(uri);
+		} catch (MalformedURLException e) {
+			throw new BuildingPDFException("Ingen PDF valgt");
+		}
+		
+		buildDialog();
+		
+		loadPDF(url);
+
+		setLocationRelativeTo(parent);
+		setVisible(true);
+	}
+	
 	public PDFViewerDialog(JComponent parent, int saleID) throws BuildingPDFException {
 		IFDBSale dbSale = new DBSale();
 		Sale sale = dbSale.getSale(saleID);
@@ -86,6 +108,40 @@ public class PDFViewerDialog extends JDialog {
 			throw new BuildingPDFException("Salget kan ikke vises pga. en systemfejl");
 		}
 	    
+	}
+	
+	private void loadPDF(URL url) throws BuildingPDFException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		InputStream is = null;
+		try {
+			is = url.openStream();
+			byte[] byteChunk = new byte[4096]; // Or whatever size you want to
+												// read in at a time.
+			int n;
+
+			while ((n = is.read(byteChunk)) > 0) {
+				baos.write(byteChunk, 0, n);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (baos.size() > 1) {
+			byte[] tempBytes = baos.toByteArray();
+
+			controller.openDocument(tempBytes, 0, tempBytes.length, "", null);
+		} else {
+			throw new BuildingPDFException(
+					"Salget kan ikke vises pga. en systemfejl");
+		}
 	}
 
 	private void buildDialog() {
