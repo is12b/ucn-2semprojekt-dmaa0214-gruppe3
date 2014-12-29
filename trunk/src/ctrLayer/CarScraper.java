@@ -38,6 +38,7 @@ public class CarScraper {
 		CarExtra ext = new CarExtra();
 	    webClient = new WebClient();
 	    webClient.getOptions().setCssEnabled(false);
+	    
 	    finalPage = getExecutedDMRPage(true, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_nfpb=true&_pageLabel=vis_koeretoej_side&_nfls=false");
 	    
 	    if(getSpanValueByKey("Stelnummer:") != "Ukendt") {
@@ -161,6 +162,7 @@ public class CarScraper {
 		try {
 			WebClient webClient = new WebClient();
 			webClient.getOptions().setCssEnabled(false);
+			webClient.getOptions().setJavaScriptEnabled(false);
 		    HtmlPage page = webClient.getPage(url);
 		    HtmlTableBody table = (HtmlTableBody) page.getByXPath("//table[@id='tblInspections']/tbody").get(0);
 			
@@ -246,7 +248,20 @@ public class CarScraper {
 		if (car.getRegNr() == null || car.getVin() == null) {
 			throw new ObjectNotExistException("Der blev ikke fundet noget på søgningen: " + regOrVin);
 		}
+		car.setYear(getYearFromRegDate(car));
 		return car;
+	}
+	
+	private int getYearFromRegDate(Car car) {
+		int regYear = 0;
+		try {
+			String regDate = car.getExtra().getFirstRegDate();
+			String regYearText = regDate.substring(regDate.lastIndexOf("-")+1);
+			regYear = Integer.parseInt(regYearText);
+		} catch (Exception e) {
+			//Ignored
+		}
+		return regYear;
 	}
 
 }
