@@ -179,5 +179,12 @@ public class CarCtr implements IFCarCtr {
 			ext.setToClone(clone);
 		}
 	}
+
+	// Iteration 2
+	@Override
+	public Car getCarData(String regOrVin) throws ObjectNotExistException {
+		CarScraper scraper = new CarScraper();
+		return scraper.getCarData(regOrVin);
+	}
 	
 }

@@ -2,6 +2,7 @@ package ctrLayer.interfaceLayer;
 
 import java.util.ArrayList;
 
+import modelLayer.Car;
 import modelLayer.Customer;
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;
@@ -55,5 +56,15 @@ public interface IFCustomerCtr {
 	 * @throws DBException
 	 */
 	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, String city, int cvr, String email, boolean hidden) throws DBException;
+
+	
+	// Iteration 2
+	/**
+	 * Method for get a new car object with all scraped data.
+	 * 
+	 * @param regOrVin the regNr or vin number of the car
+	 * @return a car object
+	 */
+	public Car getCarData(String regOrVin) throws ObjectNotExistException;
 	
 }

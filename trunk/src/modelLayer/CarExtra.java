@@ -1,7 +1,5 @@
 package modelLayer;
 
-import java.util.ArrayList;
-
 public class CarExtra implements Cloneable{
 	//Vehicle - Køretøj
 	private String type; // Art

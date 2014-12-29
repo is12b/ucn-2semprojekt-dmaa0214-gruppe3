@@ -12,11 +12,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import modelLayer.Car;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -24,7 +27,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CustomerCtr;
+import ctrLayer.interfaceLayer.IFCustomerCtr;
 import exceptions.DBException;
+import exceptions.ObjectNotExistException;
 import exceptions.SubmitException;
 
 /**
@@ -45,11 +50,12 @@ public class CreateCustomerDialog extends JDialog {
 	private JTextFieldLimit txtCvr;
 	private JTextFieldLimit txtRegNr;
 	private JTextFieldLimit txtVin;
-	private JTextFieldLimit txtManufact;
+	private JTextFieldLimit txtBrand;
 	private JTextFieldLimit txtModel;
 	private MainGUI parent;
 	private JButton btnCreate;
 	private JTextFieldLimit txtEmail;
+	private Car car;
 
 	public CreateCustomerDialog(MainGUI parent) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -177,10 +183,10 @@ public class CreateCustomerDialog extends JDialog {
 			}
 		}
 		{
-			JPanel bilPanel = new JPanel();
-			bilPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Biloplysninger", TitledBorder.RIGHT, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			contentPanel.add(bilPanel, "4, 2, fill, fill");
-			bilPanel.setLayout(new FormLayout(new ColumnSpec[] {
+			JPanel carPanel = new JPanel();
+			carPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Biloplysninger", TitledBorder.RIGHT, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			contentPanel.add(carPanel, "4, 2, fill, fill");
+			carPanel.setLayout(new FormLayout(new ColumnSpec[] {
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("min(50dlu;default):grow"),
 					FormFactory.RELATED_GAP_COLSPEC,
@@ -204,44 +210,49 @@ public class CreateCustomerDialog extends JDialog {
 					FormFactory.DEFAULT_ROWSPEC,}));
 			{
 				JLabel lblRegNr = new JLabel("Regnr.");
-				bilPanel.add(lblRegNr, "2, 2, left, default");
+				carPanel.add(lblRegNr, "2, 2, left, default");
 			}
 			{
 				txtRegNr = new JTextFieldLimit(10, false);
 				txtRegNr.setText("");
-				bilPanel.add(txtRegNr, "4, 2, fill, top");
+				carPanel.add(txtRegNr, "4, 2, fill, top");
 				txtRegNr.setColumns(10);
 			}
 			{
 				JLabel lblVin = new JLabel("Stelnr.");
-				bilPanel.add(lblVin, "2, 4, left, default");
+				carPanel.add(lblVin, "2, 4, left, default");
 			}
 			{
 				txtVin = new JTextFieldLimit(100, false);
-				bilPanel.add(txtVin, "4, 4, fill, default");
+				carPanel.add(txtVin, "4, 4, fill, default");
 				txtVin.setColumns(10);
 			}
 			{
-				JLabel lblManufact = new JLabel("Fabrikant");
-				bilPanel.add(lblManufact, "2, 6, left, default");
+				JLabel lblBrand = new JLabel("Fabrikant");
+				carPanel.add(lblBrand, "2, 6, left, default");
 			}
 			{
-				txtManufact = new JTextFieldLimit(30, false);
-				bilPanel.add(txtManufact, "4, 6, fill, default");
-				txtManufact.setColumns(10);
+				txtBrand = new JTextFieldLimit(30, false);
+				carPanel.add(txtBrand, "4, 6, fill, default");
+				txtBrand.setColumns(10);
 			}
 			{
 				JLabel lblModel = new JLabel("Model");
-				bilPanel.add(lblModel, "2, 8, left, default");
+				carPanel.add(lblModel, "2, 8, left, default");
 			}
 			{
 				txtModel = new JTextFieldLimit(40, false);
-				bilPanel.add(txtModel, "4, 8, fill, default");
+				carPanel.add(txtModel, "4, 8, fill, default");
 				txtModel.setColumns(10);
 			}
 			{
 				JButton btnGetCarInfo = new JButton("Hent biloplysninger");
-				bilPanel.add(btnGetCarInfo, "2, 16, 3, 1, default, center");
+				btnGetCarInfo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						getCarInfo();
+					}
+				});
+				carPanel.add(btnGetCarInfo, "2, 16, 3, 1, default, center");
 			}
 		}
 		{
@@ -249,6 +260,66 @@ public class CreateCustomerDialog extends JDialog {
 			this.setVisible(true);
 		}
 		parent.setDefaultButton(btnCreate);
+	}
+
+	private void getCarInfo() {
+		IFCustomerCtr cCtr = new CustomerCtr();
+		String regNr = txtRegNr.getText().trim();
+		String vin = txtVin.getText().trim();
+		Car car = null;
+		try {
+			if (!regNr.isEmpty()) {
+				car = cCtr.getCarData(regNr);
+			} else if (!vin.isEmpty()) {
+				car = cCtr.getCarData(vin);
+			} else {
+				throw new SubmitException("Regnr. eller stelnr. skal udfyldes for at bruge denne funktion", txtRegNr);
+			}
+			
+			if (confirmCarInfo(car)) {
+				this.car = car;
+				setCarInfo(car);
+			}
+			
+			
+		} catch (ObjectNotExistException e) {
+			if (!regNr.isEmpty()) {
+				txtRegNr.requestFocusInWindow();
+			} else if (!vin.isEmpty()) {
+				txtVin.requestFocusInWindow();
+			}
+			Utilities.showError(this,e.getMessage());
+		} catch (SubmitException e) {
+			e.showError();
+		}
+	}
+
+	/**
+	 * @param car2
+	 * @return
+	 */
+	private boolean confirmCarInfo(Car car) {
+		String msg = "Bekræft venligst at den fundne bil er den ønskede:"
+				+ "\n"
+				+ "\nMærke: " + car.getBrand() + ", " + car.getModel()
+				+ "\nÅrgang: " + car.getYear()
+				+ "\nRegnr.: " + car.getRegNr()
+				+ "\nStelnr. : " + car.getVin();
+		int c = JOptionPane.showConfirmDialog(this, msg, "Bekræft", JOptionPane.YES_NO_OPTION);
+		boolean ret = false;
+		if (c == JOptionPane.YES_OPTION) {
+			ret = true;
+		}
+		return ret;
+	}
+
+	private void setCarInfo(Car car) {
+		if (car != null) {
+			txtRegNr.setText(car.getRegNr());
+			txtVin.setText(car.getVin());
+			txtBrand.setText(car.getBrand());
+			txtModel.setText(car.getModel());
+		}
 	}
 
 	private void createCustomer() {
@@ -273,7 +344,7 @@ public class CreateCustomerDialog extends JDialog {
 
 			String email = txtEmail.getEmail();
 			
-			CustomerCtr cCtr = new CustomerCtr();
+			IFCustomerCtr cCtr = new CustomerCtr();
 			cCtr.createCustomer(name, phone, address, postalCode, city, cvr, email, false);
 			
 			Utilities.showInformation(this, "Kunden er oprettet", "Kunde oprettet");

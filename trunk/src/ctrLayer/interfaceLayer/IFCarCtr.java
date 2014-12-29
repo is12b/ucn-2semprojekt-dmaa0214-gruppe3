@@ -29,4 +29,13 @@ public interface IFCarCtr {
 	
 	public void deleteCar(Car car) throws ObjectNotExistException, DBException; // NO_UCD (test only)
 
+	// Iteration 2
+	/**
+	 * Method for get a new car object with all scraped data.
+	 * 
+	 * @param regOrVin the regNr or vin number of the car
+	 * @return a car object
+	 */
+	public Car getCarData(String regOrVin) throws ObjectNotExistException;
+
 }
