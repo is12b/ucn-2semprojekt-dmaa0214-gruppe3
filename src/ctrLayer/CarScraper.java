@@ -34,31 +34,45 @@ public class CarScraper {
 		return getExtra(regNr, car);
 	}
 	
-	private CarExtra getExtra(String regOrVin, Car car) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+	private CarExtra getExtra(String regOrVin, Car car) throws FailingHttpStatusCodeException, 
+	MalformedURLException, IOException {
+		
 		CarExtra ext = new CarExtra();
 	    webClient = new WebClient();
 	    webClient.getOptions().setCssEnabled(false);
 	    
-	    finalPage = getExecutedDMRPage(true, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_nfpb=true&_pageLabel=vis_koeretoej_side&_nfls=false");
-	    
+	    finalPage = getExecutedDMRPage(true, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager"
+	    		+ "/skat/dmr?_nfpb=true&_nfpb=true&_pageLabel=vis_koeretoej_side&_nfls=false");
+
 	    if(getSpanValueByKey("Stelnummer:") != "Ukendt") {
-	    
-		    writeVehicleData(ext, car);
-		    
-		    finalPage = getExecutedDMRPage(false, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=1&_pageLabel=vis_koeretoej_side");
-		    writeTechnicalData(ext);
-		    
-		    finalPage = getExecutedDMRPage(false, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=2&_pageLabel=vis_koeretoej_side");
-		    writeInspectionData(ext, car);
-		    
-		    /*
-		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=3&_pageLabel=vis_koeretoej_side");
+
+	    	writeVehicleData(ext, car);
+
+	    	finalPage = getExecutedDMRPage(false, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager"
+	    			+ "/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride="
+	    			+ "%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&"
+	    			+ "kerne_vis_koeretoejdmr_tabset_tab=1&_pageLabel=vis_koeretoej_side");
+	    	writeTechnicalData(ext);
+
+	    	finalPage = getExecutedDMRPage(false, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager"
+	    			+ "/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride="
+	    			+ "%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&"
+	    			+ "kerne_vis_koeretoejdmr_tabset_tab=2&_pageLabel=vis_koeretoej_side");
+	    	writeInspectionData(ext, car);
+	    	/*
+		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager"
+		    		+ "/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride="
+	    			+ "%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&"
+	    			+ "kerne_vis_koeretoejdmr_tabset_tab=3&_pageLabel=vis_koeretoej_side");
 		    writeInsuranceData(ext);
-		    
-		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=5&_pageLabel=vis_koeretoej_side");
+
+		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager"
+		    		+ "/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride="
+	    			+ "%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&"
+	    			+ "kerne_vis_koeretoejdmr_tabset_tab=5&_pageLabel=vis_koeretoej_side");
 		    writePermissions(ext);
-		    */
-		    
+	    	 */
+
 	    }
 	   
 	    webClient.closeAllWindows();
@@ -67,7 +81,9 @@ public class CarScraper {
 	    return ext;
 	}
 
-	private HtmlPage getExecutedDMRPage(boolean firstLoad, String regNr, String url) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+	private HtmlPage getExecutedDMRPage(boolean firstLoad, String regNr, String url) throws
+	FailingHttpStatusCodeException, MalformedURLException, IOException {
+		
 		HtmlPage page = webClient.getPage(url);
 		String executeStr;
 		if (firstLoad) {
