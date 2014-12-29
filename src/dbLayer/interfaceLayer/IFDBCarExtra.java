@@ -1,12 +1,8 @@
 package dbLayer.interfaceLayer;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import exceptions.DBException;
 import modelLayer.Car;
 import modelLayer.CarExtra;
-import modelLayer.Customer;
 
 /**
  * Interface for DBCar.
@@ -29,7 +25,7 @@ public interface IFDBCarExtra {
 	 * @param ext the CarExtra
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int insertCarExtra(CarExtra ext, Car car) throws SQLException;
+	public int insertCarExtra(CarExtra ext, Car car) throws DBException;
 	
 	/**
 	 * Update CarExtra in the database.

@@ -8,15 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import modelLayer.Car;
-import modelLayer.CarExtra;
-import modelLayer.Customer;
 import modelLayer.Inspection;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
-import dbLayer.interfaceLayer.IFDBCar;
-import dbLayer.interfaceLayer.IFDBCarExtra;
-import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBInspection;
 import exceptions.DBException;
 import exceptions.DBNotFoundException;
@@ -40,14 +33,14 @@ public class DBInspection implements IFDBInspection {
 		return miscWhere("CarID = " + car.getId());
 	}
 	
-	public void insertInspections(ArrayList<Inspection> inspections, Car car) throws SQLException{
+	public void insertInspections(ArrayList<Inspection> inspections, Car car) throws DBException{
 		for(Inspection i : inspections){
 			insertInspection(i, car);
 		}
 	}
 
 	@Override
-	public int insertInspection(Inspection inspec, Car car) throws SQLException {
+	public int insertInspection(Inspection inspec, Car car) throws DBException {
 		int rc = -1;
 		
 		try{

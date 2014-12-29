@@ -5,17 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-
 import modelLayer.Car;
 import modelLayer.CarExtra;
-import modelLayer.Customer;
-
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
-import dbLayer.interfaceLayer.IFDBCar;
 import dbLayer.interfaceLayer.IFDBCarExtra;
-import dbLayer.interfaceLayer.IFDBCustomer;
 import exceptions.DBException;
 import exceptions.DBNotFoundException;
 
@@ -39,7 +31,7 @@ public class DBCarExtra implements IFDBCarExtra {
 	}
 
 	@Override
-	public int insertCarExtra(CarExtra ext, Car car) throws SQLException {
+	public int insertCarExtra(CarExtra ext, Car car) throws DBException {
 		int rc = -1;
 		
 		try{
