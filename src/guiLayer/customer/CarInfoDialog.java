@@ -66,6 +66,8 @@ class CarInfoDialog extends JDialog {
 	private JTextField txtModel;
 	private JTextField txtBrand;
 	private JTextField txtMileage;
+	private JTextField txtYear;
+	private JTextField txtFirstReg;
 
 	/**
 	 * Constructor for CarInfoDialog objects.
@@ -112,7 +114,7 @@ class CarInfoDialog extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -131,6 +133,10 @@ class CarInfoDialog extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -176,8 +182,25 @@ class CarInfoDialog extends JDialog {
 		panel_5.add(txtVin, "3, 1, fill, default");
 		txtVin.setColumns(10);
 		
+		JPanel panel_20 = new JPanel();
+		panel_2.add(panel_20, "2, 5, 3, 1, fill, fill");
+		panel_20.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblFrsteRegDato = new JLabel("F\u00F8rste reg. Dato:");
+		panel_20.add(lblFrsteRegDato, "1, 1, right, default");
+		
+		txtFirstReg = new JTextField();
+		txtFirstReg.setText("");
+		panel_20.add(txtFirstReg, "3, 1, fill, default");
+		txtFirstReg.setColumns(10);
+		
 		JPanel panel_6 = new JPanel();
-		panel_2.add(panel_6, "2, 5, 3, 1, fill, fill");
+		panel_2.add(panel_6, "2, 7, 3, 1, fill, fill");
 		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -192,7 +215,7 @@ class CarInfoDialog extends JDialog {
 		panel_6.add(txtType, "3, 1, fill, default");
 		txtType.setColumns(10);		
 		JPanel panel_8 = new JPanel();
-		panel_2.add(panel_8, "2, 7, 3, 1, fill, fill");
+		panel_2.add(panel_8, "2, 9, 3, 1, fill, fill");
 		panel_8.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -200,7 +223,7 @@ class CarInfoDialog extends JDialog {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblNewLabel_1 = new JLabel("Seneste \u00E6ndring:");
+		JLabel lblNewLabel_1 = new JLabel("Seneste \u00E6ndring / Bil:");
 		panel_8.add(lblNewLabel_1, "1, 1, right, default");
 		
 		txtLastChangeVehicle = new JTextField();
@@ -208,7 +231,7 @@ class CarInfoDialog extends JDialog {
 		txtLastChangeVehicle.setColumns(10);
 		
 		JPanel panel_9 = new JPanel();
-		panel_2.add(panel_9, "2, 9, 3, 1, fill, fill");
+		panel_2.add(panel_9, "2, 11, 3, 1, fill, fill");
 		panel_9.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -224,7 +247,7 @@ class CarInfoDialog extends JDialog {
 		txtUse.setColumns(10);
 		
 		JPanel panel_7 = new JPanel();
-		panel_2.add(panel_7, "2, 11, 3, 1, fill, fill");
+		panel_2.add(panel_7, "2, 13, 3, 1, fill, fill");
 		panel_7.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -232,7 +255,7 @@ class CarInfoDialog extends JDialog {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblNewLabel_3 = new JLabel("Seneste \u00E6ndring:");
+		JLabel lblNewLabel_3 = new JLabel("Seneste \u00E6ndring / Registering:");
 		panel_7.add(lblNewLabel_3, "1, 1, right, default");
 		
 		txtLastChangeReg = new JTextField();
@@ -240,7 +263,7 @@ class CarInfoDialog extends JDialog {
 		txtLastChangeReg.setColumns(10);
 		
 		JPanel panel_10 = new JPanel();
-		panel_2.add(panel_10, "2, 13, 3, 1, fill, fill");
+		panel_2.add(panel_10, "2, 15, 3, 1, fill, fill");
 		panel_10.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -256,7 +279,7 @@ class CarInfoDialog extends JDialog {
 		txtStatus.setColumns(10);
 		
 		JPanel panel_11 = new JPanel();
-		panel_2.add(panel_11, "2, 15, 3, 1, fill, fill");
+		panel_2.add(panel_11, "2, 17, 3, 1, fill, fill");
 		panel_11.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -272,7 +295,7 @@ class CarInfoDialog extends JDialog {
 		txtTecTotal.setColumns(10);
 		
 		JPanel panel_12 = new JPanel();
-		panel_2.add(panel_12, "2, 17, 3, 1, fill, fill");
+		panel_2.add(panel_12, "2, 19, 3, 1, fill, fill");
 		panel_12.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -288,7 +311,7 @@ class CarInfoDialog extends JDialog {
 		txtTotal.setColumns(10);
 		
 		JPanel panel_13 = new JPanel();
-		panel_2.add(panel_13, "2, 19, 3, 1, fill, fill");
+		panel_2.add(panel_13, "2, 21, 3, 1, fill, fill");
 		panel_13.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -304,7 +327,7 @@ class CarInfoDialog extends JDialog {
 		txtPosVin.setColumns(10);
 		
 		JPanel panel_18 = new JPanel();
-		panel_2.add(panel_18, "2, 21, 3, 1, fill, fill");
+		panel_2.add(panel_18, "2, 23, 3, 1, fill, fill");
 		panel_18.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -320,7 +343,7 @@ class CarInfoDialog extends JDialog {
 		txtModel.setColumns(10);
 		
 		JPanel panel_17 = new JPanel();
-		panel_2.add(panel_17, "2, 23, 3, 1, fill, fill");
+		panel_2.add(panel_17, "2, 25, 3, 1, fill, fill");
 		panel_17.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -335,8 +358,24 @@ class CarInfoDialog extends JDialog {
 		panel_17.add(txtBrand, "3, 1, fill, default");
 		txtBrand.setColumns(10);
 		
+		JPanel panel_19 = new JPanel();
+		panel_2.add(panel_19, "2, 27, 3, 1, fill, fill");
+		panel_19.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblrgang = new JLabel("\u00C5rgang:");
+		panel_19.add(lblrgang, "1, 1, right, default");
+		
+		txtYear = new JTextField();
+		panel_19.add(txtYear, "3, 1, fill, default");
+		txtYear.setColumns(10);
+		
 		JPanel panel_16 = new JPanel();
-		panel_2.add(panel_16, "2, 25, 3, 1, fill, fill");
+		panel_2.add(panel_16, "2, 29, 3, 1, fill, fill");
 		panel_16.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -352,7 +391,7 @@ class CarInfoDialog extends JDialog {
 		txtMileage.setColumns(10);
 
 		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, "2, 27, 3, 1, fill, fill");
+		panel_2.add(panel_3, "2, 31, 3, 1, fill, fill");
 		panel_3.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -451,7 +490,7 @@ class CarInfoDialog extends JDialog {
 		
 		Utilities.addEscapeListener(this);
 		Dimension minSize = new Dimension(500,350);
-		this.setMinimumSize(new Dimension(725, 450));
+		this.setMinimumSize(new Dimension(725, 500));
 		this.setVisible(true);
 	}
 	
@@ -473,6 +512,7 @@ class CarInfoDialog extends JDialog {
 	private void populate(){
 		setText(txtRegnr, car.getRegNr());
 		setText(txtVin, car.getVin());
+		setText(txtYear, String.valueOf(car.getYear()));
 		
 		if(car.getExtra() != null){
 			setText(txtType, car.getExtra().getType());
@@ -488,6 +528,7 @@ class CarInfoDialog extends JDialog {
 			setText(txtModel, car.getModel());
 			setText(txtBrand, car.getBrand());
 			setText(txtMileage, String.valueOf(car.getMileage()));
+			setText(txtFirstReg, car.getExtra().getFirstRegDate());
 		}
 		
 		if(car.getInspections() != null && car.getInspections().size() > 0){
