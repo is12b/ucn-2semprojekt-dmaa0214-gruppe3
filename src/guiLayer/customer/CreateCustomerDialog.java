@@ -31,6 +31,7 @@ import ctrLayer.interfaceLayer.IFCustomerCtr;
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;
 import exceptions.SubmitException;
+import javax.swing.JTextField;
 
 /**
  * Class for CreateCustomerDialog
@@ -56,6 +57,7 @@ public class CreateCustomerDialog extends JDialog {
 	private JButton btnCreate;
 	private JTextFieldLimit txtEmail;
 	private Car car;
+	private JTextFieldLimit txtYear;
 
 	public CreateCustomerDialog(MainGUI parent) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -191,7 +193,7 @@ public class CreateCustomerDialog extends JDialog {
 					ColumnSpec.decode("min(50dlu;default):grow"),
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("default:grow"),},
-					new RowSpec[] {
+				new RowSpec[] {
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.RELATED_GAP_ROWSPEC,
@@ -252,6 +254,15 @@ public class CreateCustomerDialog extends JDialog {
 						getCarInfo();
 					}
 				});
+				{
+					JLabel lblYear = new JLabel("\u00C5rgang");
+					carPanel.add(lblYear, "2, 10, left, default");
+				}
+				{
+					txtYear = new JTextFieldLimit(6, true);
+					carPanel.add(txtYear, "4, 10, fill, default");
+					txtYear.setColumns(10);
+				}
 				carPanel.add(btnGetCarInfo, "2, 16, 3, 1, default, center");
 			}
 		}
@@ -302,7 +313,7 @@ public class CreateCustomerDialog extends JDialog {
 		String msg = "Bekræft venligst at den fundne bil er den ønskede:"
 				+ "\n"
 				+ "\nMærke: " + car.getBrand() + ", " + car.getModel()
-				+ "\nÅrgang: " + car.getYear()
+				+ "\nFørste Reg.dato: " + car.getYear()
 				+ "\nRegnr.: " + car.getRegNr()
 				+ "\nStelnr. : " + car.getVin();
 		int c = JOptionPane.showConfirmDialog(this, msg, "Bekræft", JOptionPane.YES_NO_OPTION);
@@ -319,6 +330,9 @@ public class CreateCustomerDialog extends JDialog {
 			txtVin.setText(car.getVin());
 			txtBrand.setText(car.getBrand());
 			txtModel.setText(car.getModel());
+			if (car.getYear() > 0) {
+				txtYear.setText(String.valueOf(car.getYear()));
+			}
 		}
 	}
 
