@@ -1,10 +1,10 @@
 package ctrLayer;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dbLayer.DBInspection;
 import dbLayer.interfaceLayer.IFDBInspection;
+import exceptions.DBException;
 import modelLayer.Car;
 import modelLayer.Inspection;
 
@@ -29,7 +29,7 @@ public class InspectionCtr {
 		return dbInspec.getInspections(car);
 	}
 	
-	public void insertInspection(String date, String result, Car car) throws SQLException{
+	public void insertInspection(String date, String result, Car car) throws DBException{
 		Inspection inspec = new Inspection();
 		inspec.setDate(date);
 		inspec.setResult(result);
