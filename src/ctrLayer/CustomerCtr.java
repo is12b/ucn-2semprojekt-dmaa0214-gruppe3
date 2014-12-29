@@ -1,7 +1,10 @@
 package ctrLayer;
 
 import java.util.ArrayList;
+
+import modelLayer.Car;
 import modelLayer.Customer;
+import ctrLayer.interfaceLayer.IFCarCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
 import dbLayer.DBCustomer;
 import dbLayer.interfaceLayer.IFDBCustomer;
@@ -126,6 +129,14 @@ public class CustomerCtr implements IFCustomerCtr {
 			throw new ObjectNotExistException("Ingen kunde fundet");
 		}
 		return cust;
+	}
+
+	
+	// Iteration 2
+	@Override
+	public Car getCarData(String regOrVin) throws ObjectNotExistException {
+		IFCarCtr cCtr = new CarCtr();
+		return cCtr.getCarData(regOrVin);
 	}
 
 }

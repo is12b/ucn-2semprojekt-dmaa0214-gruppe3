@@ -17,6 +17,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableBody;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
+import exceptions.ObjectNotExistException;
 import modelLayer.CarExtra;
 
 public class CarScraper {
@@ -30,18 +31,23 @@ public class CarScraper {
 	public CarExtra getExtra(Car car) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		String regNr = car.getRegNr();
 
+		return getExtra(regNr, car);
+	}
+	
+	private CarExtra getExtra(String regOrVin, Car car) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		CarExtra ext = new CarExtra();
 	    webClient = new WebClient();
-	    finalPage = getExecutedDMRPage(true, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_nfpb=true&_pageLabel=vis_koeretoej_side&_nfls=false");
+	    webClient.getOptions().setCssEnabled(false);
+	    finalPage = getExecutedDMRPage(true, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_nfpb=true&_pageLabel=vis_koeretoej_side&_nfls=false");
 	    
 	    if(getSpanValueByKey("Stelnummer:") != "Ukendt") {
 	    
 		    writeVehicleData(ext, car);
 		    
-		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=1&_pageLabel=vis_koeretoej_side");
+		    finalPage = getExecutedDMRPage(false, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=1&_pageLabel=vis_koeretoej_side");
 		    writeTechnicalData(ext);
 		    
-		    finalPage = getExecutedDMRPage(false, regNr, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=2&_pageLabel=vis_koeretoej_side");
+		    finalPage = getExecutedDMRPage(false, regOrVin, "https://motorregister.skat.dk/dmr-front/appmanager/skat/dmr?_nfpb=true&_windowLabel=kerne_vis_koeretoej&kerne_vis_koeretoej_actionOverride=%2Fdk%2Fskat%2Fdmr%2Ffront%2Fportlets%2Fkoeretoej%2Fnested%2FvisKoeretoej%2FselectTab&kerne_vis_koeretoejdmr_tabset_tab=2&_pageLabel=vis_koeretoej_side");
 		    writeInspectionData(ext, car);
 		    
 		    /*
@@ -109,8 +115,9 @@ public class CarScraper {
 	}
 	*/
 	private void writeVehicleData(CarExtra ext, Car car){
+		car.setRegNr(getSpanValueByKey("Registrerings­nummer:"));
 		car.setVin(getSpanValueByKey("Stelnummer:"));
-		car.setModel(getSpanValueByKey("Mærke, Model, Variant:"));
+		writeBrandAndModel(car);
 		ext.setType(getSpanValueByKey("Art:"));
 		ext.setLatestChangeVehicle(getSpanValueByKey("Seneste ændring:"));
 		ext.setFirstRegDate(getSpanValueByKey("Første registrerings­dato:"));
@@ -119,6 +126,12 @@ public class CarScraper {
 		ext.setStatus(getLabelValueByKey("Status:"));
 	}
 	
+	private void writeBrandAndModel(Car car) {
+		String mix = getSpanValueByKey("Mærke, Model, Variant:");
+		String[] split = mix.split(", ", 2);
+		car.setBrand(split[0]);
+		car.setModel(split[1]);
+	}
 
 	private void writeTechnicalData(CarExtra ext) {
 		ext.setTecTotalWeight(getLabelValueByKey("Teknisk totalvægt:"));
@@ -147,6 +160,7 @@ public class CarScraper {
 		ArrayList<Inspection> inspecs = new ArrayList<Inspection>();
 		try {
 			WebClient webClient = new WebClient();
+			webClient.getOptions().setCssEnabled(false);
 		    HtmlPage page = webClient.getPage(url);
 		    HtmlTableBody table = (HtmlTableBody) page.getByXPath("//table[@id='tblInspections']/tbody").get(0);
 			
@@ -173,6 +187,8 @@ public class CarScraper {
 		    }
 		    
 		    car.setInspections(inspecs);
+		    
+		    webClient.closeAllWindows();
 		} catch(Exception e) {
 			System.out.println(e);
 		}
@@ -202,5 +218,35 @@ public class CarScraper {
 				
 	}
 	*/
+
+	
+	/**
+	 * Method for get a new car object with all scraped data.
+	 * 
+	 * @param regOrVin the regNr or vin number of the car
+	 * @return a car object
+	 */
+	public Car getCarData(String regOrVin) throws ObjectNotExistException {
+		Car car = new Car();
+		
+		try {
+			CarExtra extra = getExtra(regOrVin, car);
+			car.setExtra(extra);
+		} catch (FailingHttpStatusCodeException e) {
+			throw new ObjectNotExistException("Trafikstyrelsen eller motorregisteret's hjemmeside er nede, prøv igen senere");
+			
+			//e.printStackTrace();
+		} catch (MalformedURLException e) {
+			throw new ObjectNotExistException("Bildataene kunne desværre ikke hentes, pga. en uventet fejl");
+			//e.printStackTrace();
+		} catch (IOException e) {
+			throw new ObjectNotExistException("Bildataene kunne desværre ikke hentes, pga. en uventet fejl");
+			//e.printStackTrace();
+		}
+		if (car.getRegNr() == null || car.getVin() == null) {
+			throw new ObjectNotExistException("Der blev ikke fundet noget på søgningen: " + regOrVin);
+		}
+		return car;
+	}
 
 }
