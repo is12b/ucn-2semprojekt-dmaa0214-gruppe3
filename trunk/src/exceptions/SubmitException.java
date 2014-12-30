@@ -1,5 +1,7 @@
 package exceptions;
 
+import java.awt.Component;
+
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -21,7 +23,7 @@ public class SubmitException extends Exception {
 	public SubmitException(String arg0, JComboBox<?> cmb) {
 		super(arg0);
 		if(cmb != null) {
-			parent = cmb;
+			this.parent = cmb;
 			cmb.requestFocusInWindow();
 		}
 	}
@@ -34,7 +36,7 @@ public class SubmitException extends Exception {
 	public SubmitException(String arg0, JTextField field) {
 		super(arg0);
 		if(field != null) {
-			parent = field;
+			this.parent = field;
 			field.requestFocusInWindow();
 		}
 	}
@@ -52,6 +54,14 @@ public class SubmitException extends Exception {
 	 * Show an error popup with the error text.
 	 */
 	public void showError(){
+		showError(parent);
+	}
+	
+	/**
+	 * Show an error popup with the error text.
+	 * @param parent the parent to set locate of error popup to
+	 */
+	public void showError(Component parent) {
 		JOptionPane.showMessageDialog(parent, getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 	}
 

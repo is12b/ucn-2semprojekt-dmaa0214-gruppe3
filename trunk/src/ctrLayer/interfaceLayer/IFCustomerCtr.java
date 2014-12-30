@@ -6,6 +6,7 @@ import modelLayer.Car;
 import modelLayer.Customer;
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;
+import exceptions.SubmitException;
 
 /**
  * Class for IFCustomerCtr
@@ -44,6 +45,7 @@ public interface IFCustomerCtr {
 	 */
 	public Customer getCustomerByRegNr(String regNr) throws ObjectNotExistException;
 
+	// Iteration 2
 	/**
 	 * @param name
 	 * @param phoneNumber
@@ -55,10 +57,13 @@ public interface IFCustomerCtr {
 	 * @return
 	 * @throws DBException
 	 */
-	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, String city, int cvr, String email, boolean hidden) throws DBException;
-
+	public Customer createCustomer(String name, String phoneNumber,
+			String address, int postalCode, String city, int cvr, String email,
+			boolean hidden, Car car, String carRegNr, String carVIN,
+			String carBrand, String carModel, int carMileage, int carYear)
+			throws SubmitException, DBException;
 	
-	// Iteration 2
+	
 	/**
 	 * Method for get a new car object with all scraped data.
 	 * 

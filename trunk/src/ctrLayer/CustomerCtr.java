@@ -1,6 +1,8 @@
 package ctrLayer;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import modelLayer.Car;
 import modelLayer.Customer;
@@ -11,71 +13,66 @@ import dbLayer.interfaceLayer.IFDBCustomer;
 import exceptions.DBException;
 import exceptions.DBNotFoundException;
 import exceptions.ObjectNotExistException;
+import exceptions.SubmitException;
 
 public class CustomerCtr implements IFCustomerCtr {
 
 	@Override
-	public Customer createCustomer(String name, String phoneNumber, String address, int postalCode, String city, int cvr, String email, boolean hidden) throws DBException {
-		IFDBCustomer dbCus = new DBCustomer();
-		Customer newCustomer = new Customer(name, phoneNumber, address, postalCode, city, cvr, email, hidden);
-		dbCus.insertCustomer(newCustomer);
-		
-		return newCustomer;
-	}
-
-	@Override
-	public Customer updateCustomer(Customer customer, String name, String phoneNumber, String address, String city, int postalCode, int cvr, String email, boolean hidden) throws ObjectNotExistException, DBException {
+	public Customer updateCustomer(Customer customer, String name,
+			String phoneNumber, String address, String city, int postalCode,
+			int cvr, String email, boolean hidden)
+			throws ObjectNotExistException, DBException {
 
 		IFDBCustomer dbCus = new DBCustomer();
 		Customer tempCus = null;
 		try {
 			tempCus = customer.clone();
-		} catch (CloneNotSupportedException e) {
-			System.out.println("CustomerCtr: CloneNotSupportedException: "+ e.getMessage());
-			//e.printStackTrace();
-		}
-		
-		final boolean setCity = !city.trim().isEmpty();
-		final boolean setName = !name.trim().isEmpty();
-		final boolean setPhoneNumber = !phoneNumber.trim().isEmpty();
-		final boolean setAddress = !address.trim().isEmpty();
-		final boolean setPostalCode = postalCode != 0;
-		final boolean setCvr = cvr != 0;
-		final boolean setEmail = !email.trim().isEmpty();
 
-		if(setCity) {
-			customer.setCity(city);
-		}
-		
-		if(setName) {
-			customer.setName(name);
-		}
-		if(setPhoneNumber) {
-			customer.setPhoneNumber(phoneNumber);
-		}
-		if(setAddress) {
-			customer.setAddress(address);
-		}
-		if(setPostalCode) {
-			customer.setPostalCode(postalCode);
-		}
-		if(setCvr) {
-			customer.setCvr(cvr);
-		}
-		if(setEmail) {
-			customer.setEmail(email);
-		}
-		
-		customer.setHidden(hidden);
-		try {
+
+			final boolean setCity = !city.trim().isEmpty();
+			final boolean setName = !name.trim().isEmpty();
+			final boolean setPhoneNumber = !phoneNumber.trim().isEmpty();
+			final boolean setAddress = !address.trim().isEmpty();
+			final boolean setPostalCode = postalCode != 0;
+			final boolean setCvr = cvr != 0;
+			final boolean setEmail = !email.trim().isEmpty();
+
+			if(setCity) {
+				customer.setCity(city);
+			}
+
+			if(setName) {
+				customer.setName(name);
+			}
+			if(setPhoneNumber) {
+				customer.setPhoneNumber(phoneNumber);
+			}
+			if(setAddress) {
+				customer.setAddress(address);
+			}
+			if(setPostalCode) {
+				customer.setPostalCode(postalCode);
+			}
+			if(setCvr) {
+				customer.setCvr(cvr);
+			}
+			if(setEmail) {
+				customer.setEmail(email);
+			}
+
+			customer.setHidden(hidden);
+
 			dbCus.updateCustomer(customer);
 		} catch(DBNotFoundException e){
 			throw new ObjectNotExistException("Kunden blev ikke fundet");
 		} catch(DBException e) {
 			customer.setToClone(tempCus);
 			throw new DBException(e.getMessage());
+		} catch (CloneNotSupportedException e) {
+			System.out.println("CustomerCtr: CloneNotSupportedException: "+ e.getMessage());
+			//e.printStackTrace();
 		}
-		
+
 		return customer;
 	}
 
@@ -137,6 +134,107 @@ public class CustomerCtr implements IFCustomerCtr {
 	public Car getCarData(String regOrVin) throws ObjectNotExistException {
 		IFCarCtr cCtr = new CarCtr();
 		return cCtr.getCarData(regOrVin);
+	}
+
+	@Override
+	public Customer createCustomer(String name, String phoneNumber,
+			String address, int postalCode, String city, int cvr, String email,
+			boolean hidden, Car car, String carRegNr, String carVIN,
+			String carBrand, String carModel, int carMileage, int carYear)
+			throws SubmitException, DBException {
+		
+		name = getFixedString(name, "Kundenavnet");
+		phoneNumber = getFixedString(phoneNumber, "Tlf-nummeret");
+		address = getFixedString(address, "Adressen");
+		postalCode = getFixedInt(postalCode, 1, "Postnummeret");
+		email = getEmail(email);
+		
+		Customer cus = new Customer(name, phoneNumber, address, postalCode, city, cvr, email, hidden);
+		
+		car = getFixedCar(car, carRegNr, carVIN, carBrand, carModel, carMileage, carYear, cus);
+		if (car != null) {
+			System.out.println("bil tilføjet til kunde");
+			cus.addCar(car);
+		}
+		
+		IFDBCustomer dbCus = new DBCustomer();
+		dbCus.insertCustomer(cus);
+		
+		return cus;
+	}
+	
+	private Car getFixedCar(Car car, String regNr, String vin,
+			String brand, String model, int mileage, int year, Customer owner) throws SubmitException {
+		regNr = getFixedString(regNr);
+		vin = getFixedString(vin);
+		brand = getFixedString(brand);
+		model = getFixedString(model);
+		if (car != null) {
+			if (regNr == null || vin == null) {
+				throw new SubmitException("Hvis der skal oprettes en bil sammen med kunden"
+						+ "\nskal RegNr. eller Stelnr. udfyldes");
+			}
+			car.setRegNr(regNr);
+			car.setVin(vin);
+			car.setBrand(brand);
+			car.setModel(model);
+			car.setMileage(mileage);
+			car.setYear(year);
+			
+		} else {
+			if (regNr != null || vin != null) {
+				car = new Car(brand, model, regNr, vin, mileage, year, owner);
+			} else {
+				if (brand != null || model != null || mileage != -1 || year != -1) {
+					throw new SubmitException("Hvis der skal oprettes en bil sammen med kunden"
+							+ "\nskal RegNr. eller Stelnr. udfyldes");
+				}
+			}
+		}
+		
+		return car;
+	}
+		
+	private int getFixedInt(int i, int minValue, String reqDescription) throws SubmitException {
+		if (i < minValue) {
+			throw new SubmitException(reqDescription + " skal udfyldes");
+		}
+		return i;
+	}
+	
+	private String getFixedString(String str) {
+		String ret = null;
+		try {
+			ret = getFixedString(str, null);
+		} catch (SubmitException e) {
+			//Don't happen 
+			//e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	private String getFixedString(String str, String reqDescription) throws SubmitException {
+		String ret = null;
+		if (str != null && !str.trim().isEmpty()) {
+			ret = str;
+		}
+		if (reqDescription != null && ret == null) {
+			throw new SubmitException(reqDescription + " skal udfyldes");
+		}
+		return ret;
+	}
+
+	private String getEmail(String email) throws SubmitException {
+		if(!email.trim().isEmpty()) {
+			Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+			Matcher matcher = pattern.matcher(email);
+			if (!matcher.matches()) {
+				throw new SubmitException("Emailen er ikke angivet i korrekt format");
+			}
+		} else {
+			email = null;
+		}
+		return email;
 	}
 
 }

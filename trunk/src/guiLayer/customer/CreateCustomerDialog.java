@@ -1,5 +1,8 @@
 package guiLayer.customer;
 
+import exceptions.DBException;
+import exceptions.ObjectNotExistException;
+import exceptions.SubmitException;
 import guiLayer.MainGUI;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
@@ -8,6 +11,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import modelLayer.Car;
+import modelLayer.Inspection;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -28,10 +33,6 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CustomerCtr;
 import ctrLayer.interfaceLayer.IFCustomerCtr;
-import exceptions.DBException;
-import exceptions.ObjectNotExistException;
-import exceptions.SubmitException;
-import javax.swing.JTextField;
 
 /**
  * Class for CreateCustomerDialog
@@ -58,6 +59,7 @@ public class CreateCustomerDialog extends JDialog {
 	private JTextFieldLimit txtEmail;
 	private Car car;
 	private JTextFieldLimit txtYear;
+	private JTextFieldLimit txtMileage;
 
 	public CreateCustomerDialog(MainGUI parent) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -230,40 +232,49 @@ public class CreateCustomerDialog extends JDialog {
 				txtVin.setColumns(10);
 			}
 			{
-				JLabel lblBrand = new JLabel("Fabrikant");
-				carPanel.add(lblBrand, "2, 6, left, default");
-			}
-			{
-				txtBrand = new JTextFieldLimit(30, false);
-				carPanel.add(txtBrand, "4, 6, fill, default");
-				txtBrand.setColumns(10);
-			}
-			{
-				JLabel lblModel = new JLabel("Model");
-				carPanel.add(lblModel, "2, 8, left, default");
-			}
-			{
-				txtModel = new JTextFieldLimit(40, false);
-				carPanel.add(txtModel, "4, 8, fill, default");
-				txtModel.setColumns(10);
-			}
-			{
 				JButton btnGetCarInfo = new JButton("Hent biloplysninger");
 				btnGetCarInfo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						getCarInfo();
 					}
 				});
+				carPanel.add(btnGetCarInfo, "2, 6, 3, 1, center, center");
+				{
+					JLabel lblBrand = new JLabel("Fabrikant");
+					carPanel.add(lblBrand, "2, 8, left, default");
+				}
+				{
+					txtBrand = new JTextFieldLimit(30, false);
+					carPanel.add(txtBrand, "4, 8, fill, default");
+					txtBrand.setColumns(10);
+				}
+				{
+					JLabel lblModel = new JLabel("Model");
+					carPanel.add(lblModel, "2, 10, left, default");
+				}
+				{
+					txtModel = new JTextFieldLimit(40, false);
+					carPanel.add(txtModel, "4, 10, fill, default");
+					txtModel.setColumns(10);
+				}
 				{
 					JLabel lblYear = new JLabel("\u00C5rgang");
-					carPanel.add(lblYear, "2, 10, left, default");
+					carPanel.add(lblYear, "2, 12, left, default");
 				}
 				{
 					txtYear = new JTextFieldLimit(6, true);
-					carPanel.add(txtYear, "4, 10, fill, default");
+					carPanel.add(txtYear, "4, 12, fill, default");
 					txtYear.setColumns(10);
 				}
-				carPanel.add(btnGetCarInfo, "2, 16, 3, 1, default, center");
+				{
+					JLabel lblMileage = new JLabel("Km. stand");
+					carPanel.add(lblMileage, "2, 14, left, default");
+				}
+				{
+					txtMileage = new JTextFieldLimit(8, true);
+					carPanel.add(txtMileage, "4, 14, fill, default");
+					txtMileage.setColumns(10);
+				}
 			}
 		}
 		{
@@ -333,6 +344,15 @@ public class CreateCustomerDialog extends JDialog {
 			if (car.getYear() > 0) {
 				txtYear.setText(String.valueOf(car.getYear()));
 			}
+			ArrayList<Inspection> inspecs = car.getInspections();
+			if (inspecs != null && inspecs.size() != 0) {
+				String mileage = inspecs.get(0).getKm();
+				System.out.println(inspecs.get(0));
+				System.out.println(mileage);
+				mileage = mileage.replace(".", "");
+				System.out.println(">"+mileage+"<");
+				txtMileage.setText(mileage);
+			}
 		}
 	}
 
@@ -358,14 +378,21 @@ public class CreateCustomerDialog extends JDialog {
 
 			String email = txtEmail.getEmail();
 			
+			String regNr = txtRegNr.getText().trim();
+			String vin = txtVin.getText().trim();
+			String brand = txtBrand.getText().trim();
+			String model = txtModel.getText().trim();
+			int year = txtYear.getValue();
+			int mileage = txtMileage.getValue();
+			
 			IFCustomerCtr cCtr = new CustomerCtr();
-			cCtr.createCustomer(name, phone, address, postalCode, city, cvr, email, false);
+			cCtr.createCustomer(name, phone, address, postalCode, city, cvr, email, false, car, regNr, vin, brand, model, mileage, year);
 			
 			Utilities.showInformation(this, "Kunden er oprettet", "Kunde oprettet");
 			
-			this.dispose();
+			//this.dispose();
 		} catch (SubmitException e) {
-			e.showError();
+			e.showError(this);
 		} catch (DBException e) {
 			Utilities.showError(this, e.getMessage());
 		}
