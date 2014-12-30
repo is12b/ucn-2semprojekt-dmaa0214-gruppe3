@@ -56,7 +56,7 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public int insertCustomer(Customer customer) throws DBException {
+	public int insertCustomer(Customer customer) throws DBException { //TODO tilføj bil
 		int rc = -1;
 		final String fields = "(name, phoneNumber, address, postalCode, cvr, email, hidden)";
 		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?,?)";
@@ -136,7 +136,7 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public int deleteCustomer(Customer customer) throws DBException {
+	public int deleteCustomer(Customer customer) throws DBException { //TODO transaction? bilen skal vel slettes (forsøges) først?
 		int rc = -1;
 		String query = "DELETE FROM CUSTOMER WHERE CUSTOMERID = " + customer.getId();
 

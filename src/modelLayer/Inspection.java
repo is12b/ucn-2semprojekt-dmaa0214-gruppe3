@@ -120,9 +120,11 @@ public class Inspection implements Cloneable{
 	 * Method to set values in Object back to some values from a clone of it.
 	 * @param clone the backup clone of the object
 	 */
-	public void setToClone(Inspection clone) {
+	public void setToClone(Inspection clone) { //TODO nødvendig med clone?
 		this.date = clone.getDate();
 		this.result = clone.getResult();
+		this.km = clone.getKm();
+		
 	}
 	
 	@Override

@@ -18,7 +18,7 @@ public class Car implements Cloneable{
 	private boolean hidden = false;
 	private int year;
 	private Customer owner;
-	private ArrayList<Inspection> inspections;
+	private ArrayList<Inspection> inspections = new ArrayList<Inspection>();;
 	private CarExtra extra;
 	
 	/**
@@ -58,6 +58,7 @@ public class Car implements Cloneable{
 	 */
 	public Car(int id) {
 		this.id = id;
+		inspections = new ArrayList<Inspection>();
 	}
 	
 	/**
@@ -72,6 +73,7 @@ public class Car implements Cloneable{
 	 * @param owner
 	 */
 	public Car(String brand, String model, String regNr, String vin, int mileage, int year, Customer owner) {
+		inspections = new ArrayList<Inspection>();
 		this.brand = brand;
 		this.model = model;
 		this.regNr = regNr;
