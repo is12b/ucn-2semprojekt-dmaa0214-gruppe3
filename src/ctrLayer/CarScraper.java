@@ -271,9 +271,25 @@ public class CarScraper {
 			throw new ObjectNotExistException("Der blev ikke fundet noget på søgningen: " + regOrVin);
 		}
 		car.setYear(getYearFromRegDate(car));
+		
+		setMileage(car);
+		
 		return car;
 	}
 	
+	private void setMileage(Car car) {
+		ArrayList<Inspection> inspecs = car.getInspections();
+		if (inspecs != null && inspecs.size() != 0) {
+			String mileage = inspecs.get(0).getKm();
+			mileage = mileage.replace(".", "");
+			try {
+				car.setMileage(Integer.parseInt(mileage));
+			} catch (NumberFormatException e) {
+				//Do nothing
+			}
+		}
+	}
+
 	private int getYearFromRegDate(Car car) {
 		int regYear = 0;
 		try {

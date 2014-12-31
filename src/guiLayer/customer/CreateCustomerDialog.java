@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -23,7 +22,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import modelLayer.Car;
-
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -342,17 +340,9 @@ public class CreateCustomerDialog extends JDialog {
 			if (car.getYear() > 0) {
 				txtYear.setText(String.valueOf(car.getYear()));
 			}
-			/*
-			ArrayList<Inspection> inspecs = car.getInspections();
-			System.out.println("inspecs: " + inspecs);
-			if (inspecs != null && inspecs.size() != 0) {
-				String mileage = inspecs.get(0).getKm();
-				System.out.println(inspecs.get(0));
-				System.out.println(mileage);
-				mileage = mileage.replace(".", "");
-				System.out.println(">"+mileage+"<");
-				txtMileage.setText(mileage);
-			}*/
+			if (car.getMileage() > 0) {
+				txtMileage.setText(String.valueOf(car.getMileage()));
+			}
 		}
 	}
 
