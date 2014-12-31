@@ -3,14 +3,15 @@ package guiLayer.customer;
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;
 import exceptions.SubmitException;
-import guiLayer.MainGUI;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -22,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import modelLayer.Car;
+
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -50,23 +52,25 @@ public class CreateCustomerDialog extends JDialog {
 	private JTextFieldLimit txtVin;
 	private JTextFieldLimit txtBrand;
 	private JTextFieldLimit txtModel;
-	private MainGUI parent;
 	private JButton btnCreate;
 	private JTextFieldLimit txtEmail;
 	private Car car;
 	private JTextFieldLimit txtYear;
 	private JTextFieldLimit txtMileage;
 
-	public CreateCustomerDialog(MainGUI parent) {
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.parent = parent;
+	public CreateCustomerDialog(CustomerPanel parent) {
+		
 		buildDialog();
+		setLocationRelativeTo(parent);
+		getRootPane().setDefaultButton(btnCreate);
+		setVisible(true);
 	}
 
 	private void buildDialog() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Opret kunde");
-		setBounds(100, 100, 450, 300);
+		setMinimumSize(new Dimension(500, 300));
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -179,7 +183,7 @@ public class CreateCustomerDialog extends JDialog {
 					kundePanel.add(txtEmail, "4, 14, fill, default");
 					txtEmail.setColumns(10);
 				}
-				kundePanel.add(btnCreate, "2, 16, 3, 1, default, center");
+				kundePanel.add(btnCreate, "2, 16, 3, 1, center, center");
 			}
 		}
 		{
@@ -273,11 +277,7 @@ public class CreateCustomerDialog extends JDialog {
 				}
 			}
 		}
-		{
-
-			this.setVisible(true);
-		}
-		parent.setDefaultButton(btnCreate);
+		
 	}
 
 	private void getCarInfo() {
@@ -308,7 +308,7 @@ public class CreateCustomerDialog extends JDialog {
 			}
 			Utilities.showError(this,e.getMessage());
 		} catch (SubmitException e) {
-			e.showError();
+			e.showError(this);
 		}
 	}
 
