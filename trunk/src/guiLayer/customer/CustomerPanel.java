@@ -22,11 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import modelLayer.Customer;
-
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -50,7 +50,6 @@ public class CustomerPanel extends JPanel implements IFTabbedPanel  {
 	private JTextFieldLimit txtCvr;
 	private JTable table;
 	private CustomerTableModel model;
-	private ArrayList<Customer> customers;
 	private ArrayList<JTextField> customerFields;
 	private JButton btnSearch;
 
@@ -179,9 +178,12 @@ public class CustomerPanel extends JPanel implements IFTabbedPanel  {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "3, 2, fill, fill");
 
-		table = new JTable();
 		model = new CustomerTableModel();
-		table.setModel(model);
+		
+		table = new JTable(model);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setAutoCreateRowSorter(true);
+		table.getRowSorter().toggleSortOrder(0);
 		scrollPane.setViewportView(table);
 
 		table.addMouseListener(new MouseAdapter() {
@@ -195,31 +197,43 @@ public class CustomerPanel extends JPanel implements IFTabbedPanel  {
 				searchCustomer();
 			}
 		});
-
-		customers = new ArrayList<Customer>();
+		
+		
 	}
 
 	private void searchCustomer() {
 
 		IFCustomerCtr cCtr = new CustomerCtr();
+		ArrayList<Customer> cList = new ArrayList<Customer>();
 		
 		try{
-			if(txtRegNr.isEnabled()) {
-				customers.add(cCtr.getCustomerByRegNr(txtRegNr.getText().trim()));
+			String regNr = txtRegNr.getText().trim();
+			String phone = txtPhone.getText().trim();
+			String name = txtName.getText().trim();
+			String cvr = txtCvr.getText().trim();
+			
+			if(!regNr.isEmpty()) {
+				Customer cus = cCtr.getCustomerByRegNr(regNr);
+				if (cus != null) {
+					cList.add(cus);
+				}
 			}
-			else if(txtPhone.isEnabled()) {
-				customers = cCtr.searchCustomersByPhone(txtPhone.getText().trim(), true);
+			else if(!phone.isEmpty()) {
+				cList = cCtr.searchCustomersByPhone(phone, true);
 			}
-			else if(txtName.isEnabled()) {
-				customers = cCtr.searchCustomersByName(txtName.getText(), true);
+			else if(!name.isEmpty()) {
+				cList = cCtr.searchCustomersByName(name, true);
 			}
-			else if(txtCvr.isEnabled()) {
-				customers.add(cCtr.getCustomerByCvr(txtCvr.getText().trim(), true));
+			else if(!cvr.isEmpty()) {
+				Customer cus = cCtr.getCustomerByCvr(cvr, true);
+				if (cus != null) {
+					cList.add(cus);
+				}
 			}
 		}catch(ObjectNotExistException e){
 			Utilities.showError(this, e.getMessage());
 		}
-		updateTable();
+		updateModel(cList);
 	}
 
 	private void createCustomer() {
@@ -228,28 +242,27 @@ public class CustomerPanel extends JPanel implements IFTabbedPanel  {
 		createDialog.dispose();
 	}
 
-	private void updateTable() {
-		model.refresh(customers);
-		model.fireTableDataChanged();
+	private void updateModel(ArrayList<Customer> cList) {
+		model.refresh(cList);
 	}
 	
-	/**
-	 * @param e
-	 */
 	private void mouseClickCust(MouseEvent e) {
 		if (e.getClickCount() == 2) {
-			JTable target = (JTable)e.getSource();
-			int row = target.getSelectedRow();
-			Customer customer = customers.get(row);
-			new CustomerInfoDialog(customer);
-			updateTable();
+			int row = table.rowAtPoint(e.getPoint());
+			table.setRowSelectionInterval(row, row);
+			if (row != -1) {
+				int modelRow = table.convertRowIndexToModel(row);
+				Customer cus = model.getCustomerAt(modelRow);
+				if (cus != null) {
+					CustomerInfoDialog cDialog = new CustomerInfoDialog(this, cus);
+					cDialog.setVisible(false);
+					cDialog.dispose();
+					model.fireTableDataChanged();
+				}
+			}
 		}
 	}
-	
-	/**
-	 * Misc
-	 */
-	
+		
 	private void addDocumentListener(ArrayList<JTextField> fields) {
 		for(JTextField f : fields){
 			f.getDocument().addDocumentListener(new DocumentListenerChange(fields, f));
