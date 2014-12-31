@@ -29,7 +29,7 @@ public class TestDBCar {
 		Car car = new Car();
 		car.setOwner(new Customer(1));
 		car.setRegNr("FA21984");
-		int rc = dbCar.insertCar(car);
+		int rc = dbCar.insertCar(car, true);
 		
 		if(rc == -1){
 			test = false;

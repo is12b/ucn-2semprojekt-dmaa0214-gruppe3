@@ -30,7 +30,7 @@ public class CarCtr implements IFCarCtr {
 		Car car = new Car(brand, model, regNr, vin, mileage, year, owner);
 		
 		IFDBCar dbCar = new DBCar(); 
-		dbCar.insertCar(car);
+		dbCar.insertCar(car, true);
 
 		return car;
 	}

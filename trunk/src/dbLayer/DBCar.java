@@ -5,14 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import modelLayer.Car;
+import modelLayer.CarExtra;
 import modelLayer.Customer;
+import modelLayer.Inspection;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import dbLayer.interfaceLayer.IFDBCar;
+import dbLayer.interfaceLayer.IFDBCarExtra;
 import dbLayer.interfaceLayer.IFDBCustomer;
 import dbLayer.interfaceLayer.IFDBInspection;
 import exceptions.DBException;
@@ -53,10 +57,14 @@ public class DBCar implements IFDBCar {
 	}
 
 	@Override
-	public int insertCar(Car car) throws DBException {
+	public int insertCar(Car car, boolean selfControlTransaction) throws DBException { //TODO ændre, så hvis bilen eksisterer skal den gemmes? plus evt. advarsel i gui?
 		int rc = -1;
 		
 		try{
+			if (selfControlTransaction) {
+				DBConnection.startTransaction();
+			}
+			
 			String query = "INSERT INTO CAR"
 					+ " (CustomerID, Brand, Model, RegNR, Mileage, VIN, Hidden, Year) VALUES "
 					+ "(?,?,?,?,?,?,?,?)";
@@ -65,40 +73,39 @@ public class DBCar implements IFDBCar {
 			stmt.setInt(1, car.getOwner().getId());
 			
 			if(car.getBrand() == null || car.getBrand().isEmpty()){
-				stmt.setNull(2, java.sql.Types.VARCHAR);
+				stmt.setNull(2, Types.VARCHAR);
 			} else {
 				stmt.setString(2, car.getBrand());
 			}
 			
 			if(car.getModel() == null || car.getModel().isEmpty()){
-				stmt.setNull(3, java.sql.Types.VARCHAR);
+				stmt.setNull(3, Types.VARCHAR);
 			}else{
 				stmt.setString(3, car.getModel());
 			}
 			
 			if(car.getRegNr() == null || car.getRegNr().isEmpty()){
-				stmt.setNull(4, java.sql.Types.VARCHAR);
+				stmt.setNull(4, Types.VARCHAR);
 			}else{
 				stmt.setString(4, car.getRegNr());
 			}
 			
-			if(car.getMileage() == 0){
-				stmt.setNull(5, java.sql.Types.INTEGER);
+			if(car.getMileage() == 0 || car.getMileage() == -1){
+				stmt.setNull(5, Types.INTEGER);
 			}else{
 				stmt.setInt(5, car.getMileage());
 			}
 			
 			if(car.getVin() == null || car.getVin().isEmpty()){
-				stmt.setNull(6, java.sql.Types.VARCHAR);
+				stmt.setNull(6, Types.VARCHAR);
 			}else{
 				stmt.setString(6, car.getVin());
 			}
 			
-
 			stmt.setBoolean(7, car.isHidden());
 			
-			if(car.getYear() == 0){
-				stmt.setNull(8, java.sql.Types.INTEGER);
+			if(car.getYear() == 0 || car.getYear() == -1){
+				stmt.setNull(8, Types.INTEGER);
 			}else{
 				stmt.setInt(8, car.getYear());
 			}
@@ -111,17 +118,42 @@ public class DBCar implements IFDBCar {
 			}
 			
 			stmt.close();
+			
+			insertExtra(car);
+			insertInspections(car);
+			
+			if (selfControlTransaction) {
+				DBConnection.commitTransaction();
+			}
 		} catch (SQLException e) {
 			//e.printStackTrace();
-			throw new DBException("Bil", e);
+			if (selfControlTransaction) {
+				DBConnection.rollBackTransaction();
+			}
+			throw new DBException("Bilen", e);
 		}
 		
 		if (rc == 0) {
-			throw new DBNotFoundException("Bil", 1);
+			throw new DBNotFoundException("Bilen", 1);
 		}
 		
-		
 		return rc;
+	}
+
+	private void insertInspections(Car car) throws DBException {
+		ArrayList<Inspection> inspecs = car.getInspections();
+		if (inspecs != null && inspecs.size() != 0) {
+			IFDBInspection dbInspec = new DBInspection();
+			dbInspec.insertInspections(inspecs, car);
+		}
+	}
+
+	private void insertExtra(Car car) throws DBException {
+		CarExtra ext = car.getExtra();
+		if (car.getExtra() != null) {
+			IFDBCarExtra dbExtra = new DBCarExtra();
+			dbExtra.insertCarExtra(ext, car);
+		}
 	}
 
 	@Override
@@ -136,31 +168,31 @@ public class DBCar implements IFDBCar {
 			stmt.setQueryTimeout(5);
 			stmt.setInt(1, car.getOwner().getId());
 			if(car.getBrand() == null || car.getBrand().isEmpty()){
-				stmt.setNull(2, java.sql.Types.VARCHAR);
+				stmt.setNull(2, Types.VARCHAR);
 			} else {
 				stmt.setString(2, car.getBrand());
 			}
 			
 			if(car.getModel() == null || car.getModel().isEmpty()){
-				stmt.setNull(3, java.sql.Types.VARCHAR);
+				stmt.setNull(3, Types.VARCHAR);
 			}else{
 				stmt.setString(3, car.getModel());
 			}
 			
 			if(car.getRegNr() == null || car.getRegNr().isEmpty()){
-				stmt.setNull(4, java.sql.Types.VARCHAR);
+				stmt.setNull(4, Types.VARCHAR);
 			}else{
 				stmt.setString(4, car.getRegNr());
 			}
 			
 			if(car.getMileage() == 0){
-				stmt.setNull(5, java.sql.Types.INTEGER);
+				stmt.setNull(5, Types.INTEGER);
 			}else{
 				stmt.setInt(5, car.getMileage());
 			}
 			
 			if(car.getVin() == null || car.getVin().isEmpty()){
-				stmt.setNull(6, java.sql.Types.VARCHAR);
+				stmt.setNull(6, Types.VARCHAR);
 			}else{
 				stmt.setString(6, car.getVin());
 			}
@@ -169,7 +201,7 @@ public class DBCar implements IFDBCar {
 			stmt.setBoolean(7, car.isHidden());
 			
 			if(car.getYear() == 0){
-				stmt.setNull(8, java.sql.Types.INTEGER);
+				stmt.setNull(8, Types.INTEGER);
 			}else{
 				stmt.setInt(8, car.getYear());
 			}
@@ -181,11 +213,11 @@ public class DBCar implements IFDBCar {
 			stmt.close();
 		} catch (SQLException e) {
 			//e.printStackTrace();
-			throw new DBException("Bil", e);
+			throw new DBException("Bilen", e);
 		}
 		
 		if (rc == 0) {
-			throw new DBNotFoundException("Bil", 2);
+			throw new DBNotFoundException("Bilen", 2);
 		}
 		
 		
@@ -214,7 +246,7 @@ public class DBCar implements IFDBCar {
 			}
 		} catch (SQLException e) {
 			//e.printStackTrace();
-			throw new DBException("Bil", e);
+			throw new DBException("Bilen", e);
 		}
 		
 		if (rc == 0) {

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import modelLayer.Car;
@@ -56,30 +57,55 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public int insertCustomer(Customer customer) throws DBException { //TODO tilføj bil
+	public int insertCustomer(Customer customer) throws DBException {
 		int rc = -1;
 		final String fields = "(name, phoneNumber, address, postalCode, cvr, email, hidden)";
 		String query = "INSERT INTO CUSTOMER " + fields + " VALUES (?,?,?,?,?,?,?)";
 
 		try {
-			PreparedStatement stmt = con.prepareStatement(query);
+			DBConnection.startTransaction();
+			
+			PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setQueryTimeout(5);
 			updateFields(customer, stmt);
 			IFDBPostalcode dbPost = new DBPostalCode();
 			dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
 			rc = stmt.executeUpdate();
+			
+			ResultSet genRs = stmt.getGeneratedKeys();
+			if(genRs.next()){
+				customer.setId(genRs.getInt(1));
+			}
+			
 			stmt.close();
-		}catch(DBException e){
-			throw new DBException("PostNummer",e);
-		}catch(SQLException e) {
-			throw new DBException("Kunde", e);
+			
+			insertCars(customer);
+			
+			DBConnection.commitTransaction();
+		
+		} catch(SQLException e) {
+			System.out.println("DBCustomer.insertCustomer() - " + e);
+			System.out.println(e.getMessage());
+			DBConnection.rollBackTransaction();
+			throw new DBException("Kunden", e);
 		}
 		
-		if(rc == 0){
-			throw new DBNotFoundException("Kunde", 1);
+		if (rc == 0){
+			throw new DBNotFoundException("Kunden", 1);
 		}
 		
 		return rc;
+	}
+
+	private void insertCars(Customer customer) throws DBException {
+		ArrayList<Car> cars = customer.getCars();
+		
+		if (cars != null && cars.size() != 0) {
+			IFDBCar dbCar = new DBCar();
+			for (Car car : cars) {
+				dbCar.insertCar(car, false);
+			}
+		}
 	}
 
 	@Override
@@ -104,14 +130,12 @@ public class DBCustomer implements IFDBCustomer {
 			dbPost.insertPostalCode(customer.getPostalCode(), customer.getCity());
 			rc = stmt.executeUpdate();
 			stmt.close();
-		}catch(DBException e){
-			throw new DBException("PostNummer",e);
-		}catch(SQLException e) {
-			throw new DBException("Kunde", e);
+		} catch(SQLException e) {
+			throw new DBException("Kunden", e);
 		}
 		
 		if(rc == 0){
-			throw new DBNotFoundException("Kunde", 2);
+			throw new DBNotFoundException("Kunden", 2);
 		}
 		return rc;
 	}
@@ -126,8 +150,21 @@ public class DBCustomer implements IFDBCustomer {
 			stmt.setString(2, customer.getPhoneNumber());
 			stmt.setString(3, customer.getAddress());
 			stmt.setInt(4, customer.getPostalCode());
-			stmt.setInt(5, customer.getCvr());
-			stmt.setString(6, customer.getEmail());
+			
+			int cvr = customer.getCvr();
+			if (cvr == -1 || cvr == 0) {
+				stmt.setNull(5, Types.INTEGER);
+			} else {
+				stmt.setInt(5, cvr);
+			}
+			
+			String email = customer.getEmail();
+			if (email == null || email.isEmpty()) {
+				stmt.setNull(6, Types.VARCHAR);
+			} else {
+				stmt.setString(6, email);
+			}
+			
 			stmt.setBoolean(7, customer.getHidden());
 		} catch (Exception e) {
 			System.out.println("Error - updateFields - DBCustomer");
@@ -136,7 +173,7 @@ public class DBCustomer implements IFDBCustomer {
 	}
 
 	@Override
-	public int deleteCustomer(Customer customer) throws DBException { //TODO transaction? bilen skal vel slettes (forsøges) først?
+	public int deleteCustomer(Customer customer) throws DBException { //TODO transaction? bilen skal vel slettes (forsøges) først? hidden skal sættes tilbage ved fejl?
 		int rc = -1;
 		String query = "DELETE FROM CUSTOMER WHERE CUSTOMERID = " + customer.getId();
 
@@ -150,7 +187,7 @@ public class DBCustomer implements IFDBCustomer {
 				customer.setHidden(true);
 				rc = updateCustomer(customer);
 			} else {
-				throw new DBException("Kunde", e);
+				throw new DBException("Kunden", e);
 			}
 		}
 		return rc;

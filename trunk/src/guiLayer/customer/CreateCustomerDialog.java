@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,7 +23,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import modelLayer.Car;
-import modelLayer.Inspection;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -344,7 +342,9 @@ public class CreateCustomerDialog extends JDialog {
 			if (car.getYear() > 0) {
 				txtYear.setText(String.valueOf(car.getYear()));
 			}
+			/*
 			ArrayList<Inspection> inspecs = car.getInspections();
+			System.out.println("inspecs: " + inspecs);
 			if (inspecs != null && inspecs.size() != 0) {
 				String mileage = inspecs.get(0).getKm();
 				System.out.println(inspecs.get(0));
@@ -352,7 +352,7 @@ public class CreateCustomerDialog extends JDialog {
 				mileage = mileage.replace(".", "");
 				System.out.println(">"+mileage+"<");
 				txtMileage.setText(mileage);
-			}
+			}*/
 		}
 	}
 
@@ -390,7 +390,7 @@ public class CreateCustomerDialog extends JDialog {
 			
 			Utilities.showInformation(this, "Kunden er oprettet", "Kunde oprettet");
 			
-			//this.dispose();
+			this.dispose();
 		} catch (SubmitException e) {
 			e.showError(this);
 		} catch (DBException e) {

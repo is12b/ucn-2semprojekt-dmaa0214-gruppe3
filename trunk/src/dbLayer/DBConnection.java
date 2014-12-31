@@ -103,7 +103,7 @@ class DBConnection {
 	}
 
 	/**
-	 * Commiting Transaction
+	 * Committing Transaction
 	 */
 	static void commitTransaction() {
 		try {
