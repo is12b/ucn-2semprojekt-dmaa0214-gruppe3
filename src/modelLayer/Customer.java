@@ -18,13 +18,13 @@ public class Customer implements Cloneable{
 	private int cvr; 
 	private int id;
 	private boolean hidden = false;
-	private ArrayList<Car> cars;
+	private ArrayList<Car> cars = new ArrayList<Car>();
 	
 	/**
 	 * Instantiates a new customer.
 	 */
 	public Customer() {
-		
+		this.cars = new ArrayList<Car>();
 	}
 
 	/**
@@ -48,6 +48,7 @@ public class Customer implements Cloneable{
 		this.cvr = cvr;
 		this.email = email;
 		this.hidden = hidden;
+		this.cars = new ArrayList<Car>();
 	}
 
 	/**
@@ -57,6 +58,7 @@ public class Customer implements Cloneable{
 	 */
 	public Customer(int id) {
 		this.id = id;
+		this.cars = new ArrayList<Car>();
 	}
 	
 	/**

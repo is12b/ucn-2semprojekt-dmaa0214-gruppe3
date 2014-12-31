@@ -3,6 +3,7 @@ package ctrLayer;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import modelLayer.Car;
 import modelLayer.Inspection;
@@ -180,35 +181,40 @@ public class CarScraper {
 			webClient.getOptions().setCssEnabled(false);
 			webClient.getOptions().setJavaScriptEnabled(false);
 		    HtmlPage page = webClient.getPage(url);
-		    HtmlTableBody table = (HtmlTableBody) page.getByXPath("//table[@id='tblInspections']/tbody").get(0);
-			
-		    for (HtmlTableRow row : table.getRows()) {
-		    	Inspection inspec = new Inspection();
-		    	String[] data = new String[row.getChildElementCount()];
-		    	int i = 0;
-		    	for(HtmlTableCell td : row.getCells()){
-		    		if(!td.asXml().contains("<a")){
-		    			data[i] = td.asText();
-		    		}else{
-		    			HtmlAnchor a = (HtmlAnchor) td.getFirstByXPath("//a[@class='saveIcon']");
-		    			data[i] = "http://selvbetjening.trafikstyrelsen.dk" + a.getAttribute("href");
+		    List<?> tableInspecs = page.getByXPath("//table[@id='tblInspections']/tbody");
+		    if (tableInspecs.size() != 0) {
+		    	HtmlTableBody table = (HtmlTableBody) tableInspecs.get(0);
+
+		    	for (HtmlTableRow row : table.getRows()) {
+		    		Inspection inspec = new Inspection();
+		    		String[] data = new String[row.getChildElementCount()];
+		    		int i = 0;
+		    		for(HtmlTableCell td : row.getCells()){
+		    			if(!td.asXml().contains("<a")){
+		    				data[i] = td.asText();
+		    			}else{
+		    				HtmlAnchor a = (HtmlAnchor) td.getFirstByXPath("//a[@class='saveIcon']");
+		    				data[i] = "http://selvbetjening.trafikstyrelsen.dk" + a.getAttribute("href");
+		    			}
+		    			i++;
 		    		}
-		    		i++;
+		    		inspec.setDate(data[0]);
+		    		inspec.setResult(data[1]);
+		    		inspec.setKm(data[2]);
+		    		inspec.setRegNr(data[3]);
+		    		inspec.setUrl(data[4]);
+
+		    		inspecs.add(inspec);
 		    	}
-		    	inspec.setDate(data[0]);
-		    	inspec.setResult(data[1]);
-		    	inspec.setKm(data[2]);
-		    	inspec.setRegNr(data[3]);
-		    	inspec.setUrl(data[4]);
-		    	
-		    	inspecs.add(inspec);
+
+
+		    	car.setInspections(inspecs);
 		    }
-		    
-		    car.setInspections(inspecs);
-		    
 		    webClient.closeAllWindows();
 		} catch(Exception e) {
+			System.out.println("CarScraper.addInspections()");
 			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	/*

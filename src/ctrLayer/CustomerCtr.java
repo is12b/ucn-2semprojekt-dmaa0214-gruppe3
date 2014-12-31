@@ -180,6 +180,7 @@ public class CustomerCtr implements IFCustomerCtr {
 			car.setModel(model);
 			car.setMileage(mileage);
 			car.setYear(year);
+			car.setOwner(owner);
 			
 		} else {
 			if (regNr != null || vin != null) {

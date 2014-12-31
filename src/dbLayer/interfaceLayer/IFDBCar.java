@@ -52,9 +52,10 @@ public interface IFDBCar {
 	 * Insert Car into the database.
 	 *
 	 * @param car the Car
+	 * @param selfControlTransaction true if this method may control transactions
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int insertCar(Car car) throws DBException ;
+	public int insertCar(Car car, boolean selfControlTransaction) throws DBException ;
 	
 	/**
 	 * Update Car in the database.
