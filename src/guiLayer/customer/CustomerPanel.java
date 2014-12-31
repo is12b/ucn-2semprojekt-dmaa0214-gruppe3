@@ -223,7 +223,9 @@ public class CustomerPanel extends JPanel implements IFTabbedPanel  {
 	}
 
 	private void createCustomer() {
-		new CreateCustomerDialog(parent);
+		CreateCustomerDialog createDialog = new CreateCustomerDialog(this);
+		createDialog.setVisible(false);
+		createDialog.dispose();
 	}
 
 	private void updateTable() {

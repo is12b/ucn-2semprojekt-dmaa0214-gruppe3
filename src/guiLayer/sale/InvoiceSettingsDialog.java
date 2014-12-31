@@ -2,10 +2,12 @@ package guiLayer.sale;
 
 import exceptions.DBException;
 import exceptions.ObjectNotExistException;
+import guiLayer.MainGUI;
 import guiLayer.extensions.JTextFieldLimit;
 import guiLayer.extensions.Utilities;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,10 +53,12 @@ public class InvoiceSettingsDialog extends JDialog {
 	
 	/**
 	 * Create the dialog.
+	 * @param parent 
 	 */
-	public InvoiceSettingsDialog() {
+	public InvoiceSettingsDialog(MainGUI parent) {
 		
 		buildDialog();
+		setLocationRelativeTo(parent);
 		
 		IFSettingCtr sCtr = new SettingCtr();
 		txtAddress.setText(sCtr.getSettingByKey("INVOICE_ADDRESS").getValue());
@@ -68,13 +72,15 @@ public class InvoiceSettingsDialog extends JDialog {
 		txtCVR.setText(sCtr.getSettingByKey("INVOICE_CVR").getValue());
 		txtReg.setText(sCtr.getSettingByKey("INVOICE_REG").getValue());
 		txtAcc.setText(sCtr.getSettingByKey("INVOICE_ACC").getValue());
+		
+		setVisible(true);
 	}
 	
 	private void buildDialog(){
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("Faktura Indstillinger");
-		setBounds(100, 100, 450, 300);
+		setMinimumSize(new Dimension(450, 300));
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

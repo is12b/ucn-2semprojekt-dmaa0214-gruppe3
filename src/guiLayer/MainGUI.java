@@ -148,8 +148,8 @@ public class MainGUI extends JFrame {
 	}
 
 	private void openInvoiceSettings() {
-		InvoiceSettingsDialog iDialog = new InvoiceSettingsDialog();
-		iDialog.setVisible(true);
+		InvoiceSettingsDialog iDialog = new InvoiceSettingsDialog(this);
+		iDialog.setVisible(false);
 		iDialog.dispose();
 	}
 

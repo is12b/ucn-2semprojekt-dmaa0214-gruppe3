@@ -49,20 +49,6 @@ public class EmailSettingsDialog extends JDialog {
 	private JTextField txtFromText;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			final EmailSettingsDialog dialog = new EmailSettingsDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-			dialog.dispose();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public EmailSettingsDialog(MainGUI parent) {
