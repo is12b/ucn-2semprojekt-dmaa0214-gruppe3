@@ -28,7 +28,11 @@ public class CustomerTableModel extends AbstractTableModel {
 	}
 
 	public void refresh(ArrayList<Customer> customers) {
+		if (customers == null) {
+			customers = new ArrayList<Customer>();
+		}
 		this.customers = customers;
+		fireTableDataChanged();
 	}
 
 	@Override
@@ -56,9 +60,8 @@ public class CustomerTableModel extends AbstractTableModel {
 			} else if(cars.size() == 1) {
 				value = cars.get(0).getRegNr();
 			} else {
-				value = "Flere";
+				value = cars.size() + " biler";
 			}
-			//TODO
 		}
 		return value;
 	}
@@ -78,4 +81,9 @@ public class CustomerTableModel extends AbstractTableModel {
 		return value;
 	}
 
+	public Customer getCustomerAt(int rowIndex) {
+		Customer c = customers.get(rowIndex);
+		return c;
+	}
+	
 }

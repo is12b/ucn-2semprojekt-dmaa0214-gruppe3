@@ -54,20 +54,21 @@ public class CustomerInfoDialog extends JDialog {
 	private CarListModel carModel;
 	private JTextFieldLimit txtEmail;
 
-	public CustomerInfoDialog(Customer customer) {
+	public CustomerInfoDialog(CustomerPanel parent, Customer customer) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		buildDialog(customer);
+		this.customer = customer;
+		setLocationRelativeTo(parent);
+		setVisible(true);
 	}
 
 	/**
 	 * @param customer
 	 */
 	private void buildDialog(Customer customer) {
-		Dimension minSize = new Dimension(500, 200);
-		this.setMinimumSize(new Dimension(620, 200));
+		this.setMinimumSize(new Dimension(620, 300));
 		this.setModalityType(DEFAULT_MODALITY_TYPE);
 		setTitle("Kundeinformation");
-		setBounds(100, 100, 600, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -248,8 +249,6 @@ public class CustomerInfoDialog extends JDialog {
 			}
 
 			Utilities.addEscapeListener(this);
-			this.customer = customer;
-			this.setVisible(true);
 
 		}
 	} //END BuildDialog
