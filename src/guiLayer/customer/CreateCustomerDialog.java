@@ -4,6 +4,7 @@ import exceptions.DBException;
 import exceptions.ObjectNotExistException;
 import exceptions.SubmitException;
 import guiLayer.extensions.JTextFieldLimit;
+import guiLayer.extensions.PleaseWaitDialog;
 import guiLayer.extensions.Utilities;
 
 import java.awt.BorderLayout;
@@ -11,13 +12,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -235,7 +236,7 @@ public class CreateCustomerDialog extends JDialog {
 				JButton btnGetCarInfo = new JButton("Hent biloplysninger");
 				btnGetCarInfo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						getCarInfo();
+						pressedGetCarInfo();
 					}
 				});
 				carPanel.add(btnGetCarInfo, "2, 6, 3, 1, center, center");
@@ -280,12 +281,35 @@ public class CreateCustomerDialog extends JDialog {
 		
 	}
 
+	private void pressedGetCarInfo() {
+		PleaseWaitDialog dialog = new PleaseWaitDialog(this);
+		
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+			@Override
+			protected Void doInBackground() throws InterruptedException {
+				getCarInfo();
+				return null;
+			}
+			@Override
+			protected void done() {
+				dialog.dispose();
+			}
+		};
+		worker.execute();
+		dialog.setVisible(true);
+		try {
+			worker.get();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void getCarInfo() {
-		IFCustomerCtr cCtr = new CustomerCtr();
 		String regNr = txtRegNr.getText().trim();
 		String vin = txtVin.getText().trim();
 		Car car = null;
 		try {
+			IFCustomerCtr cCtr = new CustomerCtr();
 			if (!regNr.isEmpty()) {
 				car = cCtr.getCarData(regNr);
 			} else if (!vin.isEmpty()) {
@@ -312,10 +336,6 @@ public class CreateCustomerDialog extends JDialog {
 		}
 	}
 
-	/**
-	 * @param car2
-	 * @return
-	 */
 	private boolean confirmCarInfo(Car car) {
 		String msg = "Bekræft venligst at den fundne bil er den ønskede:"
 				+ "\n"
