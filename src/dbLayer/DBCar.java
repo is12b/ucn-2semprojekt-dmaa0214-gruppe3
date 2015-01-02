@@ -157,10 +157,12 @@ public class DBCar implements IFDBCar {
 	}
 
 	@Override
-	public int updateCar(Car car) throws DBException {
+	public int updateCar(Car car, boolean updateAsso) throws DBException {
 		int rc = -1;
 		
 		try{
+			DBConnection.startTransaction();
+			
 			String query = "UPDATE CAR SET "
 					+ "CustomerID = ?, Brand = ?, Model = ?, RegNr = ?, "
 					+ "Mileage = ?, VIN = ?, Hidden = ?, Year = ? WHERE CarID = ?";
@@ -210,9 +212,18 @@ public class DBCar implements IFDBCar {
 			
 			rc = stmt.executeUpdate();
 			
+			if(updateAsso){
+				IFDBCarExtra dbCarExtra = new DBCarExtra();
+				dbCarExtra.updateCarExtra(car.getExtra(), car);
+			}
+			
 			stmt.close();
+			
+			
+			DBConnection.commitTransaction();
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			DBConnection.rollBackTransaction();
+			
 			throw new DBException("Bilen", e);
 		}
 		
@@ -238,7 +249,7 @@ public class DBCar implements IFDBCar {
 			// Foreign key error
 			if(e.getErrorCode() == 547){
 				car.setHidden(true);
-				rc = updateCar(car);
+				rc = updateCar(car, false);
 				System.out.println("Car " + car.getId() + " is now hidden");
 			}else{
 				System.out.println("DBCar - deleteCar - Exception");

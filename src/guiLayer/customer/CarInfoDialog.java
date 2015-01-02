@@ -1,8 +1,11 @@
 package guiLayer.customer;
 
 import exceptions.BuildingPDFException;
+import exceptions.DBException;
 import exceptions.ObjectNotExistException;
 import guiLayer.PDFViewerDialog;
+import guiLayer.extensions.JTextFieldLimit;
+import guiLayer.extensions.PleaseWaitDialog;
 import guiLayer.extensions.Utilities;
 
 import java.awt.Dimension;
@@ -15,8 +18,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ProgressMonitor;
+import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import modelLayer.Car;
@@ -28,6 +34,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.CarCtr;
+import ctrLayer.interfaceLayer.IFCarCtr;
 
 import javax.swing.BoxLayout;
 
@@ -81,7 +88,6 @@ class CarInfoDialog extends JDialog {
 				CarCtr cCtr = new CarCtr();
 				cCtr.getCarExtra(car);
 			} catch (ObjectNotExistException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -370,7 +376,7 @@ class CarInfoDialog extends JDialog {
 		JLabel lblrgang = new JLabel("\u00C5rgang:");
 		panel_19.add(lblrgang, "1, 1, right, default");
 		
-		txtYear = new JTextField();
+		txtYear = new JTextFieldLimit(4, true);
 		panel_19.add(txtYear, "3, 1, fill, default");
 		txtYear.setColumns(10);
 		
@@ -386,7 +392,7 @@ class CarInfoDialog extends JDialog {
 		JLabel lblNewLabel_12 = new JLabel("Kilometer stand:");
 		panel_16.add(lblNewLabel_12, "1, 1, right, default");
 		
-		txtMileage = new JTextField();
+		txtMileage = new JTextFieldLimit(50, true);
 		panel_16.add(txtMileage, "3, 1, fill, default");
 		txtMileage.setColumns(10);
 
@@ -402,6 +408,11 @@ class CarInfoDialog extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JButton btnSave = new JButton("Gem");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveExtra();
+			}
+		});
 		panel_3.add(btnSave, "1, 1, fill, default");
 		
 		JButton btnUpdate = new JButton("Opdater");
@@ -489,7 +500,6 @@ class CarInfoDialog extends JDialog {
 		scrollPane.setViewportView(list);
 		
 		Utilities.addEscapeListener(this);
-		Dimension minSize = new Dimension(500,350);
 		this.setMinimumSize(new Dimension(725, 500));
 		this.setVisible(true);
 	}
@@ -498,15 +508,73 @@ class CarInfoDialog extends JDialog {
 	/**
 	 * 
 	 */
-	protected void updateExtra() {
-		CarCtr cCtr = new CarCtr();
+	private void saveExtra(){
+		saveToObj();
+		IFCarCtr cCtr = new CarCtr();
 		try {
-			cCtr.updateExtra(car);
-			populate();
-		} catch (ObjectNotExistException e) {
-			// TODO Auto-generated catch block
+			cCtr.updateCar(car);
+			this.dispose();
+		} catch (DBException | ObjectNotExistException e) {
+			Utilities.showError(this, e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private void updateExtra() {
+		int i = Utilities.showConfirm(this, "Dette vil overskrive de eksisterende værdier, er du sikker på du vil fortsætte?", "Opdater Bil");
+		if(i == JOptionPane.YES_OPTION){
+			PleaseWaitDialog dialog = new PleaseWaitDialog(this);
+			
+			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+				@Override
+				protected Void doInBackground() throws InterruptedException {
+					CarCtr cCtr = new CarCtr();
+					try {
+						car.setExtra(cCtr.updateExtra(car));
+						populate();
+					} catch (ObjectNotExistException e) {
+						e.printStackTrace();
+					}
+					return null;
+				}
+				@Override
+				protected void done() {
+					dialog.dispose();
+				}
+			};
+			worker.execute();
+			dialog.setVisible(true);
+			try {
+				worker.get();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void saveToObj(){
+		car.setRegNr(txtRegnr.getText());
+		car.setVin(txtVin.getText());
+		car.setYear(Integer.parseInt(txtYear.getText()));
+		
+		car.getExtra().setType(txtType.getText());
+		car.getExtra().setLatestChangeReg(txtLastChangeReg.getText());
+		car.getExtra().setUse(txtUse.getText());
+		car.getExtra().setLatestChangeVehicle(txtLastChangeVehicle.getText());
+		car.getExtra().setStatus(txtStatus.getText());
+		car.getExtra().setPosOfChassisNumber(txtPosVin.getText());
+		car.getExtra().setTotalWeight(txtTotal.getText());
+		car.getExtra().setTecTotalWeight(txtTecTotal.getText());
+		car.getExtra().setInspectionFreq(txtInspectionFreq.getText());
+		car.getExtra().setCalInspectionDate(txtCallInspectionDate.getText());
+		car.getExtra().setFirstRegDate(txtFirstReg.getText());
+		
+		car.setModel(txtModel.getText());
+		car.setBrand(txtBrand.getText());
+		car.setMileage(Integer.valueOf(txtMileage.getText()));
 	}
 	
 	private void populate(){

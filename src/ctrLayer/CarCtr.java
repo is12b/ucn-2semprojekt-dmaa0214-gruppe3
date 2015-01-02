@@ -64,13 +64,20 @@ public class CarCtr implements IFCarCtr {
 	}
 
 	@Override
-	public void updateCar(Car car) throws ObjectNotExistException, DBException { // NO_UCD (test only)
+	public void updateCar(Car car) throws ObjectNotExistException, DBException {
 		IFDBCar dbCar = new DBCar();
-		
+		Car clone = null;
+		CarExtra cloneExtra = null;
 		try {
-			dbCar.updateCar(car);
+			clone = car.clone();
+			cloneExtra = car.getExtra().clone();
+			dbCar.updateCar(car, true);
 		} catch(DBNotFoundException e){
-			throw new ObjectNotExistException("Bilen blev ikke fundet");
+			car.setToClone(clone);
+			car.setExtra(cloneExtra);
+			throw new ObjectNotExistException("Bilen kunne ikke opdateres");
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -139,10 +146,11 @@ public class CarCtr implements IFCarCtr {
 			}
 			
 			IFDBCar dbCar = new DBCar();
-			dbCar.updateCar(car);
+			dbCar.updateCar(car, false);
 		} catch(FailingHttpStatusCodeException e){
 			throw new ObjectNotExistException("Trafikstyrelsen eller motorregisteret's hjemmeside er nede, prøv igen senere");
 		} catch(Exception e){
+			e.printStackTrace();
 			throw new ObjectNotExistException("Ekstra information om bilen blev ikke fundet");
 		}
 		
