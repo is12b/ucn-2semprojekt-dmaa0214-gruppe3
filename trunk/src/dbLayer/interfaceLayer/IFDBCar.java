@@ -63,7 +63,7 @@ public interface IFDBCar {
 	 * @param car the Car
 	 * @return numbers of affected rows or -1 if it's fail
 	 */
-	public int updateCar(Car car) throws DBException ;
+	public int updateCar(Car car, boolean updateAsso) throws DBException ;
 	
 	/**
 	 * Delete Car from the database..
