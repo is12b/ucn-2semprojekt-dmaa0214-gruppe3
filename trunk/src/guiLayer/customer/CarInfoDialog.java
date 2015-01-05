@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
@@ -36,15 +35,11 @@ import com.jgoodies.forms.layout.RowSpec;
 import ctrLayer.CarCtr;
 import ctrLayer.interfaceLayer.IFCarCtr;
 
-import javax.swing.BoxLayout;
-
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
-
-import guiLayer.extensions.InfoPanel;
 
 /**
  * Class for CarInfoDialog
@@ -482,7 +477,8 @@ class CarInfoDialog extends JDialog {
 		
 		list.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
-		        JList list = (JList)evt.getSource();
+		        //JList list = (JList)evt.getSource();
+		        
 		        if (evt.getClickCount() == 2) {
 		            Inspection i = (Inspection) list.getModel().getElementAt(list.locationToIndex(evt.getPoint()));
 		            try {
