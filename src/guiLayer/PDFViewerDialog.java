@@ -23,8 +23,6 @@ import org.icepdf.ri.common.MyAnnotationCallback;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
 
-import com.sun.jndi.toolkit.url.Uri;
-
 import ctrLayer.InvoicePDFGenerator;
 import dbLayer.DBSale;
 import dbLayer.interfaceLayer.IFDBSale;

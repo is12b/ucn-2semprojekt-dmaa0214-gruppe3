@@ -15,6 +15,8 @@ import javax.swing.JLabel;
  *
  */
 public class InfoPanel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 
 	/**
