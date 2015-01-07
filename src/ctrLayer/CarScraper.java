@@ -193,7 +193,7 @@ public class CarScraper {
 		    			if(!td.asXml().contains("<a")){
 		    				data[i] = td.asText();
 		    			}else{
-		    				HtmlAnchor a = (HtmlAnchor) td.getFirstByXPath("//a[@class='saveIcon']");
+		    				HtmlAnchor a = (HtmlAnchor) td.getFirstByXPath(".//a[@class='saveIcon']");
 		    				data[i] = "http://selvbetjening.trafikstyrelsen.dk" + a.getAttribute("href");
 		    			}
 		    			i++;
