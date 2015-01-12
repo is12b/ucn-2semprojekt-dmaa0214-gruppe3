@@ -169,15 +169,19 @@ public class CarScraper {
 		ext.setCalInspectionDate(getLabelValueByKey("Beregnet dato for næste indkaldelse til periodisk syn:"));
 		DomElement dE = (DomElement) finalPage.getFirstByXPath("//p[contains(., 'Køretøjet har aldrig været synet.')]");
 		if(dE == null) {
-			addInspections(car, ext);
+			try {
+				addInspections(car, ext);
+			} catch (ObjectNotExistException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
-	private void addInspections(Car car, CarExtra ext) {
+	private void addInspections(Car car, CarExtra ext) throws ObjectNotExistException {
 		String url = "http://selvbetjening.trafikstyrelsen.dk/Sider/resultater.aspx?Reg=" + car.getRegNr();
 		ArrayList<Inspection> inspecs = new ArrayList<Inspection>();
+		WebClient webClient = new WebClient();
 		try {
-			WebClient webClient = new WebClient();
 			webClient.getOptions().setCssEnabled(false);
 			webClient.getOptions().setJavaScriptEnabled(false);
 		    HtmlPage page = webClient.getPage(url);
@@ -205,15 +209,14 @@ public class CarScraper {
 
 		    		inspecs.add(inspec);
 		    	}
-
-
 		    	car.setInspections(inspecs);
 		    }
-		    webClient.closeAllWindows();
 		} catch(Exception e) {
-			System.out.println("CarScraper.addInspections()");
-			System.out.println(e);
-			e.printStackTrace();
+			throw new ObjectNotExistException("Synsrapporter kunne ikke hentes");
+		} finally {
+			if(webClient != null){
+				webClient.closeAllWindows();
+			}
 		}
 	}
 	/*
