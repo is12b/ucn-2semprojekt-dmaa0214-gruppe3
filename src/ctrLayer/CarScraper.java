@@ -181,9 +181,8 @@ public class CarScraper {
 			webClient.getOptions().setCssEnabled(false);
 			webClient.getOptions().setJavaScriptEnabled(false);
 		    HtmlPage page = webClient.getPage(url);
-		    List<?> tableInspecs = page.getByXPath("//table[@id='tblInspections']/tbody");
-		    if (tableInspecs.size() != 0) {
-		    	HtmlTableBody table = (HtmlTableBody) tableInspecs.get(0);
+		    HtmlTableBody table = page.getFirstByXPath("//table[@id='tblInspections']/tbody");
+		    if (table != null) {
 
 		    	for (HtmlTableRow row : table.getRows()) {
 		    		Inspection inspec = new Inspection();
